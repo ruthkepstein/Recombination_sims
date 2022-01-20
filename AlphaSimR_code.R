@@ -213,7 +213,7 @@ chr5_bin$length <- (chr5_bin$foo.X2-chr5_bin$foo.X1)/1000000
 chr5_bin$rate <- ((chr5_bin$freq/257)*100)/chr5_bin$length
 
 chr6_CO <- chr6_CO[order(chr6_CO$`CO Start`),]
-chr6_bin <- binning(chr6_CO$midpoint, nbins = 75, type = "kmeans")
+chr6_bin <- binning(chr6_CO$midpoint, nbins = 80, type = "kmeans")
 chr6_bin <- as.data.frame(summary(chr6_bin))
 chr6_bin <- within(chr6_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr6_bin$levels), ',', fixed=TRUE))))
 chr6_bin <- do.call(data.frame, chr6_bin)
@@ -226,7 +226,7 @@ chr6_bin$length <- (chr6_bin$foo.X2-chr6_bin$foo.X1)/1000000
 chr6_bin$rate <- ((chr6_bin$freq/257)*100)/chr6_bin$length
 
 chr7_CO <- chr7_CO[order(chr7_CO$`CO Start`),]
-chr7_bin <- binning(chr7_CO$midpoint, nbins = 75, type = "kmeans")
+chr7_bin <- binning(chr7_CO$midpoint, nbins = 85, type = "kmeans")
 chr7_bin <- as.data.frame(summary(chr7_bin))
 chr7_bin <- within(chr7_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr7_bin$levels), ',', fixed=TRUE))))
 chr7_bin <- do.call(data.frame, chr7_bin)
@@ -252,7 +252,7 @@ chr8_bin$length <- (chr8_bin$foo.X2-chr8_bin$foo.X1)/1000000
 chr8_bin$rate <- ((chr8_bin$freq/257)*100)/chr8_bin$length
 
 chr9_CO <- chr9_CO[order(chr9_CO$`CO Start`),]
-chr9_bin <- binning(chr9_CO$midpoint, nbins = 70, type = "kmeans")
+chr9_bin <- binning(chr9_CO$midpoint, nbins = 80, type = "kmeans")
 chr9_bin <- as.data.frame(summary(chr9_bin))
 chr9_bin <- within(chr9_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr9_bin$levels), ',', fixed=TRUE))))
 chr9_bin <- do.call(data.frame, chr9_bin)
@@ -265,7 +265,7 @@ chr9_bin$length <- (chr9_bin$foo.X2-chr9_bin$foo.X1)/1000000
 chr9_bin$rate <- ((chr9_bin$freq/257)*100)/chr9_bin$length
 
 chr10_CO <- chr10_CO[order(chr10_CO$`CO Start`),]
-chr10_bin <- binning(chr10_CO$midpoint, nbins = 70, type = "kmeans")
+chr10_bin <- binning(chr10_CO$midpoint, nbins = 75, type = "kmeans")
 chr10_bin <- as.data.frame(summary(chr10_bin))
 chr10_bin <- within(chr10_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr10_bin$levels), ',', fixed=TRUE))))
 chr10_bin <- do.call(data.frame, chr10_bin)
@@ -342,57 +342,70 @@ plot(chr5_snp2$`SNP Start`, chr5_snp2$pos/chr5_snp2$`SNP Start`, type = "l")
 #chr 6 is lowkey fuked up
 chr6_snp2 <- snp_rate(chr6_bin, chr6_snp)
 chr6_snp2$`SNP Start` <- chr6_snp2$`SNP Start`/1000000
-chr6_snp2[is.na(chr6_snp2)] <- 0.011111111
-chr6_snp2$pos <- (chr6_snp2$`SNP Start`*chr6_snp2$rate)
+chr6_snp2[is.na(chr6_snp2)] <- 0.57036801
+chr6_spl <- smooth.spline(chr6_snp2$rate, spar = 1)
+chr6_snp2$pos <- (chr6_snp2$`SNP Start`*chr6_spl$y)
 plot(chr6_snp2$`SNP Start`, chr6_snp2$pos)
 plot(chr6_snp2$`SNP Start`, chr6_snp2$pos/chr6_snp2$`SNP Start`, type = "l")
 
 chr7_snp2 <- snp_rate(chr7_bin, chr7_snp)
 chr7_snp2$`SNP Start` <- chr7_snp2$`SNP Start`/1000000
-chr7_snp2[is.na(chr7_snp2)] <- 0.041025641
-chr7_snp2$pos <- (chr7_snp2$`SNP Start`*chr7_snp2$rate)
+chr7_snp2[is.na(chr7_snp2)] <- 3.16706054
+chr7_spl <- smooth.spline(chr7_snp2$rate, spar = 1)
+chr7_snp2$pos <- (chr7_snp2$`SNP Start`*chr7_spl$y)
 plot(chr7_snp2$`SNP Start`, chr7_snp2$pos)
 plot(chr7_snp2$`SNP Start`, chr7_snp2$pos/chr7_snp2$`SNP Start`, type = "l")
 
 chr8_snp2 <- snp_rate(chr8_bin, chr8_snp)
 chr8_snp2$`SNP Start` <- chr8_snp2$`SNP Start`/1000000
-chr8_snp2[is.na(chr8_snp2)] <- 0.005208333
-chr8_snp2$pos <- (chr8_snp2$`SNP Start`*chr8_snp2$rate)
+chr8_snp2[is.na(chr8_snp2)] <- 4.12405997
+chr8_spl <- smooth.spline(chr8_snp2$rate, spar = 1.1)
+chr8_snp2$pos <- (chr8_snp2$`SNP Start`*chr8_spl$y)
 plot(chr8_snp2$`SNP Start`, chr8_snp2$pos)
 plot(chr8_snp2$`SNP Start`, chr8_snp2$pos/chr8_snp2$`SNP Start`, type = "l")
 
 chr9_snp2 <- snp_rate(chr9_bin, chr9_snp)
 chr9_snp2$`SNP Start` <- chr9_snp2$`SNP Start`/1000000
-#normalized between rates at 2 ends to replace NAs
-chr9_snp2[is.na(chr9_snp2)] <- 0.01569506
-chr9_snp2$pos <- (chr9_snp2$`SNP Start`*chr9_snp2$rate)
+chr9_snp2[is.na(chr9_snp2)] <- 0.61586746
+chr9_spl <- smooth.spline(chr9_snp2$rate, spar = 0.3)
+chr9_snp2$pos <- (chr9_snp2$`SNP Start`*chr9_spl$y)
 plot(chr9_snp2$`SNP Start`, chr9_snp2$pos)
 plot(chr9_snp2$`SNP Start`, chr9_snp2$pos/chr9_snp2$`SNP Start`, type = "l")
 
 chr10_snp2 <- snp_rate(chr10_bin, chr10_snp)
 chr10_snp2$`SNP Start` <- chr10_snp2$`SNP Start`/1000000
-chr10_snp2[is.na(chr10_snp2)] <- 0.01569506
-chr10_snp2$pos <- (chr10_snp2$`SNP Start`*chr10_snp2$rate)
+chr10_snp2[is.na(chr10_snp2)] <- 2.25306924
+chr10_spl <- smooth.spline(chr10_snp2$rate, spar = 0.8)
+chr10_snp2$pos <- (chr10_snp2$`SNP Start`*chr10_spl$y)
 plot(chr10_snp2$`SNP Start`, chr10_snp2$pos)
-plot(chr10_snp2$`SNP Start`, chr10_snp2$pos/chr9_snp2$`SNP Start`, type = "l")
-
-##Reading in haplotype data
-haplotypes <- read.table("B73_mol17_haplotypes.vcf", header = FALSE)
-
+plot(chr10_snp2$`SNP Start`, chr10_snp2$pos/chr10_snp2$`SNP Start`, type = "l")
 
 ###Simulating a realistic breeding program in maize
 
-##Setting up program with altered map 
-#need genetic map, haplotypes
-#columns of haplotypes corresponds to number of segregating sites & must be equal to length of genetic map
-#if genetic map is 100 then there must be 100 columns of haplotype matrix
-founderpop <- newMapPop(genMap, haplotypes, inbred = FALSE, ploidy = 2L)
+##Setting up program with altered map
+#Creation of randomly generated haplotypes
+#assuming 100 individuals, 10 chromosomes & 50 segregating loci
+#of segregating loci = # of SNPs we have in genetic map
+#add in additional sites if we want QTL
+founderPop <- quickHaplo(100,10,100, inbred = TRUE, ploidy = 2L)
 
+#check if genetic map is sorted; we want FALSE
+is.unsorted(genMap[[1]])
+#replacing genetic map with our own & with real centromere positions in cM
+founderPop@genMap <- genMap
+founderPop@centromere <- real_centromere
+
+#also can use this function if we have pre-determined haplotypes
+newMapPop()
+#change depending on if polygenic or oligenic trait
+nQTLPerChr <- 1
 #creating simulation parameters with the founder population
 #tracking recombination as well
 SP = SimParam$new(founderPop)$setTrackRec(TRUE)
 #assuming crossover interference
 SP$v = 2.6
+#number of COs coming from non-interfering pathway
+SP$p = 0.2
 #adding an additive trait
 SimParam$addTraitA(
   nQtlPerChr,
