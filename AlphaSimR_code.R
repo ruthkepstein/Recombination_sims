@@ -1,49 +1,49 @@
 library(AlphaSimR)
 library(Rcpp)
+library(ggplot2)
+library(dplyr)
 
 setwd("C:/Users/16192/Documents/PNAS_Simulations")
 
 ##reading in SNPs from B73xMo17 based on v4 B73 ref
 final_snps <- read.table("SNP_V4.bed", header = FALSE)
 colnames(final_snps) <- c("Chr#", "SNP Start", "SNP End")
+final_snps <- sample_n(final_snps, 5000)
+final_snps <- final_snps[order(final_snps$`Chr#`,final_snps$`SNP Start`),]
+
 chr1_snp <- final_snps[ which(final_snps$`Chr#` == "chr1"),]
 hist(chr1_snp$`SNP Start`, breaks = 100)
 chr1_snp$rate <- NA
 #making SNPs start at 0
-chr1_snp$`SNP Start` <- chr1_snp$`SNP Start`- 46746
-chr1_snp$`SNP End` <- chr1_snp$`SNP End` - 46746
-chr1_snp <- chr1_snp[order(chr1_snp$`SNP Start`),]
+chr1_snp$`SNP Start` <- chr1_snp$`SNP Start`- 303372
+chr1_snp$`SNP End` <- chr1_snp$`SNP End` - 303372
 
 chr2_snp <- final_snps[ which(final_snps$`Chr#` == "chr2"),]
 hist(chr2_snp$`SNP Start`, breaks = 100)
 chr2_snp$rate <- NA
 chr2_snp$`SNP Start` <- chr2_snp$`SNP Start`- 366079
 chr2_snp$`SNP End` <- chr2_snp$`SNP End` - 366079
-chr2_snp <- chr2_snp[order(chr2_snp$`SNP Start`),]
 
 chr3_snp <- final_snps[ which(final_snps$`Chr#` == "chr3"),]
 hist(chr3_snp$`SNP Start`, breaks = 100)
 chr3_snp$rate <- NA
 chr3_snp$`SNP Start` <- chr3_snp$`SNP Start`- 10863
 chr3_snp$`SNP End` <- chr3_snp$`SNP End` - 10863
-min3 <-min(chr3_snp[,2])
-chr3_snp <- chr3_snp[order(chr3_snp$`SNP Start`),]
+#min3 <-min(chr3_snp[,2])
 
 chr4_snp <- final_snps[ which(final_snps$`Chr#` == "chr4"),]
 hist(chr4_snp$`SNP Start`, breaks = 100)
 chr4_snp$rate <- NA
-min4 <-min(chr4_snp[,2])
+#min4 <-min(chr4_snp[,2])
 chr4_snp$`SNP Start` <- chr4_snp$`SNP Start`- 157899
 chr4_snp$`SNP End` <- chr4_snp$`SNP End` - 157899
-chr4_snp <- chr4_snp[order(chr4_snp$`SNP Start`),]
 
 chr5_snp <- final_snps[ which(final_snps$`Chr#` == "chr5"),]
 hist(chr5_snp$`SNP Start`, breaks = 100)
 chr5_snp$rate <- NA
-min5 <-min(chr5_snp[,2])
+#min5 <-min(chr5_snp[,2])
 chr5_snp$`SNP Start` <- chr5_snp$`SNP Start`- 3291566
 chr5_snp$`SNP End` <- chr5_snp$`SNP End` - 3291566
-chr5_snp <- chr5_snp[order(chr5_snp$`SNP Start`),]
 
 chr6_snp <- final_snps[ which(final_snps$`Chr#` == "chr6"),]
 hist(chr6_snp$`SNP Start`, breaks = 100)
@@ -51,7 +51,6 @@ chr6_snp$rate <- NA
 min6 <-min(chr6_snp[,2])
 chr6_snp$`SNP Start` <- chr6_snp$`SNP Start`- 151963
 chr6_snp$`SNP End` <- chr6_snp$`SNP End` - 151963
-chr6_snp <- chr6_snp[order(chr6_snp$`SNP Start`),]
 
 chr7_snp <- final_snps[ which(final_snps$`Chr#` == "chr7"),]
 hist(chr7_snp$`SNP Start`, breaks = 100)
@@ -59,7 +58,6 @@ chr7_snp$rate <- NA
 min7 <-min(chr7_snp[,2])
 chr7_snp$`SNP Start` <- chr7_snp$`SNP Start`- 43560
 chr7_snp$`SNP End` <- chr7_snp$`SNP End` - 43560
-chr7_snp <- chr7_snp[order(chr7_snp$`SNP Start`),]
 
 chr8_snp <- final_snps[ which(final_snps$`Chr#` == "chr8"),]
 hist(chr8_snp$`SNP Start`, breaks = 100)
@@ -67,7 +65,6 @@ chr8_snp$rate <- NA
 min8 <-min(chr8_snp[,2])
 chr8_snp$`SNP Start` <- chr8_snp$`SNP Start`- 174210
 chr8_snp$`SNP End` <- chr8_snp$`SNP End` - 174210
-chr8_snp <- chr8_snp[order(chr8_snp$`SNP Start`),]
 
 chr9_snp <- final_snps[ which(final_snps$`Chr#` == "chr9"),]
 hist(chr9_snp$`SNP Start`, breaks = 100)
@@ -75,7 +72,6 @@ chr9_snp$rate <- NA
 min9<-min(chr9_snp[,2])
 chr9_snp$`SNP Start` <- chr9_snp$`SNP Start`- 2812
 chr9_snp$`SNP End` <- chr9_snp$`SNP End` - 2812
-chr9_snp <- chr9_snp[order(chr9_snp$`SNP Start`),]
 
 chr10_snp <- final_snps[ which(final_snps$`Chr#` == "chr10"),]
 hist(chr10_snp$`SNP Start`, breaks = 100)
@@ -83,23 +79,30 @@ chr10_snp$rate <- NA
 min10 <-min(chr10_snp[,2])
 chr10_snp$`SNP Start` <- chr10_snp$`SNP Start`- 17232
 chr10_snp$`SNP End` <- chr10_snp$`SNP End` - 17232
-chr10_snp <- chr10_snp[order(chr10_snp$`SNP Start`),]
+
+##Reading in Cos from both Chinese & US NAM populations
+NAM <- read.table("NAM_US_COs", header = FALSE)
+NAM <- NAM[,-c(2:4)]
+colnames(NAM) <- c("Chr", "CO Start", "CO End")
+pop_size <- read.table("pop_size_nam.txt", header = TRUE)
+pop_size <- pop_size[1:4713,]
+sum(pop_size$cos)
 
 ##reading in COs in B73xMo17 uplifted to v4 & finding midpoint of CO interval
 final_COs <- read.table("Final_CO.csv", header = TRUE, sep = ",")
 colnames(final_COs) <- c("Chr#", "CO length", "CO Start", "CO End")
 final_COs$`CO length` <- final_COs$`CO length`/1000
 
-chr1_CO <- final_COs[ which(final_COs$`Chr#` == "chr1"),]
+chr1_CO <- NAM[ which(NAM$Chr == 1),]
 chr1_CO$midpoint <- (chr1_CO$`CO Start`+ chr1_CO$`CO End`)/2
-hist(chr1_CO$`CO Start`, breaks = 100)
+hist(chr1_CO$`CO Start`, breaks = 300)
 
-chr2_CO <- final_COs[ which(final_COs$`Chr#` == "chr2"),]
+chr2_CO <- NAM[ which(NAM$Chr == 2),]
 hist(chr2_CO$`CO Start`, breaks = 100)
 chr2_CO$midpoint <- (chr2_CO$`CO Start`+ chr2_CO$`CO End`)/2
 
-chr3_CO <- final_COs[ which(final_COs$`Chr#` == "chr3"),]
-hist(chr3_CO$`CO Start`, breaks = 100)
+chr3_CO <- NAM[ which(NAM$Chr == 3),]
+hist(chr3_CO$`CO Start`, breaks = 300)
 chr3_CO$midpoint <- (chr3_CO$`CO Start`+ chr3_CO$`CO End`)/2
 
 chr4_CO <- final_COs[ which(final_COs$`Chr#` == "chr4"),]
@@ -144,33 +147,33 @@ library(OneR)
 
 #bin crossovers into 200 uneven bins
 chr1_CO <- chr1_CO[order(chr1_CO$`CO Start`),]
-chr1_bin <- binning(chr1_CO$midpoint, nbins = 100, type = "kmeans")
+chr1_bin <- binning(chr1_CO$midpoint, nbins = 150, type = "kmeans")
 chr1_bin <- as.data.frame(summary(chr1_bin))
 #transforming data; making bin interval into 2 columns
 chr1_bin <- within(chr1_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr1_bin$levels), ',', fixed=TRUE))))
 chr1_bin <- do.call(data.frame, chr1_bin)
 chr1_bin <- chr1_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr1_bin <- chr1_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr1_bin[1,4] <- 33878.5
+chr1_bin[1,4] <- 10638
 #making intervals start at 0
-chr1_bin$foo.X1 <- chr1_bin$foo.X1 - 33878.5
-chr1_bin$foo.X2 <- chr1_bin$foo.X2 - 33878.5
+chr1_bin$foo.X1 <- chr1_bin$foo.X1 - 10638
+chr1_bin$foo.X2 <- chr1_bin$foo.X2 - 10638
 #adding length of bin as column and making in Mb
 chr1_bin$length <- (chr1_bin$foo.X2-chr1_bin$foo.X1)/1000000
-chr1_bin$rate <- ((chr1_bin$freq/257)*100)/chr1_bin$length
+chr1_bin$rate <- ((chr1_bin$freq/4713)*100)/chr1_bin$length
 
 chr2_CO <- chr2_CO[order(chr2_CO$`CO Start`),]
-chr2_bin <- binning(chr2_CO$midpoint, nbins = 120, type = "kmeans")
+chr2_bin <- binning(chr2_CO$midpoint, nbins = 150, type = "kmeans")
 chr2_bin <- as.data.frame(summary(chr2_bin))
 chr2_bin <- within(chr2_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr2_bin$levels), ',', fixed=TRUE))))
 chr2_bin <- do.call(data.frame, chr2_bin)
 chr2_bin <- chr2_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr2_bin <- chr2_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr2_bin[1,4] <- 1968777
-chr2_bin$foo.X1 <- chr2_bin$foo.X1 - 1968777
-chr2_bin$foo.X2 <- chr2_bin$foo.X2 - 1968777
+chr2_bin[1,4] <- 10228
+chr2_bin$foo.X1 <- chr2_bin$foo.X1 - 10228
+chr2_bin$foo.X2 <- chr2_bin$foo.X2 - 10228
 chr2_bin$length <- (chr2_bin$foo.X2-chr2_bin$foo.X1)/1000000
-chr2_bin$rate <- ((chr2_bin$freq/257)*100)/chr2_bin$length
+chr2_bin$rate <- ((chr2_bin$freq/4713)*100)/chr2_bin$length
 
 #have not converted rest of chromosomes to what I did in 1 & 2
 chr3_CO <- chr3_CO[order(chr3_CO$`CO Start`),]
@@ -284,7 +287,7 @@ snp_rate <- function(chr_bin, chr_snp){
     for(k in 1:nrow(chr_bin)){
       if((chr_snp$`SNP Start`[i] >= chr_bin$foo.X1[k]) && (chr_snp$`SNP Start`[i] <= chr_bin$foo.X2[k])){
         chr_snp$rate[i] <- chr_bin$rate[k]
-    }
+      }
     }
   }
   print(chr_snp)
@@ -295,11 +298,11 @@ chr1_snp2 <- snp_rate(chr1_bin, chr1_snp)
 chr1_snp2$`SNP Start`<- chr1_snp2$`SNP Start`/1000000
 chr1_snp2 <- chr1_snp2[order(chr1_snp2$`SNP Start`),]
 #some SNPs were outside of the interval; have to manually apply a recombination freq
-chr1_snp2[is.na(chr1_snp2)] <- 0.64581752
+chr1_snp2[is.na(chr1_snp2)] <- 1.6567162
 #smoothing the recombination rate so transitions between bins are not so abrupt
-chr1_spl <- smooth.spline(chr1_snp2$rate, spar = 0.6)
+chr1_spl <- smooth.spline(chr1_snp2$rate, spar = 1)
 #creation of genetic positions from smoothed recombination rate
-chr1_snp2$pos <- (chr1_snp2$`SNP Start`*chr1_spl$y)
+chr1_snp2$pos <- (chr1_snp2$`SNP Start`*chr1_snp2$rate)
 #graph to look at Mb vs. cM along chromosome
 plot(chr1_snp2$`SNP Start`, chr1_snp2$pos)
 ggplot(chr1_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
@@ -309,9 +312,9 @@ plot(chr1_snp2$`SNP Start`, chr1_snp2$pos/chr1_snp2$`SNP Start`, type = "l", xla
 
 chr2_snp2 <- snp_rate(chr2_bin, chr2_snp)
 chr2_snp2$`SNP Start` <- chr2_snp2$`SNP Start`/1000000
-chr2_snp2[is.na(chr2_snp2)] <- 0.58768322
+chr2_snp2[is.na(chr2_snp2)] <- 2.37838157
 chr2_spl <- smooth.spline(chr2_snp2$rate, spar = 1)
-chr2_snp2$pos <- (chr2_snp2$`SNP Start`*chr2_spl$y)
+chr2_snp2$pos <- (chr2_snp2$`SNP Start`*chr2_snp2$rate)
 plot(chr2_snp2$`SNP Start`, chr2_snp2$pos)
 plot(chr2_snp2$`SNP Start`, chr2_snp2$pos/chr2_snp2$`SNP Start`, type = "l")
 
@@ -380,6 +383,67 @@ chr10_snp2$pos <- (chr10_snp2$`SNP Start`*chr10_spl$y)
 plot(chr10_snp2$`SNP Start`, chr10_snp2$pos)
 plot(chr10_snp2$`SNP Start`, chr10_snp2$pos/chr10_snp2$`SNP Start`, type = "l")
 
+#Reading in the IBM genetic maps
+#1957 SNPs; only want v5
+chr1_map <- read.table("chr1_IBM.txt", header = TRUE, sep = "\t")
+chr1_map <- subset(chr1_map[-332,-c(4:21)])
+chr1_map$midpoint <- ((chr1_map$Zm.B73.REFERENCE.NAM.5.0_end+chr1_map$Zm.B73.REFERENCE.NAM.5.0_start)/2)/1000000
+chr1_map$Coordinate <- as.numeric(gsub(",","",chr1_map$Coordinate,fixed=TRUE))
+
+chr2_map <- read.table("chr2_IBM.txt", header = TRUE, sep = "\t")
+chr2_map <- subset(chr2_map[,-c(4:21)])
+chr2_map$midpoint <- ((chr2_map$Zm.B73.REFERENCE.NAM.5.0_end+chr2_map$Zm.B73.REFERENCE.NAM.5.0_start)/2)/1000000
+chr2_map$Coordinate <- as.numeric(gsub(",","",chr2_map$Coordinate,fixed=TRUE))
+
+chr3_map <- read.table("chr3_IBM.txt", header = TRUE, sep = "\t")
+chr3_map <- subset(chr3_map[,-c(4:21)])
+chr3_map$midpoint <- ((chr3_map$Zm.B73.REFERENCE.NAM.5.0_end+chr3_map$Zm.B73.REFERENCE.NAM.5.0_start)/2)/1000000
+chr3_map$Coordinate <- as.numeric(gsub(",","",chr3_map$Coordinate,fixed=TRUE))
+
+chr4_map <- read.table("chr4_IBM.txt", header = TRUE, sep = "\t")
+chr4_map <- subset(chr4_map[,-c(4:21)])
+chr4_map$midpoint <- ((chr4_map$Zm.B73.REFERENCE.NAM.5.0_end+chr4_map$Zm.B73.REFERENCE.NAM.5.0_start)/2)/10000000
+chr4_map$Coordinate <- as.numeric(gsub(",","",chr4_map$Coordinate,fixed=TRUE))
+
+chr5_map <- read.table("chr5_IBM.txt", header = TRUE, sep = "\t")
+chr5_map <- subset(chr5_map[,-c(4:21)])
+chr5_map$midpoint <- (chr5_map$Zm.B73.REFERENCE.NAM.5.0_end+chr5_map$Zm.B73.REFERENCE.NAM.5.0_start)/2
+
+chr6_map <- read.table("chr6_IBM.txt", header = TRUE, sep = "\t")
+chr6_map <- subset(chr6_map[,-c(4:21)])
+chr6_map$midpoint <- (chr6_map$Zm.B73.REFERENCE.NAM.5.0_end+chr6_map$Zm.B73.REFERENCE.NAM.5.0_start)/2
+
+chr7_map <- read.table("chr7_IBM.txt", header = TRUE, sep = "\t")
+chr7_map <- subset(chr7_map[,-c(4:21)])
+chr7_map$midpoint <- (chr7_map$Zm.B73.REFERENCE.NAM.5.0_end+chr7_map$Zm.B73.REFERENCE.NAM.5.0_start)/2
+
+chr8_map <- read.table("chr8_IBM.txt", header = TRUE, sep = "\t")
+chr8_map <- subset(chr8_map[,-c(4:21)])
+chr8_map$midpoint <- (chr8_map$Zm.B73.REFERENCE.NAM.5.0_end+chr8_map$Zm.B73.REFERENCE.NAM.5.0_start)/2
+
+chr9_map <- read.table("chr9_IBM.txt", header = TRUE, sep = "\t")
+chr9_map <- subset(chr9_map[,-c(4:21)])
+chr9_map$midpoint <- (chr9_map$Zm.B73.REFERENCE.NAM.5.0_end+chr9_map$Zm.B73.REFERENCE.NAM.5.0_start)/2
+
+chr10_map <- read.table("chr10_IBM.txt", header = TRUE, sep = "\t")
+chr10_map <- subset(chr10_map[,-c(4:21)])
+chr10_map$midpoint <- (chr10_map$Zm.B73.REFERENCE.NAM.5.0_end+chr10_map$Zm.B73.REFERENCE.NAM.5.0_start)/2
+
+#Looking at recombination rates
+ggplot(chr1_map, aes(midpoint, Coordinate)) + geom_point() + geom_smooth()
+plot(chr1_map$midpoint, chr1_map$Coordinate/chr1_map$midpoint, xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 1 Recombination Distribution")
+
+ggplot(chr2_map, aes(midpoint, Coordinate)) + geom_point() + geom_smooth()
+plot(chr2_map$midpoint, chr2_map$Coordinate/chr2_map$midpoint, xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 2 Recombination Distribution")
+
+plot(chr3_map$midpoint, chr3_map$Coordinate/chr3_map$midpoint, xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 3 Recombination Distribution")
+
+plot(chr4_map$midpoint, chr4_map$Coordinate/chr4_map$midpoint, xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 4 Recombination Distribution")
+
 ###Simulating a realistic breeding program in maize
 
 ##Setting up program with altered map
@@ -387,8 +451,10 @@ plot(chr10_snp2$`SNP Start`, chr10_snp2$pos/chr10_snp2$`SNP Start`, type = "l")
 #assuming 100 individuals, 10 chromosomes & 50 segregating loci
 #of segregating loci = # of SNPs we have in genetic map
 #add in additional sites if we want QTL
+#assumes all alleles are in LE
 founderPop <- quickHaplo(100,10,100, inbred = TRUE, ploidy = 2L)
-
+pullSegSiteHaplo()
+pullSnpHaplo()
 #check if genetic map is sorted; we want FALSE
 is.unsorted(genMap[[1]])
 #replacing genetic map with our own & with real centromere positions in cM
@@ -398,7 +464,7 @@ founderPop@centromere <- real_centromere
 #also can use this function if we have pre-determined haplotypes
 newMapPop()
 #change depending on if polygenic or oligenic trait
-nQTLPerChr <- 1
+nQtlPerChr <- 1
 #creating simulation parameters with the founder population
 #tracking recombination as well
 SP = SimParam$new(founderPop)$setTrackRec(TRUE)
@@ -407,7 +473,7 @@ SP$v = 2.6
 #number of COs coming from non-interfering pathway
 SP$p = 0.2
 #adding an additive trait
-SimParam$addTraitA(
+SP$addTraitA(
   nQtlPerChr,
   mean = 0,
   var = 1,
