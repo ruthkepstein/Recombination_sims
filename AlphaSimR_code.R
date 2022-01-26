@@ -468,8 +468,45 @@ final_map <- list(chr1[[1]], chr2[[1]],
                      #6.78131, 23.32441, 7.823035, 35.86946, 1.237757)
 
 #Creating haplotypes with assumption of LD present
+is_in_LD <- function(chr_snp2, LD_snps){
+  for(i in 1:nrow(chr_snp2)){
+    if(chr_snp2$rate[i] <= 1.5){
+      LD_snps[i] <- chr_snp2$`SNP Start`[i]
+    }
+    }
+  return(LD_snps)
+}
+is_in_LE <- function(chr_snp2, LE_snps){
+  for(i in 1:nrow(chr_snp2)){
+    if(chr_snp2$rate[i] > 1.5){
+      LE_snps[i] <- chr_snp2$`SNP Start`[i]
+    }
+    }
+  print(LE_snps)
+}
+chr1_LD_snps <- c()
+chr1_LE_snps <- c()
+chr1_LD_snps <- is_in_LD(chr1_snp2, chr1_LD_snps)
+chr1_LD_snps <- as.data.frame(chr1_LD_snps)
+chr1_LE_snps <- is_in_LE(chr1_snp2, chr1_LE_snps)
+chr1_LE_snps <- as.data.frame(chr1_LE_snps)
 
-
+chr1_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr1_snp2))
+row.names(chr1_haplo) <- 1:200
+colnames(chr1_haplo) <- chr1_snp2$`SNP Start`
+fill_matrix <- function(chr_LD_snps, chr_haplo){
+  for(i in 1:nrow(chr_LD_snps)){
+    if(isTRUE(chr_LD_snps$chr_LD_snps[i] != 'NA')){
+      for(k in 1:nrow(chr_haplo)){
+        chr_haplo[k,i] <- sample(0:1,1)
+      }
+    }else{
+      chr_haplo[,i] <- sample(0:1,1)
+    }
+  }
+  return(chr_haplo)
+}
+chr1_haplo <- fill_matrix(chr1_LD_snps, chr1_haplo)
 ###Simulating a realistic breeding program in maize
 
 ##Setting up program with altered map
