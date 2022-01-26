@@ -75,12 +75,12 @@ chr10_snp$`SNP End` <- chr10_snp$`SNP End` - min(chr10_snp$`SNP Start`)
 chr10_snp$`SNP Start` <- chr10_snp$`SNP Start`- min(chr10_snp$`SNP Start`)
 
 ##Reading in CO intervals from US NAM population
-NAM <- read.table("NAM_US_COs", header = FALSE)
+NAM <- read.table("NAM_US_COs.txt", header = FALSE)
 NAM <- NAM[,-c(2:4)]
 colnames(NAM) <- c("Chr", "CO Start", "CO End")
 NAM <- NAM[order(NAM$Chr,NAM$`CO Start`),]
-pop_size <- read.table("pop_size_nam.txt", header = TRUE)
-US_pop_size <- pop_size[1:4713,]
+#pop_size <- read.table("pop_size_nam.txt", header = TRUE)
+#US_pop_size <- pop_size[1:4713,]
 
 chr1_CO <- NAM[ which(NAM$Chr == 1),]
 chr1_CO$midpoint <- (chr1_CO$`CO Start`+ chr1_CO$`CO End`)/2
@@ -496,13 +496,17 @@ row.names(chr1_haplo) <- 1:200
 colnames(chr1_haplo) <- chr1_snp2$`SNP Start`
 fill_matrix <- function(chr_LD_snps, chr_haplo){
   for(i in 1:nrow(chr_LD_snps)){
-    if(isTRUE(chr_LD_snps$chr_LD_snps[i] != 'NA')){
+    if(is.na(chr_LD_snps[i,])){
       for(k in 1:nrow(chr_haplo)){
-        chr_haplo[k,i] <- sample(0:1,1)
+        chr_haplo[k,i] = sample(0:1,1)
       }
-    }else{
-      chr_haplo[,i] <- sample(0:1,1)
     }
+  else{
+     x <- sample(0:1,1)
+    for(k in 1:nrow(chr_haplo)){
+        chr_haplo[k,i] = x
+      }
+   }
   }
   return(chr_haplo)
 }
