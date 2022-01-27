@@ -654,19 +654,20 @@ pop1_sel <- selectInd(pop1, nInd = 10, use = "pheno", trait = 1, selectTop = TRU
 
 #put it together to iterate one program 40 times with 20 generations of selection
 #after 20 gen of selection, inbred or DH
+pop1_gv <- matrix(nrow=40,ncol=5)
 for(i in 1:40){
-  founderpop <- newMapPop(genMap = final_map, haplotypes = final_haplo, inbred = TRUE, ploidy = 2L)
+  founderPop <- newMapPop(genMap = final_map, haplotypes = final_haplo, inbred = TRUE, ploidy = 2L)
   SP = SimParam$new(founderPop)$setTrackRec(TRUE)
   SP$v = 2.6
-  SimParam$addTraitA(
+  nQtlPerChr = 1
+  SP$addTraitA(
     nQtlPerChr,
     mean = 0,
     var = 1,
     corA = NULL,
     gamma = FALSE,
     shape = 1,
-    force = FALSE
-  )
+    force = FALSE)
   SP$setVarE(h2=0.5)
   
   pop <- newPop(founderpop, simParam = SP)
@@ -756,5 +757,33 @@ for(i in 1:40){
   pop1_sel20_cross <- setPheno(pop1_sel20_cross, simParam = SP)
   
   final_sel <- selectInd(pop1_sel20_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  finalpop_gv[i] <- gv(final_sel)
+  pop1_gv[i,]<- gv(final_sel)
 }
+
+#Creating confidence intervals
+pop1_mean <- mean(pop1_gv)
+pop1_sd <- sd(pop1_gv)
+pop1_size <- founderpop@nInd
+pop1_se <- pop1_sd/sqrt(pop1_size)
+alpha = 0.01
+degrees.freedom = pop1_size - 1
+t.score = qt(p=alpha/2, df=degrees.freedom,lower.tail=F)
+margin.error <- t.score * pop1_se
+lower.bound <- pop1_mean - margin.error
+upper.bound <- pop1_mean + margin.error
+print(c(lower.bound,upper.bound))
+
+#Plotting gv on histogram
+hist(pop1_gv)
+
+#Plotting confidence intervals
+library(ggplot2)
+pop1_mean
+data <- data.frame(x = 1,
+                   y = pop1_mean,
+                   lower = lower.bound,
+                   upper = upper.bound)
+p <- ggplot(data, aes(x, y)) +        # ggplot2 plot with confidence intervals
+  geom_point() +
+  geom_errorbar(aes(ymin = lower, ymax = upper))
+p + labs(title = "99% Confidence Interval for Population Means", x="population", y="population mean")
