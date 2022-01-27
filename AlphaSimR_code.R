@@ -313,6 +313,7 @@ is.unsorted(chr1_finalpos$pos)
 #plot again to make sure it looks the same
 plot(chr1_snp2$`SNP Start`, chr1_finalpos$pos/chr1_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Chromosome 1 Recombination Distribution")
+plot(chr1_finalpos$`SNP Start`, chr1_finalpos$pos)
 
 #need to change
 chr2_snp2 <- snp_rate(chr2_bin, chr2_snp)
@@ -464,36 +465,99 @@ final_map <- list(chr1[[1]], chr2[[1]],
                   chr9[[1]], chr10[[1]])
 
 #Creating vector of centromere positions
-#real_centromere <- c(22, 0.8426185, 1.027694, 1.168096, 4.17826,
-                     #6.78131, 23.32441, 7.823035, 35.86946, 1.237757)
+real_centromere <- c(69.19425, 29.31842, 43.34131, 42.1754, 47.11507,
+                     43.40838, 30.01601, 43.69602, 47.12911, 21.17685)
 
 #Creating haplotypes with assumption of LD present
-is_in_LD <- function(chr_snp2, LD_snps){
-  for(i in 1:nrow(chr_snp2)){
-    if(chr_snp2$rate[i] <= 1.5){
-      LD_snps[i] <- chr_snp2$`SNP Start`[i]
+is_in_LD <- function(chr_finalpos, LD_snps){
+  for(i in 1:nrow(chr_finalpos)){
+    if(chr_finalpos$rate[i] <= 1.5){
+      LD_snps[i] <- chr_finalpos$`SNP Start`[i]
     }
     }
   return(LD_snps)
 }
-is_in_LE <- function(chr_snp2, LE_snps){
-  for(i in 1:nrow(chr_snp2)){
-    if(chr_snp2$rate[i] > 1.5){
-      LE_snps[i] <- chr_snp2$`SNP Start`[i]
-    }
-    }
-  print(LE_snps)
-}
 chr1_LD_snps <- c()
-chr1_LE_snps <- c()
-chr1_LD_snps <- is_in_LD(chr1_snp2, chr1_LD_snps)
+chr1_LD_snps <- is_in_LD(chr1_finalpos, chr1_LD_snps)
 chr1_LD_snps <- as.data.frame(chr1_LD_snps)
-chr1_LE_snps <- is_in_LE(chr1_snp2, chr1_LE_snps)
-chr1_LE_snps <- as.data.frame(chr1_LE_snps)
 
-chr1_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr1_snp2))
+chr2_LD_snps <- c()
+chr2_LD_snps <- is_in_LD(chr2_finalpos, chr2_LD_snps)
+chr2_LD_snps <- as.data.frame(chr2_LD_snps)
+
+chr3_LD_snps <- c()
+chr3_LD_snps <- is_in_LD(chr3_finalpos, chr3_LD_snps)
+chr3_LD_snps <- as.data.frame(chr3_LD_snps)
+
+chr4_LD_snps <- c()
+chr4_LD_snps <- is_in_LD(chr4_finalpos, chr4_LD_snps)
+chr4_LD_snps <- as.data.frame(chr4_LD_snps)
+
+chr5_LD_snps <- c()
+chr5_LD_snps <- is_in_LD(chr5_finalpos, chr5_LD_snps)
+chr5_LD_snps <- as.data.frame(chr5_LD_snps)
+
+chr6_LD_snps <- c()
+chr6_LD_snps <- is_in_LD(chr6_finalpos, chr6_LD_snps)
+chr6_LD_snps <- as.data.frame(chr6_LD_snps)
+
+chr7_LD_snps <- c()
+chr7_LD_snps <- is_in_LD(chr7_finalpos, chr7_LD_snps)
+chr7_LD_snps <- as.data.frame(chr7_LD_snps)
+
+chr8_LD_snps <- c()
+chr8_LD_snps <- is_in_LD(chr8_finalpos, chr8_LD_snps)
+chr8_LD_snps <- as.data.frame(chr8_LD_snps)
+
+chr9_LD_snps <- c()
+chr9_LD_snps <- is_in_LD(chr9_finalpos, chr9_LD_snps)
+chr9_LD_snps <- as.data.frame(chr9_LD_snps)
+
+chr10_LD_snps <- c()
+chr10_LD_snps <- is_in_LD(chr10_finalpos, chr10_LD_snps)
+chr10_LD_snps <- as.data.frame(chr10_LD_snps)
+
+#change row.names to change # of individuals we want
+chr1_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr1_finalpos))
 row.names(chr1_haplo) <- 1:200
-colnames(chr1_haplo) <- chr1_snp2$`SNP Start`
+colnames(chr1_haplo) <- chr1_finalpos$`SNP Start`
+
+chr2_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr2_finalpos))
+row.names(chr2_haplo) <- 1:200
+colnames(chr2_haplo) <- chr2_finalpos$`SNP Start`
+
+chr3_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr3_finalpos))
+row.names(chr3_haplo) <- 1:200
+colnames(chr3_haplo) <- chr3_finalpos$`SNP Start`
+
+chr4_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr4_finalpos))
+row.names(chr4_haplo) <- 1:200
+colnames(chr4_haplo) <- chr4_finalpos$`SNP Start`
+
+chr5_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr5_finalpos))
+row.names(chr5_haplo) <- 1:200
+colnames(chr5_haplo) <- chr5_finalpos$`SNP Start`
+
+chr6_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr6_finalpos))
+row.names(chr6_haplo) <- 1:200
+colnames(chr6_haplo) <- chr6_finalpos$`SNP Start`
+
+chr7_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr7_finalpos))
+row.names(chr7_haplo) <- 1:200
+colnames(chr7_haplo) <- chr7_finalpos$`SNP Start`
+
+chr8_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr8_finalpos))
+row.names(chr8_haplo) <- 1:200
+colnames(chr8_haplo) <- chr8_finalpos$`SNP Start`
+
+chr9_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr9_finalpos))
+row.names(chr9_haplo) <- 1:200
+colnames(chr9_haplo) <- chr9_finalpos$`SNP Start`
+
+chr10_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr10_finalpos))
+row.names(chr10_haplo) <- 1:200
+colnames(chr10_haplo) <- chr10_finalpos$`SNP Start`
+
 fill_matrix <- function(chr_LD_snps, chr_haplo){
   for(i in 1:nrow(chr_LD_snps)){
     if(is.na(chr_LD_snps[i,])){
@@ -511,24 +575,52 @@ fill_matrix <- function(chr_LD_snps, chr_haplo){
   return(chr_haplo)
 }
 chr1_haplo <- fill_matrix(chr1_LD_snps, chr1_haplo)
+chr1_haplo <- list(chr1_haplo)
+
+chr2_haplo <- fill_matrix(chr2_LD_snps, chr2_haplo)
+chr2_haplo <- list(chr2_haplo)
+
+chr3_haplo <- fill_matrix(chr3_LD_snps, chr3_haplo)
+chr3_haplo <- list(chr3_haplo)
+
+chr4_haplo <- fill_matrix(chr4_LD_snps, chr4_haplo)
+chr4_haplo <- list(chr4_haplo)
+
+chr5_haplo <- fill_matrix(chr5_LD_snps, chr5_haplo)
+chr5_haplo <- list(chr5_haplo)
+
+chr6_haplo <- fill_matrix(chr6_LD_snps, chr6_haplo)
+chr6_haplo <- list(chr6_haplo)
+
+chr7_haplo <- fill_matrix(chr7_LD_snps, chr7_haplo)
+chr7_haplo <- list(chr7_haplo)
+
+chr8_haplo <- fill_matrix(chr8_LD_snps, chr8_haplo)
+chr8_haplo <- list(chr8_haplo)
+
+chr9_haplo <- fill_matrix(chr9_LD_snps, chr9_haplo)
+chr9_haplo <- list(chr9_haplo)
+
+chr10_haplo <- fill_matrix(chr10_LD_snps, chr10_haplo)
+chr10_haplo <- list(chr10_haplo)
+
+final_haplo <- list(chr1_haplo[[1]], chr2_haplo[[1]], chr3_haplo[[1]], chr4_haplo[[1]], chr5_haplo[[1]],
+                    chr6_haplo[[1]], chr7_haplo[[1]], chr8_haplo[[1]], chr9_haplo[[1]], chr10_haplo[[1]])
+
 ###Simulating a realistic breeding program in maize
 
 ##Setting up program with altered map
 #create founder population with gen map & haplotypes
-newMapPop()
-#check if genetic map is sorted; we want FALSE
-is.unsorted(genMap[[1]])
-#replacing genetic map with our own & with real centromere positions in cM
-founderPop@genMap <- genMap
-founderPop@centromere <- real_centromere
+Founder_pop <- newMapPop(genMap = final_map, haplotypes = final_haplo, inbred = TRUE, ploidy = 2L)
 
-#also can use this function if we have pre-determined haplotypes
-newMapPop()
+#updating with actual centromere positions
+Founder_pop@centromere <- real_centromere
+
 #change depending on if polygenic or oligenic trait
 nQtlPerChr <- 1
 #creating simulation parameters with the founder population
 #tracking recombination as well
-SP = SimParam$new(founderPop)$setTrackRec(TRUE)
+SP = SimParam$new(Founder_pop)$setTrackRec(TRUE)
 #assuming crossover interference
 SP$v = 2.6
 #number of COs coming from non-interfering pathway
@@ -547,10 +639,10 @@ SP$addTraitA(
 SP$setVarE(h2=0.5)
 
 ##initiation of first population from founders
-pop <- newPop(founderpop, simParam = SP)
+pop1 <- newPop(Founder_pop, simParam = SP)
 #find phenotypes for the first population in order to do phenotypic selection
-pop <- setPheno(
-  pop,
+pop1 <- setPheno(
+  pop1,
   h2 = NULL,
   H2 = NULL,
   onlyPheno = FALSE,
@@ -558,23 +650,24 @@ pop <- setPheno(
 )
 #selecting top individuals from first population
 #select top 10 using phenotype for one trait
-pop_sel <- selectInd(pop, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+pop1_sel <- selectInd(pop1, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
 
 #put it together to iterate one program 40 times with 20 generations of selection
 #after 20 gen of selection, inbred or DH
+pop1_gv <- matrix(nrow=40,ncol=5)
 for(i in 1:40){
-  founderpop <- newMapPop(genMap, haplotypes, inbred = FALSE, ploidy = 2L)
+  founderPop <- newMapPop(genMap = final_map, haplotypes = final_haplo, inbred = TRUE, ploidy = 2L)
   SP = SimParam$new(founderPop)$setTrackRec(TRUE)
   SP$v = 2.6
-  SimParam$addTraitA(
+  nQtlPerChr = 1
+  SP$addTraitA(
     nQtlPerChr,
     mean = 0,
     var = 1,
     corA = NULL,
     gamma = FALSE,
     shape = 1,
-    force = FALSE
-  )
+    force = FALSE)
   SP$setVarE(h2=0.5)
   
   pop <- newPop(founderpop, simParam = SP)
@@ -664,5 +757,33 @@ for(i in 1:40){
   pop1_sel20_cross <- setPheno(pop1_sel20_cross, simParam = SP)
   
   final_sel <- selectInd(pop1_sel20_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  finalpop_gv[i] <- gv(final_sel)
+  pop1_gv[i,]<- gv(final_sel)
 }
+
+#Creating confidence intervals
+pop1_mean <- mean(pop1_gv)
+pop1_sd <- sd(pop1_gv)
+pop1_size <- founderpop@nInd
+pop1_se <- pop1_sd/sqrt(pop1_size)
+alpha = 0.01
+degrees.freedom = pop1_size - 1
+t.score = qt(p=alpha/2, df=degrees.freedom,lower.tail=F)
+margin.error <- t.score * pop1_se
+lower.bound <- pop1_mean - margin.error
+upper.bound <- pop1_mean + margin.error
+print(c(lower.bound,upper.bound))
+
+#Plotting gv on histogram
+hist(pop1_gv)
+
+#Plotting confidence intervals
+library(ggplot2)
+pop1_mean
+data <- data.frame(x = 1,
+                   y = pop1_mean,
+                   lower = lower.bound,
+                   upper = upper.bound)
+p <- ggplot(data, aes(x, y)) +        # ggplot2 plot with confidence intervals
+  geom_point() +
+  geom_errorbar(aes(ymin = lower, ymax = upper))
+p + labs(title = "99% Confidence Interval for Population Means", x="population", y="population mean")
