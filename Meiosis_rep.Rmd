@@ -1,0 +1,133 @@
+---
+title: "Meiosis_reps"
+author: "Ruth Epstein"
+date: "9/23/2021"
+output: html_document
+---
+```{r}
+library(AlphaSimR)
+library(Rcpp)
+```
+
+```{r}
+#setting up founder population with 100 founders, 10 chromosomes, 100 sites, 99 SNPs & 1 QTL
+#number of sites = nQTL + nSNP
+nFounders <- 100
+nChr <- 10
+nSitesPerChr <- 50
+nQTL <- 2
+nSNP <- 48
+
+founderHaps <- runMacs(nInd=nFounders, nChr=nChr, segSites=nSitesPerChr, species = "MAIZE",
+                                  inbred = TRUE, ploidy = 2L, nThreads = NULL)
+#SP is Sim Param or Simulation Parameters
+SP <- SimParam$new(founderHaps)
+SP$setTrackRec(TRUE)
+SP$v = 2.6
+SP$addTraitA(nQtlPerChr = 1)
+SP$addSnpChip(nSNP)
+pop1 <- newPop(founderHaps, simParam=SP)
+pop1 <- setPheno(pop1, varE = 1, simParam = SP)
+hap<-pullSnpHaplo(pop1)
+#pulls out genetic map from new population
+pop1_map <- SP$genMap
+
+#if you want to look at SNP & QTL map separately
+snp_map <- getSnpMap()
+snp_mapchr1 <- snp_map[ which(snp_map$chr == 1),]
+plot(snp_mapchr1$site, snp_mapchr1$pos)
+getQtlMap()
+```
+
+Look to see if there is a significant difference between OG genetic map & edited genetic map.
+```{r}
+#general breeding scenario, 10 generations of random crossing with selection and then inbreeding to fix alleles
+pop1_gv <- matrix(nrow=10,ncol=5)
+for(i in 1:10){
+      pop1 <- newPop(founderHaps, simParam=SP)
+      pop1 <- setPheno(pop1, varE = 1, simParam = SP)
+      pop1_sel <- selectInd(pop1, nInd = 100, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+      pop1_sel_cross <- randCross(pop1_sel, 5, nProgeny = 250, simParam = SP)
+      pop1_sel_cross <- setPheno(pop1_sel_cross, varE = 1, simParam = SP)
+      pop1_sel2 <- selectInd(pop1_sel_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+      
+      pop1_sel2_cross <- randCross(pop1_sel2, 5, nProgeny = 250, simParam = SP)
+      pop1_sel2_cross <- setPheno(pop1_sel2_cross, varE = 1, simParam = SP)
+      pop1_sel3 <- selectInd(pop1_sel2_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+      
+      pop1_sel3_cross <- randCross(pop1_sel3, 5, nProgeny = 250, simParam = SP)
+      pop1_sel3_cross <- setPheno(pop1_sel3_cross, varE = 1, simParam = SP)
+      pop1_sel4 <- selectInd(pop1_sel3_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+      
+      pop1_sel4_cross <- randCross(pop1_sel4, 5, nProgeny = 250, simParam = SP)
+      pop1_sel4_cross <- setPheno(pop1_sel4_cross, varE = 1, simParam = SP)
+      pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+      
+      pop1_sel5_cross <- randCross(pop1_sel5, 5, nProgeny = 250, simParam = SP)
+      pop1_sel5_cross <- setPheno(pop1_sel5_cross, varE = 1, simParam = SP)
+      pop1_sel6 <- selectInd(pop1_sel5_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+      
+      pop1_sel6_cross <- randCross(pop1_sel6, 5, nProgeny = 250, simParam = SP)
+      pop1_sel6_cross <- setPheno(pop1_sel6_cross, varE = 1, simParam = SP)
+      pop1_sel7 <- selectInd(pop1_sel6_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+      
+      pop1_sel7_cross <- randCross(pop1_sel7, 5, nProgeny = 250, simParam = SP)
+      pop1_sel7_cross <- setPheno(pop1_sel7_cross, varE = 1, simParam = SP)
+      pop1_sel8 <- selectInd(pop1_sel7_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+      
+      pop1_sel8_cross <- randCross(pop1_sel8, 5, nProgeny = 250, simParam = SP)
+      pop1_sel8_cross <- setPheno(pop1_sel8_cross, varE = 1, simParam = SP)
+      pop1_sel9 <- selectInd(pop1_sel8_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+      
+      pop1_sel9_cross <- randCross(pop1_sel9, 5, nProgeny = 250, simParam = SP)
+      pop1_sel9_cross <- setPheno(pop1_sel9_cross, varE = 1, simParam = SP)
+      pop1_sel10 <- selectInd(pop1_sel9_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+      
+      pop1_sel10_cross <- randCross(pop1_sel10, 5, nProgeny = 250, simParam = SP)
+      pop1_sel10_cross <- setPheno(pop1_sel10_cross, varE = 1, simParam = SP)
+      pop1_sel11 <- selectInd(pop1_sel10_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  nGenSelf <- 5
+    for (gen in 1:nGenSelf){
+      inbred_pop1 <- self(pop1_sel11, nProgeny = 10, simParam = SP)
+      inbred_pop1 <- setPheno(pop1_sel11, varE = 1, simParam = SP)
+    }
+    pop1_sel12 <- selectInd(inbred_pop1, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE)
+    gv(pop1_sel12)
+    pop1_gv[i,]=gv(pop1_sel12)
+   
+}
+```
+
+Creating confidence intervals
+```{r}
+pop1_gv
+pop1_mean <- mean(pop1_gv)
+pop1_sd <- sd(pop1_gv)
+pop1_size <- nFounders
+pop1_se <- pop1_sd/sqrt(pop1_size)
+alpha = 0.01
+degrees.freedom = pop1_size - 1
+t.score = qt(p=alpha/2, df=degrees.freedom,lower.tail=F)
+margin.error <- t.score * pop1_se
+lower.bound <- pop1_mean - margin.error
+upper.bound <- pop1_mean + margin.error
+print(c(lower.bound,upper.bound))
+```
+Plotting gv on histogram
+```{r}
+hist(pop1_gv)
+```
+Plotting confidence intervals
+```{r}
+library(ggplot2)
+pop1_mean
+data <- data.frame(x = 1,
+                   y = pop1_mean,
+                   lower = lower.bound,
+                   upper = upper.bound)
+p <- ggplot(data, aes(x, y)) +        # ggplot2 plot with confidence intervals
+  geom_point() +
+  geom_errorbar(aes(ymin = lower, ymax = upper))
+p + labs(title = "99% Confidence Interval for Population Means", x="population number", y="population mean genetic value")
+```
+
