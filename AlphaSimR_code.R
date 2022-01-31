@@ -575,37 +575,31 @@ fill_matrix <- function(chr_LD_snps, chr_haplo){
   return(chr_haplo)
 }
 chr1_haplo <- fill_matrix(chr1_LD_snps, chr1_haplo)
-chr1_haplo <- list(chr1_haplo)
 
 chr2_haplo <- fill_matrix(chr2_LD_snps, chr2_haplo)
-chr2_haplo <- list(chr2_haplo)
 
 chr3_haplo <- fill_matrix(chr3_LD_snps, chr3_haplo)
-chr3_haplo <- list(chr3_haplo)
 
 chr4_haplo <- fill_matrix(chr4_LD_snps, chr4_haplo)
-chr4_haplo <- list(chr4_haplo)
 
 chr5_haplo <- fill_matrix(chr5_LD_snps, chr5_haplo)
-chr5_haplo <- list(chr5_haplo)
+chr5_haplo[is.na(chr5_haplo)] <- sample(0:1,1)
 
 chr6_haplo <- fill_matrix(chr6_LD_snps, chr6_haplo)
-chr6_haplo <- list(chr6_haplo)
+chr6_haplo[is.na(chr6_haplo)] <- sample(0:1,1)
 
 chr7_haplo <- fill_matrix(chr7_LD_snps, chr7_haplo)
-chr7_haplo <- list(chr7_haplo)
 
 chr8_haplo <- fill_matrix(chr8_LD_snps, chr8_haplo)
-chr8_haplo <- list(chr8_haplo)
 
 chr9_haplo <- fill_matrix(chr9_LD_snps, chr9_haplo)
-chr9_haplo <- list(chr9_haplo)
 
 chr10_haplo <- fill_matrix(chr10_LD_snps, chr10_haplo)
-chr10_haplo <- list(chr10_haplo)
 
-final_haplo <- list(chr1_haplo[[1]], chr2_haplo[[1]], chr3_haplo[[1]], chr4_haplo[[1]], chr5_haplo[[1]],
-                    chr6_haplo[[1]], chr7_haplo[[1]], chr8_haplo[[1]], chr9_haplo[[1]], chr10_haplo[[1]])
+final_haplo <- list(chr1_haplo, chr2_haplo, chr3_haplo, chr4_haplo, chr5_haplo,
+                    chr6_haplo, chr7_haplo, chr8_haplo, chr9_haplo, chr10_haplo)
+
+write.table(final_haplo, "C:/Users/16192/Documents/PNAS_Simulations/example_haplotypes.csv")
 
 ###Simulating a realistic breeding program in maize
 
@@ -654,111 +648,112 @@ pop1_sel <- selectInd(pop1, nInd = 10, use = "pheno", trait = 1, selectTop = TRU
 
 #put it together to iterate one program 40 times with 20 generations of selection
 #after 20 gen of selection, inbred or DH
-pop1_gv <- matrix(nrow=40,ncol=5)
-for(i in 1:40){
+pop1_pheno <- matrix(nrow=20,ncol=10)
+for(i in 1:20){
   founderPop <- newMapPop(genMap = final_map, haplotypes = final_haplo, inbred = TRUE, ploidy = 2L)
   SP = SimParam$new(founderPop)$setTrackRec(TRUE)
   SP$v = 2.6
+  SP$p = 0.2
   nQtlPerChr = 1
   SP$addTraitA(
     nQtlPerChr,
     mean = 0,
-    var = 1,
-    corA = NULL,
-    gamma = FALSE,
-    shape = 1,
-    force = FALSE)
-  SP$setVarE(h2=0.5)
+    var = 1)
+  
+  SP$setVarE(h2=0.9)
   
   pop <- newPop(founderpop, simParam = SP)
+  pop <- setPheno(pop)
   
-  pop_F1 <- randCross(pop, nCrosses = 100, nProgeny = 100, simParam = SP)
-  pop_DH <- makeDH(pop_F1, nDH = 1, simParam = NULL)
-  pop1 <- setPheno(pop_DH, varE = 1, simParam = SP)
+  pop_F1 <- randCross(pop, nCrosses = 50, nProgeny = 10, simParam = SP)
+  pop_DH <- makeDH(pop_F1, nDH = 1, simParam = SP)
+  pop1 <- setPheno(pop_DH, h2 = 0.9, simParam = SP)
   
-  pop1_sel <- selectInd(pop1, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel_cross <- randCross(pop1_sel, 10, nProgeny = 100, simParam = SP)
-  pop1_sel_cross <- setPheno(pop1_sel_cross, simParam = SP)
+  pop1_sel <- selectInd(pop1, nInd = 50, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel_cross <- randCross(pop1_sel, 10, nProgeny = 50, simParam = SP)
+  pop1_sel_cross <- setPheno(pop1_sel_cross, varE = 1, simParam = SP)
   
-  pop1_sel2 <- selectInd(pop1_sel_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel2_cross <- randCross(pop1_sel2, 10, nProgeny = 100, simParam = SP)
+  pop1_sel2 <- selectInd(pop1_sel_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel2_cross <- randCross(pop1_sel2, 10, nProgeny = 50, simParam = SP)
   pop1_sel2_cross <- setPheno(pop1_sel2_cross, simParam = SP)
   
-  pop1_sel3 <- selectInd(pop1_sel2_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel3_cross <- randCross(pop1_sel3, 10, nProgeny = 100, simParam = SP)
+  pop1_sel3 <- selectInd(pop1_sel2_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel3_cross <- randCross(pop1_sel3, 10, nProgeny = 50, simParam = SP)
   pop1_sel3_cross <- setPheno(pop1_sel3_cross, simParam = SP)
   
-  pop1_sel4 <- selectInd(pop1_sel3_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel4_cross <- randCross(pop1_sel4, 10, nProgeny = 100, simParam = SP)
+  pop1_sel4 <- selectInd(pop1_sel3_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel4_cross <- randCross(pop1_sel4, 10, nProgeny = 50, simParam = SP)
   pop1_sel4_cross <- setPheno(pop1_sel4_cross, simParam = SP)
   
-  pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel5_cross <- randCross(pop1_sel5, 10, nProgeny = 100, simParam = SP)
+  pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel5_cross <- randCross(pop1_sel5, 10, nProgeny = 50, simParam = SP)
   pop1_sel5_cross <- setPheno(pop1_sel5_cross, simParam = SP)
   
-  pop1_sel6 <- selectInd(pop1_sel5_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel6_cross <- randCross(pop1_sel6, 10, nProgeny = 100, simParam = SP)
+  pop1_sel6 <- selectInd(pop1_sel5_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel6_cross <- randCross(pop1_sel6, 10, nProgeny = 50, simParam = SP)
   pop1_sel6_cross <- setPheno(pop1_sel6_cross, simParam = SP)
   
-  pop1_sel7 <- selectInd(pop1_sel6_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel7_cross <- randCross(pop1_sel7, 10, nProgeny = 100, simParam = SP)
+  pop1_sel7 <- selectInd(pop1_sel6_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel7_cross <- randCross(pop1_sel7, 10, nProgeny = 50, simParam = SP)
   pop1_sel7_cross <- setPheno(pop1_sel7_cross, simParam = SP)
   
-  pop1_sel8 <- selectInd(pop1_sel7_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel8_cross <- randCross(pop1_sel8, 10, nProgeny = 100, simParam = SP)
+  pop1_sel8 <- selectInd(pop1_sel7_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel8_cross <- randCross(pop1_sel8, 10, nProgeny = 50, simParam = SP)
   pop1_sel8_cross <- setPheno(pop1_sel8_cross, simParam = SP)
   
-  pop1_sel9 <- selectInd(pop1_sel8_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel9_cross <- randCross(pop1_sel9, 10, nProgeny = 100, simParam = SP)
+  pop1_sel9 <- selectInd(pop1_sel8_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel9_cross <- randCross(pop1_sel9, 10, nProgeny = 50, simParam = SP)
   pop1_sel9_cross <- setPheno(pop1_sel9_cross, simParam = SP)
   
-  pop1_sel10 <- selectInd(pop1_sel9_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel10_cross <- randCross(pop1_sel10, 10, nProgeny = 100, simParam = SP)
+  pop1_sel10 <- selectInd(pop1_sel9_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel10_cross <- randCross(pop1_sel10, 10, nProgeny = 50, simParam = SP)
   pop1_sel10_cross <- setPheno(pop1_sel10_cross, simParam = SP)
   
-  pop1_sel11 <- selectInd(pop1_sel10_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel11_cross <- randCross(pop1_sel11, 10, nProgeny = 100, simParam = SP)
+  pop1_sel11 <- selectInd(pop1_sel10_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel11_cross <- randCross(pop1_sel11, 10, nProgeny = 50, simParam = SP)
   pop1_sel11_cross <- setPheno(pop1_sel11_cross, simParam = SP)
   
-  pop1_sel12 <- selectInd(pop1_sel11_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel12_cross <- randCross(pop1_sel12, 10, nProgeny = 100, simParam = SP)
+  pop1_sel12 <- selectInd(pop1_sel11_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel12_cross <- randCross(pop1_sel12, 10, nProgeny = 50, simParam = SP)
   pop1_sel12_cross <- setPheno(pop1_sel12_cross, simParam = SP)
   
-  pop1_sel13 <- selectInd(pop1_sel12_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel13_cross <- randCross(pop1_sel13, 10, nProgeny = 100, simParam = SP)
+  pop1_sel13 <- selectInd(pop1_sel12_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel13_cross <- randCross(pop1_sel13, 10, nProgeny = 50, simParam = SP)
   pop1_sel13_cross <- setPheno(pop1_sel13_cross, simParam = SP)
   
-  pop1_sel14 <- selectInd(pop1_sel13_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel14_cross <- randCross(pop1_sel14, 10, nProgeny = 100, simParam = SP)
+  pop1_sel14 <- selectInd(pop1_sel13_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel14_cross <- randCross(pop1_sel14, 10, nProgeny = 50, simParam = SP)
   pop1_sel14_cross <- setPheno(pop1_sel14_cross, simParam = SP)
   
-  pop1_sel15 <- selectInd(pop1_sel14_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel15_cross <- randCross(pop1_sel15, 10, nProgeny = 100, simParam = SP)
+  pop1_sel15 <- selectInd(pop1_sel14_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel15_cross <- randCross(pop1_sel15, 10, nProgeny = 50, simParam = SP)
   pop1_sel15_cross <- setPheno(pop1_sel15_cross, simParam = SP)
   
-  pop1_sel16 <- selectInd(pop1_sel15_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel16_cross <- randCross(pop1_sel16, 10, nProgeny = 100, simParam = SP)
+  pop1_sel16 <- selectInd(pop1_sel15_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel16_cross <- randCross(pop1_sel16, 10, nProgeny = 50, simParam = SP)
   pop1_sel16_cross <- setPheno(pop1_sel16_cross, simParam = SP)
   
-  pop1_sel17 <- selectInd(pop1_sel16_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel17_cross <- randCross(pop1_sel17, 10, nProgeny = 100, simParam = SP)
+  pop1_sel17 <- selectInd(pop1_sel16_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel17_cross <- randCross(pop1_sel17, 10, nProgeny = 50, simParam = SP)
   pop1_sel17_cross <- setPheno(pop1_sel17_cross, simParam = SP)
   
-  pop1_sel18 <- selectInd(pop1_sel17_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel18_cross <- randCross(pop1_sel18, 10, nProgeny = 100, simParam = SP)
+  pop1_sel18 <- selectInd(pop1_sel17_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel18_cross <- randCross(pop1_sel18, 10, nProgeny = 50, simParam = SP)
   pop1_sel18_cross <- setPheno(pop1_sel18_cross, simParam = SP)
   
-  pop1_sel19 <- selectInd(pop1_sel18_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel19_cross <- randCross(pop1_sel19, 10, nProgeny = 100, simParam = SP)
+  pop1_sel19 <- selectInd(pop1_sel18_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel19_cross <- randCross(pop1_sel19, 10, nProgeny = 50, simParam = SP)
   pop1_sel19_cross <- setPheno(pop1_sel19_cross, simParam = SP)
   
-  pop1_sel20 <- selectInd(pop1_sel19_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel20_cross <- randCross(pop1_sel20, 10, nProgeny = 100, simParam = SP)
+  pop1_sel20 <- selectInd(pop1_sel19_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel20_cross <- randCross(pop1_sel20, 10, nProgeny = 50, simParam = SP)
   pop1_sel20_cross <- setPheno(pop1_sel20_cross, simParam = SP)
   
-  final_sel <- selectInd(pop1_sel20_cross, nInd = 5, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_gv[i,]<- gv(final_sel)
+  final_sel <- selectInd(pop1_sel20_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_pheno[i,]<- pheno(final_sel)
 }
+
+write.table(pop1_gv, "C:/Users/16192/Documents/PNAS_Simulations/WT_gv.csv") 
 
 #Creating confidence intervals
 pop1_mean <- mean(pop1_gv)
@@ -786,4 +781,4 @@ data <- data.frame(x = 1,
 p <- ggplot(data, aes(x, y)) +        # ggplot2 plot with confidence intervals
   geom_point() +
   geom_errorbar(aes(ymin = lower, ymax = upper))
-p + labs(title = "99% Confidence Interval for Population Means", x="population", y="population mean")
+p + labs(title = "99% Confidence Interval for Population Means", x="population number", y="population mean genetic value")
