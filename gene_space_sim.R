@@ -2,34 +2,8 @@ library(AlphaSimR)
 library(Rcpp)
 library(ggplot2)
 library(dplyr)
-
 setwd("C:/Users/16192/Documents/PNAS_Simulations")
 set.seed(420)
-
-##Looking at gene density along chromosomes
-#ref <- read.table("Zm-B73-REFERENCE-GRAMENE-4.0_Zm00001d.1.gff3", header = TRUE)
-#ref_genes <- ref[which(ref$chromosome == 'gene'),]
-ref_genes1 <- ref_genes[which(ref_genes$Chr1 == 'Chr1'),]
-ref_genes2 <- ref_genes[which(ref_genes$Chr1 == 'Chr2'),]
-ref_genes3 <- ref_genes[which(ref_genes$Chr1 == 'Chr3'),]
-ref_genes4 <- ref_genes[which(ref_genes$Chr1 == 'Chr4'),]
-ref_genes5 <- ref_genes[which(ref_genes$Chr1 == 'Chr5'),]
-ref_genes6 <- ref_genes[which(ref_genes$Chr1 == 'Chr6'),]
-ref_genes7 <- ref_genes[which(ref_genes$Chr1 == 'Chr7'),]
-ref_genes8 <- ref_genes[which(ref_genes$Chr1 == 'Chr8'),]
-ref_genes9 <- ref_genes[which(ref_genes$Chr1 == 'Chr9'),]
-ref_genes10 <- ref_genes[which(ref_genes$Chr1 == 'Chr10'),]
-
-genes_bin1 <- binning(ref_genes1$X1, nbins = 100, type = "kmeans")
-genes_bin2 <- binning(ref_genes2$X1, nbins = 100, type = "kmeans")
-genes_bin3 <- binning(ref_genes3$X1, nbins = 100, type = "kmeans")
-genes_bin4 <- binning(ref_genes4$X1, nbins = 100, type = "kmeans")
-genes_bin5 <- binning(ref_genes5$X1, nbins = 100, type = "kmeans")
-genes_bin6 <- binning(ref_genes6$X1, nbins = 100, type = "kmeans")
-genes_bin7 <- binning(ref_genes7$X1, nbins = 100, type = "kmeans")
-genes_bin8 <- binning(ref_genes8$X1, nbins = 100, type = "kmeans")
-genes_bin9 <- binning(ref_genes9$X1, nbins = 100, type = "kmeans")
-genes_bin10 <- binning(ref_genes10$X1, nbins = 100, type = "kmeans")
 
 ##reading in SNPs from B73xMo17 based on v4 B73 ref
 final_snps <- read.table("SNP_V4.bed", header = FALSE)
@@ -318,12 +292,151 @@ snp_rate <- function(chr_bin, chr_snp){
   }
   print(chr_snp)
 }
+##Looking at gene density along chromosomes
+#ref <- read.table("Zm-B73-REFERENCE-GRAMENE-4.0_Zm00001d.1.gff3", header = TRUE)
+#ref_genes <- ref[which(ref$chromosome == 'gene'),]
+ref <- read.table("referencefile.csv", header = TRUE, sep =",")
+ref_genes <- ref[which(ref$chromosome == 'gene'),]
+ref_genes1 <- ref_genes[which(ref_genes$Chr1 == 'Chr1'),]
+ref_genes2 <- ref_genes[which(ref_genes$Chr1 == 'Chr2'),]
+ref_genes3 <- ref_genes[which(ref_genes$Chr1 == 'Chr3'),]
+ref_genes4 <- ref_genes[which(ref_genes$Chr1 == 'Chr4'),]
+ref_genes5 <- ref_genes[which(ref_genes$Chr1 == 'Chr5'),]
+ref_genes6 <- ref_genes[which(ref_genes$Chr1 == 'Chr6'),]
+ref_genes7 <- ref_genes[which(ref_genes$Chr1 == 'Chr7'),]
+ref_genes8 <- ref_genes[which(ref_genes$Chr1 == 'Chr8'),]
+ref_genes9 <- ref_genes[which(ref_genes$Chr1 == 'Chr9'),]
+ref_genes10 <- ref_genes[which(ref_genes$Chr1 == 'Chr10'),]
+
+genes_bin1 <- as.data.frame(summary(binning(ref_genes1$X1, nbins = 300, type = "kmeans")))
+genes_bin1 <- within(genes_bin1, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin1$levels), ',', fixed=TRUE))))
+genes_bin1 <- do.call(data.frame, genes_bin1)
+genes_bin1 <- genes_bin1 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
+genes_bin1 <- genes_bin1 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
+genes_bin1[1,4]<-44289
+genes_bin1$foo.X1 <- genes_bin1$foo.X1 - 44289
+genes_bin1$foo.X2 <- genes_bin1$foo.X2 - 44289
+genes_bin1[300,5] <- max(chr1_snp$`SNP End`)
+
+genes_bin2 <- as.data.frame(summary(binning(ref_genes2$X1, nbins = 300, type = "kmeans")))
+genes_bin2 <- within(genes_bin2, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin2$levels), ',', fixed=TRUE))))
+genes_bin2 <- do.call(data.frame, genes_bin2)
+genes_bin2 <- genes_bin2 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
+genes_bin2 <- genes_bin2 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
+genes_bin2[1,4]<-40178
+genes_bin2$foo.X1 <- genes_bin2$foo.X1 - 40178
+genes_bin2$foo.X2 <- genes_bin2$foo.X2 - 40178
+genes_bin2[300,5] <- max(chr2_snp$`SNP End`)
+
+genes_bin3 <- as.data.frame(summary(binning(ref_genes3$X1, nbins = 300, type = "kmeans")))
+genes_bin3 <- within(genes_bin3, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin3$levels), ',', fixed=TRUE))))
+genes_bin3 <- do.call(data.frame, genes_bin3)
+genes_bin3 <- genes_bin3 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
+genes_bin3 <- genes_bin3 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
+genes_bin3[1,4]<-191993
+genes_bin3$foo.X1 <- genes_bin3$foo.X1 - 191993
+genes_bin3$foo.X2 <- genes_bin3$foo.X2 - 191993
+genes_bin3[300,5] <- max(chr3_snp$`SNP End`)
+
+genes_bin4 <- as.data.frame(summary(binning(ref_genes4$X1, nbins = 300, type = "kmeans")))
+genes_bin4 <- within(genes_bin4, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin4$levels), ',', fixed=TRUE))))
+genes_bin4 <- do.call(data.frame, genes_bin4)
+genes_bin4 <- genes_bin4 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
+genes_bin4 <- genes_bin4 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
+genes_bin4[1,4]<-50320
+genes_bin4$foo.X1 <- genes_bin4$foo.X1 - 50320
+genes_bin4$foo.X2 <- genes_bin4$foo.X2 - 50320
+genes_bin4[300,5] <- max(chr4_snp$`SNP End`)
+
+genes_bin5 <- as.data.frame(summary(binning(ref_genes5$X1, nbins = 300, type = "kmeans")))
+genes_bin5 <- within(genes_bin5, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin5$levels), ',', fixed=TRUE))))
+genes_bin5 <- do.call(data.frame, genes_bin5)
+genes_bin5 <- genes_bin5 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
+genes_bin5 <- genes_bin5 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
+genes_bin5[1,4]<-32368
+genes_bin5$foo.X1 <- genes_bin5$foo.X1 - 32368
+genes_bin5$foo.X2 <- genes_bin5$foo.X2 - 32368
+genes_bin5[300,5] <- max(chr5_snp$`SNP End`)
+
+genes_bin6 <- as.data.frame(summary(binning(ref_genes6$X1, nbins = 300, type = "kmeans")))
+genes_bin6 <- within(genes_bin6, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin6$levels), ',', fixed=TRUE))))
+genes_bin6 <- do.call(data.frame, genes_bin6)
+genes_bin6 <- genes_bin6 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
+genes_bin6 <- genes_bin6 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
+genes_bin6[1,4]<-168702
+genes_bin6$foo.X1 <- genes_bin6$foo.X1 - 168702
+genes_bin6$foo.X2 <- genes_bin6$foo.X2 - 168702
+genes_bin6[300,5] <- max(chr6_snp$`SNP End`)
+
+genes_bin7 <- as.data.frame(summary(binning(ref_genes7$X1, nbins = 300, type = "kmeans")))
+genes_bin7 <- within(genes_bin7, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin7$levels), ',', fixed=TRUE))))
+genes_bin7 <- do.call(data.frame, genes_bin7)
+genes_bin7 <- genes_bin7 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
+genes_bin7 <- genes_bin7 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
+genes_bin7[1,4]<-107948
+genes_bin7$foo.X1 <- genes_bin7$foo.X1 - 107948
+genes_bin7$foo.X2 <- genes_bin7$foo.X2 - 107948
+genes_bin7[300,5] <- max(chr7_snp$`SNP End`)
+
+genes_bin8 <- as.data.frame(summary(binning(ref_genes8$X1, nbins = 300, type = "kmeans")))
+genes_bin8 <- within(genes_bin8, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin8$levels), ',', fixed=TRUE))))
+genes_bin8 <- do.call(data.frame, genes_bin8)
+genes_bin8 <- genes_bin8 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
+genes_bin8 <- genes_bin8 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
+genes_bin8[1,4]<-77622
+genes_bin8$foo.X1 <- genes_bin8$foo.X1 - 77622
+genes_bin8$foo.X2 <- genes_bin8$foo.X2 - 77622
+genes_bin8[300,5] <- max(chr8_snp$`SNP End`)
+
+genes_bin9 <- as.data.frame(summary(binning(ref_genes9$X1, nbins = 300, type = "kmeans")))
+genes_bin9 <- within(genes_bin9, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin9$levels), ',', fixed=TRUE))))
+genes_bin9 <- do.call(data.frame, genes_bin9)
+genes_bin9 <- genes_bin9 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
+genes_bin9 <- genes_bin9 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
+genes_bin9[1,4]<-59372
+genes_bin9$foo.X1 <- genes_bin9$foo.X1 - 59372
+genes_bin9$foo.X2 <- genes_bin9$foo.X2 - 59372
+genes_bin9[300,5] <- max(chr9_snp$`SNP End`)
+
+genes_bin10 <- binning(ref_genes10$X1, nbins = 300, type = "kmeans")
+plot(genes_bin10)
+genes_bin10 <- as.data.frame(summary(binning(ref_genes10$X1, nbins = 300, type = "kmeans")))
+genes_bin10 <- within(genes_bin10, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin10$levels), ',', fixed=TRUE))))
+genes_bin10 <- do.call(data.frame, genes_bin10)
+genes_bin10 <- genes_bin10 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
+genes_bin10 <- genes_bin10 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
+genes_bin10[1,4]<-130112
+genes_bin10$foo.X1 <- genes_bin10$foo.X1 - 130112
+genes_bin10$foo.X2 <- genes_bin10$foo.X2 - 130112
+genes_bin10[300,5] <- max(chr10_snp$`SNP End`)
+
+
+#REASSIGN FREQ loop through snp positions, all snp that fall in bins with low density get 1/4 of mean rate
+snp_uniform_rate <- function(genes_bin, chr_snp, chr_snps_mean){
+  for(i in 1:nrow(chr_snp)){
+    for(k in 1:nrow(genes_bin)){
+      if(isTRUE((chr_snp$`SNP Start`[i] >= genes_bin$foo.X1[k]) && (chr_snp$`SNP Start`[i] <= genes_bin$foo.X2[k]))){
+        if(isTRUE((genes_bin$Quartile[k]==1))){
+          chr_snp$rate[i] <- 0.5*chr_snps_mean
+        } 
+        else{
+          chr_snp$rate[i] <- chr_snps_mean
+        }
+      }
+    }
+  }
+  return(chr_snp)
+}
 
 #using function, converted SNP start to Mb to get cM/Mb for final genetic position
 chr1_snp2 <- snp_rate(chr1_bin, chr1_snp)
-chr1_snp2$rate[1:100] <- 1.097985
-chr1_snp2$rate[101:199] <- 0.73199
-chr1_snp2$rate[200:300] <- 1.097985
+#reassigning recombination rates, calling uniform function
+chr1_snps_mean <- mean(chr1_snp2$rate)
+genes_bin1$Quartile<-cut(genes_bin1$freq,quantile(genes_bin1$freq),include.lowest=TRUE,labels=FALSE)
+chr1_snp2 <-snp_uniform_rate(genes_bin1, chr1_snp, chr1_snps_mean)
+#chr1_snp2$rate[1:100] <- 1.097985
+#chr1_snp2$rate[101:199] <- 0.73199
+#chr1_snp2$rate[200:300] <- 1.097985
 chr1_snp2$`SNP Start`<- chr1_snp2$`SNP Start`/1000000
 chr1_snp2 <- chr1_snp2[order(chr1_snp2$`SNP Start`),]
 #smoothing the recombination rate so transitions between bins are not so abrupt
@@ -345,50 +458,67 @@ plot(chr1_snp2$`SNP Start`, chr1_finalpos$pos/chr1_snp2$`SNP Start`, type = "l",
 plot(chr1_finalpos$`SNP Start`, chr1_finalpos$pos)
 
 chr2_snp2 <- snp_rate(chr2_bin, chr2_snp)
-chr2_snp2$rate[1:79] <- 1.318753
-chr2_snp2$rate[80:158] <- 0.8791686
-chr2_snp2$rate[159:237] <- 1.318753
+chr2_snps_mean <- mean(chr2_snp2$rate)
+genes_bin2$Quartile<-cut(genes_bin2$freq,quantile(genes_bin2$freq),include.lowest=TRUE,labels=FALSE)
+chr2_snp2 <-snp_uniform_rate(genes_bin2, chr2_snp, chr2_snps_mean)
+#chr2_snp2$rate[1:79] <- 1.318753
+#chr2_snp2$rate[80:158] <- 0.8791686
+#chr2_snp2$rate[159:237] <- 1.318753
 chr2_snp2$`SNP Start` <- chr2_snp2$`SNP Start`/1000000
-#chr2_snp2 <- chr2_snp2[-(228:237),]
-chr2_spl <- smooth.spline(chr2_snp2$rate, spar = 0.8)
+chr2_snp2 <- chr2_snp2[-(196:237),]
+chr2_spl <- smooth.spline(chr2_snp2$rate, spar = 0.7)
 chr2_snp2$pos <- (chr2_snp2$`SNP Start`*chr2_spl$y)
 plot(chr2_snp2$`SNP Start`, chr2_snp2$pos)
+ggplot(chr2_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
 plot(chr2_snp2$`SNP Start`, chr2_snp2$pos/chr2_snp2$`SNP Start`, type = "l")
 chr2_finalpos <- chr2_snp2[order(chr2_snp2$pos),]
 is.unsorted(chr2_finalpos$pos)
 plot(chr2_snp2$`SNP Start`, chr2_finalpos$pos/chr2_snp2$`SNP Start`, type = "l")
 
 chr3_snp2 <- snp_rate(chr3_bin, chr3_snp)
-chr3_snp2$rate[1:73] <- 0.9275442
-chr3_snp2$rate[74:147] <- 0.6183628
-chr3_snp2$rate[148:219] <- 0.9275442
+#chr3_snp2$rate[1:73] <- 0.9275442
+#chr3_snp2$rate[74:147] <- 0.6183628
+#chr3_snp2$rate[148:219] <- 0.9275442
+chr3_snps_mean <- mean(chr3_snp2$rate)
+genes_bin3$Quartile<-cut(genes_bin3$freq,quantile(genes_bin3$freq),include.lowest=TRUE,labels=FALSE)
+chr3_snp2 <-snp_uniform_rate(genes_bin3, chr3_snp, chr3_snps_mean)
 chr3_snp2$`SNP Start` <- chr3_snp2$`SNP Start`/1000000
+chr3_snp2 <- chr3_snp2[-(205:219),]
 chr3_spl <- smooth.spline(chr3_snp2$rate, spar = 0.8)
 chr3_snp2$pos <- (chr3_snp2$`SNP Start`*chr3_spl$y)
 plot(chr3_snp2$`SNP Start`, chr3_snp2$pos)
+ggplot(chr3_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
 plot(chr3_snp2$`SNP Start`, chr3_snp2$pos/chr3_snp2$`SNP Start`, type = "l")
 chr3_finalpos <- chr3_snp2[order(chr3_snp2$pos),]
 is.unsorted(chr3_finalpos$pos)
 plot(chr3_snp2$`SNP Start`, chr3_finalpos$pos/chr3_snp2$`SNP Start`, type = "l")
 
 chr4_snp2 <- snp_rate(chr4_bin, chr4_snp)
-chr4_snp2$rate[1:85] <- 0.7232293
-chr4_snp2$rate[86:170] <- 0.4821528
-chr4_snp2$rate[171:256] <- 0.7232293
+#chr4_snp2$rate[1:85] <- 0.7232293
+#chr4_snp2$rate[86:170] <- 0.4821528
+#chr4_snp2$rate[171:256] <- 0.7232293
+chr4_snps_mean <- mean(chr4_snp2$rate)
+genes_bin4$Quartile<-cut(genes_bin4$freq,quantile(genes_bin4$freq),include.lowest=TRUE,labels=FALSE)
+chr4_snp2 <-snp_uniform_rate(genes_bin4, chr4_snp, chr4_snps_mean)
 chr4_snp2$`SNP Start` <- chr4_snp2$`SNP Start`/1000000
 chr4_spl <- smooth.spline(chr4_snp2$rate, spar = 0.8)
 chr4_snp2$pos <- (chr4_snp2$`SNP Start`*chr4_spl$y)
 plot(chr4_snp2$`SNP Start`, chr4_snp2$pos)
+ggplot(chr4_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
 plot(chr4_snp2$`SNP Start`, chr4_snp2$pos/chr4_snp2$`SNP Start`, type = "l")
 chr4_finalpos <- chr4_snp2[order(chr4_snp2$pos),]
 is.unsorted(chr4_finalpos$pos)
 plot(chr4_snp2$`SNP Start`, chr4_finalpos$pos/chr4_snp2$`SNP Start`, type = "l")
 
 chr5_snp2 <- snp_rate(chr5_bin, chr5_snp)
+chr5_snps_mean <- mean(chr5_snp2$rate)
+genes_bin5$Quartile<-cut(genes_bin5$freq,quantile(genes_bin5$freq),include.lowest=TRUE,labels=FALSE)
+chr5_snp2 <-snp_uniform_rate(genes_bin5, chr5_snp, chr5_snps_mean)
 chr5_snp2$`SNP Start` <- chr5_snp2$`SNP Start`/1000000
-chr5_spl <- smooth.spline(chr5_snp2$rate, spar = 1.1)
+chr5_spl <- smooth.spline(chr5_snp2$rate, spar = 1)
 chr5_snp2$pos <- (chr5_snp2$`SNP Start`*chr5_spl$y)
 plot(chr5_snp2$`SNP Start`, chr5_snp2$pos)
+ggplot(chr5_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
 plot(chr5_snp2$`SNP Start`, chr5_snp2$pos/chr5_snp2$`SNP Start`, type = "l")
 chr5_finalpos <- chr5_snp2[order(chr5_snp2$pos),]
 is.unsorted(chr5_finalpos$pos)
@@ -396,50 +526,70 @@ plot(chr5_snp2$`SNP Start`, chr5_finalpos$pos/chr5_snp2$`SNP Start`, type = "l")
 
 #chr 6 is lowkey fuked up
 chr6_snp2 <- snp_rate(chr6_bin, chr6_snp)
+chr6_snps_mean <- mean(chr6_snp2$rate)
+genes_bin6$Quartile<-cut(genes_bin6$freq,quantile(genes_bin6$freq),include.lowest=TRUE,labels=FALSE)
+chr6_snp2 <-snp_uniform_rate(genes_bin6, chr6_snp, chr6_snps_mean)
 chr6_snp2$`SNP Start` <- chr6_snp2$`SNP Start`/1000000
 chr6_spl <- smooth.spline(chr6_snp2$rate, spar = 1)
 chr6_snp2$pos <- (chr6_snp2$`SNP Start`*chr6_spl$y)
 plot(chr6_snp2$`SNP Start`, chr6_snp2$pos)
+ggplot(chr6_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
 plot(chr6_snp2$`SNP Start`, chr6_snp2$pos/chr6_snp2$`SNP Start`, type = "l")
 chr6_finalpos <- chr6_snp2[order(chr6_snp2$pos),]
 is.unsorted(chr6_finalpos$pos)
 plot(chr6_snp2$`SNP Start`, chr6_finalpos$pos/chr6_snp2$`SNP Start`, type = "l")
 
 chr7_snp2 <- snp_rate(chr7_bin, chr7_snp)
+chr7_snps_mean <- mean(chr7_snp2$rate)
+genes_bin7$Quartile<-cut(genes_bin7$freq,quantile(genes_bin7$freq),include.lowest=TRUE,labels=FALSE)
+chr7_snp2 <-snp_uniform_rate(genes_bin7, chr7_snp, chr7_snps_mean)
 chr7_snp2$`SNP Start` <- chr7_snp2$`SNP Start`/1000000
-chr7_spl <- smooth.spline(chr7_snp2$rate, spar = 1.15)
+chr7_spl <- smooth.spline(chr7_snp2$rate, spar = .9)
 chr7_snp2$pos <- (chr7_snp2$`SNP Start`*chr7_spl$y)
 plot(chr7_snp2$`SNP Start`, chr7_snp2$pos)
+ggplot(chr7_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
 plot(chr7_snp2$`SNP Start`, chr7_snp2$pos/chr7_snp2$`SNP Start`, type = "l")
 chr7_finalpos <- chr7_snp2[order(chr7_snp2$pos),]
 is.unsorted(chr7_finalpos$pos)
 plot(chr7_snp2$`SNP Start`, chr7_finalpos$pos/chr7_snp2$`SNP Start`, type = "l")
 
 chr8_snp2 <- snp_rate(chr8_bin, chr8_snp)
+chr8_snps_mean <- mean(chr8_snp2$rate)
+genes_bin8$Quartile<-cut(genes_bin8$freq,quantile(genes_bin8$freq),include.lowest=TRUE,labels=FALSE)
+chr8_snp2 <-snp_uniform_rate(genes_bin8, chr8_snp, chr8_snps_mean)
 chr8_snp2$`SNP Start` <- chr8_snp2$`SNP Start`/1000000
-chr8_spl <- smooth.spline(chr8_snp2$rate, spar = 1.15)
+chr8_spl <- smooth.spline(chr8_snp2$rate, spar = .9)
 chr8_snp2$pos <- (chr8_snp2$`SNP Start`*chr8_spl$y)
 plot(chr8_snp2$`SNP Start`, chr8_snp2$pos)
+ggplot(chr8_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
 plot(chr8_snp2$`SNP Start`, chr8_snp2$pos/chr8_snp2$`SNP Start`, type = "l")
 chr8_finalpos <- chr8_snp2[order(chr8_snp2$pos),]
 is.unsorted(chr8_finalpos$pos)
 plot(chr8_snp2$`SNP Start`, chr8_finalpos$pos/chr8_snp2$`SNP Start`, type = "l")
 
 chr9_snp2 <- snp_rate(chr9_bin, chr9_snp)
+chr9_snps_mean <- mean(chr9_snp2$rate)
+genes_bin9$Quartile<-cut(genes_bin9$freq,quantile(genes_bin9$freq),include.lowest=TRUE,labels=FALSE)
+chr9_snp2 <-snp_uniform_rate(genes_bin9, chr9_snp, chr9_snps_mean)
 chr9_snp2$`SNP Start` <- chr9_snp2$`SNP Start`/1000000
 chr9_spl <- smooth.spline(chr9_snp2$rate, spar = 1.1)
 chr9_snp2$pos <- (chr9_snp2$`SNP Start`*chr9_spl$y)
 plot(chr9_snp2$`SNP Start`, chr9_snp2$pos)
+ggplot(chr9_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
 plot(chr9_snp2$`SNP Start`, chr9_snp2$pos/chr9_snp2$`SNP Start`, type = "l")
 chr9_finalpos <- chr9_snp2[order(chr9_snp2$pos),]
 is.unsorted(chr9_finalpos$pos)
 plot(chr9_snp2$`SNP Start`, chr9_finalpos$pos/chr9_snp2$`SNP Start`, type = "l")
 
 chr10_snp2 <- snp_rate(chr10_bin, chr10_snp)
+chr10_snps_mean <- mean(chr10_snp2$rate)
+genes_bin10$Quartile<-cut(genes_bin10$freq,quantile(genes_bin10$freq),include.lowest=TRUE,labels=FALSE)
+chr10_snp2 <-snp_uniform_rate(genes_bin10, chr10_snp, chr10_snps_mean)
 chr10_snp2$`SNP Start` <- chr10_snp2$`SNP Start`/1000000
 chr10_spl <- smooth.spline(chr10_snp2$rate, spar = 1.15)
 chr10_snp2$pos <- (chr10_snp2$`SNP Start`*chr10_spl$y)
 plot(chr10_snp2$`SNP Start`, chr10_snp2$pos)
+ggplot(chr10_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
 plot(chr10_snp2$`SNP Start`, chr10_snp2$pos/chr10_snp2$`SNP Start`, type = "l")
 chr10_finalpos <- chr10_snp2[order(chr10_snp2$pos),]
 is.unsorted(chr10_finalpos$pos)
