@@ -167,7 +167,6 @@ chr2_bin[220,5] <- max(chr2_snp$`SNP End`)
 chr2_bin$length <- (chr2_bin$foo.X2-chr2_bin$foo.X1)/1000000
 chr2_bin$rate <- ((chr2_bin$freq/4713)*100)/chr2_bin$length
 
-#have not converted rest of chromosomes to what I did in 1 & 2
 chr3_CO <- chr3_CO[order(chr3_CO$`CO Start`),]
 chr3_bin <- binning(chr3_CO$midpoint, nbins = 200, type = "kmeans")
 chr3_bin <- as.data.frame(summary(chr3_bin))
@@ -281,7 +280,7 @@ chr10_bin$length <- (chr10_bin$foo.X2-chr10_bin$foo.X1)/1000000
 chr10_bin$rate <- ((chr10_bin$freq/4713)*100)/chr10_bin$length
 #use plot to look at distribution of k-means
 
-##assigning frequency to SNPs based on recombination frequency in each bin
+##assigning frequency to SNPs based on frequency in each bin
 snp_rate <- function(chr_bin, chr_snp){
   for(i in 1:nrow(chr_snp)){
     for(k in 1:nrow(chr_bin)){
@@ -292,7 +291,7 @@ snp_rate <- function(chr_bin, chr_snp){
   }
   print(chr_snp)
 }
-##Looking at gene density along chromosomes
+##Looking at gene density along chromosomes, binned based on gene density
 #ref <- read.table("Zm-B73-REFERENCE-GRAMENE-4.0_Zm00001d.1.gff3", header = TRUE)
 #ref_genes <- ref[which(ref$chromosome == 'gene'),]
 ref <- read.table("referencefile.csv", header = TRUE, sep =",")
@@ -411,7 +410,7 @@ genes_bin10$foo.X2 <- genes_bin10$foo.X2 - 130112
 genes_bin10[300,5] <- max(chr10_snp$`SNP End`)
 
 
-#REASSIGN FREQ loop through snp positions, all snp that fall in bins with low density get 1/4 of mean rate
+#REASSIGN FREQ loop through snp positions, all snp that fall in bins with low gene density get 1/4 of mean rate
 snp_uniform_rate <- function(genes_bin, chr_snp, chr_snps_mean){
   for(i in 1:nrow(chr_snp)){
     for(k in 1:nrow(genes_bin)){
