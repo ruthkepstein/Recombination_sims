@@ -465,14 +465,16 @@ chr2_snp2 <-snp_uniform_rate(genes_bin2, chr2_snp, chr2_snps_mean)
 #chr2_snp2$rate[159:237] <- 1.318753
 chr2_snp2$`SNP Start` <- chr2_snp2$`SNP Start`/1000000
 chr2_snp2 <- chr2_snp2[-(196:237),]
-chr2_spl <- smooth.spline(chr2_snp2$rate, spar = 0.7)
-chr2_snp2$pos <- (chr2_snp2$`SNP Start`*chr2_spl$y)
+#chr2_spl <- smooth.spline(chr2_snp2$rate, spar = 0.6)
+chr2_snp2$pos <- (chr2_snp2$`SNP Start`*chr2_snp2$rate)
 plot(chr2_snp2$`SNP Start`, chr2_snp2$pos)
 ggplot(chr2_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
-plot(chr2_snp2$`SNP Start`, chr2_snp2$pos/chr2_snp2$`SNP Start`, type = "l")
+plot(chr2_snp2$`SNP Start`, chr2_snp2$pos/chr2_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 2 Recombination Distribution")
 chr2_finalpos <- chr2_snp2[order(chr2_snp2$pos),]
 is.unsorted(chr2_finalpos$pos)
-plot(chr2_snp2$`SNP Start`, chr2_finalpos$pos/chr2_snp2$`SNP Start`, type = "l")
+plot(chr2_snp2$`SNP Start`, chr2_finalpos$pos/chr2_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 2 Recombination Distribution")
 
 chr3_snp2 <- snp_rate(chr3_bin, chr3_snp)
 #chr3_snp2$rate[1:73] <- 0.9275442
@@ -483,14 +485,16 @@ genes_bin3$Quartile<-cut(genes_bin3$freq,quantile(genes_bin3$freq),include.lowes
 chr3_snp2 <-snp_uniform_rate(genes_bin3, chr3_snp, chr3_snps_mean)
 chr3_snp2$`SNP Start` <- chr3_snp2$`SNP Start`/1000000
 chr3_snp2 <- chr3_snp2[-(205:219),]
-chr3_spl <- smooth.spline(chr3_snp2$rate, spar = 0.8)
+chr3_spl <- smooth.spline(chr3_snp2$rate, spar = 1.2)
 chr3_snp2$pos <- (chr3_snp2$`SNP Start`*chr3_spl$y)
 plot(chr3_snp2$`SNP Start`, chr3_snp2$pos)
 ggplot(chr3_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
-plot(chr3_snp2$`SNP Start`, chr3_snp2$pos/chr3_snp2$`SNP Start`, type = "l")
+plot(chr3_snp2$`SNP Start`, chr3_snp2$pos/chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 3 Recombination Distribution")
 chr3_finalpos <- chr3_snp2[order(chr3_snp2$pos),]
 is.unsorted(chr3_finalpos$pos)
-plot(chr3_snp2$`SNP Start`, chr3_finalpos$pos/chr3_snp2$`SNP Start`, type = "l")
+plot(chr3_snp2$`SNP Start`, chr3_finalpos$pos/chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 3 Recombination Distribution")
 
 chr4_snp2 <- snp_rate(chr4_bin, chr4_snp)
 #chr4_snp2$rate[1:85] <- 0.7232293
@@ -500,14 +504,16 @@ chr4_snps_mean <- mean(chr4_snp2$rate)
 genes_bin4$Quartile<-cut(genes_bin4$freq,quantile(genes_bin4$freq),include.lowest=TRUE,labels=FALSE)
 chr4_snp2 <-snp_uniform_rate(genes_bin4, chr4_snp, chr4_snps_mean)
 chr4_snp2$`SNP Start` <- chr4_snp2$`SNP Start`/1000000
-chr4_spl <- smooth.spline(chr4_snp2$rate, spar = 0.8)
+chr4_spl <- smooth.spline(chr4_snp2$rate, spar = 1)
 chr4_snp2$pos <- (chr4_snp2$`SNP Start`*chr4_spl$y)
 plot(chr4_snp2$`SNP Start`, chr4_snp2$pos)
 ggplot(chr4_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
-plot(chr4_snp2$`SNP Start`, chr4_snp2$pos/chr4_snp2$`SNP Start`, type = "l")
+plot(chr4_snp2$`SNP Start`, chr4_snp2$pos/chr4_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 4 Recombination Distribution")
 chr4_finalpos <- chr4_snp2[order(chr4_snp2$pos),]
 is.unsorted(chr4_finalpos$pos)
-plot(chr4_snp2$`SNP Start`, chr4_finalpos$pos/chr4_snp2$`SNP Start`, type = "l")
+plot(chr4_snp2$`SNP Start`, chr4_finalpos$pos/chr4_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 4 Recombination Distribution")
 
 chr5_snp2 <- snp_rate(chr5_bin, chr5_snp)
 chr5_snps_mean <- mean(chr5_snp2$rate)
@@ -518,53 +524,60 @@ chr5_spl <- smooth.spline(chr5_snp2$rate, spar = 1)
 chr5_snp2$pos <- (chr5_snp2$`SNP Start`*chr5_spl$y)
 plot(chr5_snp2$`SNP Start`, chr5_snp2$pos)
 ggplot(chr5_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
-plot(chr5_snp2$`SNP Start`, chr5_snp2$pos/chr5_snp2$`SNP Start`, type = "l")
+plot(chr5_snp2$`SNP Start`, chr5_snp2$pos/chr5_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 5 Recombination Distribution")
 chr5_finalpos <- chr5_snp2[order(chr5_snp2$pos),]
 is.unsorted(chr5_finalpos$pos)
-plot(chr5_snp2$`SNP Start`, chr5_finalpos$pos/chr5_snp2$`SNP Start`, type = "l")
+plot(chr5_snp2$`SNP Start`, chr5_finalpos$pos/chr5_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 5 Recombination Distribution")
 
-#chr 6 is lowkey fuked up
 chr6_snp2 <- snp_rate(chr6_bin, chr6_snp)
 chr6_snps_mean <- mean(chr6_snp2$rate)
 genes_bin6$Quartile<-cut(genes_bin6$freq,quantile(genes_bin6$freq),include.lowest=TRUE,labels=FALSE)
 chr6_snp2 <-snp_uniform_rate(genes_bin6, chr6_snp, chr6_snps_mean)
 chr6_snp2$`SNP Start` <- chr6_snp2$`SNP Start`/1000000
-chr6_spl <- smooth.spline(chr6_snp2$rate, spar = 1)
+chr6_spl <- smooth.spline(chr6_snp2$rate, spar = 1.1)
 chr6_snp2$pos <- (chr6_snp2$`SNP Start`*chr6_spl$y)
 plot(chr6_snp2$`SNP Start`, chr6_snp2$pos)
 ggplot(chr6_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
-plot(chr6_snp2$`SNP Start`, chr6_snp2$pos/chr6_snp2$`SNP Start`, type = "l")
+plot(chr6_snp2$`SNP Start`, chr6_snp2$pos/chr6_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 6 Recombination Distribution")
 chr6_finalpos <- chr6_snp2[order(chr6_snp2$pos),]
 is.unsorted(chr6_finalpos$pos)
-plot(chr6_snp2$`SNP Start`, chr6_finalpos$pos/chr6_snp2$`SNP Start`, type = "l")
+plot(chr6_snp2$`SNP Start`, chr6_finalpos$pos/chr6_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 6 Recombination Distribution")
 
 chr7_snp2 <- snp_rate(chr7_bin, chr7_snp)
 chr7_snps_mean <- mean(chr7_snp2$rate)
 genes_bin7$Quartile<-cut(genes_bin7$freq,quantile(genes_bin7$freq),include.lowest=TRUE,labels=FALSE)
 chr7_snp2 <-snp_uniform_rate(genes_bin7, chr7_snp, chr7_snps_mean)
 chr7_snp2$`SNP Start` <- chr7_snp2$`SNP Start`/1000000
-chr7_spl <- smooth.spline(chr7_snp2$rate, spar = .9)
+chr7_spl <- smooth.spline(chr7_snp2$rate, spar = 1)
 chr7_snp2$pos <- (chr7_snp2$`SNP Start`*chr7_spl$y)
 plot(chr7_snp2$`SNP Start`, chr7_snp2$pos)
 ggplot(chr7_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
-plot(chr7_snp2$`SNP Start`, chr7_snp2$pos/chr7_snp2$`SNP Start`, type = "l")
+plot(chr7_snp2$`SNP Start`, chr7_snp2$pos/chr7_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 7 Recombination Distribution")
 chr7_finalpos <- chr7_snp2[order(chr7_snp2$pos),]
 is.unsorted(chr7_finalpos$pos)
-plot(chr7_snp2$`SNP Start`, chr7_finalpos$pos/chr7_snp2$`SNP Start`, type = "l")
+plot(chr7_snp2$`SNP Start`, chr7_finalpos$pos/chr7_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 7 Recombination Distribution")
 
 chr8_snp2 <- snp_rate(chr8_bin, chr8_snp)
 chr8_snps_mean <- mean(chr8_snp2$rate)
 genes_bin8$Quartile<-cut(genes_bin8$freq,quantile(genes_bin8$freq),include.lowest=TRUE,labels=FALSE)
 chr8_snp2 <-snp_uniform_rate(genes_bin8, chr8_snp, chr8_snps_mean)
 chr8_snp2$`SNP Start` <- chr8_snp2$`SNP Start`/1000000
-chr8_spl <- smooth.spline(chr8_snp2$rate, spar = .9)
+chr8_spl <- smooth.spline(chr8_snp2$rate, spar =.9)
 chr8_snp2$pos <- (chr8_snp2$`SNP Start`*chr8_spl$y)
 plot(chr8_snp2$`SNP Start`, chr8_snp2$pos)
 ggplot(chr8_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
-plot(chr8_snp2$`SNP Start`, chr8_snp2$pos/chr8_snp2$`SNP Start`, type = "l")
+plot(chr8_snp2$`SNP Start`, chr8_snp2$pos/chr8_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 8 Recombination Distribution")
 chr8_finalpos <- chr8_snp2[order(chr8_snp2$pos),]
 is.unsorted(chr8_finalpos$pos)
-plot(chr8_snp2$`SNP Start`, chr8_finalpos$pos/chr8_snp2$`SNP Start`, type = "l")
+plot(chr8_snp2$`SNP Start`, chr8_finalpos$pos/chr8_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 8 Recombination Distribution")
 
 chr9_snp2 <- snp_rate(chr9_bin, chr9_snp)
 chr9_snps_mean <- mean(chr9_snp2$rate)
@@ -575,24 +588,28 @@ chr9_spl <- smooth.spline(chr9_snp2$rate, spar = 1.1)
 chr9_snp2$pos <- (chr9_snp2$`SNP Start`*chr9_spl$y)
 plot(chr9_snp2$`SNP Start`, chr9_snp2$pos)
 ggplot(chr9_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
-plot(chr9_snp2$`SNP Start`, chr9_snp2$pos/chr9_snp2$`SNP Start`, type = "l")
+plot(chr9_snp2$`SNP Start`, chr9_snp2$pos/chr9_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 9 Recombination Distribution")
 chr9_finalpos <- chr9_snp2[order(chr9_snp2$pos),]
 is.unsorted(chr9_finalpos$pos)
-plot(chr9_snp2$`SNP Start`, chr9_finalpos$pos/chr9_snp2$`SNP Start`, type = "l")
+plot(chr9_snp2$`SNP Start`, chr9_finalpos$pos/chr9_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 9 Recombination Distribution")
 
 chr10_snp2 <- snp_rate(chr10_bin, chr10_snp)
 chr10_snps_mean <- mean(chr10_snp2$rate)
 genes_bin10$Quartile<-cut(genes_bin10$freq,quantile(genes_bin10$freq),include.lowest=TRUE,labels=FALSE)
 chr10_snp2 <-snp_uniform_rate(genes_bin10, chr10_snp, chr10_snps_mean)
 chr10_snp2$`SNP Start` <- chr10_snp2$`SNP Start`/1000000
-chr10_spl <- smooth.spline(chr10_snp2$rate, spar = 1.15)
+chr10_spl <- smooth.spline(chr10_snp2$rate, spar = 1)
 chr10_snp2$pos <- (chr10_snp2$`SNP Start`*chr10_spl$y)
 plot(chr10_snp2$`SNP Start`, chr10_snp2$pos)
 ggplot(chr10_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
-plot(chr10_snp2$`SNP Start`, chr10_snp2$pos/chr10_snp2$`SNP Start`, type = "l")
+plot(chr10_snp2$`SNP Start`, chr10_snp2$pos/chr10_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 10 Recombination Distribution")
 chr10_finalpos <- chr10_snp2[order(chr10_snp2$pos),]
 is.unsorted(chr10_finalpos$pos)
-plot(chr10_snp2$`SNP Start`, chr10_finalpos$pos/chr10_snp2$`SNP Start`, type = "l")
+plot(chr10_snp2$`SNP Start`, chr10_finalpos$pos/chr10_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 10 Recombination Distribution")
 
 #Putting the final genetic map together
 chr1 <- chr1_finalpos$pos/100
