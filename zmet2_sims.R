@@ -295,21 +295,56 @@ snp_rate <- function(chr_bin, chr_snp){
 }
 
 ##Using zmet2 recombination landscape--> 20% increase in COs
+set.seed(420)
 zmet2_dist <- read.table("maize_genome_ddm1_zmet2.txt", header = FALSE)
 colnames(zmet2_dist) <- c("Chr", "Start", "End", "Female WT", "Male WT", "ddm1_1", "ddm1_2", "zmet2")
+zmet2_dist$`Female WT` <- zmet2_dist$`Female WT`*2/122
+zmet2_dist$`Male WT` <- zmet2_dist$`Male WT`*2/135
+zmet2_dist$zmet2 <- zmet2_dist$zmet2*2/96
+zmet2_dist$WT <- (zmet2_dist$`Female WT`+zmet2_dist$`Male WT`)/2
+zmet2_dist$diff <- zmet2_dist$WT-zmet2_dist$zmet2
+zmet2_dist$diff2 <- zmet2_dist$diff*1
+zmet2_dist$diff2[zmet2_dist$diff2 >= 0] <- 0
+zmet2_dist$diff2 <- abs(zmet2_dist$diff2)
 
 chr1_dist <- zmet2_dist[ which(zmet2_dist$Chr == 1),]
-plot(chr1_dist$Start, chr1_dist$zmet2, type = "l")
-plot(chr1_dist$Start, chr1_dist$`Female WT`, type = "l")
-plot(chr1_dist$Start, chr1_dist$`Male WT`, type = "l")
+chr2_dist <- zmet2_dist[ which(zmet2_dist$Chr == 2),]
+chr3_dist <- zmet2_dist[ which(zmet2_dist$Chr == 3),]
+chr4_dist <- zmet2_dist[ which(zmet2_dist$Chr == 4),]
+chr5_dist <- zmet2_dist[ which(zmet2_dist$Chr == 5),]
+chr6_dist <- zmet2_dist[ which(zmet2_dist$Chr == 6),]
+chr7_dist <- zmet2_dist[ which(zmet2_dist$Chr == 7),]
+chr8_dist <- zmet2_dist[ which(zmet2_dist$Chr == 8),]
+chr9_dist <- zmet2_dist[ which(zmet2_dist$Chr == 9),]
+chr10_dist <- zmet2_dist[ which(zmet2_dist$Chr == 10),]
+
+zmet2_map <- function(chr_bin, chr_dist){
+  for(i in 1:nrow(chr_bin)){
+    for(k in 1:nrow(chr_dist)){
+      if(isTRUE(chr_bin$foo.X1[i] >= chr_dist$Start[k] && chr_bin$foo.X2[i] <= chr_dist$End[k])){
+        chr_bin$rate[i] <- (chr_bin$rate[i]+(chr_bin$rate[i]*chr_dist$diff2[k]))
+      }else
+        chr_bin$rate[i] <- chr_bin$rate[i]
+    }
+  }
+  return(chr_bin)
+}
+chr1_bin2 <- zmet2_map(chr1_bin, chr1_dist)
+chr2_bin2 <- zmet2_map(chr2_bin, chr2_dist)
+chr3_bin2 <- zmet2_map(chr3_bin, chr3_dist)
+chr4_bin2 <- zmet2_map(chr4_bin, chr4_dist)
+chr5_bin2 <- zmet2_map(chr5_bin, chr5_dist)
+chr6_bin2 <- zmet2_map(chr6_bin, chr6_dist)
+chr7_bin2 <- zmet2_map(chr7_bin, chr7_dist)
+chr8_bin2 <- zmet2_map(chr8_bin, chr8_dist)
+chr9_bin2 <- zmet2_map(chr9_bin, chr9_dist)
+chr10_bin2 <- zmet2_map(chr10_bin, chr10_dist)
 
 #using function, converted SNP start to Mb to get cM/Mb for final genetic position
-chr1_snp2 <- snp_rate(chr1_bin, chr1_snp)
+chr1_snp2 <- snp_rate(chr1_bin2, chr1_snp)
 chr1_snp2$`SNP Start`<- chr1_snp2$`SNP Start`/1000000
 chr1_snp2 <- chr1_snp2[order(chr1_snp2$`SNP Start`),]
 #smoothing the recombination rate so transitions between bins are not so abrupt
-chr1_snp2$zmet2rate <- chr1_snp2$rate/20
-chr1_snp2$rate <- chr1_snp2$zmet2rate + chr1_snp2$rate
 chr1_spl <- smooth.spline(chr1_snp2$rate, spar = 1.1)
 #creation of genetic positions from smoothed recombination rate
 chr1_snp2$pos <- (chr1_snp2$`SNP Start`*chr1_spl$y)
@@ -327,12 +362,10 @@ plot(chr1_snp2$`SNP Start`, chr1_finalpos$pos/chr1_snp2$`SNP Start`, type = "l",
      ylab = "Recombination rate (cM/Mb)", main = "Chromosome 1 Recombination Distribution")
 plot(chr1_finalpos$`SNP Start`, chr1_finalpos$pos)
 
-chr2_snp2 <- snp_rate(chr2_bin, chr2_snp)
+chr2_snp2 <- snp_rate(chr2_bin2, chr2_snp)
 chr2_snp2$`SNP Start` <- chr2_snp2$`SNP Start`/1000000
 chr2_snp2 <- chr2_snp2[-(228:237),]
-chr2_snp2$zmet2rate <- chr2_snp2$rate/20
-chr2_snp2$rate <- chr2_snp2$zmet2rate + chr2_snp2$rate
-chr2_spl <- smooth.spline(chr2_snp2$rate, spar = 1.1)
+chr2_spl <- smooth.spline(chr2_snp2$rate, spar = 1.2)
 chr2_snp2$pos <- (chr2_snp2$`SNP Start`*chr2_spl$y)
 plot(chr2_snp2$`SNP Start`, chr2_snp2$pos)
 plot(chr2_snp2$`SNP Start`, chr2_snp2$pos/chr2_snp2$`SNP Start`, type = "l")
@@ -340,10 +373,8 @@ chr2_finalpos <- chr2_snp2[order(chr2_snp2$pos),]
 is.unsorted(chr2_finalpos$pos)
 plot(chr2_snp2$`SNP Start`, chr2_finalpos$pos/chr2_snp2$`SNP Start`, type = "l")
 
-chr3_snp2 <- snp_rate(chr3_bin, chr3_snp)
+chr3_snp2 <- snp_rate(chr3_bin2, chr3_snp)
 chr3_snp2$`SNP Start` <- chr3_snp2$`SNP Start`/1000000
-chr3_snp2$zmet2rate <- chr3_snp2$rate/20
-chr3_snp2$rate <- chr3_snp2$zmet2rate + chr3_snp2$rate
 chr3_spl <- smooth.spline(chr3_snp2$rate, spar = 1.2)
 chr3_snp2$pos <- (chr3_snp2$`SNP Start`*chr3_spl$y)
 plot(chr3_snp2$`SNP Start`, chr3_snp2$pos)
@@ -352,10 +383,8 @@ chr3_finalpos <- chr3_snp2[order(chr3_snp2$pos),]
 is.unsorted(chr3_finalpos$pos)
 plot(chr3_snp2$`SNP Start`, chr3_finalpos$pos/chr3_snp2$`SNP Start`, type = "l")
 
-chr4_snp2 <- snp_rate(chr4_bin, chr4_snp)
+chr4_snp2 <- snp_rate(chr4_bin2, chr4_snp)
 chr4_snp2$`SNP Start` <- chr4_snp2$`SNP Start`/1000000
-chr4_snp2$zmet2rate <- chr4_snp2$rate/20
-chr4_snp2$rate <- chr4_snp2$zmet2rate + chr4_snp2$rate
 chr4_spl <- smooth.spline(chr4_snp2$rate, spar = 1.2)
 chr4_snp2$pos <- (chr4_snp2$`SNP Start`*chr4_spl$y)
 plot(chr4_snp2$`SNP Start`, chr4_snp2$pos)
@@ -364,10 +393,8 @@ chr4_finalpos <- chr4_snp2[order(chr4_snp2$pos),]
 is.unsorted(chr4_finalpos$pos)
 plot(chr4_snp2$`SNP Start`, chr4_finalpos$pos/chr4_snp2$`SNP Start`, type = "l")
 
-chr5_snp2 <- snp_rate(chr5_bin, chr5_snp)
+chr5_snp2 <- snp_rate(chr5_bin2, chr5_snp)
 chr5_snp2$`SNP Start` <- chr5_snp2$`SNP Start`/1000000
-chr5_snp2$zmet2rate <- chr5_snp2$rate/20
-chr5_snp2$rate <- chr5_snp2$zmet2rate + chr5_snp2$rate
 chr5_spl <- smooth.spline(chr5_snp2$rate, spar = 1.1)
 chr5_snp2$pos <- (chr5_snp2$`SNP Start`*chr5_spl$y)
 plot(chr5_snp2$`SNP Start`, chr5_snp2$pos)
@@ -377,10 +404,8 @@ is.unsorted(chr5_finalpos$pos)
 plot(chr5_snp2$`SNP Start`, chr5_finalpos$pos/chr5_snp2$`SNP Start`, type = "l")
 
 #chr 6 is lowkey fuked up
-chr6_snp2 <- snp_rate(chr6_bin, chr6_snp)
+chr6_snp2 <- snp_rate(chr6_bin2, chr6_snp)
 chr6_snp2$`SNP Start` <- chr6_snp2$`SNP Start`/1000000
-chr6_snp2$zmet2rate <- chr6_snp2$rate/20
-chr6_snp2$rate <- chr6_snp2$zmet2rate + chr6_snp2$rate
 chr6_spl <- smooth.spline(chr6_snp2$rate, spar = 1)
 chr6_snp2$pos <- (chr6_snp2$`SNP Start`*chr6_spl$y)
 plot(chr6_snp2$`SNP Start`, chr6_snp2$pos)
@@ -389,10 +414,8 @@ chr6_finalpos <- chr6_snp2[order(chr6_snp2$pos),]
 is.unsorted(chr6_finalpos$pos)
 plot(chr6_snp2$`SNP Start`, chr6_finalpos$pos/chr6_snp2$`SNP Start`, type = "l")
 
-chr7_snp2 <- snp_rate(chr7_bin, chr7_snp)
+chr7_snp2 <- snp_rate(chr7_bin2, chr7_snp)
 chr7_snp2$`SNP Start` <- chr7_snp2$`SNP Start`/1000000
-chr7_snp2$zmet2rate <- chr7_snp2$rate/20
-chr7_snp2$rate <- chr7_snp2$zmet2rate + chr7_snp2$rate
 chr7_spl <- smooth.spline(chr7_snp2$rate, spar = 1.15)
 chr7_snp2$pos <- (chr7_snp2$`SNP Start`*chr7_spl$y)
 plot(chr7_snp2$`SNP Start`, chr7_snp2$pos)
@@ -401,10 +424,8 @@ chr7_finalpos <- chr7_snp2[order(chr7_snp2$pos),]
 is.unsorted(chr7_finalpos$pos)
 plot(chr7_snp2$`SNP Start`, chr7_finalpos$pos/chr7_snp2$`SNP Start`, type = "l")
 
-chr8_snp2 <- snp_rate(chr8_bin, chr8_snp)
+chr8_snp2 <- snp_rate(chr8_bin2, chr8_snp)
 chr8_snp2$`SNP Start` <- chr8_snp2$`SNP Start`/1000000
-chr8_snp2$zmet2rate <- chr8_snp2$rate/20
-chr8_snp2$rate <- chr8_snp2$zmet2rate + chr8_snp2$rate
 chr8_spl <- smooth.spline(chr8_snp2$rate, spar = 1.15)
 chr8_snp2$pos <- (chr8_snp2$`SNP Start`*chr8_spl$y)
 plot(chr8_snp2$`SNP Start`, chr8_snp2$pos)
@@ -413,10 +434,8 @@ chr8_finalpos <- chr8_snp2[order(chr8_snp2$pos),]
 is.unsorted(chr8_finalpos$pos)
 plot(chr8_snp2$`SNP Start`, chr8_finalpos$pos/chr8_snp2$`SNP Start`, type = "l")
 
-chr9_snp2 <- snp_rate(chr9_bin, chr9_snp)
+chr9_snp2 <- snp_rate(chr9_bin2, chr9_snp)
 chr9_snp2$`SNP Start` <- chr9_snp2$`SNP Start`/1000000
-chr9_snp2$zmet2rate <- chr9_snp2$rate/20
-chr9_snp2$rate <- chr9_snp2$zmet2rate + chr9_snp2$rate
 chr9_spl <- smooth.spline(chr9_snp2$rate, spar = 1.1)
 chr9_snp2$pos <- (chr9_snp2$`SNP Start`*chr9_spl$y)
 plot(chr9_snp2$`SNP Start`, chr9_snp2$pos)
@@ -425,10 +444,8 @@ chr9_finalpos <- chr9_snp2[order(chr9_snp2$pos),]
 is.unsorted(chr9_finalpos$pos)
 plot(chr9_snp2$`SNP Start`, chr9_finalpos$pos/chr9_snp2$`SNP Start`, type = "l")
 
-chr10_snp2 <- snp_rate(chr10_bin, chr10_snp)
+chr10_snp2 <- snp_rate(chr10_bin2, chr10_snp)
 chr10_snp2$`SNP Start` <- chr10_snp2$`SNP Start`/1000000
-chr10_snp2$zmet2rate <- chr10_snp2$rate/20
-chr10_snp2$rate <- chr10_snp2$zmet2rate + chr10_snp2$rate
 chr10_spl <- smooth.spline(chr10_snp2$rate, spar = 1.15)
 chr10_snp2$pos <- (chr10_snp2$`SNP Start`*chr10_spl$y)
 plot(chr10_snp2$`SNP Start`, chr10_snp2$pos)
@@ -493,205 +510,132 @@ final_map <- list(chr1[[1]], chr2[[1]],
                   chr6[[1]], chr7[[1]], chr8[[1]], 
                   chr9[[1]], chr10[[1]])
 
-#Creating vector of centromere positions
-real_centromere <- c(69.19425, 29.31842, 43.34131, 42.1754, 47.11507,
-                     43.40838, 30.01601, 43.69602, 47.12911, 21.17685)
+#Creating vector of centromere positions for zmet2
+real_centromere <- c(68.7975, 83.0778, 45.34253, 42.34426, 49.09542, 
+                     43.64207, 33.1046, 45.02515, 49.45323, 23.55771)
 real_centromere <- real_centromere/100
 
-#Creating haplotypes with assumption of LD present
-is_in_LD <- function(chr_finalpos, LD_snps){
-  for(i in 1:nrow(chr_finalpos)){
-    if(chr_finalpos$rate[i] <= 1.5){
-      LD_snps[i] <- chr_finalpos$`SNP Start`[i]
-    }
-  }
-  return(LD_snps)
-}
-chr1_LD_snps <- c()
-chr1_LD_snps <- is_in_LD(chr1_finalpos, chr1_LD_snps)
-chr1_LD_snps <- as.data.frame(chr1_LD_snps)
-
-chr2_LD_snps <- c()
-chr2_LD_snps <- is_in_LD(chr2_finalpos, chr2_LD_snps)
-chr2_LD_snps <- as.data.frame(chr2_LD_snps)
-
-chr3_LD_snps <- c()
-chr3_LD_snps <- is_in_LD(chr3_finalpos, chr3_LD_snps)
-chr3_LD_snps <- as.data.frame(chr3_LD_snps)
-
-chr4_LD_snps <- c()
-chr4_LD_snps <- is_in_LD(chr4_finalpos, chr4_LD_snps)
-chr4_LD_snps <- as.data.frame(chr4_LD_snps)
-
-chr5_LD_snps <- c()
-chr5_LD_snps <- is_in_LD(chr5_finalpos, chr5_LD_snps)
-chr5_LD_snps <- as.data.frame(chr5_LD_snps)
-
-chr6_LD_snps <- c()
-chr6_LD_snps <- is_in_LD(chr6_finalpos, chr6_LD_snps)
-chr6_LD_snps <- as.data.frame(chr6_LD_snps)
-
-chr7_LD_snps <- c()
-chr7_LD_snps <- is_in_LD(chr7_finalpos, chr7_LD_snps)
-chr7_LD_snps <- as.data.frame(chr7_LD_snps)
-
-chr8_LD_snps <- c()
-chr8_LD_snps <- is_in_LD(chr8_finalpos, chr8_LD_snps)
-chr8_LD_snps <- as.data.frame(chr8_LD_snps)
-
-chr9_LD_snps <- c()
-chr9_LD_snps <- is_in_LD(chr9_finalpos, chr9_LD_snps)
-chr9_LD_snps <- as.data.frame(chr9_LD_snps)
-
-chr10_LD_snps <- c()
-chr10_LD_snps <- is_in_LD(chr10_finalpos, chr10_LD_snps)
-chr10_LD_snps <- as.data.frame(chr10_LD_snps)
-
-#change row.names to change # of individuals we want
-chr1_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr1_finalpos))
-row.names(chr1_haplo) <- 1:200
-colnames(chr1_haplo) <- chr1_finalpos$`SNP Start`
-
-chr2_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr2_finalpos))
-row.names(chr2_haplo) <- 1:200
-colnames(chr2_haplo) <- chr2_finalpos$`SNP Start`
-
-chr3_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr3_finalpos))
-row.names(chr3_haplo) <- 1:200
-colnames(chr3_haplo) <- chr3_finalpos$`SNP Start`
-
-chr4_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr4_finalpos))
-row.names(chr4_haplo) <- 1:200
-colnames(chr4_haplo) <- chr4_finalpos$`SNP Start`
-
-chr5_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr5_finalpos))
-row.names(chr5_haplo) <- 1:200
-colnames(chr5_haplo) <- chr5_finalpos$`SNP Start`
-
-chr6_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr6_finalpos))
-row.names(chr6_haplo) <- 1:200
-colnames(chr6_haplo) <- chr6_finalpos$`SNP Start`
-
-chr7_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr7_finalpos))
-row.names(chr7_haplo) <- 1:200
-colnames(chr7_haplo) <- chr7_finalpos$`SNP Start`
-
-chr8_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr8_finalpos))
-row.names(chr8_haplo) <- 1:200
-colnames(chr8_haplo) <- chr8_finalpos$`SNP Start`
-
-chr9_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr9_finalpos))
-row.names(chr9_haplo) <- 1:200
-colnames(chr9_haplo) <- chr9_finalpos$`SNP Start`
-
-chr10_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr10_finalpos))
-row.names(chr10_haplo) <- 1:200
-colnames(chr10_haplo) <- chr10_finalpos$`SNP Start`
-
-fill_matrix <- function(chr_LD_snps, chr_haplo){
-  for(i in 1:nrow(chr_LD_snps)){
-    if(is.na(chr_LD_snps[i,])){
-      for(k in 1:nrow(chr_haplo)){
-        chr_haplo[k,i] = sample(0:1,1)
-      }
-    }
-    else{
-      x <- sample(0:1,1)
-      for(k in 1:nrow(chr_haplo)){
-        chr_haplo[k,i] = x
-      }
-    }
-  }
-  return(chr_haplo)
-}
-chr1_haplo <- fill_matrix(chr1_LD_snps, chr1_haplo)
-
-chr2_haplo <- fill_matrix(chr2_LD_snps, chr2_haplo)
-
-chr3_haplo <- fill_matrix(chr3_LD_snps, chr3_haplo)
-
-chr4_haplo <- fill_matrix(chr4_LD_snps, chr4_haplo)
-
-chr5_haplo <- fill_matrix(chr5_LD_snps, chr5_haplo)
-chr5_haplo[is.na(chr5_haplo)] <- sample(0:1,1)
-
-chr6_haplo <- fill_matrix(chr6_LD_snps, chr6_haplo)
-chr6_haplo[is.na(chr6_haplo)] <- sample(0:1,1)
-
-chr7_haplo <- fill_matrix(chr7_LD_snps, chr7_haplo)
-
-chr8_haplo <- fill_matrix(chr8_LD_snps, chr8_haplo)
-
-chr9_haplo <- fill_matrix(chr9_LD_snps, chr9_haplo)
-
-chr10_haplo <- fill_matrix(chr10_LD_snps, chr10_haplo)
-
-final_haplo <- list(chr1_haplo, chr2_haplo, chr3_haplo, chr4_haplo, chr5_haplo,
-                    chr6_haplo, chr7_haplo, chr8_haplo, chr9_haplo, chr10_haplo)
-
-write.table(final_haplo, "C:/Users/16192/Documents/PNAS_Simulations/example_haplotypes.csv")
-#inal_haplo <- read.table("example_haplotypes.csv")
-
 ###Simulating a realistic breeding program in maize
+founderPop <- quickHaplo(nInd = 200, nChr = 10, segSites = c(nrow(chr1_finalpos), nrow(chr2_finalpos), 
+                                                             nrow(chr3_finalpos), nrow(chr4_finalpos), nrow(chr5_finalpos), 
+                                                             nrow(chr6_finalpos), nrow(chr7_finalpos), nrow(chr8_finalpos),
+                                                             nrow(chr9_finalpos), nrow(chr10_finalpos)))
 
-##Setting up program with altered map
-#create founder population with gen map & haplotypes
-Founder_pop <- newMapPop(genMap = final_map, haplotypes = final_haplo, inbred = TRUE, ploidy = 2L)
-
-#updating with actual centromere positions
-Founder_pop@centromere <- real_centromere
-
-#change depending on if polygenic or oligenic trait
-nQtlPerChr <- 1
-#creating simulation parameters with the founder population
-#tracking recombination as well
-SP = SimParam$new(Founder_pop)$setTrackRec(TRUE)
-#assuming crossover interference
+lociMap <- new("LociMap",nLoci= as.integer(1), lociPerChr=as.integer(1),lociLoc=as.integer(c(1,2,3,4)))
+founderPop@genMap <- final_map
+founderPop@centromere <- real_centromere
+SP = SimParam$new(founderPop)
+SP$setTrackRec(TRUE)
 SP$v = 2.6
-#number of COs coming from non-interfering pathway
 SP$p = 0.2
-#adding an additive trait
-SP$addTraitA(
-  nQtlPerChr,
-  mean = 0,
-  var = 1,
-  corA = NULL,
-  gamma = FALSE,
-  shape = 1,
-  force = FALSE
-)
-#setting variability for the trait
+nQtlPerChr = 1
+SP$addTraitAD(nQtlPerChr)
 SP$setVarE(h2=0.5)
 
-##initiation of first population from founders
-pop1 <- newPop(Founder_pop, simParam = SP)
-#find phenotypes for the first population in order to do phenotypic selection
-pop1 <- setPheno(
-  pop1,
-  h2 = NULL,
-  H2 = NULL,
-  onlyPheno = FALSE,
-  simParam = SP
-)
-#selecting top individuals from first population
-#select top 10 using phenotype for one trait
-pop1_sel <- selectInd(pop1, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+#Bad population first with low breeding values
+pop_bad_sel10 <- vector(mode = "list", length = 20)
+for(i in 1:20){
+  SP$manAddTrait(lociMap)
+  pop_bad <- newPop(founderPop, simParam = SP)
+  pop_bad <- setPheno(pop_bad, h2 = 0.5, simParam = SP)
+  
+  pop_bad1 <- randCross(pop_bad, nCrosses = 100, nProgeny=100, simParam = SP)
+  pop_bad1 <- setPheno(pop_bad1, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel <- selectInd(pop_bad1, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad2 <- randCross(pop_bad_sel, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad2 <- setPheno(pop_bad2, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel2 <- selectInd(pop_bad2, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad3 <- randCross(pop_bad_sel2, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad3 <- setPheno(pop_bad3, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel3 <- selectInd(pop_bad3, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad4 <- randCross(pop_bad_sel2, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad4 <- setPheno(pop_bad4, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel4 <- selectInd(pop_bad4, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad5 <- randCross(pop_bad_sel4, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad5 <- setPheno(pop_bad5, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel5 <- selectInd(pop_bad5, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad6 <- randCross(pop_bad_sel5, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad6 <- setPheno(pop_bad6, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel6 <- selectInd(pop_bad6, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad7 <- randCross(pop_bad_sel6, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad7 <- setPheno(pop_bad7, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel7 <- selectInd(pop_bad7, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad8 <- randCross(pop_bad_sel7, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad8 <- setPheno(pop_bad8, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel8 <- selectInd(pop_bad8, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad9 <- randCross(pop_bad_sel8, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad9 <- setPheno(pop_bad9, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel9 <- selectInd(pop_bad9, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad10 <- randCross(pop_bad_sel9, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad10 <- setPheno(pop_bad10, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel10[[i]] <- selectInd(pop_bad10, nInd = 20, use = "bv", trait = 1, selectop =FALSE, returnPop = TRUE, simParam = SP)
+}
+
+#Creating the "good"/elite pop with high breeding values
+pop_good_sel10 <- vector(mode = "list", length = 20)
+for(i in 1:20){
+  pop_good <- newPop(founderPop, simParam = SP)
+  pop_good <- setPheno(pop_good, h2 = 0.5, simParam = SP)
+  
+  pop_good1 <- randCross(pop_good, nCrosses = 100, nProgeny=100, simParam = SP)
+  pop_good1 <- setPheno(pop_good1, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel <- selectInd(pop_good1, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good2 <- randCross(pop_good_sel, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good2 <- setPheno(pop_good2, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel2 <- selectInd(pop_good2, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good3 <- randCross(pop_good_sel2, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good3 <- setPheno(pop_good3, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel3 <- selectInd(pop_good3, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good4 <- randCross(pop_good_sel2, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good4 <- setPheno(pop_good4, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel4 <- selectInd(pop_good4, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good5 <- randCross(pop_good_sel4, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good5 <- setPheno(pop_good5, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel5 <- selectInd(pop_good5, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good6 <- randCross(pop_good_sel5, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good6 <- setPheno(pop_good6, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel6 <- selectInd(pop_good6, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good7 <- randCross(pop_good_sel6, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good7 <- setPheno(pop_good7, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel7 <- selectInd(pop_good7, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good8 <- randCross(pop_good_sel7, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good8 <- setPheno(pop_good8, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel8 <- selectInd(pop_good8, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good9 <- randCross(pop_good_sel8, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good9 <- setPheno(pop_good9, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel9 <- selectInd(pop_good9, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good10 <- randCross(pop_good_sel9, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good10 <- setPheno(pop_good10, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel10[[i]] <- selectInd(pop_good10, nInd = 20, use = "bv", trait = 1, selectop = TRUE, returnPop = TRUE, simParam = SP)
+}
+
+popList = list(pop_good_sel10, pop_bad_sel10)
+mergedpops = mergePops(popList)
 
 #put it together to iterate one program 40 times with 20 generations of selection
-#after 20 gen of selection, inbred or DH
-pop4_pheno <- matrix(nrow=40,ncol=10)
+zmet2_pheno <- matrix(nrow=40,ncol=10)
 for(i in 1:40){
-  founderPop <- newMapPop(genMap = final_map, haplotypes = final_haplo, inbred = TRUE, ploidy = 2L)
-  founderPop@centromere <- real_centromere
-  SP = SimParam$new(founderPop)
-  SP$setTrackRec(TRUE)
-  SP$v = 2.6
-  SP$p = 0.2
-  nQtlPerChr = 1
-  SP$addTraitA(nQtlPerChr)
-  SP$setVarE(h2=0.9)
-  
-  pop <- newPop(founderPop, simParam = SP)
+  pop <- newPop(mergedpops, simParam = SP)
   pop <- setPheno(pop = pop, h2 = 0.9, simParam = SP)
   
   pop_F1 <- randCross(pop, nCrosses = 50, nProgeny = 10, simParam = SP)
@@ -779,10 +723,8 @@ for(i in 1:40){
   pop1_sel20_cross <- setPheno(pop1_sel20_cross, h2 = 0.9, simParam = SP)
   
   final_sel <- selectInd(pop1_sel20_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop4_pheno[i,]<- pheno(final_sel)
+  zmet2[i,]<- pheno(final_sel)
 }
-mega_pop <- rbind(pop1_pheno, pop2_pheno, pop3_pheno, pop4_pheno)
-mega_pop <- na.omit(mega_pop)
 
 #Creating confidence intervals
 pop1_mean <- mean(pop1_gv)
