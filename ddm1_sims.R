@@ -516,153 +516,109 @@ final_map <- list(chr1[[1]], chr2[[1]],
 #Creating vector of centromere positions
 real_centromere <- c(69.19425, 29.31842, 43.34131, 42.1754, 47.11507,
                      43.40838, 30.01601, 43.69602, 47.12911, 21.17685)
-ddm1_inc <- real_centromere/6
-real_centromere <- real_centromere + ddm1_inc
 
-#Creating haplotypes with assumption of LD present
-is_in_LD <- function(chr_finalpos, LD_snps){
-  for(i in 1:nrow(chr_finalpos)){
-    if(chr_finalpos$rate[i] <= 1.5){
-      LD_snps[i] <- chr_finalpos$`SNP Start`[i]
-    }
-  }
-  return(LD_snps)
-}
-chr1_LD_snps <- c()
-chr1_LD_snps <- is_in_LD(chr1_finalpos, chr1_LD_snps)
-chr1_LD_snps <- as.data.frame(chr1_LD_snps)
-
-chr2_LD_snps <- c()
-chr2_LD_snps <- is_in_LD(chr2_finalpos, chr2_LD_snps)
-chr2_LD_snps <- as.data.frame(chr2_LD_snps)
-
-chr3_LD_snps <- c()
-chr3_LD_snps <- is_in_LD(chr3_finalpos, chr3_LD_snps)
-chr3_LD_snps <- as.data.frame(chr3_LD_snps)
-
-chr4_LD_snps <- c()
-chr4_LD_snps <- is_in_LD(chr4_finalpos, chr4_LD_snps)
-chr4_LD_snps <- as.data.frame(chr4_LD_snps)
-
-chr5_LD_snps <- c()
-chr5_LD_snps <- is_in_LD(chr5_finalpos, chr5_LD_snps)
-chr5_LD_snps <- as.data.frame(chr5_LD_snps)
-
-chr6_LD_snps <- c()
-chr6_LD_snps <- is_in_LD(chr6_finalpos, chr6_LD_snps)
-chr6_LD_snps <- as.data.frame(chr6_LD_snps)
-
-chr7_LD_snps <- c()
-chr7_LD_snps <- is_in_LD(chr7_finalpos, chr7_LD_snps)
-chr7_LD_snps <- as.data.frame(chr7_LD_snps)
-
-chr8_LD_snps <- c()
-chr8_LD_snps <- is_in_LD(chr8_finalpos, chr8_LD_snps)
-chr8_LD_snps <- as.data.frame(chr8_LD_snps)
-
-chr9_LD_snps <- c()
-chr9_LD_snps <- is_in_LD(chr9_finalpos, chr9_LD_snps)
-chr9_LD_snps <- as.data.frame(chr9_LD_snps)
-
-chr10_LD_snps <- c()
-chr10_LD_snps <- is_in_LD(chr10_finalpos, chr10_LD_snps)
-chr10_LD_snps <- as.data.frame(chr10_LD_snps)
-
-#change row.names to change # of individuals we want
-chr1_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr1_finalpos))
-row.names(chr1_haplo) <- 1:200
-colnames(chr1_haplo) <- chr1_finalpos$`SNP Start`
-
-chr2_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr2_finalpos))
-row.names(chr2_haplo) <- 1:200
-colnames(chr2_haplo) <- chr2_finalpos$`SNP Start`
-
-chr3_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr3_finalpos))
-row.names(chr3_haplo) <- 1:200
-colnames(chr3_haplo) <- chr3_finalpos$`SNP Start`
-
-chr4_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr4_finalpos))
-row.names(chr4_haplo) <- 1:200
-colnames(chr4_haplo) <- chr4_finalpos$`SNP Start`
-
-chr5_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr5_finalpos))
-row.names(chr5_haplo) <- 1:200
-colnames(chr5_haplo) <- chr5_finalpos$`SNP Start`
-
-chr6_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr6_finalpos))
-row.names(chr6_haplo) <- 1:200
-colnames(chr6_haplo) <- chr6_finalpos$`SNP Start`
-
-chr7_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr7_finalpos))
-row.names(chr7_haplo) <- 1:200
-colnames(chr7_haplo) <- chr7_finalpos$`SNP Start`
-
-chr8_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr8_finalpos))
-row.names(chr8_haplo) <- 1:200
-colnames(chr8_haplo) <- chr8_finalpos$`SNP Start`
-
-chr9_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr9_finalpos))
-row.names(chr9_haplo) <- 1:200
-colnames(chr9_haplo) <- chr9_finalpos$`SNP Start`
-
-chr10_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr10_finalpos))
-row.names(chr10_haplo) <- 1:200
-colnames(chr10_haplo) <- chr10_finalpos$`SNP Start`
-
-fill_matrix <- function(chr_LD_snps, chr_haplo){
-  for(i in 1:nrow(chr_LD_snps)){
-    if(is.na(chr_LD_snps[i,])){
-      for(k in 1:nrow(chr_haplo)){
-        chr_haplo[k,i] = sample(0:1,1)
-      }
-    }
-    else{
-      x <- sample(0:1,1)
-      for(k in 1:nrow(chr_haplo)){
-        chr_haplo[k,i] = x
-      }
-    }
-  }
-  return(chr_haplo)
-}
-chr1_haplo <- fill_matrix(chr1_LD_snps, chr1_haplo)
-
-chr2_haplo <- fill_matrix(chr2_LD_snps, chr2_haplo)
-
-chr3_haplo <- fill_matrix(chr3_LD_snps, chr3_haplo)
-
-chr4_haplo <- fill_matrix(chr4_LD_snps, chr4_haplo)
-
-chr5_haplo <- fill_matrix(chr5_LD_snps, chr5_haplo)
-chr5_haplo[is.na(chr5_haplo)] <- sample(0:1,1)
-
-chr6_haplo <- fill_matrix(chr6_LD_snps, chr6_haplo)
-chr6_haplo[is.na(chr6_haplo)] <- sample(0:1,1)
-
-chr7_haplo <- fill_matrix(chr7_LD_snps, chr7_haplo)
-
-chr8_haplo <- fill_matrix(chr8_LD_snps, chr8_haplo)
-
-chr9_haplo <- fill_matrix(chr9_LD_snps, chr9_haplo)
-
-chr10_haplo <- fill_matrix(chr10_LD_snps, chr10_haplo)
-
-final_haplo <- list(chr1_haplo, chr2_haplo, chr3_haplo, chr4_haplo, chr5_haplo,
-                    chr6_haplo, chr7_haplo, chr8_haplo, chr9_haplo, chr10_haplo)
-
-popzmet2_pheno <- matrix(nrow=40,ncol=10)
-for(i in 1:40){
-  founderPop <- newMapPop(genMap = final_map, haplotypes = final_haplo, inbred = TRUE, ploidy = 2L)
-  founderPop@centromere <- real_centromere
-  SP = SimParam$new(founderPop)
-  SP$setTrackRec(TRUE)
-  SP$v = 2.6
-  SP$p = 0.2
-  nQtlPerChr = 1
-  SP$addTraitA(nQtlPerChr)
-  SP$setVarE(h2=0.9)
+#creating wild population with low breeding values
+pop_bad_sel10 <- vector(mode = "list", length = 20)
+for(i in 1:20){
+  pop_bad <- newPop(founderPop, simParam = SP)
+  pop_bad <- setPheno(pop_bad, h2 = 0.5, simParam = SP)
   
-  pop <- newPop(founderPop, simParam = SP)
+  pop_bad1 <- randCross(pop_bad, nCrosses = 100, nProgeny=100, simParam = SP)
+  pop_bad1 <- setPheno(pop_bad1, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel <- selectInd(pop_bad1, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad2 <- randCross(pop_bad_sel, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad2 <- setPheno(pop_bad2, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel2 <- selectInd(pop_bad2, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad3 <- randCross(pop_bad_sel2, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad3 <- setPheno(pop_bad3, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel3 <- selectInd(pop_bad3, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad4 <- randCross(pop_bad_sel2, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad4 <- setPheno(pop_bad4, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel4 <- selectInd(pop_bad4, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad5 <- randCross(pop_bad_sel4, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad5 <- setPheno(pop_bad5, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel5 <- selectInd(pop_bad5, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad6 <- randCross(pop_bad_sel5, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad6 <- setPheno(pop_bad6, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel6 <- selectInd(pop_bad6, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad7 <- randCross(pop_bad_sel6, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad7 <- setPheno(pop_bad7, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel7 <- selectInd(pop_bad7, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad8 <- randCross(pop_bad_sel7, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad8 <- setPheno(pop_bad8, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel8 <- selectInd(pop_bad8, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad9 <- randCross(pop_bad_sel8, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad9 <- setPheno(pop_bad9, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel9 <- selectInd(pop_bad9, nInd = 50, use = "bv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad10 <- randCross(pop_bad_sel9, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad10 <- setPheno(pop_bad10, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel10[[i]] <- selectInd(pop_bad10, nInd = 20, use = "bv", trait = 1, selectop =FALSE, returnPop = TRUE, simParam = SP)
+}
+
+#Creating the "good"/elite pop with high breeding values
+pop_good_sel10 <- vector(mode = "list", length = 20)
+for(i in 1:20){
+  pop_good <- newPop(founderPop, simParam = SP)
+  pop_good <- setPheno(pop_good, h2 = 0.5, simParam = SP)
+  
+  pop_good1 <- randCross(pop_good, nCrosses = 100, nProgeny=100, simParam = SP)
+  pop_good1 <- setPheno(pop_good1, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel <- selectInd(pop_good1, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good2 <- randCross(pop_good_sel, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good2 <- setPheno(pop_good2, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel2 <- selectInd(pop_good2, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good3 <- randCross(pop_good_sel2, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good3 <- setPheno(pop_good3, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel3 <- selectInd(pop_good3, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good4 <- randCross(pop_good_sel2, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good4 <- setPheno(pop_good4, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel4 <- selectInd(pop_good4, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good5 <- randCross(pop_good_sel4, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good5 <- setPheno(pop_good5, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel5 <- selectInd(pop_good5, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good6 <- randCross(pop_good_sel5, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good6 <- setPheno(pop_good6, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel6 <- selectInd(pop_good6, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good7 <- randCross(pop_good_sel6, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good7 <- setPheno(pop_good7, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel7 <- selectInd(pop_good7, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good8 <- randCross(pop_good_sel7, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good8 <- setPheno(pop_good8, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel8 <- selectInd(pop_good8, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good9 <- randCross(pop_good_sel8, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good9 <- setPheno(pop_good9, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel9 <- selectInd(pop_good9, nInd = 50, use = "bv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good10 <- randCross(pop_good_sel9, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good10 <- setPheno(pop_good10, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel10[[i]] <- selectInd(pop_good10, nInd = 20, use = "bv", trait = 1, selectop = TRUE, returnPop = TRUE, simParam = SP)
+}
+
+popList = list(pop_good_sel10, pop_bad_sel10)
+mergedpops = mergePops(popList)
+
+ddm1_pheno <- matrix(nrow=40,ncol=10)
+for(i in 1:40){
+  pop <- newPop(mergedpops, simParam = SP)
   pop <- setPheno(pop = pop, h2 = 0.9, simParam = SP)
   
   pop_F1 <- randCross(pop, nCrosses = 50, nProgeny = 10, simParam = SP)
@@ -750,10 +706,8 @@ for(i in 1:40){
   pop1_sel20_cross <- setPheno(pop1_sel20_cross, h2 = 0.9, simParam = SP)
   
   final_sel <- selectInd(pop1_sel20_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  popzmet2_pheno[i,]<- pheno(final_sel)
+  ddm1_pheno[i,]<- pheno(final_sel)
 }
-mega_pop <- rbind(pop1_pheno, pop2_pheno, pop3_pheno, pop4_pheno)
-mega_pop <- na.omit(mega_pop)
 
 #Creating confidence intervals
 pop1_mean <- mean(pop1_gv)
