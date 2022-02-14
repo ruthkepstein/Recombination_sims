@@ -608,13 +608,13 @@ write.table(final_haplo, "C:/Users/16192/Documents/PNAS_Simulations/example_hapl
 ##Burning in populations before use
 #One population is "good", other is "bad" GVs
 #Use 10 generations of random crossing & selecting best/worst to diverge them
-haplotypes <- quickHaplo(nInd = 200, nChr = 10, segSites = c(nrow(chr1_snp), nrow(chr2_snp), 
+founderPop <- quickHaplo(nInd = 200, nChr = 10, segSites = c(nrow(chr1_snp), nrow(chr2_snp), 
                                                              nrow(chr3_snp), nrow(chr4_snp), nrow(chr5_snp), 
                                                              nrow(chr6_snp), nrow(chr7_snp), nrow(chr8_snp),
                                                              nrow(chr9_snp), nrow(chr10_snp)))
 
-
-founderPop <- newMapPop(genMap = final_map, haplotypes = haplotypes, inbred = TRUE, ploidy = 2L)
+lociMap(nLoci, lociPerChr, lociLoc)
+founderPop@genMap <- final_map
 founderPop@centromere <- real_centromere
 SP = SimParam$new(founderPop)
 SP$setTrackRec(TRUE)
@@ -625,94 +625,100 @@ SP$addTraitA(nQtlPerChr)
 SP$setVarE(h2=0.5)
 
 #Bad population first
-pop_bad <- newPop(founderPop, simParam = SP)
-pop_bad <- setPheno(pop_bad, h2 = 0.5, simParam = SP)
-
-pop_bad1 <- randCross(pop_bad, nCrosses = 100, nProgeny=100, simParam = SP)
-pop_bad1 <- setPheno(pop_bad1, h2 = 0.5, simParam = SP)
-
-pop_bad_sel <- selectInd(pop_bad1, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
-pop_bad2 <- randCross(pop_bad_sel, nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_bad2 <- setPheno(pop_bad2, h2 = 0.5, simParam = SP)
-
-pop_bad_sel2 <- selectInd(pop_bad2, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
-pop_bad3 <- randCross(pop_bad_sel2, nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_bad3 <- setPheno(pop_bad3, h2 = 0.5, simParam = SP)
-
-pop_bad_sel3 <- selectInd(pop_bad3, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
-pop_bad4 <- randCross(pop_bad_sel2, nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_bad4 <- setPheno(pop_bad4, h2 = 0.5, simParam = SP)
-
-pop_bad_sel4 <- selectInd(pop_bad4, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
-pop_bad5 <- randCross(pop_bad_sel4, nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_bad5 <- setPheno(pop_bad5, h2 = 0.5, simParam = SP)
-
-pop_bad_sel5 <- selectInd(pop_bad5, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
-pop_bad6 <- randCross(pop_bad_sel5, nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_bad6 <- setPheno(pop_bad6, h2 = 0.5, simParam = SP)
-
-pop_bad_sel6 <- selectInd(pop_bad6, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
-pop_bad7 <- randCross(pop_bad_sel6, nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_bad7 <- setPheno(pop_bad7, h2 = 0.5, simParam = SP)
-
-pop_bad_sel7 <- selectInd(pop_bad7, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
-pop_bad8 <- randCross(pop_bad_sel7, nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_bad8 <- setPheno(pop_bad8, h2 = 0.5, simParam = SP)
-
-pop_bad_sel8 <- selectInd(pop_bad8, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
-pop_bad9 <- randCross(pop_bad_sel8, nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_bad9 <- setPheno(pop_bad9, h2 = 0.5, simParam = SP)
-
-pop_bad_sel9 <- selectInd(pop_bad9, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
-pop_bad10 <- randCross(pop_bad_sel9 <- nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_bad10 <- setPheno(pop_bad10, h2 = 0.5, simParam = SP)
-
-pop_bad_sel10 <- selectInd(pop_bad10, nInd = 100, use = "ebv", trait = 1, selectop =FALSE, returnPop = TRUE, simParam = SP)
+pop_bad_sel10 <- matrix(data = NA, nrow = 20, ncol = 20)
+for(i in 1:20){
+  pop_bad <- newPop(founderPop, simParam = SP)
+  pop_bad <- setPheno(pop_bad, h2 = 0.5, simParam = SP)
+  
+  pop_bad1 <- randCross(pop_bad, nCrosses = 100, nProgeny=100, simParam = SP)
+  pop_bad1 <- setPheno(pop_bad1, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel <- selectInd(pop_bad1, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad2 <- randCross(pop_bad_sel, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad2 <- setPheno(pop_bad2, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel2 <- selectInd(pop_bad2, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad3 <- randCross(pop_bad_sel2, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad3 <- setPheno(pop_bad3, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel3 <- selectInd(pop_bad3, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad4 <- randCross(pop_bad_sel2, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad4 <- setPheno(pop_bad4, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel4 <- selectInd(pop_bad4, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad5 <- randCross(pop_bad_sel4, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad5 <- setPheno(pop_bad5, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel5 <- selectInd(pop_bad5, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad6 <- randCross(pop_bad_sel5, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad6 <- setPheno(pop_bad6, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel6 <- selectInd(pop_bad6, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad7 <- randCross(pop_bad_sel6, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad7 <- setPheno(pop_bad7, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel7 <- selectInd(pop_bad7, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad8 <- randCross(pop_bad_sel7, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad8 <- setPheno(pop_bad8, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel8 <- selectInd(pop_bad8, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad9 <- randCross(pop_bad_sel8, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad9 <- setPheno(pop_bad9, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel9 <- selectInd(pop_bad9, nInd = 50, use = "ebv", trait = 1, selectTop = FALSE, returnPop = TRUE, simParam = SP)
+  pop_bad10 <- randCross(pop_bad_sel9 <- nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_bad10 <- setPheno(pop_bad10, h2 = 0.5, simParam = SP)
+  
+  pop_bad_sel10[i,] <- selectInd(pop_bad10, nInd = 20, use = "ebv", trait = 1, selectop =FALSE, returnPop = TRUE, simParam = SP)
+}
 
 #Creating the "good"/elite pop
-pop_good <- newPop(founderPop, simParam = SP)
-pop_good <- setPheno(pop_good, h2 = 0.5, simParam = SP)
-
-pop_good1 <- randCross(pop_good, nCrosses = 100, nProgeny=100, simParam = SP)
-pop_good1 <- setPheno(pop_good1, h2 = 0.5, simParam = SP)
-
-pop_good_sel <- selectInd(pop_good1, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-pop_good2 <- randCross(pop_good_sel, nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_good2 <- setPheno(pop_good2, h2 = 0.5, simParam = SP)
-
-pop_good_sel2 <- selectInd(pop_good2, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-pop_good3 <- randCross(pop_good_sel2, nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_good3 <- setPheno(pop_good3, h2 = 0.5, simParam = SP)
-
-pop_good_sel3 <- selectInd(pop_good3, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-pop_good4 <- randCross(pop_good_sel2, nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_good4 <- setPheno(pop_good4, h2 = 0.5, simParam = SP)
-
-pop_good_sel4 <- selectInd(pop_good4, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-pop_good5 <- randCross(pop_good_sel4, nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_good5 <- setPheno(pop_good5, h2 = 0.5, simParam = SP)
-
-pop_good_sel5 <- selectInd(pop_good5, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-pop_good6 <- randCross(pop_good_sel5, nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_good6 <- setPheno(pop_good6, h2 = 0.5, simParam = SP)
-
-pop_good_sel6 <- selectInd(pop_good6, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-pop_good7 <- randCross(pop_good_sel6, nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_good7 <- setPheno(pop_good7, h2 = 0.5, simParam = SP)
-
-pop_good_sel7 <- selectInd(pop_good7, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-pop_good8 <- randCross(pop_good_sel7, nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_good8 <- setPheno(pop_good8, h2 = 0.5, simParam = SP)
-
-pop_good_sel8 <- selectInd(pop_good8, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-pop_good9 <- randCross(pop_good_sel8, nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_good9 <- setPheno(pop_good9, h2 = 0.5, simParam = SP)
-
-pop_good_sel9 <- selectInd(pop_good9, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-pop_good10 <- randCross(pop_good_sel9 <- nCrosses = 50, nProgeny = 100, simParam = SP)
-pop_good10 <- setPheno(pop_good10, h2 = 0.5, simParam = SP)
-
-pop_good_sel10 <- selectInd(pop_good10, nInd = 100, use = "ebv", trait = 1, selectop = TRUE, returnPop = TRUE, simParam = SP)
+pop_good_sel10 <- matrix(data = NA, nrow = 20, ncol = 20)
+for(i in 1:20){
+  pop_good <- newPop(founderPop, simParam = SP)
+  pop_good <- setPheno(pop_good, h2 = 0.5, simParam = SP)
+  
+  pop_good1 <- randCross(pop_good, nCrosses = 100, nProgeny=100, simParam = SP)
+  pop_good1 <- setPheno(pop_good1, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel <- selectInd(pop_good1, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good2 <- randCross(pop_good_sel, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good2 <- setPheno(pop_good2, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel2 <- selectInd(pop_good2, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good3 <- randCross(pop_good_sel2, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good3 <- setPheno(pop_good3, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel3 <- selectInd(pop_good3, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good4 <- randCross(pop_good_sel2, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good4 <- setPheno(pop_good4, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel4 <- selectInd(pop_good4, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good5 <- randCross(pop_good_sel4, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good5 <- setPheno(pop_good5, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel5 <- selectInd(pop_good5, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good6 <- randCross(pop_good_sel5, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good6 <- setPheno(pop_good6, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel6 <- selectInd(pop_good6, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good7 <- randCross(pop_good_sel6, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good7 <- setPheno(pop_good7, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel7 <- selectInd(pop_good7, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good8 <- randCross(pop_good_sel7, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good8 <- setPheno(pop_good8, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel8 <- selectInd(pop_good8, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good9 <- randCross(pop_good_sel8, nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good9 <- setPheno(pop_good9, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel9 <- selectInd(pop_good9, nInd = 50, use = "ebv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop_good10 <- randCross(pop_good_sel9 <- nCrosses = 50, nProgeny = 100, simParam = SP)
+  pop_good10 <- setPheno(pop_good10, h2 = 0.5, simParam = SP)
+  
+  pop_good_sel10[i,] <- selectInd(pop_good10, nInd = 20, use = "ebv", trait = 1, selectop = TRUE, returnPop = TRUE, simParam = SP)
+}
 
 
 #put it together to iterate one program 40 times with 20 generations of selection
