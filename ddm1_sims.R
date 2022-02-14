@@ -297,20 +297,56 @@ snp_rate <- function(chr_bin, chr_snp){
 ##Using ddm1 recombination landscape--> 6% increase in COs
 ddm1_dist <- read.table("maize_genome_ddm1_zmet2.txt", header = FALSE)
 colnames(ddm1_dist) <- c("Chr", "Start", "End", "Female WT", "Male WT", "ddm1_1", "ddm1_2", "zmet2")
+#normalizing the data
+ddm1_dist$`Female WT` <- ddm1_dist$`Female WT`*2/122
+ddm1_dist$`Male WT` <- ddm1_dist$`Male WT`*2/135
+ddm1_dist$ddm1_1 <- ddm1_dist$ddm1_1*2/69
+ddm1_dist$ddm1_2 <- ddm1_dist$ddm1_2*2/69
+ddm1_dist$WT <- (ddm1_dist$`Female WT`+ddm1_dist$`Male WT`)/2
+ddm1_dist$ddm1 <- (ddm1_dist$ddm1_1+ddm1_dist$ddm1_2)/2
+ddm1_dist$diff <- ddm1_dist$WT-ddm1_dist$ddm1
+ddm1_dist$diff2 <- ddm1_dist$diff*1
+ddm1_dist$diff2[ddm1_dist$diff2 >= 0] <- 0
+ddm1_dist$diff2 <- abs(ddm1_dist$diff2)
 
 chr1_dist <- ddm1_dist[ which(ddm1_dist$Chr == 1),]
-plot(chr1_dist$Start, chr1_dist$ddm1_1, type = "l")
-plot(chr1_dist$Start, chr1_dist$ddm1_2, type = "l")
-plot(chr1_dist$Start, chr1_dist$`Female WT`, type = "l")
-plot(chr1_dist$Start, chr1_dist$`Male WT`, type = "l")
+chr2_dist <- ddm1_dist[ which(ddm1_dist$Chr == 2),]
+chr3_dist <- ddm1_dist[ which(ddm1_dist$Chr == 3),]
+chr4_dist <- ddm1_dist[ which(ddm1_dist$Chr == 4),]
+chr5_dist <- ddm1_dist[ which(ddm1_dist$Chr == 5),]
+chr6_dist <- ddm1_dist[ which(ddm1_dist$Chr == 6),]
+chr7_dist <- ddm1_dist[ which(ddm1_dist$Chr == 7),]
+chr8_dist <- ddm1_dist[ which(ddm1_dist$Chr == 8),]
+chr9_dist <- ddm1_dist[ which(ddm1_dist$Chr == 9),]
+chr10_dist <- ddm1_dist[ which(ddm1_dist$Chr == 10),]
+
+ddm1_map <- function(chr_bin, chr_dist){
+  for(i in 1:nrow(chr_bin)){
+    for(k in 1:nrow(chr_dist)){
+      if(isTRUE(chr_bin$foo.X1[i] >= chr_dist$Start[k] && chr_bin$foo.X2[i] <= chr_dist$End[k])){
+          chr_bin$rate[i] <- (chr_bin$rate[i]+(chr_bin$rate[i]*chr_dist$diff2[k]))
+      }else
+        chr_bin$rate[i] <- chr_bin$rate[i]
+      }
+    }
+  return(chr_bin)
+}
+chr1_bin2 <- ddm1_map(chr1_bin, chr1_dist)
+chr2_bin2 <- ddm1_map(chr2_bin, chr2_dist)
+chr3_bin2 <- ddm1_map(chr3_bin, chr3_dist)
+chr4_bin2 <- ddm1_map(chr4_bin, chr4_dist)
+chr5_bin2 <- ddm1_map(chr5_bin, chr5_dist)
+chr6_bin2 <- ddm1_map(chr6_bin, chr6_dist)
+chr7_bin2 <- ddm1_map(chr7_bin, chr7_dist)
+chr8_bin2 <- ddm1_map(chr8_bin, chr8_dist)
+chr9_bin2 <- ddm1_map(chr9_bin, chr9_dist)
+chr10_bin2 <- ddm1_map(chr10_bin, chr10_dist)
 
 #using function, converted SNP start to Mb to get cM/Mb for final genetic position
-chr1_snp2 <- snp_rate(chr1_bin, chr1_snp)
+chr1_snp2 <- snp_rate(chr1_bin2, chr1_snp)
 chr1_snp2$`SNP Start`<- chr1_snp2$`SNP Start`/1000000
 chr1_snp2 <- chr1_snp2[order(chr1_snp2$`SNP Start`),]
 #smoothing the recombination rate so transitions between bins are not so abrupt
-chr1_snp2$ddm1rate <- chr1_snp2$rate/6
-chr1_snp2$rate <- chr1_snp2$ddm1rate + chr1_snp2$rate
 chr1_spl <- smooth.spline(chr1_snp2$rate, spar = 1.1)
 #creation of genetic positions from smoothed recombination rate
 chr1_snp2$pos <- (chr1_snp2$`SNP Start`*chr1_spl$y)
@@ -328,11 +364,9 @@ plot(chr1_snp2$`SNP Start`, chr1_finalpos$pos/chr1_snp2$`SNP Start`, type = "l",
      ylab = "Recombination rate (cM/Mb)", main = "Chromosome 1 Recombination Distribution")
 plot(chr1_finalpos$`SNP Start`, chr1_finalpos$pos)
 
-chr2_snp2 <- snp_rate(chr2_bin, chr2_snp)
+chr2_snp2 <- snp_rate(chr2_bin2, chr2_snp)
 chr2_snp2$`SNP Start` <- chr2_snp2$`SNP Start`/1000000
 chr2_snp2 <- chr2_snp2[-(228:237),]
-chr2_snp2$ddm1rate <- chr2_snp2$rate/6
-chr2_snp2$rate <- chr2_snp2$ddm1rate + chr2_snp2$rate
 chr2_spl <- smooth.spline(chr2_snp2$rate, spar = 1.1)
 chr2_snp2$pos <- (chr2_snp2$`SNP Start`*chr2_spl$y)
 plot(chr2_snp2$`SNP Start`, chr2_snp2$pos)
@@ -341,10 +375,8 @@ chr2_finalpos <- chr2_snp2[order(chr2_snp2$pos),]
 is.unsorted(chr2_finalpos$pos)
 plot(chr2_snp2$`SNP Start`, chr2_finalpos$pos/chr2_snp2$`SNP Start`, type = "l")
 
-chr3_snp2 <- snp_rate(chr3_bin, chr3_snp)
+chr3_snp2 <- snp_rate(chr3_bin2, chr3_snp)
 chr3_snp2$`SNP Start` <- chr3_snp2$`SNP Start`/1000000
-chr3_snp2$ddm1rate <- chr3_snp2$rate/6
-chr3_snp2$rate <- chr3_snp2$ddm1rate + chr3_snp2$rate
 chr3_spl <- smooth.spline(chr3_snp2$rate, spar = 1.2)
 chr3_snp2$pos <- (chr3_snp2$`SNP Start`*chr3_spl$y)
 plot(chr3_snp2$`SNP Start`, chr3_snp2$pos)
@@ -353,10 +385,8 @@ chr3_finalpos <- chr3_snp2[order(chr3_snp2$pos),]
 is.unsorted(chr3_finalpos$pos)
 plot(chr3_snp2$`SNP Start`, chr3_finalpos$pos/chr3_snp2$`SNP Start`, type = "l")
 
-chr4_snp2 <- snp_rate(chr4_bin, chr4_snp)
+chr4_snp2 <- snp_rate(chr4_bin2, chr4_snp)
 chr4_snp2$`SNP Start` <- chr4_snp2$`SNP Start`/1000000
-chr4_snp2$ddm1rate <- chr4_snp2$rate/6
-chr4_snp2$rate <- chr4_snp2$ddm1rate + chr4_snp2$rate
 chr4_spl <- smooth.spline(chr4_snp2$rate, spar = 1.2)
 chr4_snp2$pos <- (chr4_snp2$`SNP Start`*chr4_spl$y)
 plot(chr4_snp2$`SNP Start`, chr4_snp2$pos)
@@ -365,10 +395,8 @@ chr4_finalpos <- chr4_snp2[order(chr4_snp2$pos),]
 is.unsorted(chr4_finalpos$pos)
 plot(chr4_snp2$`SNP Start`, chr4_finalpos$pos/chr4_snp2$`SNP Start`, type = "l")
 
-chr5_snp2 <- snp_rate(chr5_bin, chr5_snp)
+chr5_snp2 <- snp_rate(chr5_bin2, chr5_snp)
 chr5_snp2$`SNP Start` <- chr5_snp2$`SNP Start`/1000000
-chr5_snp2$ddm1rate <- chr5_snp2$rate/6
-chr5_snp2$rate <- chr5_snp2$ddm1rate + chr5_snp2$rate
 chr5_spl <- smooth.spline(chr5_snp2$rate, spar = 1.1)
 chr5_snp2$pos <- (chr5_snp2$`SNP Start`*chr5_spl$y)
 plot(chr5_snp2$`SNP Start`, chr5_snp2$pos)
@@ -378,10 +406,8 @@ is.unsorted(chr5_finalpos$pos)
 plot(chr5_snp2$`SNP Start`, chr5_finalpos$pos/chr5_snp2$`SNP Start`, type = "l")
 
 #chr 6 is lowkey fuked up
-chr6_snp2 <- snp_rate(chr6_bin, chr6_snp)
+chr6_snp2 <- snp_rate(chr6_bin2, chr6_snp)
 chr6_snp2$`SNP Start` <- chr6_snp2$`SNP Start`/1000000
-chr6_snp2$ddm1rate <- chr6_snp2$rate/6
-chr6_snp2$rate <- chr6_snp2$ddm1rate + chr6_snp2$rate
 chr6_spl <- smooth.spline(chr6_snp2$rate, spar = 1)
 chr6_snp2$pos <- (chr6_snp2$`SNP Start`*chr6_spl$y)
 plot(chr6_snp2$`SNP Start`, chr6_snp2$pos)
@@ -390,10 +416,8 @@ chr6_finalpos <- chr6_snp2[order(chr6_snp2$pos),]
 is.unsorted(chr6_finalpos$pos)
 plot(chr6_snp2$`SNP Start`, chr6_finalpos$pos/chr6_snp2$`SNP Start`, type = "l")
 
-chr7_snp2 <- snp_rate(chr7_bin, chr7_snp)
+chr7_snp2 <- snp_rate(chr7_bin2, chr7_snp)
 chr7_snp2$`SNP Start` <- chr7_snp2$`SNP Start`/1000000
-chr7_snp2$ddm1rate <- chr7_snp2$rate/6
-chr7_snp2$rate <- chr7_snp2$ddm1rate + chr7_snp2$rate
 chr7_spl <- smooth.spline(chr7_snp2$rate, spar = 1.15)
 chr7_snp2$pos <- (chr7_snp2$`SNP Start`*chr7_spl$y)
 plot(chr7_snp2$`SNP Start`, chr7_snp2$pos)
@@ -402,10 +426,8 @@ chr7_finalpos <- chr7_snp2[order(chr7_snp2$pos),]
 is.unsorted(chr7_finalpos$pos)
 plot(chr7_snp2$`SNP Start`, chr7_finalpos$pos/chr7_snp2$`SNP Start`, type = "l")
 
-chr8_snp2 <- snp_rate(chr8_bin, chr8_snp)
+chr8_snp2 <- snp_rate(chr8_bin2, chr8_snp)
 chr8_snp2$`SNP Start` <- chr8_snp2$`SNP Start`/1000000
-chr8_snp2$ddm1rate <- chr8_snp2$rate/6
-chr8_snp2$rate <- chr8_snp2$ddm1rate + chr8_snp2$rate
 chr8_spl <- smooth.spline(chr8_snp2$rate, spar = 1.15)
 chr8_snp2$pos <- (chr8_snp2$`SNP Start`*chr8_spl$y)
 plot(chr8_snp2$`SNP Start`, chr8_snp2$pos)
@@ -414,10 +436,8 @@ chr8_finalpos <- chr8_snp2[order(chr8_snp2$pos),]
 is.unsorted(chr8_finalpos$pos)
 plot(chr8_snp2$`SNP Start`, chr8_finalpos$pos/chr8_snp2$`SNP Start`, type = "l")
 
-chr9_snp2 <- snp_rate(chr9_bin, chr9_snp)
+chr9_snp2 <- snp_rate(chr9_bin2, chr9_snp)
 chr9_snp2$`SNP Start` <- chr9_snp2$`SNP Start`/1000000
-chr9_snp2$ddm1rate <- chr9_snp2$rate/6
-chr9_snp2$rate <- chr9_snp2$ddm1rate + chr9_snp2$rate
 chr9_spl <- smooth.spline(chr9_snp2$rate, spar = 1.1)
 chr9_snp2$pos <- (chr9_snp2$`SNP Start`*chr9_spl$y)
 plot(chr9_snp2$`SNP Start`, chr9_snp2$pos)
@@ -426,10 +446,8 @@ chr9_finalpos <- chr9_snp2[order(chr9_snp2$pos),]
 is.unsorted(chr9_finalpos$pos)
 plot(chr9_snp2$`SNP Start`, chr9_finalpos$pos/chr9_snp2$`SNP Start`, type = "l")
 
-chr10_snp2 <- snp_rate(chr10_bin, chr10_snp)
+chr10_snp2 <- snp_rate(chr10_bin2, chr10_snp)
 chr10_snp2$`SNP Start` <- chr10_snp2$`SNP Start`/1000000
-chr10_snp2$ddm1rate <- chr10_snp2$rate/6
-chr10_snp2$rate <- chr10_snp2$ddm1rate + chr10_snp2$rate
 chr10_spl <- smooth.spline(chr10_snp2$rate, spar = 1.15)
 chr10_snp2$pos <- (chr10_snp2$`SNP Start`*chr10_spl$y)
 plot(chr10_snp2$`SNP Start`, chr10_snp2$pos)
