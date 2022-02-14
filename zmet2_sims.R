@@ -521,6 +521,7 @@ founderPop <- quickHaplo(nInd = 200, nChr = 10, segSites = c(nrow(chr1_finalpos)
                                                              nrow(chr6_finalpos), nrow(chr7_finalpos), nrow(chr8_finalpos),
                                                              nrow(chr9_finalpos), nrow(chr10_finalpos)))
 
+lociMap <- new("LociMap",nLoci= as.integer(1), lociPerChr=as.integer(1),lociLoc=as.integer(c(1,2,3,4)))
 founderPop@genMap <- final_map
 founderPop@centromere <- real_centromere
 SP = SimParam$new(founderPop)
@@ -534,6 +535,7 @@ SP$setVarE(h2=0.5)
 #Bad population first with low breeding values
 pop_bad_sel10 <- vector(mode = "list", length = 20)
 for(i in 1:20){
+  SP$manAddTrait(lociMap)
   pop_bad <- newPop(founderPop, simParam = SP)
   pop_bad <- setPheno(pop_bad, h2 = 0.5, simParam = SP)
   
