@@ -15,62 +15,62 @@ final_snps <- final_snps[order(final_snps$`Chr#`,final_snps$`SNP Start`),]
 #write.csv(final_snps, "C:/Users/16192/Documents/PNAS_Simulations/final_snps.csv", row.names = FALSE)
 
 chr1_snp <- final_snps[ which(final_snps$`Chr#` == "chr1"),]
-hist(chr1_snp$`SNP Start`, breaks = 100)
+#hist(chr1_snp$`SNP Start`, breaks = 100)
 chr1_snp$rate <- NA
 #making SNPs start at 0
 chr1_snp$`SNP End` <- chr1_snp$`SNP End` - min(chr1_snp$`SNP Start`)
 chr1_snp$`SNP Start` <- chr1_snp$`SNP Start`- min(chr1_snp$`SNP Start`)
 
 chr2_snp <- final_snps[ which(final_snps$`Chr#` == "chr2"),]
-hist(chr2_snp$`SNP Start`, breaks = 100)
+#hist(chr2_snp$`SNP Start`, breaks = 100)
 chr2_snp$rate <- NA
 chr2_snp$`SNP End` <- chr2_snp$`SNP End` - min(chr2_snp$`SNP Start`)
 chr2_snp$`SNP Start` <- chr2_snp$`SNP Start`- min(chr2_snp$`SNP Start`)
 
 chr3_snp <- final_snps[ which(final_snps$`Chr#` == "chr3"),]
-hist(chr3_snp$`SNP Start`, breaks = 100)
+#hist(chr3_snp$`SNP Start`, breaks = 100)
 chr3_snp$rate <- NA
 chr3_snp$`SNP End` <- chr3_snp$`SNP End` - min(chr3_snp$`SNP Start`)
 chr3_snp$`SNP Start` <- chr3_snp$`SNP Start`- min(chr3_snp$`SNP Start`)
 
 chr4_snp <- final_snps[ which(final_snps$`Chr#` == "chr4"),]
-hist(chr4_snp$`SNP Start`, breaks = 100)
+#hist(chr4_snp$`SNP Start`, breaks = 100)
 chr4_snp$rate <- NA
 chr4_snp$`SNP End` <- chr4_snp$`SNP End` - min(chr4_snp$`SNP Start`)
 chr4_snp$`SNP Start` <- chr4_snp$`SNP Start`- min(chr4_snp$`SNP Start`)
 
 chr5_snp <- final_snps[ which(final_snps$`Chr#` == "chr5"),]
-hist(chr5_snp$`SNP Start`, breaks = 100)
+#hist(chr5_snp$`SNP Start`, breaks = 100)
 chr5_snp$rate <- NA
 chr5_snp$`SNP End` <- chr5_snp$`SNP End` - min(chr5_snp$`SNP Start`)
 chr5_snp$`SNP Start` <- chr5_snp$`SNP Start`- min(chr5_snp$`SNP Start`)
 
 chr6_snp <- final_snps[ which(final_snps$`Chr#` == "chr6"),]
-hist(chr6_snp$`SNP Start`, breaks = 100)
+#hist(chr6_snp$`SNP Start`, breaks = 100)
 chr6_snp$rate <- NA
 chr6_snp$`SNP End` <- chr6_snp$`SNP End` - min(chr6_snp$`SNP Start`)
 chr6_snp$`SNP Start` <- chr6_snp$`SNP Start`- min(chr6_snp$`SNP Start`)
 
 chr7_snp <- final_snps[ which(final_snps$`Chr#` == "chr7"),]
-hist(chr7_snp$`SNP Start`, breaks = 100)
+#hist(chr7_snp$`SNP Start`, breaks = 100)
 chr7_snp$rate <- NA
 chr7_snp$`SNP End` <- chr7_snp$`SNP End` - min(chr7_snp$`SNP Start`)
 chr7_snp$`SNP Start` <- chr7_snp$`SNP Start`- min(chr7_snp$`SNP Start`)
 
 chr8_snp <- final_snps[ which(final_snps$`Chr#` == "chr8"),]
-hist(chr8_snp$`SNP Start`, breaks = 100)
+#hist(chr8_snp$`SNP Start`, breaks = 100)
 chr8_snp$rate <- NA
 chr8_snp$`SNP End` <- chr8_snp$`SNP End` - min(chr8_snp$`SNP Start`)
 chr8_snp$`SNP Start` <- chr8_snp$`SNP Start`- min(chr8_snp$`SNP Start`)
 
 chr9_snp <- final_snps[ which(final_snps$`Chr#` == "chr9"),]
-hist(chr9_snp$`SNP Start`, breaks = 100)
+#hist(chr9_snp$`SNP Start`, breaks = 100)
 chr9_snp$rate <- NA
 chr9_snp$`SNP End` <- chr9_snp$`SNP End` - min(chr9_snp$`SNP Start`)
 chr9_snp$`SNP Start` <- chr9_snp$`SNP Start`- min(chr9_snp$`SNP Start`)
 
 chr10_snp <- final_snps[ which(final_snps$`Chr#` == "chr10"),]
-hist(chr10_snp$`SNP Start`, breaks = 100)
+#hist(chr10_snp$`SNP Start`, breaks = 100)
 chr10_snp$rate <- NA
 chr10_snp$`SNP End` <- chr10_snp$`SNP End` - min(chr10_snp$`SNP Start`)
 chr10_snp$`SNP Start` <- chr10_snp$`SNP Start`- min(chr10_snp$`SNP Start`)
@@ -85,42 +85,42 @@ NAM <- NAM[order(NAM$Chr,NAM$`CO Start`),]
 
 chr1_CO <- NAM[ which(NAM$Chr == 1),]
 chr1_CO$midpoint <- (chr1_CO$`CO Start`+ chr1_CO$`CO End`)/2
-hist(chr1_CO$`CO Start`, breaks = 300)
+#hist(chr1_CO$`CO Start`, breaks = 300)
 
 chr2_CO <- NAM[ which(NAM$Chr == 2),]
-hist(chr2_CO$`CO Start`, breaks = 300)
+#hist(chr2_CO$`CO Start`, breaks = 300)
 chr2_CO$midpoint <- (chr2_CO$`CO Start`+ chr2_CO$`CO End`)/2
 
 chr3_CO <- NAM[ which(NAM$Chr == 3),]
-hist(chr3_CO$`CO Start`, breaks = 300)
+#hist(chr3_CO$`CO Start`, breaks = 300)
 chr3_CO$midpoint <- (chr3_CO$`CO Start`+ chr3_CO$`CO End`)/2
 
 chr4_CO <- NAM[ which(NAM$Chr == 4),]
-hist(chr4_CO$`CO Start`, breaks = 300)
+#hist(chr4_CO$`CO Start`, breaks = 300)
 chr4_CO$midpoint <- (chr4_CO$`CO Start`+ chr4_CO$`CO End`)/2
 
 chr5_CO <- NAM[ which(NAM$Chr == 5),]
-hist(chr5_CO$`CO Start`, breaks = 300)
+#hist(chr5_CO$`CO Start`, breaks = 300)
 chr5_CO$midpoint <- (chr5_CO$`CO Start`+ chr5_CO$`CO End`)/2
 
 chr6_CO <- NAM[ which(NAM$Chr == 6),]
-hist(chr6_CO$`CO Start`, breaks = 300)
+#hist(chr6_CO$`CO Start`, breaks = 300)
 chr6_CO$midpoint <- (chr6_CO$`CO Start`+ chr6_CO$`CO End`)/2
 
 chr7_CO <- NAM[ which(NAM$Chr == 7),]
-hist(chr7_CO$`CO Start`, breaks = 300)
+#hist(chr7_CO$`CO Start`, breaks = 300)
 chr7_CO$midpoint <- (chr7_CO$`CO Start`+ chr7_CO$`CO End`)/2
 
 chr8_CO <- NAM[ which(NAM$Chr == 8),]
-hist(chr8_CO$`CO Start`, breaks = 300)
+#hist(chr8_CO$`CO Start`, breaks = 300)
 chr8_CO$midpoint <- (chr8_CO$`CO Start`+ chr8_CO$`CO End`)/2
 
 chr9_CO <- NAM[ which(NAM$Chr == 9),]
-hist(chr9_CO$`CO Start`, breaks = 300)
+#hist(chr9_CO$`CO Start`, breaks = 300)
 chr9_CO$midpoint <- (chr9_CO$`CO Start`+ chr9_CO$`CO End`)/2
 
 chr10_CO <- NAM[ which(NAM$Chr == 10),]
-hist(chr10_CO$`CO Start`, breaks = 300)
+#hist(chr10_CO$`CO Start`, breaks = 300)
 chr10_CO$midpoint <- (chr10_CO$`CO Start`+ chr10_CO$`CO End`)/2
 
 ###using CO rate to infer genetic map distances
@@ -469,143 +469,12 @@ real_centromere <- c(69.19425, 29.31842, 43.34131, 42.1754, 47.11507,
                      43.40838, 30.01601, 43.69602, 47.12911, 21.17685)
 real_centromere <- real_centromere/100
 
-#Creating haplotypes with assumption of LD present
-is_in_LD <- function(chr_finalpos, LD_snps){
-  for(i in 1:nrow(chr_finalpos)){
-    if(chr_finalpos$rate[i] <= 1.5){
-      LD_snps[i] <- chr_finalpos$`SNP Start`[i]
-    }
-    }
-  return(LD_snps)
-}
-chr1_LD_snps <- c()
-chr1_LD_snps <- is_in_LD(chr1_finalpos, chr1_LD_snps)
-chr1_LD_snps <- as.data.frame(chr1_LD_snps)
-
-chr2_LD_snps <- c()
-chr2_LD_snps <- is_in_LD(chr2_finalpos, chr2_LD_snps)
-chr2_LD_snps <- as.data.frame(chr2_LD_snps)
-
-chr3_LD_snps <- c()
-chr3_LD_snps <- is_in_LD(chr3_finalpos, chr3_LD_snps)
-chr3_LD_snps <- as.data.frame(chr3_LD_snps)
-
-chr4_LD_snps <- c()
-chr4_LD_snps <- is_in_LD(chr4_finalpos, chr4_LD_snps)
-chr4_LD_snps <- as.data.frame(chr4_LD_snps)
-
-chr5_LD_snps <- c()
-chr5_LD_snps <- is_in_LD(chr5_finalpos, chr5_LD_snps)
-chr5_LD_snps <- as.data.frame(chr5_LD_snps)
-
-chr6_LD_snps <- c()
-chr6_LD_snps <- is_in_LD(chr6_finalpos, chr6_LD_snps)
-chr6_LD_snps <- as.data.frame(chr6_LD_snps)
-
-chr7_LD_snps <- c()
-chr7_LD_snps <- is_in_LD(chr7_finalpos, chr7_LD_snps)
-chr7_LD_snps <- as.data.frame(chr7_LD_snps)
-
-chr8_LD_snps <- c()
-chr8_LD_snps <- is_in_LD(chr8_finalpos, chr8_LD_snps)
-chr8_LD_snps <- as.data.frame(chr8_LD_snps)
-
-chr9_LD_snps <- c()
-chr9_LD_snps <- is_in_LD(chr9_finalpos, chr9_LD_snps)
-chr9_LD_snps <- as.data.frame(chr9_LD_snps)
-
-chr10_LD_snps <- c()
-chr10_LD_snps <- is_in_LD(chr10_finalpos, chr10_LD_snps)
-chr10_LD_snps <- as.data.frame(chr10_LD_snps)
-
-#change row.names to change # of individuals we want
-chr1_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr1_finalpos))
-row.names(chr1_haplo) <- 1:200
-colnames(chr1_haplo) <- chr1_finalpos$`SNP Start`
-
-chr2_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr2_finalpos))
-row.names(chr2_haplo) <- 1:200
-colnames(chr2_haplo) <- chr2_finalpos$`SNP Start`
-
-chr3_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr3_finalpos))
-row.names(chr3_haplo) <- 1:200
-colnames(chr3_haplo) <- chr3_finalpos$`SNP Start`
-
-chr4_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr4_finalpos))
-row.names(chr4_haplo) <- 1:200
-colnames(chr4_haplo) <- chr4_finalpos$`SNP Start`
-
-chr5_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr5_finalpos))
-row.names(chr5_haplo) <- 1:200
-colnames(chr5_haplo) <- chr5_finalpos$`SNP Start`
-
-chr6_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr6_finalpos))
-row.names(chr6_haplo) <- 1:200
-colnames(chr6_haplo) <- chr6_finalpos$`SNP Start`
-
-chr7_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr7_finalpos))
-row.names(chr7_haplo) <- 1:200
-colnames(chr7_haplo) <- chr7_finalpos$`SNP Start`
-
-chr8_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr8_finalpos))
-row.names(chr8_haplo) <- 1:200
-colnames(chr8_haplo) <- chr8_finalpos$`SNP Start`
-
-chr9_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr9_finalpos))
-row.names(chr9_haplo) <- 1:200
-colnames(chr9_haplo) <- chr9_finalpos$`SNP Start`
-
-chr10_haplo <- matrix(data = NA, nrow = 200, ncol = nrow(chr10_finalpos))
-row.names(chr10_haplo) <- 1:200
-colnames(chr10_haplo) <- chr10_finalpos$`SNP Start`
-
-fill_matrix <- function(chr_LD_snps, chr_haplo){
-  for(i in 1:nrow(chr_LD_snps)){
-    if(is.na(chr_LD_snps[i,])){
-      for(k in 1:nrow(chr_haplo)){
-        chr_haplo[k,i] = sample(0:1,1)
-      }
-    }
-  else{
-     x <- sample(0:1,1)
-    for(k in 1:nrow(chr_haplo)){
-        chr_haplo[k,i] = x
-      }
-   }
-  }
-  return(chr_haplo)
-}
-chr1_haplo <- fill_matrix(chr1_LD_snps, chr1_haplo)
-
-chr2_haplo <- fill_matrix(chr2_LD_snps, chr2_haplo)
-
-chr3_haplo <- fill_matrix(chr3_LD_snps, chr3_haplo)
-
-chr4_haplo <- fill_matrix(chr4_LD_snps, chr4_haplo)
-
-chr5_haplo <- fill_matrix(chr5_LD_snps, chr5_haplo)
-chr5_haplo[is.na(chr5_haplo)] <- sample(0:1,1)
-
-chr6_haplo <- fill_matrix(chr6_LD_snps, chr6_haplo)
-chr6_haplo[is.na(chr6_haplo)] <- sample(0:1,1)
-
-chr7_haplo <- fill_matrix(chr7_LD_snps, chr7_haplo)
-
-chr8_haplo <- fill_matrix(chr8_LD_snps, chr8_haplo)
-
-chr9_haplo <- fill_matrix(chr9_LD_snps, chr9_haplo)
-
-chr10_haplo <- fill_matrix(chr10_LD_snps, chr10_haplo)
-
-final_haplo <- list(chr1_haplo, chr2_haplo, chr3_haplo, chr4_haplo, chr5_haplo,
-                    chr6_haplo, chr7_haplo, chr8_haplo, chr9_haplo, chr10_haplo)
-
 ###Simulating a realistic breeding program in maize
 
 ##Burning in populations before use
 #One population is "good", other is "bad" GVs
 #Use 10 generations of random crossing & selecting best/worst to diverge them
-founderPop <- quickHaplo(nInd = 200, nChr = 10, segSites = c(nrow(chr1_finalpos), nrow(chr2_finalpos), 
+founderPop <- quickHaplo(nInd = 200, nChr = 10, inbred = TRUE, ploidy = 2L, segSites = c(nrow(chr1_finalpos), nrow(chr2_finalpos), 
                                                              nrow(chr3_finalpos), nrow(chr4_finalpos), nrow(chr5_finalpos), 
                                                              nrow(chr6_finalpos), nrow(chr7_finalpos), nrow(chr8_finalpos),
                                                              nrow(chr9_finalpos), nrow(chr10_finalpos)))
@@ -614,15 +483,34 @@ founderPop@genMap <- final_map
 founderPop@centromere <- real_centromere
 SP = SimParam$new(founderPop)
 SP$setTrackRec(TRUE)
+SP$varA = 0.5
+SP$varG = 0.5
 SP$v = 2.6
 SP$p = 0.2
-nQtlPerChr = 1
-SP$addTraitAD(nQtlPerChr)
-SP$setVarE(h2=0.5)
+SP$manAddTrait(singleQTL, varE = 0.5)
+
+singleQTL <- new("LociMap", nLoci = 1L, lociPerChr= c(1L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L), 
+                 lociLoc = 1L)
 
 #Bad population first
 pop_bad_sel10 <- vector(mode = "list", length = 20)
 for(i in 1:20){
+  founderPop <- quickHaplo(nInd = 200, nChr = 10, inbred = TRUE, ploidy = 2L, segSites = c(nrow(chr1_finalpos), nrow(chr2_finalpos), 
+                                                                                           nrow(chr3_finalpos), nrow(chr4_finalpos), nrow(chr5_finalpos), 
+                                                                                           nrow(chr6_finalpos), nrow(chr7_finalpos), nrow(chr8_finalpos),
+                                                                                           nrow(chr9_finalpos), nrow(chr10_finalpos)))
+  founderPop@genMap <- final_map
+  founderPop@centromere <- real_centromere
+  SP = SimParam$new(founderPop)
+  SP$setTrackRec(TRUE)
+  SP$varA = 0.5
+  SP$varG = 0.5
+  SP$v = 2.6
+  SP$p = 0.2
+  singleQTL <- new("LociMap", nLoci = 1L, lociPerChr= c(1L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L), 
+                   lociLoc = 1L)
+  SP$manAddTrait(singleQTL, varE = 0.5)
+  
   pop_bad <- newPop(founderPop, simParam = SP)
   pop_bad <- setPheno(pop_bad, h2 = 0.5, simParam = SP)
   
@@ -671,6 +559,20 @@ for(i in 1:20){
 #Creating the "good"/elite pop
 pop_good_sel10 <- vector(mode = "list", length = 20)
 for(i in 1:20){
+  founderPop <- quickHaplo(nInd = 200, nChr = 10, inbred = TRUE, ploidy = 2L, segSites = c(nrow(chr1_finalpos), nrow(chr2_finalpos), 
+                                                                                           nrow(chr3_finalpos), nrow(chr4_finalpos), nrow(chr5_finalpos), 
+                                                                                           nrow(chr6_finalpos), nrow(chr7_finalpos), nrow(chr8_finalpos),
+                                                                                           nrow(chr9_finalpos), nrow(chr10_finalpos)))
+  founderPop@genMap <- final_map
+  founderPop@centromere <- real_centromere
+  SP = SimParam$new(founderPop)
+  SP$setTrackRec(TRUE)
+  SP$varA = 0.5
+  SP$varG = 0.5
+  SP$v = 2.6
+  SP$p = 0.2
+  SP$addTraitAD(nQtlPerChr = 20)
+  
   pop_good <- newPop(founderPop, simParam = SP)
   pop_good <- setPheno(pop_good, h2 = 0.5, simParam = SP)
   
