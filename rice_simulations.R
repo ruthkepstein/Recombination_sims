@@ -264,7 +264,7 @@ jap_chr1_bin[1,4] <- 2597
 jap_chr1_bin$foo.X1 <- jap_chr1_bin$foo.X1 - 2597
 jap_chr1_bin$foo.X2 <- jap_chr1_bin$foo.X2 - 2597
 #expanding last bin to include last SNP site to avoid NAs in future
-jap_chr1_bin[50,5] <- max(japonica_chr1_snp$`SNP End`)
+jap_chr1_bin[50,5] <- max(jap_chr1_snp$`SNP End`)
 #adding length of bin as column and making in Mb
 jap_chr1_bin$length <- (jap_chr1_bin$foo.X2-jap_chr1_bin$foo.X1)/1000000
 jap_chr1_bin$rate <- ((jap_chr1_bin$freq/75)*100)/jap_chr1_bin$length
@@ -278,7 +278,7 @@ jap_chr2_bin <- jap_chr2_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 jap_chr2_bin[1,4] <- 4236059
 jap_chr2_bin$foo.X1 <- jap_chr2_bin$foo.X1 - 4236059
 jap_chr2_bin$foo.X2 <- jap_chr2_bin$foo.X2 - 4236059
-jap_chr2_bin[50,5] <- max(japonica_chr2_snp$`SNP End`)
+jap_chr2_bin[50,5] <- max(jap_chr2_snp$`SNP End`)
 jap_chr2_bin$length <- (jap_chr2_bin$foo.X2-jap_chr2_bin$foo.X1)/1000000
 jap_chr2_bin$rate <- ((jap_chr2_bin$freq/75)*100)/jap_chr2_bin$length
 
@@ -291,7 +291,7 @@ jap_chr3_bin <- jap_chr3_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 jap_chr3_bin[1,4] <- 4303164
 jap_chr3_bin$foo.X1 <- jap_chr3_bin$foo.X1 - 4303164
 jap_chr3_bin$foo.X2 <- jap_chr3_bin$foo.X2 - 4303164
-jap_chr3_bin[50,5] <- max(japonica_chr3_snp$`SNP End`)
+jap_chr3_bin[50,5] <- max(jap_chr3_snp$`SNP End`)
 jap_chr3_bin$length <- (jap_chr3_bin$foo.X2-jap_chr3_bin$foo.X1)/1000000
 jap_chr3_bin$rate <- ((jap_chr3_bin$freq/75)*100)/jap_chr3_bin$length
 
@@ -304,7 +304,7 @@ jap_chr4_bin <- jap_chr4_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 jap_chr4_bin[1,4] <- 7369
 jap_chr4_bin$foo.X1 <- jap_chr4_bin$foo.X1 - 7369
 jap_chr4_bin$foo.X2 <- jap_chr4_bin$foo.X2 - 7369
-jap_chr4_bin[50,5] <- max(japonica_chr4_snp$`SNP End`)
+jap_chr4_bin[50,5] <- max(jap_chr4_snp$`SNP End`)
 jap_chr4_bin$length <- (jap_chr4_bin$foo.X2-jap_chr4_bin$foo.X1)/1000000
 jap_chr4_bin$rate <- ((jap_chr4_bin$freq/75)*100)/jap_chr4_bin$length
 
@@ -317,7 +317,7 @@ jap_chr5_bin <- jap_chr5_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 jap_chr5_bin[1,4] <- 111888
 jap_chr5_bin$foo.X1 <- jap_chr5_bin$foo.X1 - 111888
 jap_chr5_bin$foo.X2 <- jap_chr5_bin$foo.X2 - 111888
-jap_chr5_bin[50,5] <- max(japonica_chr5_snp$`SNP End`)
+jap_chr5_bin[50,5] <- max(jap_chr5_snp$`SNP End`)
 jap_chr5_bin$length <- (jap_chr5_bin$foo.X2-jap_chr5_bin$foo.X1)/1000000
 jap_chr5_bin$rate <- ((jap_chr5_bin$freq/75)*100)/jap_chr5_bin$length
 
@@ -330,7 +330,7 @@ jap_chr6_bin <- jap_chr6_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 jap_chr6_bin[1,4] <- 1092668
 jap_chr6_bin$foo.X1 <- jap_chr6_bin$foo.X1 - 1092668
 jap_chr6_bin$foo.X2 <- jap_chr6_bin$foo.X2 - 1092668
-jap_chr6_bin[50,5] <- max(japonica_chr6_snp$`SNP End`)
+jap_chr6_bin[50,5] <- max(jap_chr6_snp$`SNP End`)
 jap_chr6_bin$length <- (jap_chr6_bin$foo.X2-jap_chr6_bin$foo.X1)/1000000
 jap_chr6_bin$rate <- ((jap_chr6_bin$freq/75)*100)/jap_chr6_bin$length
 
@@ -343,7 +343,7 @@ jap_chr7_bin <- jap_chr7_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 jap_chr7_bin[1,4] <- 11552
 jap_chr7_bin$foo.X1 <- jap_chr7_bin$foo.X1 - 11552
 jap_chr7_bin$foo.X2 <- jap_chr7_bin$foo.X2 - 11552
-jap_chr7_bin[50,5] <- max(japonica_chr7_snp$`SNP End`)
+jap_chr7_bin[50,5] <- max(jap_chr7_snp$`SNP End`)
 jap_chr7_bin$length <- (jap_chr7_bin$foo.X2-jap_chr7_bin$foo.X1)/1000000
 jap_chr7_bin$rate <- ((jap_chr7_bin$freq/75)*100)/jap_chr7_bin$length
 
@@ -356,7 +356,7 @@ jap_chr8_bin <- jap_chr8_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 jap_chr8_bin[1,4] <- 15685
 jap_chr8_bin$foo.X1 <- jap_chr8_bin$foo.X1 - 15685
 jap_chr8_bin$foo.X2 <- jap_chr8_bin$foo.X2 - 15685
-jap_chr8_bin[50,5] <- max(japonica_chr8_snp$`SNP End`)
+jap_chr8_bin[50,5] <- max(jap_chr8_snp$`SNP End`)
 jap_chr8_bin$length <- (jap_chr8_bin$foo.X2-jap_chr8_bin$foo.X1)/1000000
 jap_chr8_bin$rate <- ((jap_chr8_bin$freq/75)*100)/jap_chr8_bin$length
 
@@ -369,7 +369,7 @@ jap_chr9_bin <- jap_chr9_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 jap_chr9_bin[1,4] <- 38596
 jap_chr9_bin$foo.X1 <- jap_chr9_bin$foo.X1 - 38596
 jap_chr9_bin$foo.X2 <- jap_chr9_bin$foo.X2 - 38596
-jap_chr9_bin[50,5] <- max(japonica_chr9_snp$`SNP End`)
+jap_chr9_bin[50,5] <- max(jap_chr9_snp$`SNP End`)
 jap_chr9_bin$length <- (jap_chr9_bin$foo.X2-jap_chr9_bin$foo.X1)/1000000
 jap_chr9_bin$rate <- ((jap_chr9_bin$freq/75)*100)/jap_chr9_bin$length
 
@@ -382,7 +382,7 @@ jap_chr10_bin <- jap_chr10_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "
 jap_chr10_bin[1,4] <- 49838
 jap_chr10_bin$foo.X1 <- jap_chr10_bin$foo.X1 - 49838
 jap_chr10_bin$foo.X2 <- jap_chr10_bin$foo.X2 - 49838
-jap_chr10_bin[50,5] <- max(japonica_chr10_snp$`SNP End`)
+jap_chr10_bin[50,5] <- max(jap_chr10_snp$`SNP End`)
 jap_chr10_bin$length <- (jap_chr10_bin$foo.X2-jap_chr10_bin$foo.X1)/1000000
 jap_chr10_bin$rate <- ((jap_chr10_bin$freq/75)*100)/jap_chr10_bin$length
 
@@ -395,7 +395,7 @@ jap_chr11_bin <- jap_chr11_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "
 jap_chr11_bin[1,4] <- 4252839
 jap_chr11_bin$foo.X1 <- jap_chr11_bin$foo.X1 - 4252839
 jap_chr11_bin$foo.X2 <- jap_chr11_bin$foo.X2 - 4252839
-jap_chr11_bin[50,5] <- max(japonica_chr11_snp$`SNP End`)
+jap_chr11_bin[50,5] <- max(jap_chr11_snp$`SNP End`)
 jap_chr11_bin$length <- (jap_chr11_bin$foo.X2-jap_chr11_bin$foo.X1)/1000000
 jap_chr11_bin$rate <- ((jap_chr11_bin$freq/75)*100)/jap_chr11_bin$length
 
@@ -408,7 +408,7 @@ jap_chr12_bin <- jap_chr12_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "
 jap_chr12_bin[1,4] <- 114745
 jap_chr12_bin$foo.X1 <- jap_chr12_bin$foo.X1 - 114745
 jap_chr12_bin$foo.X2 <- jap_chr12_bin$foo.X2 - 114745
-jap_chr12_bin[50,5] <- max(japonica_chr12_snp$`SNP End`)
+jap_chr12_bin[50,5] <- max(jap_chr12_snp$`SNP End`)
 jap_chr12_bin$length <- (jap_chr12_bin$foo.X2-jap_chr12_bin$foo.X1)/1000000
 jap_chr12_bin$rate <- ((jap_chr12_bin$freq/75)*100)/jap_chr12_bin$length
 
@@ -424,7 +424,7 @@ ind_chr1_bin <- ind_chr1_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 ind_chr1_bin[1,4] <- 84703
 ind_chr1_bin$foo.X1 <- ind_chr1_bin$foo.X1 - 84703
 ind_chr1_bin$foo.X2 <- ind_chr1_bin$foo.X2 - 84703
-ind_chr1_bin[50,5] <- max(indica_chr1_snp$`SNP End`)
+ind_chr1_bin[50,5] <- max(ind_chr1_snp$`SNP End`)
 ind_chr1_bin$length <- (ind_chr1_bin$foo.X2-ind_chr1_bin$foo.X1)/1000000
 ind_chr1_bin$rate <- ((ind_chr1_bin$freq/75)*100)/ind_chr1_bin$length
 
@@ -437,7 +437,7 @@ ind_chr2_bin <- ind_chr2_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 ind_chr2_bin[1,4] <- 24880
 ind_chr2_bin$foo.X1 <- ind_chr2_bin$foo.X1 - 24880
 ind_chr2_bin$foo.X2 <- ind_chr2_bin$foo.X2 - 24880
-ind_chr2_bin[50,5] <- max(indica_chr2_snp$`SNP End`)
+ind_chr2_bin[50,5] <- max(ind_chr2_snp$`SNP End`)
 ind_chr2_bin$length <- (ind_chr2_bin$foo.X2-ind_chr2_bin$foo.X1)/1000000
 ind_chr2_bin$rate <- ((ind_chr2_bin$freq/75)*100)/ind_chr2_bin$length
 
@@ -450,7 +450,7 @@ ind_chr3_bin <- ind_chr3_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 ind_chr3_bin[1,4] <- 156144
 ind_chr3_bin$foo.X1 <- ind_chr3_bin$foo.X1 - 156144
 ind_chr3_bin$foo.X2 <- ind_chr3_bin$foo.X2 - 156144
-ind_chr3_bin[50,5] <- max(indica_chr3_snp$`SNP End`)
+ind_chr3_bin[50,5] <- max(ind_chr3_snp$`SNP End`)
 ind_chr3_bin$length <- (ind_chr3_bin$foo.X2-ind_chr3_bin$foo.X1)/1000000
 ind_chr3_bin$rate <- ((ind_chr3_bin$freq/75)*100)/ind_chr3_bin$length
 
@@ -463,7 +463,7 @@ ind_chr4_bin <- ind_chr4_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 ind_chr4_bin[1,4] <- 58437
 ind_chr4_bin$foo.X1 <- ind_chr4_bin$foo.X1 - 58437
 ind_chr4_bin$foo.X2 <- ind_chr4_bin$foo.X2 - 58437
-ind_chr4_bin[50,5] <- max(indica_chr4_snp$`SNP End`)
+ind_chr4_bin[50,5] <- max(ind_chr4_snp$`SNP End`)
 ind_chr4_bin$length <- (ind_chr4_bin$foo.X2-ind_chr4_bin$foo.X1)/1000000
 ind_chr4_bin$rate <- ((ind_chr4_bin$freq/75)*100)/ind_chr4_bin$length
 
@@ -476,7 +476,7 @@ ind_chr5_bin <- ind_chr5_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 ind_chr5_bin[1,4] <- 49396
 ind_chr5_bin$foo.X1 <- ind_chr5_bin$foo.X1 - 49396
 ind_chr5_bin$foo.X2 <- ind_chr5_bin$foo.X2 - 49396
-ind_chr5_bin[50,5] <- max(indica_chr5_snp$`SNP End`)
+ind_chr5_bin[50,5] <- max(ind_chr5_snp$`SNP End`)
 ind_chr5_bin$length <- (ind_chr5_bin$foo.X2-ind_chr5_bin$foo.X1)/1000000
 ind_chr5_bin$rate <- ((ind_chr5_bin$freq/75)*100)/ind_chr5_bin$length
 
@@ -489,7 +489,7 @@ ind_chr6_bin <- ind_chr6_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 ind_chr6_bin[1,4] <- 126510
 ind_chr6_bin$foo.X1 <- ind_chr6_bin$foo.X1 - 126510
 ind_chr6_bin$foo.X2 <- ind_chr6_bin$foo.X2 - 126510
-ind_chr6_bin[50,5] <- max(indica_chr6_snp$`SNP End`)
+ind_chr6_bin[50,5] <- max(ind_chr6_snp$`SNP End`)
 ind_chr6_bin$length <- (ind_chr6_bin$foo.X2-ind_chr6_bin$foo.X1)/1000000
 ind_chr6_bin$rate <- ((ind_chr6_bin$freq/75)*100)/ind_chr6_bin$length
 
@@ -502,7 +502,7 @@ ind_chr7_bin <- ind_chr7_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 ind_chr7_bin[1,4] <- 11552
 ind_chr7_bin$foo.X1 <- ind_chr7_bin$foo.X1 - 11552
 ind_chr7_bin$foo.X2 <- ind_chr7_bin$foo.X2 - 11552
-ind_chr7_bin[50,5] <- max(indica_chr7_snp$`SNP End`)
+ind_chr7_bin[50,5] <- max(ind_chr7_snp$`SNP End`)
 ind_chr7_bin$length <- (ind_chr7_bin$foo.X2-ind_chr7_bin$foo.X1)/1000000
 ind_chr7_bin$rate <- ((ind_chr7_bin$freq/75)*100)/ind_chr7_bin$length
 
@@ -515,7 +515,7 @@ ind_chr8_bin <- ind_chr8_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 ind_chr8_bin[1,4] <- 21142
 ind_chr8_bin$foo.X1 <- ind_chr8_bin$foo.X1 - 21142
 ind_chr8_bin$foo.X2 <- ind_chr8_bin$foo.X2 - 21142
-ind_chr8_bin[50,5] <- max(indica_chr8_snp$`SNP End`)
+ind_chr8_bin[50,5] <- max(ind_chr8_snp$`SNP End`)
 ind_chr8_bin$length <- (ind_chr8_bin$foo.X2-ind_chr8_bin$foo.X1)/1000000
 ind_chr8_bin$rate <- ((ind_chr8_bin$freq/75)*100)/ind_chr8_bin$length
 
@@ -528,7 +528,7 @@ ind_chr9_bin <- ind_chr9_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "",
 ind_chr9_bin[1,4] <- 153162
 ind_chr9_bin$foo.X1 <- ind_chr9_bin$foo.X1 - 153162
 ind_chr9_bin$foo.X2 <- ind_chr9_bin$foo.X2 - 153162
-ind_chr9_bin[50,5] <- max(indica_chr9_snp$`SNP End`)
+ind_chr9_bin[50,5] <- max(ind_chr9_snp$`SNP End`)
 ind_chr9_bin$length <- (ind_chr9_bin$foo.X2-ind_chr9_bin$foo.X1)/1000000
 ind_chr9_bin$rate <- ((ind_chr9_bin$freq/75)*100)/ind_chr9_bin$length
 
@@ -541,7 +541,7 @@ ind_chr10_bin <- ind_chr10_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "
 ind_chr10_bin[1,4] <- 80838
 ind_chr10_bin$foo.X1 <- ind_chr10_bin$foo.X1 - 80838
 ind_chr10_bin$foo.X2 <- ind_chr10_bin$foo.X2 - 80838
-ind_chr10_bin[50,5] <- max(indica_chr10_snp$`SNP End`)
+ind_chr10_bin[50,5] <- max(ind_chr10_snp$`SNP End`)
 ind_chr10_bin$length <- (ind_chr10_bin$foo.X2-ind_chr10_bin$foo.X1)/1000000
 ind_chr10_bin$rate <- ((ind_chr10_bin$freq/75)*100)/ind_chr10_bin$length
 
@@ -554,7 +554,7 @@ ind_chr11_bin <- ind_chr11_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "
 ind_chr11_bin[1,4] <- 4252839
 ind_chr11_bin$foo.X1 <- ind_chr11_bin$foo.X1 - 4252839
 ind_chr11_bin$foo.X2 <- ind_chr11_bin$foo.X2 - 4252839
-ind_chr11_bin[50,5] <- max(indica_chr11_snp$`SNP End`)
+ind_chr11_bin[50,5] <- max(ind_chr11_snp$`SNP End`)
 ind_chr11_bin$length <- (ind_chr11_bin$foo.X2-ind_chr11_bin$foo.X1)/1000000
 ind_chr11_bin$rate <- ((ind_chr11_bin$freq/75)*100)/ind_chr11_bin$length
 
@@ -567,7 +567,7 @@ ind_chr12_bin <- ind_chr12_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "
 ind_chr12_bin[1,4] <- 44123
 ind_chr12_bin$foo.X1 <- ind_chr12_bin$foo.X1 - 44123
 ind_chr12_bin$foo.X2 <- ind_chr12_bin$foo.X2 - 44123
-ind_chr12_bin[50,5] <- max(indica_chr12_snp$`SNP End`)
+ind_chr12_bin[50,5] <- max(ind_chr12_snp$`SNP End`)
 ind_chr12_bin$length <- (ind_chr12_bin$foo.X2-ind_chr12_bin$foo.X1)/1000000
 ind_chr12_bin$rate <- ((ind_chr12_bin$freq/75)*100)/ind_chr12_bin$length
 
@@ -589,7 +589,7 @@ jap_chr1_snp2 <- snp_rate(jap_chr1_bin, jap_chr1_snp)
 jap_chr1_snp2$`SNP Start`<- jap_chr1_snp2$`SNP Start`/1000000
 jap_chr1_snp2 <- jap_chr1_snp2[order(jap_chr1_snp2$`SNP Start`),]
 #smoothing the recombination rate so transitions between bins are not so abrupt
-jap_chr1_spl <- smooth.spline(jap_chr1_snp2$rate, spar = 1.1)
+jap_chr1_spl <- smooth.spline(jap_chr1_snp2$rate, spar = 1.2)
 #creation of genetic positions from smoothed recombination rate
 jap_chr1_snp2$pos <- (jap_chr1_snp2$`SNP Start`*jap_chr1_spl$y)
 #graph to look at Mb vs. cM along chromosome
@@ -603,244 +603,296 @@ jap_chr1_finalpos <- jap_chr1_snp2[order(jap_chr1_snp2$pos),]
 is.unsorted(jap_chr1_finalpos$pos)
 #plot again to make sure it looks the same
 plot(jap_chr1_snp2$`SNP Start`, jap_chr1_finalpos$pos/jap_chr1_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 1 Recombination Distribution")
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 1 Recombination Distribution")
 plot(jap_chr1_finalpos$`SNP Start`, jap_chr1_finalpos$pos)
 
 jap_chr2_snp2 <- snp_rate(jap_chr2_bin, jap_chr2_snp)
 jap_chr2_snp2$`SNP Start` <- jap_chr2_snp2$`SNP Start`/1000000
-jap_chr2_spl <- smooth.spline(jap_chr2_snp2$rate, spar = 1.2)
+jap_chr2_spl <- smooth.spline(jap_chr2_snp2$rate, spar = 1.5)
 jap_chr2_snp2$pos <- (jap_chr2_snp2$`SNP Start`*jap_chr2_spl$y)
 plot(jap_chr2_snp2$`SNP Start`, jap_chr2_snp2$pos)
-plot(jap_chr2_snp2$`SNP Start`, jap_chr2_snp2$pos/jap_chr2_snp2$`SNP Start`, type = "l")
+plot(jap_chr2_snp2$`SNP Start`, jap_chr2_snp2$pos/jap_chr2_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 2 Recombination Distribution")
 jap_chr2_finalpos <- jap_chr2_snp2[order(jap_chr2_snp2$pos),]
 is.unsorted(jap_chr2_finalpos$pos)
-plot(jap_chr2_snp2$`SNP Start`, jap_chr2_finalpos$pos/jap_chr2_snp2$`SNP Start`, type = "l")
+plot(jap_chr2_snp2$`SNP Start`, jap_chr2_finalpos$pos/jap_chr2_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 2 Recombination Distribution")
 
 jap_chr3_snp2 <- snp_rate(jap_chr3_bin, jap_chr3_snp)
 jap_chr3_snp2$`SNP Start` <- jap_chr3_snp2$`SNP Start`/1000000
-jap_chr3_spl <- smooth.spline(jap_chr3_snp2$rate, spar = 1.1)
+jap_chr3_spl <- smooth.spline(jap_chr3_snp2$rate, spar = 2)
 jap_chr3_snp2$pos <- (jap_chr3_snp2$`SNP Start`*jap_chr3_spl$y)
 plot(jap_chr3_snp2$`SNP Start`, jap_chr3_snp2$pos)
-plot(jap_chr3_snp2$`SNP Start`, jap_chr3_snp2$pos/jap_chr3_snp2$`SNP Start`, type = "l")
+plot(jap_chr3_snp2$`SNP Start`, jap_chr3_snp2$pos/jap_chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 3 Recombination Distribution")
 jap_chr3_finalpos <- jap_chr3_snp2[order(jap_chr3_snp2$pos),]
 is.unsorted(jap_chr3_finalpos$pos)
-plot(jap_chr3_snp2$`SNP Start`, jap_chr3_finalpos$pos/jap_chr3_snp2$`SNP Start`, type = "l")
+plot(jap_chr3_snp2$`SNP Start`, jap_chr3_finalpos$pos/jap_chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 3 Recombination Distribution")
 
 jap_chr4_snp2 <- snp_rate(jap_chr4_bin, jap_chr4_snp)
 jap_chr4_snp2$`SNP Start` <- jap_chr4_snp2$`SNP Start`/1000000
-jap_chr4_spl <- smooth.spline(jap_chr4_snp2$rate, spar = 1.15)
+jap_chr4_spl <- smooth.spline(jap_chr4_snp2$rate, spar = 1.5)
 jap_chr4_snp2$pos <- (jap_chr4_snp2$`SNP Start`*jap_chr4_spl$y)
 plot(jap_chr4_snp2$`SNP Start`, jap_chr4_snp2$pos)
-plot(jap_chr4_snp2$`SNP Start`, jap_chr4_snp2$pos/jap_chr4_snp2$`SNP Start`, type = "l")
+plot(jap_chr4_snp2$`SNP Start`, jap_chr4_snp2$pos/jap_chr4_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 4 Recombination Distribution")
 jap_chr4_finalpos <- jap_chr4_snp2[order(jap_chr4_snp2$pos),]
 is.unsorted(jap_chr4_finalpos$pos)
-plot(jap_chr4_snp2$`SNP Start`, jap_chr4_finalpos$pos/jap_chr4_snp2$`SNP Start`, type = "l")
+plot(jap_chr4_snp2$`SNP Start`, jap_chr4_finalpos$pos/jap_chr4_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 4 Recombination Distribution")
 
+#strange graph after sorting
 jap_chr5_snp2 <- snp_rate(jap_chr5_bin, jap_chr5_snp)
 jap_chr5_snp2$`SNP Start` <- jap_chr5_snp2$`SNP Start`/1000000
-jap_chr5_spl <- smooth.spline(jap_chr5_snp2$rate, spar = 1.1)
+jap_chr5_spl <- smooth.spline(jap_chr5_snp2$rate, spar =2.5)
 jap_chr5_snp2$pos <- (jap_chr5_snp2$`SNP Start`*jap_chr5_spl$y)
 plot(jap_chr5_snp2$`SNP Start`, jap_chr5_snp2$pos)
-plot(jap_chr5_snp2$`SNP Start`, jap_chr5_snp2$pos/jap_chr5_snp2$`SNP Start`, type = "l")
+plot(jap_chr5_snp2$`SNP Start`, jap_chr5_snp2$pos/jap_chr5_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 5 Recombination Distribution")
 jap_chr5_finalpos <- jap_chr5_snp2[order(jap_chr5_snp2$pos),]
 is.unsorted(jap_chr5_finalpos$pos)
-plot(jap_chr5_snp2$`SNP Start`, jap_chr5_finalpos$pos/jap_chr5_snp2$`SNP Start`, type = "l")
+plot(jap_chr5_snp2$`SNP Start`, jap_chr5_finalpos$pos/jap_chr5_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 5 Recombination Distribution")
 
+#distribution is reverse (increasing)?
 jap_chr6_snp2 <- snp_rate(jap_chr6_bin, jap_chr6_snp)
 jap_chr6_snp2$`SNP Start` <- jap_chr6_snp2$`SNP Start`/1000000
-jap_chr6_spl <- smooth.spline(jap_chr6_snp2$rate, spar = 1)
+jap_chr6_spl <- smooth.spline(jap_chr6_snp2$rate, spar = 1.3)
 jap_chr6_snp2$pos <- (jap_chr6_snp2$`SNP Start`*jap_chr6_spl$y)
 plot(jap_chr6_snp2$`SNP Start`, jap_chr6_snp2$pos)
-plot(jap_chr6_snp2$`SNP Start`, jap_chr6_snp2$pos/jap_chr6_snp2$`SNP Start`, type = "l")
+plot(jap_chr6_snp2$`SNP Start`, jap_chr6_snp2$pos/jap_chr6_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 6 Recombination Distribution")
 jap_chr6_finalpos <- jap_chr6_snp2[order(jap_chr6_snp2$pos),]
 is.unsorted(jap_chr6_finalpos$pos)
-plot(jap_chr6_snp2$`SNP Start`, jap_chr6_finalpos$pos/jap_chr6_snp2$`SNP Start`, type = "l")
+plot(jap_chr6_snp2$`SNP Start`, jap_chr6_finalpos$pos/jap_chr6_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 6 Recombination Distribution")
 
+#distribution is reverse (increasing)?
 jap_chr7_snp2 <- snp_rate(jap_chr7_bin, jap_chr7_snp)
 jap_chr7_snp2$`SNP Start` <- jap_chr7_snp2$`SNP Start`/1000000
-jap_chr7_spl <- smooth.spline(jap_chr7_snp2$rate, spar = 1.15)
+jap_chr7_spl <- smooth.spline(jap_chr7_snp2$rate, spar = 1.3)
 jap_chr7_snp2$pos <- (jap_chr7_snp2$`SNP Start`*jap_chr7_spl$y)
 plot(jap_chr7_snp2$`SNP Start`, jap_chr7_snp2$pos)
-plot(jap_chr7_snp2$`SNP Start`, jap_chr7_snp2$pos/jap_chr7_snp2$`SNP Start`, type = "l")
+plot(jap_chr7_snp2$`SNP Start`, jap_chr7_snp2$pos/jap_chr7_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 7 Recombination Distribution")
 jap_chr7_finalpos <- jap_chr7_snp2[order(jap_chr7_snp2$pos),]
 is.unsorted(jap_chr7_finalpos$pos)
-plot(jap_chr7_snp2$`SNP Start`, jap_chr7_finalpos$pos/jap_chr7_snp2$`SNP Start`, type = "l")
+plot(jap_chr7_snp2$`SNP Start`, jap_chr7_finalpos$pos/jap_chr7_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 7 Recombination Distribution")
 
 jap_chr8_snp2 <- snp_rate(jap_chr8_bin, jap_chr8_snp)
 jap_chr8_snp2$`SNP Start` <- jap_chr8_snp2$`SNP Start`/1000000
-jap_chr8_spl <- smooth.spline(jap_chr8_snp2$rate, spar = 1.1)
+jap_chr8_spl <- smooth.spline(jap_chr8_snp2$rate, spar = 1.3)
 jap_chr8_snp2$pos <- (jap_chr8_snp2$`SNP Start`*jap_chr8_spl$y)
 plot(jap_chr8_snp2$`SNP Start`, jap_chr8_snp2$pos)
-plot(jap_chr8_snp2$`SNP Start`, jap_chr8_snp2$pos/jap_chr8_snp2$`SNP Start`, type = "l")
+plot(jap_chr8_snp2$`SNP Start`, jap_chr8_snp2$pos/jap_chr8_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 8 Recombination Distribution")
 jap_chr8_finalpos <- jap_chr8_snp2[order(jap_chr8_snp2$pos),]
 is.unsorted(jap_chr8_finalpos$pos)
-plot(jap_chr8_snp2$`SNP Start`, jap_chr8_finalpos$pos/jap_chr8_snp2$`SNP Start`, type = "l")
+plot(jap_chr8_snp2$`SNP Start`, jap_chr8_finalpos$pos/jap_chr8_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 8 Recombination Distribution")
 
+#strange recombination distribution
 jap_chr9_snp2 <- snp_rate(jap_chr9_bin, jap_chr9_snp)
 jap_chr9_snp2$`SNP Start` <- jap_chr9_snp2$`SNP Start`/1000000
-jap_chr9_spl <- smooth.spline(jap_chr9_snp2$rate, spar = 1.1)
+jap_chr9_spl <- smooth.spline(jap_chr9_snp2$rate, spar = 2.45)
 jap_chr9_snp2$pos <- (jap_chr9_snp2$`SNP Start`*jap_chr9_spl$y)
 plot(jap_chr9_snp2$`SNP Start`, jap_chr9_snp2$pos)
-plot(jap_chr9_snp2$`SNP Start`, jap_chr9_snp2$pos/jap_chr9_snp2$`SNP Start`, type = "l")
+plot(jap_chr9_snp2$`SNP Start`, jap_chr9_snp2$pos/jap_chr9_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 9 Recombination Distribution")
 jap_chr9_finalpos <- jap_chr9_snp2[order(jap_chr9_snp2$pos),]
 is.unsorted(jap_chr9_finalpos$pos)
-plot(jap_chr9_snp2$`SNP Start`, jap_chr9_finalpos$pos/jap_chr9_snp2$`SNP Start`, type = "l")
+plot(jap_chr9_snp2$`SNP Start`, jap_chr9_finalpos$pos/jap_chr9_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 9 Recombination Distribution")
 
 jap_chr10_snp2 <- snp_rate(jap_chr10_bin, jap_chr10_snp)
 jap_chr10_snp2$`SNP Start` <- jap_chr10_snp2$`SNP Start`/1000000
 jap_chr10_spl <- smooth.spline(jap_chr10_snp2$rate, spar = 1.2)
 jap_chr10_snp2$pos <- (jap_chr10_snp2$`SNP Start`*jap_chr10_spl$y)
 plot(jap_chr10_snp2$`SNP Start`, jap_chr10_snp2$pos)
-plot(jap_chr10_snp2$`SNP Start`, jap_chr10_snp2$pos/jap_chr10_snp2$`SNP Start`, type = "l")
+plot(jap_chr10_snp2$`SNP Start`, jap_chr10_snp2$pos/jap_chr10_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 10 Recombination Distribution")
 jap_chr10_finalpos <- jap_chr10_snp2[order(jap_chr10_snp2$pos),]
 is.unsorted(jap_chr10_finalpos$pos)
-plot(jap_chr10_snp2$`SNP Start`, jap_chr10_finalpos$pos/jap_chr10_snp2$`SNP Start`, type = "l")
+plot(jap_chr10_snp2$`SNP Start`, jap_chr10_finalpos$pos/jap_chr10_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 10 Recombination Distribution")
 
 jap_chr11_snp2 <- snp_rate(jap_chr11_bin, jap_chr11_snp)
 jap_chr11_snp2$`SNP Start` <- jap_chr11_snp2$`SNP Start`/1000000
-jap_chr11_spl <- smooth.spline(jap_chr11_snp2$rate, spar = 1.2)
+jap_chr11_spl <- smooth.spline(jap_chr11_snp2$rate, spar = 1.4)
 jap_chr11_snp2$pos <- (jap_chr11_snp2$`SNP Start`*jap_chr11_spl$y)
 plot(jap_chr11_snp2$`SNP Start`, jap_chr11_snp2$pos)
-plot(jap_chr11_snp2$`SNP Start`, jap_chr11_snp2$pos/jap_chr11_snp2$`SNP Start`, type = "l")
+plot(jap_chr11_snp2$`SNP Start`, jap_chr11_snp2$pos/jap_chr11_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 11 Recombination Distribution")
 jap_chr11_finalpos <- jap_chr11_snp2[order(jap_chr11_snp2$pos),]
 is.unsorted(jap_chr11_finalpos$pos)
-plot(jap_chr11_snp2$`SNP Start`, jap_chr11_finalpos$pos/jap_chr11_snp2$`SNP Start`, type = "l")
+plot(jap_chr11_snp2$`SNP Start`, jap_chr11_finalpos$pos/jap_chr11_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 11 Recombination Distribution")
 
 jap_chr12_snp2 <- snp_rate(jap_chr12_bin, jap_chr12_snp)
 jap_chr12_snp2$`SNP Start` <- jap_chr12_snp2$`SNP Start`/1000000
-jap_chr12_spl <- smooth.spline(jap_chr12_snp2$rate, spar = 1.2)
+jap_chr12_spl <- smooth.spline(jap_chr12_snp2$rate, spar = 1.4)
 jap_chr12_snp2$pos <- (jap_chr12_snp2$`SNP Start`*jap_chr12_spl$y)
 plot(jap_chr12_snp2$`SNP Start`, jap_chr12_snp2$pos)
-plot(jap_chr12_snp2$`SNP Start`, jap_chr12_snp2$pos/jap_chr12_snp2$`SNP Start`, type = "l")
+plot(jap_chr12_snp2$`SNP Start`, jap_chr12_snp2$pos/jap_chr12_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 12 Recombination Distribution")
 jap_chr12_finalpos <- jap_chr12_snp2[order(jap_chr12_snp2$pos),]
 is.unsorted(jap_chr12_finalpos$pos)
-plot(jap_chr12_snp2$`SNP Start`, jap_chr12_finalpos$pos/jap_chr12_snp2$`SNP Start`, type = "l")
+plot(jap_chr12_snp2$`SNP Start`, jap_chr12_finalpos$pos/jap_chr12_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 12 Recombination Distribution")
 
 ##INDICA 
+#flipped distribution
 ind_chr1_snp2 <- snp_rate(ind_chr1_bin, ind_chr1_snp)
 ind_chr1_snp2$`SNP Start`<- ind_chr1_snp2$`SNP Start`/1000000
 ind_chr1_snp2 <- ind_chr1_snp2[order(ind_chr1_snp2$`SNP Start`),]
-ind_chr1_spl <- smooth.spline(ind_chr1_snp2$rate, spar = 1)
+ind_chr1_spl <- smooth.spline(ind_chr1_snp2$rate, spar = 1.3)
 ind_chr1_snp2$pos <- (ind_chr1_snp2$`SNP Start`*ind_chr1_spl$y)
 plot(ind_chr1_snp2$`SNP Start`, ind_chr1_snp2$pos)
 ggplot(ind_chr1_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
 plot(ind_chr1_snp2$`SNP Start`, ind_chr1_snp2$pos/ind_chr1_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 1 Recombination Distribution")
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 1 Recombination Distribution")
 ind_chr1_finalpos <- ind_chr1_snp2[order(ind_chr1_snp2$pos),]
 is.unsorted(ind_chr1_finalpos$pos)
 plot(ind_chr1_snp2$`SNP Start`, ind_chr1_finalpos$pos/ind_chr1_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 1 Recombination Distribution")
-plot(ind_chr1_finalpos$`SNP Start`, ind_chr1_finalpos$pos)
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 1 Recombination Distribution")
 
 ind_chr2_snp2 <- snp_rate(ind_chr2_bin, ind_chr2_snp)
 ind_chr2_snp2$`SNP Start` <- ind_chr2_snp2$`SNP Start`/1000000
 ind_chr2_spl <- smooth.spline(ind_chr2_snp2$rate, spar = 1.2)
 ind_chr2_snp2$pos <- (ind_chr2_snp2$`SNP Start`*ind_chr2_spl$y)
 plot(ind_chr2_snp2$`SNP Start`, ind_chr2_snp2$pos)
-plot(ind_chr2_snp2$`SNP Start`, ind_chr2_snp2$pos/ind_chr2_snp2$`SNP Start`, type = "l")
+plot(ind_chr2_snp2$`SNP Start`, ind_chr2_snp2$pos/ind_chr2_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 2 Recombination Distribution")
 ind_chr2_finalpos <- ind_chr2_snp2[order(ind_chr2_snp2$pos),]
 is.unsorted(ind_chr2_finalpos$pos)
-plot(ind_chr2_snp2$`SNP Start`, ind_chr2_finalpos$pos/ind_chr2_snp2$`SNP Start`, type = "l")
+plot(ind_chr2_snp2$`SNP Start`, ind_chr2_finalpos$pos/ind_chr2_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 2 Recombination Distribution")
 
 ind_chr3_snp2 <- snp_rate(ind_chr3_bin, ind_chr3_snp)
 ind_chr3_snp2$`SNP Start` <- ind_chr3_snp2$`SNP Start`/1000000
-ind_chr3_spl <- smooth.spline(ind_chr3_snp2$rate, spar = 1.1)
+ind_chr3_spl <- smooth.spline(ind_chr3_snp2$rate, spar = 1.3)
 ind_chr3_snp2$pos <- (ind_chr3_snp2$`SNP Start`*ind_chr3_spl$y)
 plot(ind_chr3_snp2$`SNP Start`, ind_chr3_snp2$pos)
-plot(ind_chr3_snp2$`SNP Start`, ind_chr3_snp2$pos/ind_chr3_snp2$`SNP Start`, type = "l")
+plot(ind_chr3_snp2$`SNP Start`, ind_chr3_snp2$pos/ind_chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 3 Recombination Distribution")
 ind_chr3_finalpos <- ind_chr3_snp2[order(ind_chr3_snp2$pos),]
 is.unsorted(ind_chr3_finalpos$pos)
-plot(ind_chr3_snp2$`SNP Start`, ind_chr3_finalpos$pos/ind_chr3_snp2$`SNP Start`, type = "l")
+plot(ind_chr3_snp2$`SNP Start`, ind_chr3_finalpos$pos/ind_chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 3 Recombination Distribution")
 
+#started out as U-shape at 1.2
 ind_chr4_snp2 <- snp_rate(ind_chr4_bin, ind_chr4_snp)
 ind_chr4_snp2$`SNP Start` <- ind_chr4_snp2$`SNP Start`/1000000
-ind_chr4_spl <- smooth.spline(ind_chr4_snp2$rate, spar = 1.15)
+ind_chr4_spl <- smooth.spline(ind_chr4_snp2$rate, spar = 1.4)
 ind_chr4_snp2$pos <- (ind_chr4_snp2$`SNP Start`*ind_chr4_spl$y)
 plot(ind_chr4_snp2$`SNP Start`, ind_chr4_snp2$pos)
-plot(ind_chr4_snp2$`SNP Start`, ind_chr4_snp2$pos/ind_chr4_snp2$`SNP Start`, type = "l")
+plot(ind_chr4_snp2$`SNP Start`, ind_chr4_snp2$pos/ind_chr4_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 4 Recombination Distribution")
 ind_chr4_finalpos <- ind_chr4_snp2[order(ind_chr4_snp2$pos),]
 is.unsorted(ind_chr4_finalpos$pos)
-plot(ind_chr4_snp2$`SNP Start`, ind_chr4_finalpos$pos/ind_chr4_snp2$`SNP Start`, type = "l")
+plot(ind_chr4_snp2$`SNP Start`, ind_chr4_finalpos$pos/ind_chr4_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 4 Recombination Distribution")
 
 ind_chr5_snp2 <- snp_rate(ind_chr5_bin, ind_chr5_snp)
 ind_chr5_snp2$`SNP Start` <- ind_chr5_snp2$`SNP Start`/1000000
-ind_chr5_spl <- smooth.spline(ind_chr5_snp2$rate, spar = 1.1)
+ind_chr5_spl <- smooth.spline(ind_chr5_snp2$rate, spar = 1.3)
 ind_chr5_snp2$pos <- (ind_chr5_snp2$`SNP Start`*ind_chr5_spl$y)
 plot(ind_chr5_snp2$`SNP Start`, ind_chr5_snp2$pos)
-plot(ind_chr5_snp2$`SNP Start`, ind_chr5_snp2$pos/ind_chr5_snp2$`SNP Start`, type = "l")
+plot(ind_chr5_snp2$`SNP Start`, ind_chr5_snp2$pos/ind_chr5_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 5 Recombination Distribution")
 ind_chr5_finalpos <- ind_chr5_snp2[order(ind_chr5_snp2$pos),]
 is.unsorted(ind_chr5_finalpos$pos)
-plot(ind_chr5_snp2$`SNP Start`, ind_chr5_finalpos$pos/ind_chr5_snp2$`SNP Start`, type = "l")
+plot(ind_chr5_snp2$`SNP Start`, ind_chr5_finalpos$pos/ind_chr5_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 5 Recombination Distribution")
 
 ind_chr6_snp2 <- snp_rate(ind_chr6_bin, ind_chr6_snp)
 ind_chr6_snp2$`SNP Start` <- ind_chr6_snp2$`SNP Start`/1000000
-ind_chr6_spl <- smooth.spline(ind_chr6_snp2$rate, spar = 1)
+ind_chr6_spl <- smooth.spline(ind_chr6_snp2$rate, spar = 1.2)
 ind_chr6_snp2$pos <- (ind_chr6_snp2$`SNP Start`*ind_chr6_spl$y)
 plot(ind_chr6_snp2$`SNP Start`, ind_chr6_snp2$pos)
-plot(ind_chr6_snp2$`SNP Start`, ind_chr6_snp2$pos/ind_chr6_snp2$`SNP Start`, type = "l")
+plot(ind_chr6_snp2$`SNP Start`, ind_chr6_snp2$pos/ind_chr6_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 6 Recombination Distribution")
 ind_chr6_finalpos <- ind_chr6_snp2[order(ind_chr6_snp2$pos),]
 is.unsorted(ind_chr6_finalpos$pos)
-plot(ind_chr6_snp2$`SNP Start`, ind_chr6_finalpos$pos/ind_chr6_snp2$`SNP Start`, type = "l")
+plot(ind_chr6_snp2$`SNP Start`, ind_chr6_finalpos$pos/ind_chr6_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 6 Recombination Distribution")
 
+#flipped distribution
 ind_chr7_snp2 <- snp_rate(ind_chr7_bin, ind_chr7_snp)
 ind_chr7_snp2$`SNP Start` <- ind_chr7_snp2$`SNP Start`/1000000
-ind_chr7_spl <- smooth.spline(ind_chr7_snp2$rate, spar = 1.15)
+ind_chr7_spl <- smooth.spline(ind_chr7_snp2$rate, spar = 1.3)
 ind_chr7_snp2$pos <- (ind_chr7_snp2$`SNP Start`*ind_chr7_spl$y)
 plot(ind_chr7_snp2$`SNP Start`, ind_chr7_snp2$pos)
-plot(ind_chr7_snp2$`SNP Start`, ind_chr7_snp2$pos/ind_chr7_snp2$`SNP Start`, type = "l")
+plot(ind_chr7_snp2$`SNP Start`, ind_chr7_snp2$pos/ind_chr7_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 7 Recombination Distribution")
 ind_chr7_finalpos <- ind_chr7_snp2[order(ind_chr7_snp2$pos),]
 is.unsorted(ind_chr7_finalpos$pos)
-plot(ind_chr7_snp2$`SNP Start`, ind_chr7_finalpos$pos/ind_chr7_snp2$`SNP Start`, type = "l")
+plot(ind_chr7_snp2$`SNP Start`, ind_chr7_finalpos$pos/ind_chr7_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 7 Recombination Distribution")
 
 ind_chr8_snp2 <- snp_rate(ind_chr8_bin, ind_chr8_snp)
 ind_chr8_snp2$`SNP Start` <- ind_chr8_snp2$`SNP Start`/1000000
-ind_chr8_spl <- smooth.spline(ind_chr8_snp2$rate, spar = 1.1)
+ind_chr8_spl <- smooth.spline(ind_chr8_snp2$rate, spar = 1.2)
 ind_chr8_snp2$pos <- (ind_chr8_snp2$`SNP Start`*ind_chr8_spl$y)
 plot(ind_chr8_snp2$`SNP Start`, ind_chr8_snp2$pos)
-plot(ind_chr8_snp2$`SNP Start`, ind_chr8_snp2$pos/ind_chr8_snp2$`SNP Start`, type = "l")
+plot(ind_chr8_snp2$`SNP Start`, ind_chr8_snp2$pos/ind_chr8_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 8 Recombination Distribution")
 ind_chr8_finalpos <- ind_chr8_snp2[order(ind_chr8_snp2$pos),]
 is.unsorted(ind_chr8_finalpos$pos)
-plot(ind_chr8_snp2$`SNP Start`, ind_chr8_finalpos$pos/ind_chr8_snp2$`SNP Start`, type = "l")
+plot(ind_chr8_snp2$`SNP Start`, ind_chr8_finalpos$pos/ind_chr8_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 8 Recombination Distribution")
 
 ind_chr9_snp2 <- snp_rate(ind_chr9_bin, ind_chr9_snp)
 ind_chr9_snp2$`SNP Start` <- ind_chr9_snp2$`SNP Start`/1000000
-ind_chr9_spl <- smooth.spline(ind_chr9_snp2$rate, spar = 1.1)
+ind_chr9_spl <- smooth.spline(ind_chr9_snp2$rate, spar = 1.3)
 ind_chr9_snp2$pos <- (ind_chr9_snp2$`SNP Start`*ind_chr9_spl$y)
 plot(ind_chr9_snp2$`SNP Start`, ind_chr9_snp2$pos)
-plot(ind_chr9_snp2$`SNP Start`, ind_chr9_snp2$pos/ind_chr9_snp2$`SNP Start`, type = "l")
+plot(ind_chr9_snp2$`SNP Start`, ind_chr9_snp2$pos/ind_chr9_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 9 Recombination Distribution")
 ind_chr9_finalpos <- ind_chr9_snp2[order(ind_chr9_snp2$pos),]
 is.unsorted(ind_chr9_finalpos$pos)
-plot(ind_chr9_snp2$`SNP Start`, ind_chr9_finalpos$pos/ind_chr9_snp2$`SNP Start`, type = "l")
+plot(ind_chr9_snp2$`SNP Start`, ind_chr9_finalpos$pos/ind_chr9_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 9 Recombination Distribution")
 
 ind_chr10_snp2 <- snp_rate(ind_chr10_bin, ind_chr10_snp)
 ind_chr10_snp2$`SNP Start` <- ind_chr10_snp2$`SNP Start`/1000000
-ind_chr10_spl <- smooth.spline(ind_chr10_snp2$rate, spar = 1.2)
+ind_chr10_spl <- smooth.spline(ind_chr10_snp2$rate, spar = 1.3)
 ind_chr10_snp2$pos <- (ind_chr10_snp2$`SNP Start`*ind_chr10_spl$y)
 plot(ind_chr10_snp2$`SNP Start`, ind_chr10_snp2$pos)
-plot(ind_chr10_snp2$`SNP Start`, ind_chr10_snp2$pos/ind_chr10_snp2$`SNP Start`, type = "l")
-chr10_finalpos <- ind_chr10_snp2[order(ind_chr10_snp2$pos),]
+plot(ind_chr10_snp2$`SNP Start`, ind_chr10_snp2$pos/ind_chr10_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 10 Recombination Distribution")
+ind_chr10_finalpos <- ind_chr10_snp2[order(ind_chr10_snp2$pos),]
 is.unsorted(ind_chr10_finalpos$pos)
-plot(ind_chr10_snp2$`SNP Start`, ind_chr10_finalpos$pos/ind_chr10_snp2$`SNP Start`, type = "l")
+plot(ind_chr10_snp2$`SNP Start`, ind_chr10_finalpos$pos/ind_chr10_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 10 Recombination Distribution")
 
+#increasing distribution
 ind_chr11_snp2 <- snp_rate(ind_chr11_bin, ind_chr11_snp)
 ind_chr11_snp2$`SNP Start` <- ind_chr11_snp2$`SNP Start`/1000000
 ind_chr11_spl <- smooth.spline(ind_chr11_snp2$rate, spar = 1.2)
 ind_chr11_snp2$pos <- (ind_chr11_snp2$`SNP Start`*ind_chr11_spl$y)
 plot(ind_chr11_snp2$`SNP Start`, ind_chr11_snp2$pos)
-plot(ind_chr11_snp2$`SNP Start`, ind_chr11_snp2$pos/ind_chr11_snp2$`SNP Start`, type = "l")
+plot(ind_chr11_snp2$`SNP Start`, ind_chr11_snp2$pos/ind_chr11_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 11 Recombination Distribution")
 ind_chr11_finalpos <- ind_chr11_snp2[order(ind_chr11_snp2$pos),]
 is.unsorted(ind_chr11_finalpos$pos)
-plot(ind_chr11_snp2$`SNP Start`, ind_chr11_finalpos$pos/ind_chr11_snp2$`SNP Start`, type = "l")
+plot(ind_chr11_snp2$`SNP Start`, ind_chr11_finalpos$pos/ind_chr11_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 11 Recombination Distribution")
 
+#increasing distribution
 ind_chr12_snp2 <- snp_rate(ind_chr12_bin, ind_chr12_snp)
 ind_chr12_snp2$`SNP Start` <- ind_chr12_snp2$`SNP Start`/1000000
 ind_chr12_spl <- smooth.spline(ind_chr12_snp2$rate, spar = 1.2)
 ind_chr12_snp2$pos <- (ind_chr12_snp2$`SNP Start`*ind_chr12_spl$y)
 plot(ind_chr12_snp2$`SNP Start`, ind_chr12_snp2$pos)
-plot(ind_chr12_snp2$`SNP Start`, ind_chr12_snp2$pos/ind_chr12_snp2$`SNP Start`, type = "l")
+plot(ind_chr12_snp2$`SNP Start`, ind_chr12_snp2$pos/ind_chr12_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 12 Recombination Distribution")
 ind_chr12_finalpos <- ind_chr12_snp2[order(ind_chr12_snp2$pos),]
 is.unsorted(ind_chr12_finalpos$pos)
-plot(ind_chr12_snp2$`SNP Start`, ind_chr12_finalpos$pos/ind_chr12_snp2$`SNP Start`, type = "l")
+plot(ind_chr12_snp2$`SNP Start`, ind_chr12_finalpos$pos/ind_chr12_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Indica Chromosome 12 Recombination Distribution")
 
 #Japonica final genetic map
 jap_chr1 <- jap_chr1_finalpos$pos/100
@@ -903,7 +955,7 @@ jap_chr12len <- length(jap_chr12)
 dim(jap_chr12) <- c(jap_chr12len,1)
 jap_chr12 <- list(jap_chr12)
 
-final_map <- list(jap_chr1[[1]], jap_chr2[[1]], 
+japonica_final_map <- list(jap_chr1[[1]], jap_chr2[[1]], 
                   jap_chr3[[1]], jap_chr4[[1]], jap_chr5[[1]], 
                   jap_chr5[[1]], jap_chr7[[1]], jap_chr8[[1]], 
                   jap_chr9[[1]], jap_chr10[[1]],jap_chr11[[1]], jap_chr12[[1]])
@@ -974,8 +1026,30 @@ ind_chr12len <- length(ind_chr12)
 dim(ind_chr12) <- c(ind_chr12len,1)
 ind_chr12 <- list(ind_chr12)
 
-final_map <- list(ind_chr1[[1]], ind_chr2[[1]], 
-                  ind_chr3[[1]], ind_chr4[[1]], ind_ind_chr5[[1]], 
-                  ind_chr6[[1]], ind_ind_chr7[[1]], ind_chr8[[1]], 
+indica_final_map <- list(ind_chr1[[1]], ind_chr2[[1]], 
+                  ind_chr3[[1]], ind_chr4[[1]], ind_chr5[[1]], 
+                  ind_chr6[[1]], ind_chr7[[1]], ind_chr8[[1]], 
                   ind_chr9[[1]], ind_chr10[[1]], ind_chr11[[1]], ind_chr12[[1]])
+#actual positions:http://rice.uga.edu/annotation_pseudo_centromeres.shtml
+# 1- 16.7
+# 2- 13.6 
+# 3- 19.4
+# 4- 9.7
+# 5- 12.4
+# 6- 15.3
+# 7- 12.1
+# 8- 12.9
+# 9- 2.8
+# 10- 8.2
+# 11- 12
+# 12- 11.9
+indica_centromere <- c(1036.5521, 719.51972, 1119.19386, 449.655247, 591.56053,
+                       716.751347, 637.87329,755.205670,170.834651,411.50966,
+                       634.11936, 674.20774)
+indica_centromere <- indica_centromere/100
+
+japonica_centromere <- c(1213.28801, 343.110113, 371.72908082, 582.45291,407.72051,
+                         740.6347040,733.698173,1103.814663,223.626564,732.75628,
+                         756.64794, 574.211448)
+japonica_centromere <- japonica_centromere/100
 
