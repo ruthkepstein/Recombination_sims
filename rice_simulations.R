@@ -589,7 +589,7 @@ jap_chr1_snp2 <- snp_rate(jap_chr1_bin, jap_chr1_snp)
 jap_chr1_snp2$`SNP Start`<- jap_chr1_snp2$`SNP Start`/1000000
 jap_chr1_snp2 <- jap_chr1_snp2[order(jap_chr1_snp2$`SNP Start`),]
 #smoothing the recombination rate so transitions between bins are not so abrupt
-jap_chr1_spl <- smooth.spline(jap_chr1_snp2$rate, spar = .9)
+jap_chr1_spl <- smooth.spline(jap_chr1_snp2$rate, spar = 1.1)
 #creation of genetic positions from smoothed recombination rate
 jap_chr1_snp2$pos <- (jap_chr1_snp2$`SNP Start`*jap_chr1_spl$y)
 #graph to look at Mb vs. cM along chromosome
