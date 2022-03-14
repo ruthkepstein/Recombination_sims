@@ -243,6 +243,7 @@ ind_chr12_CO <- ind_CO[ which(ind_CO$Chr == "chr12"),]
 ind_chr12_CO$midpoint <- (ind_chr12_CO$`CO Start`+ ind_chr12_CO$`CO End`)/2
 ind_chr12_CO <- ind_chr12_CO[order(ind_chr12_CO$`CO Start`),]
 
+
 #calculating recombination rate per bin of CO data
 library(dlookr)
 library(tidyverse)
@@ -951,4 +952,5 @@ japonica_centromere <- c(0.010325450, 343.110113, 371.72908082, 582.45291,407.72
                          740.6347040,733.698173,1103.814663,223.626564,732.75628,
                          756.64794, 574.211448)
 japonica_centromere <- japonica_centromere/100
+
 
