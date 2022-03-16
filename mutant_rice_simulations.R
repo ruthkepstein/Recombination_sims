@@ -193,6 +193,7 @@ snp_rate <- function(chr_rate, chr_snp){
       }
     }
   }
+  print(chr_snp)
 }
 
 #converted SNP start to Mb
@@ -208,6 +209,19 @@ fancm_chr9_snp$`SNP Start` <- fancm_chr9_snp$`SNP Start`/1000000
 fancm_chr10_snp$`SNP Start` <- fancm_chr10_snp$`SNP Start`/1000000
 fancm_chr11_snp$`SNP Start` <- fancm_chr11_snp$`SNP Start`/1000000
 fancm_chr12_snp$`SNP Start` <- fancm_chr12_snp$`SNP Start`/1000000
+
+fancm_chr1_snp$`SNP End`<- fancm_chr1_snp$`SNP End`/1000000
+fancm_chr2_snp$`SNP End` <- fancm_chr2_snp$`SNP End`/1000000
+fancm_chr3_snp$`SNP End` <- fancm_chr3_snp$`SNP End`/1000000
+fancm_chr4_snp$`SNP End` <- fancm_chr4_snp$`SNP End`/1000000
+fancm_chr5_snp$`SNP End` <- fancm_chr5_snp$`SNP End`/1000000
+fancm_chr6_snp$`SNP End` <- fancm_chr6_snp$`SNP End`/1000000
+fancm_chr7_snp$`SNP End` <- fancm_chr7_snp$`SNP End`/1000000
+fancm_chr8_snp$`SNP End` <- fancm_chr8_snp$`SNP End`/1000000
+fancm_chr9_snp$`SNP End` <- fancm_chr9_snp$`SNP End`/1000000
+fancm_chr10_snp$`SNP End` <- fancm_chr10_snp$`SNP End`/1000000
+fancm_chr11_snp$`SNP End` <- fancm_chr11_snp$`SNP End`/1000000
+fancm_chr12_snp$`SNP End` <- fancm_chr12_snp$`SNP End`/1000000
 
 #using function,  get cM/Mb for final genetic position - assign rates
 fancm_chr1_snp2 <- snp_rate(fancm_chr1_CO, fancm_chr1_snp)
@@ -263,7 +277,7 @@ is.unsorted(fancm_chr2_finalpos$pos)
 plot(fancm_chr2_snp2$`SNP Start`, fancm_chr2_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Fancm Chromosome 2 Genetic Map")
 
-fancm_chr3_spl <- smooth.spline(fancm_chr3_snp2$rate, spar = .3)
+fancm_chr3_spl <- smooth.spline(fancm_chr3_snp2$rate, spar = .7)
 fancm_chr3_snp2$pos <- (fancm_chr3_snp2$`SNP Start`*fancm_chr3_spl$y)
 plot(fancm_chr3_snp2$`SNP Start`, fancm_chr3_snp2$pos)
 plot(fancm_chr3_snp2$`SNP Start`, fancm_chr3_snp2$pos/fancm_chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -273,7 +287,7 @@ is.unsorted(fancm_chr3_finalpos$pos)
 plot(fancm_chr3_snp2$`SNP Start`, fancm_chr3_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Fancm Chromosome 3 Genetic Map")
 
-fancm_chr4_spl <- smooth.spline(fancm_chr4_snp2$rate, spar = .3)
+fancm_chr4_spl <- smooth.spline(fancm_chr4_snp2$rate, spar = .7)
 fancm_chr4_snp2$pos <- (fancm_chr4_snp2$`SNP Start`*fancm_chr4_spl$y)
 plot(fancm_chr4_snp2$`SNP Start`, fancm_chr4_snp2$pos)
 plot(fancm_chr4_snp2$`SNP Start`, fancm_chr4_snp2$pos/fancm_chr4_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -283,7 +297,7 @@ is.unsorted(fancm_chr4_finalpos$pos)
 plot(fancm_chr4_snp2$`SNP Start`, fancm_chr4_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Fancm Chromosome 4 Genetic Map")
 
-fancm_chr5_spl <- smooth.spline(fancm_chr5_snp2$rate, spar =.4)
+fancm_chr5_spl <- smooth.spline(fancm_chr5_snp2$rate, spar =.7)
 fancm_chr5_snp2$pos <- (fancm_chr5_snp2$`SNP Start`*fancm_chr5_spl$y)
 plot(fancm_chr5_snp2$`SNP Start`, fancm_chr5_snp2$pos)
 plot(fancm_chr5_snp2$`SNP Start`, fancm_chr5_snp2$pos/fancm_chr5_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",

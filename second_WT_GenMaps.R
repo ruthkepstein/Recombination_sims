@@ -194,6 +194,7 @@ snp_rate <- function(chr_rate, chr_snp){
       }
     }
   }
+  print(chr_snp)
 }
 
 #converted SNP start to Mb
