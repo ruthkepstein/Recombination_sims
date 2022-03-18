@@ -380,3 +380,90 @@ recq4l_chr12_finalpos <- recq4l_chr12_snp2[order(recq4l_chr12_snp2$pos),]
 is.unsorted(recq4l_chr12_finalpos$pos)
 plot(recq4l_chr12_snp2$`SNP Start`, recq4l_chr12_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 12 Genetic Map")
+
+#Japonica final genetic map
+recq4l_chr1 <- recq4l_chr1_finalpos$pos/100
+recq4l_chr1len <- length(recq4l_chr1)
+dim(recq4l_chr1) <- c(recq4l_chr1len,1)
+recq4l_chr1 <- list(recq4l_chr1)
+
+recq4l_chr2 <- recq4l_chr2_finalpos$pos/100
+recq4l_chr2len <- length(recq4l_chr2)
+dim(recq4l_chr2) <- c(recq4l_chr2len,1)
+recq4l_chr2 <- list(recq4l_chr2)
+
+recq4l_chr3 <- recq4l_chr3_finalpos$pos/100
+recq4l_chr3len <- length(recq4l_chr3)
+dim(recq4l_chr3) <- c(recq4l_chr3len,1)
+recq4l_chr3 <- list(recq4l_chr3)
+
+recq4l_chr4 <- recq4l_chr4_finalpos$pos/100
+recq4l_chr4len <- length(recq4l_chr4)
+dim(recq4l_chr4) <- c(recq4l_chr4len,1)
+recq4l_chr4 <- list(recq4l_chr4)
+
+recq4l_chr5 <- recq4l_chr5_finalpos$pos/100
+recq4l_chr5len <- length(recq4l_chr5)
+dim(recq4l_chr5) <- c(recq4l_chr5len,1)
+recq4l_chr5 <- list(recq4l_chr5)
+
+recq4l_chr5 <- recq4l_chr5_finalpos$pos/100
+recq4l_chr5len <- length(recq4l_chr5)
+dim(recq4l_chr5) <- c(recq4l_chr5len,1)
+recq4l_chr5 <- list(recq4l_chr5)
+
+recq4l_chr7 <- recq4l_chr7_finalpos$pos/100
+recq4l_chr7len <- length(recq4l_chr7)
+dim(recq4l_chr7) <- c(recq4l_chr7len,1)
+recq4l_chr7 <- list(recq4l_chr7)
+
+recq4l_chr8 <- recq4l_chr8_finalpos$pos/100
+recq4l_chr8len <- length(recq4l_chr8)
+dim(recq4l_chr8) <- c(recq4l_chr8len,1)
+recq4l_chr8 <- list(recq4l_chr8)
+
+recq4l_chr9 <- recq4l_chr9_finalpos$pos/100
+recq4l_chr9len <- length(recq4l_chr9)
+dim(recq4l_chr9) <- c(recq4l_chr9len,1)
+recq4l_chr9 <- list(recq4l_chr9)
+
+recq4l_chr10 <- recq4l_chr10_finalpos$pos/100
+recq4l_chr10len <- length(recq4l_chr10)
+dim(recq4l_chr10) <- c(recq4l_chr10len,1)
+recq4l_chr10 <- list(recq4l_chr10)
+
+recq4l_chr11 <- recq4l_chr11_finalpos$pos/100
+recq4l_chr11len <- length(recq4l_chr11)
+dim(recq4l_chr11) <- c(recq4l_chr11len,1)
+recq4l_chr11 <- list(recq4l_chr11)
+
+recq4l_chr12 <- recq4l_chr12_finalpos$pos/100
+recq4l_chr12len <- length(recq4l_chr12)
+dim(recq4l_chr12) <- c(recq4l_chr12len,1)
+recq4l_chr12 <- list(recq4l_chr12)
+
+recq4l_final_map <- list(recq4l_chr1[[1]], recq4l_chr2[[1]], 
+                           recq4l_chr3[[1]], recq4l_chr4[[1]], recq4l_chr5[[1]], 
+                           recq4l_chr5[[1]], recq4l_chr7[[1]], recq4l_chr8[[1]], 
+                           recq4l_chr9[[1]], recq4l_chr10[[1]],recq4l_chr11[[1]], recq4l_chr12[[1]])
+
+#actual positions:http://rice.uga.edu/annotation_pseudo_centromeres.shtml
+# 1- 16.7
+# 2- 13.6 
+# 3- 19.4
+# 4- 9.7
+# 5- 12.4
+# 6- 15.3
+# 7- 12.1
+# 8- 12.9
+# 9- 2.8
+# 10- 8.2
+# 11- 12
+# 12- 11.9
+
+recq4l_centromere <- c(0.010325450, 343.110113, 371.72908082, 582.45291,407.72051,
+                         740.6347040,733.698173,1103.814663,223.626564,732.75628,
+                         756.64794, 574.211448)
+recq4l_centromere <- recq4l_centromere/100
+
+
