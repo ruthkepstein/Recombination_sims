@@ -10,7 +10,7 @@ set.seed(420)
 #colnames(rice_snps) <- c("Chr#", "SNP Start", "SNP End")
 
 rice_CO <- read.csv("jap_wt_rate.csv", header = TRUE)
-rice_CO_recq4 <- read.csv("jap_mut_recq4.csv", header = TRUE)
+rice_CO_recq4 <- read.csv("jap_mut_recq4l.csv", header = TRUE)
 
 colnames(rice_CO) <- c("Chr", "CO Start", "CO End", "rate_wt")
 rice_CO <- rice_CO[order(rice_CO$Chr,rice_CO$`CO Start`),]
