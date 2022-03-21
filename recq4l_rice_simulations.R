@@ -252,7 +252,6 @@ recq4l_chr11_snp2<-na.omit(recq4l_chr11_snp2)
 recq4l_chr12_snp2<-na.omit(recq4l_chr12_snp2)
 
 #gen maps
-#dataset too small to smooth...
 recq4l_chr1_snp2 <- recq4l_chr1_snp2[order(recq4l_chr1_snp2$`SNP Start`),]
 recq4l_chr1_spl <- smooth.spline(recq4l_chr1_snp2$rate, spar = .7)
 recq4l_chr1_snp2$pos <- (recq4l_chr1_snp2$`SNP Start`*recq4l_chr1_spl$y)
