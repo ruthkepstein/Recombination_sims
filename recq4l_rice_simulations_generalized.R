@@ -291,7 +291,7 @@ chr7_diff <- mean(recq4l_chr7_CO$diff)
 
 recq4l_chr8_CO<- cbind(recq4l_chr8_CO, WT_rate =jap_chr8_CO$`WT_rate`)
 recq4l_chr8_CO$diff <- abs(recq4l_chr8_CO$`WT_rate`-recq4l_chr8_CO$`recq4l_rate`)/((recq4l_chr8_CO$`WT_rate`+recq4l_chr8_CO$`recq4l_rate`)/2)
-recq4l_chr8_CO <- na.omit(recq4l_chr8_CO)
+recq4l_chr8_CO[12,7]<-abs(recq4l_chr8_CO[12,4]-recq4l_chr8_CO[12,6])
 chr8_diff <- mean(recq4l_chr8_CO$diff)
 
 recq4l_chr9_CO<- cbind(recq4l_chr9_CO, WT_rate =jap_chr9_CO$`WT_rate`)
@@ -300,7 +300,7 @@ chr9_diff <- mean(recq4l_chr9_CO$diff)
 
 recq4l_chr10_CO <- cbind(recq4l_chr10_CO, WT_rate =jap_chr10_CO$`WT_rate`)
 recq4l_chr10_CO$diff <- abs(recq4l_chr10_CO$`WT_rate`-recq4l_chr10_CO$`recq4l_rate`)/((recq4l_chr10_CO$`WT_rate`+recq4l_chr10_CO$`recq4l_rate`)/2)
-recq4l_chr10_CO <- na.omit(recq4l_chr10_CO)
+recq4l_chr10_CO[11,7]<-abs(recq4l_chr10_CO[11,4]-recq4l_chr10_CO[11,6])
 chr10_diff <- mean(recq4l_chr10_CO$diff)
 
 recq4l_chr11_CO<- cbind(recq4l_chr11_CO, WT_rate =jap_chr11_CO$`WT_rate`)
@@ -309,10 +309,62 @@ chr11_diff <- mean(recq4l_chr11_CO$diff)
 
 recq4l_chr12_CO<- cbind(recq4l_chr12_CO, WT_rate =jap_chr12_CO$`WT_rate`)
 recq4l_chr12_CO$diff <- abs(recq4l_chr12_CO$`WT_rate`-recq4l_chr12_CO$`recq4l_rate`)/((recq4l_chr12_CO$`WT_rate`+recq4l_chr12_CO$`recq4l_rate`)/2)
-recq4l_chr12_CO <- na.omit(recq4l_chr12_CO)
+recq4l_chr12_CO[9,7]<-abs(recq4l_chr12_CO[9,4]-recq4l_chr12_CO[9,6])
 chr12_diff <- mean(recq4l_chr12_CO$diff)
 
-##assigning frequency to SNPs based on recombination frequency in each bin
+## multiplying WT recombination rates by the avg difference
+# exclude pericentromeric regions (suppresion regions)
+# 1. create avg diff column (supression region = 0)
+# 2. loop through, multiple wt rate from other paper (fine scale recombination rate) by avg rate
+recq4l_chr1_CO$avg_rate <- chr1_diff
+recq4l_chr1_CO[11:13,8] <- 0
+
+rownames(recq4l_chr2_CO)<-c(1:20)
+recq4l_chr2_CO$avg_rate <- chr2_diff
+recq4l_chr2_CO[8:11,8] <- 0
+
+rownames(recq4l_chr3_CO)<-c(1:13)
+recq4l_chr3_CO$avg_rate <- chr3_diff
+recq4l_chr3_CO[5:7,8] <- 0
+
+rownames(recq4l_chr4_CO)<-c(1:17)
+recq4l_chr4_CO$avg_rate <- chr4_diff
+recq4l_chr4_CO[6:7,8] <- 0
+
+rownames(recq4l_chr5_CO)<-c(1:15)
+recq4l_chr5_CO$avg_rate <- chr5_diff
+recq4l_chr5_CO[6:7,8] <- 0
+
+rownames(recq4l_chr6_CO)<-c(1:18)
+recq4l_chr6_CO$avg_rate <- chr6_diff
+recq4l_chr6_CO[9:10,8] <- 0
+
+rownames(recq4l_chr7_CO)<-c(1:20)
+recq4l_chr7_CO$avg_rate <- chr7_diff
+recq4l_chr7_CO[8:10,8] <- 0
+
+rownames(recq4l_chr8_CO)<-c(1:18)
+recq4l_chr8_CO$avg_rate <- chr8_diff
+recq4l_chr8_CO[11:12,8] <- 0
+
+rownames(recq4l_chr9_CO)<-c(1:17)
+recq4l_chr9_CO$avg_rate <- chr9_diff
+recq4l_chr9_CO[2:4,8] <- 0
+
+rownames(recq4l_chr10_CO)<-c(1:21)
+recq4l_chr10_CO$avg_rate <- chr10_diff
+recq4l_chr10_CO[6:9,8] <- 0
+
+#WT rates in file doesn't rly match centromeric position
+rownames(recq4l_chr11_CO)<-c(1:20)
+recq4l_chr11_CO$avg_rate <- chr11_diff
+recq4l_chr11_CO[8:9,8] <- 0
+
+rownames(recq4l_chr12_CO)<-c(1:21)
+recq4l_chr12_CO$avg_rate <- chr12_diff
+recq4l_chr12_CO[7:10,8] <- 0
+
+## assigning frequency to SNPs based on recombination frequency in each bin
 snp_rate <- function(chr_rate, chr_snp){
   for(i in 1:nrow(chr_snp)){
     for(k in 1:nrow(chr_rate)){

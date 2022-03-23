@@ -250,77 +250,77 @@ library(tidyverse)
 library(OneR)
 
 #making intervals start at 0
-jap_chr1_CO$`CO Start` <- jap_chr1_CO$`CO Start` - min(jap_chr1_CO$`CO Start`)
 jap_chr1_CO$`CO End` <- jap_chr1_CO$`CO End` - min(jap_chr1_CO$`CO Start`)
+jap_chr1_CO$`CO Start` <- jap_chr1_CO$`CO Start` - min(jap_chr1_CO$`CO Start`)
 
-jap_chr2_CO$`CO Start` <- jap_chr2_CO$`CO Start` - min(jap_chr2_CO$`CO Start`)
 jap_chr2_CO$`CO End` <- jap_chr2_CO$`CO End` - min(jap_chr2_CO$`CO Start`)
+jap_chr2_CO$`CO Start` <- jap_chr2_CO$`CO Start` - min(jap_chr2_CO$`CO Start`)
 
-jap_chr3_CO$`CO Start` <- jap_chr3_CO$`CO Start` - min(jap_chr3_CO$`CO Start`)
 jap_chr3_CO$`CO End` <- jap_chr3_CO$`CO End` - min(jap_chr3_CO$`CO Start`)
+jap_chr3_CO$`CO Start` <- jap_chr3_CO$`CO Start` - min(jap_chr3_CO$`CO Start`)
 
-jap_chr4_CO$`CO Start` <- jap_chr4_CO$`CO Start` - min(jap_chr4_CO$`CO Start`)
 jap_chr4_CO$`CO End` <- jap_chr4_CO$`CO End` - min(jap_chr4_CO$`CO Start`)
+jap_chr4_CO$`CO Start` <- jap_chr4_CO$`CO Start` - min(jap_chr4_CO$`CO Start`)
 
-jap_chr5_CO$`CO Start` <- jap_chr5_CO$`CO Start` - min(jap_chr5_CO$`CO Start`)
 jap_chr5_CO$`CO End` <- jap_chr5_CO$`CO End` - min(jap_chr5_CO$`CO Start`)
+jap_chr5_CO$`CO Start` <- jap_chr5_CO$`CO Start` - min(jap_chr5_CO$`CO Start`)
 
-jap_chr6_CO$`CO Start` <- jap_chr6_CO$`CO Start` - min(jap_chr6_CO$`CO Start`)
 jap_chr6_CO$`CO End` <- jap_chr6_CO$`CO End` - min(jap_chr6_CO$`CO Start`)
+jap_chr6_CO$`CO Start` <- jap_chr6_CO$`CO Start` - min(jap_chr6_CO$`CO Start`)
 
-jap_chr7_CO$`CO Start` <- jap_chr7_CO$`CO Start` - min(jap_chr7_CO$`CO Start`)
 jap_chr7_CO$`CO End` <- jap_chr7_CO$`CO End` - min(jap_chr7_CO$`CO Start`)
+jap_chr7_CO$`CO Start` <- jap_chr7_CO$`CO Start` - min(jap_chr7_CO$`CO Start`)
 
-jap_chr8_CO$`CO Start` <- jap_chr8_CO$`CO Start` - min(jap_chr8_CO$`CO Start`)
 jap_chr8_CO$`CO End` <- jap_chr8_CO$`CO End` - min(jap_chr8_CO$`CO Start`)
+jap_chr8_CO$`CO Start` <- jap_chr8_CO$`CO Start` - min(jap_chr8_CO$`CO Start`)
 
-jap_chr9_CO$`CO Start` <- jap_chr9_CO$`CO Start` - min(jap_chr9_CO$`CO Start`)
 jap_chr9_CO$`CO End` <- jap_chr9_CO$`CO End` - min(jap_chr9_CO$`CO Start`)
+jap_chr9_CO$`CO Start` <- jap_chr9_CO$`CO Start` - min(jap_chr9_CO$`CO Start`)
 
-jap_chr10_CO$`CO Start` <- jap_chr10_CO$`CO Start` - min(jap_chr10_CO$`CO Start`)
 jap_chr10_CO$`CO End` <- jap_chr10_CO$`CO End` - min(jap_chr10_CO$`CO Start`)
+jap_chr10_CO$`CO Start` <- jap_chr10_CO$`CO Start` - min(jap_chr10_CO$`CO Start`)
 
-jap_chr11_CO$`CO Start` <- jap_chr11_CO$`CO Start` - min(jap_chr11_CO$`CO Start`)
 jap_chr11_CO$`CO End` <- jap_chr11_CO$`CO End` - min(jap_chr11_CO$`CO Start`)
+jap_chr11_CO$`CO Start` <- jap_chr11_CO$`CO Start` - min(jap_chr11_CO$`CO Start`)
 
-jap_chr12_CO$`CO Start` <- jap_chr12_CO$`CO Start` - min(jap_chr12_CO$`CO Start`)
 jap_chr12_CO$`CO End` <- jap_chr12_CO$`CO End` - min(jap_chr12_CO$`CO Start`)
+jap_chr12_CO$`CO Start` <- jap_chr12_CO$`CO Start` - min(jap_chr12_CO$`CO Start`)
 
-ind_chr1_CO$`CO Start` <- ind_chr1_CO$`CO Start` - min(ind_chr1_CO$`CO Start`)
 ind_chr1_CO$`CO End` <- ind_chr1_CO$`CO End` - min(ind_chr1_CO$`CO Start`)
+ind_chr1_CO$`CO Start` <- ind_chr1_CO$`CO Start` - min(ind_chr1_CO$`CO Start`)
 
-ind_chr2_CO$`CO Start` <- ind_chr2_CO$`CO Start` - min(ind_chr2_CO$`CO Start`)
 ind_chr2_CO$`CO End` <- ind_chr2_CO$`CO End` - min(ind_chr2_CO$`CO Start`)
+ind_chr2_CO$`CO Start` <- ind_chr2_CO$`CO Start` - min(ind_chr2_CO$`CO Start`)
 
-ind_chr3_CO$`CO Start` <- ind_chr3_CO$`CO Start` - min(ind_chr3_CO$`CO Start`)
 ind_chr3_CO$`CO End` <- ind_chr3_CO$`CO End` - min(ind_chr3_CO$`CO Start`)
+ind_chr3_CO$`CO Start` <- ind_chr3_CO$`CO Start` - min(ind_chr3_CO$`CO Start`)
 
-ind_chr4_CO$`CO Start` <- ind_chr4_CO$`CO Start` - min(ind_chr4_CO$`CO Start`)
 ind_chr4_CO$`CO End` <- ind_chr4_CO$`CO End` - min(ind_chr4_CO$`CO Start`)
+ind_chr4_CO$`CO Start` <- ind_chr4_CO$`CO Start` - min(ind_chr4_CO$`CO Start`)
 
-ind_chr5_CO$`CO Start` <- ind_chr5_CO$`CO Start` - min(ind_chr5_CO$`CO Start`)
 ind_chr5_CO$`CO End` <- ind_chr5_CO$`CO End` - min(ind_chr5_CO$`CO Start`)
+ind_chr5_CO$`CO Start` <- ind_chr5_CO$`CO Start` - min(ind_chr5_CO$`CO Start`)
 
-ind_chr6_CO$`CO Start` <- ind_chr6_CO$`CO Start` - min(ind_chr6_CO$`CO Start`)
 ind_chr6_CO$`CO End` <- ind_chr6_CO$`CO End` - min(ind_chr6_CO$`CO Start`)
+ind_chr6_CO$`CO Start` <- ind_chr6_CO$`CO Start` - min(ind_chr6_CO$`CO Start`)
 
-ind_chr7_CO$`CO Start` <- ind_chr7_CO$`CO Start` - min(ind_chr7_CO$`CO Start`)
 ind_chr7_CO$`CO End` <- ind_chr7_CO$`CO End` - min(ind_chr7_CO$`CO Start`)
+ind_chr7_CO$`CO Start` <- ind_chr7_CO$`CO Start` - min(ind_chr7_CO$`CO Start`)
 
-ind_chr8_CO$`CO Start` <- ind_chr8_CO$`CO Start` - min(ind_chr8_CO$`CO Start`)
 ind_chr8_CO$`CO End` <- ind_chr8_CO$`CO End` - min(ind_chr8_CO$`CO Start`)
+ind_chr8_CO$`CO Start` <- ind_chr8_CO$`CO Start` - min(ind_chr8_CO$`CO Start`)
 
-ind_chr9_CO$`CO Start` <- ind_chr9_CO$`CO Start` - min(ind_chr9_CO$`CO Start`)
 ind_chr9_CO$`CO End` <- ind_chr9_CO$`CO End` - min(ind_chr9_CO$`CO Start`)
+ind_chr9_CO$`CO Start` <- ind_chr9_CO$`CO Start` - min(ind_chr9_CO$`CO Start`)
 
-ind_chr10_CO$`CO Start` <- ind_chr10_CO$`CO Start` - min(ind_chr10_CO$`CO Start`)
 ind_chr10_CO$`CO End` <- ind_chr10_CO$`CO End` - min(ind_chr10_CO$`CO Start`)
+ind_chr10_CO$`CO Start` <- ind_chr10_CO$`CO Start` - min(ind_chr10_CO$`CO Start`)
 
-ind_chr11_CO$`CO Start` <- ind_chr11_CO$`CO Start` - min(ind_chr11_CO$`CO Start`)
 ind_chr11_CO$`CO End` <- ind_chr11_CO$`CO End` - min(ind_chr11_CO$`CO Start`)
+ind_chr11_CO$`CO Start` <- ind_chr11_CO$`CO Start` - min(ind_chr11_CO$`CO Start`)
 
-ind_chr12_CO$`CO Start` <- ind_chr12_CO$`CO Start` - min(ind_chr12_CO$`CO Start`)
 ind_chr12_CO$`CO End` <- ind_chr12_CO$`CO End` - min(ind_chr12_CO$`CO Start`)
+ind_chr12_CO$`CO Start` <- ind_chr12_CO$`CO Start` - min(ind_chr12_CO$`CO Start`)
 
 isTRUE(ind_chr1_CO[1,2] == 0)
 isTRUE(ind_chr2_CO[1,2] == 0)
