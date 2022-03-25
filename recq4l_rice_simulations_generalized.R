@@ -560,7 +560,7 @@ plot(recq4l_chr1_snp2$`SNP Start`, recq4l_chr1_finalpos$pos, type = "l", xlab = 
 plot(recq4l_chr1_finalpos$`SNP Start`, recq4l_chr1_finalpos$pos)
 
 
-recq4l_chr2_spl <- smooth.spline(recq4l_chr2_snp2$rate, spar = .4)
+recq4l_chr2_spl <- smooth.spline(recq4l_chr2_snp2$rate, spar = .67)
 recq4l_chr2_snp2$pos <- (recq4l_chr2_snp2$`SNP Start`*recq4l_chr2_spl$y)
 plot(recq4l_chr2_snp2$`SNP Start`, recq4l_chr2_snp2$pos)
 plot(recq4l_chr2_snp2$`SNP Start`, recq4l_chr2_snp2$pos/recq4l_chr2_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -570,7 +570,7 @@ is.unsorted(recq4l_chr2_finalpos$pos)
 plot(recq4l_chr2_snp2$`SNP Start`, recq4l_chr2_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 2 Genetic Map")
 
-recq4l_chr3_spl <- smooth.spline(recq4l_chr3_snp2$rate, spar = .7)
+recq4l_chr3_spl <- smooth.spline(recq4l_chr3_snp2$rate, spar = .65)
 recq4l_chr3_snp2$pos <- (recq4l_chr3_snp2$`SNP Start`*recq4l_chr3_spl$y)
 plot(recq4l_chr3_snp2$`SNP Start`, recq4l_chr3_snp2$pos)
 plot(recq4l_chr3_snp2$`SNP Start`, recq4l_chr3_snp2$pos/recq4l_chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -580,7 +580,7 @@ is.unsorted(recq4l_chr3_finalpos$pos)
 plot(recq4l_chr3_snp2$`SNP Start`, recq4l_chr3_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 3 Genetic Map")
 
-recq4l_chr4_spl <- smooth.spline(recq4l_chr4_snp2$rate, spar = .7)
+recq4l_chr4_spl <- smooth.spline(recq4l_chr4_snp2$rate, spar = .46)
 recq4l_chr4_snp2$pos <- (recq4l_chr4_snp2$`SNP Start`*recq4l_chr4_spl$y)
 plot(recq4l_chr4_snp2$`SNP Start`, recq4l_chr4_snp2$pos)
 plot(recq4l_chr4_snp2$`SNP Start`, recq4l_chr4_snp2$pos/recq4l_chr4_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -590,7 +590,7 @@ is.unsorted(recq4l_chr4_finalpos$pos)
 plot(recq4l_chr4_snp2$`SNP Start`, recq4l_chr4_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 4 Genetic Map")
 
-recq4l_chr5_spl <- smooth.spline(recq4l_chr5_snp2$rate, spar =.7)
+recq4l_chr5_spl <- smooth.spline(recq4l_chr5_snp2$rate, spar =.66)
 recq4l_chr5_snp2$pos <- (recq4l_chr5_snp2$`SNP Start`*recq4l_chr5_spl$y)
 plot(recq4l_chr5_snp2$`SNP Start`, recq4l_chr5_snp2$pos)
 plot(recq4l_chr5_snp2$`SNP Start`, recq4l_chr5_snp2$pos/recq4l_chr5_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -600,8 +600,7 @@ is.unsorted(recq4l_chr5_finalpos$pos)
 plot(recq4l_chr5_snp2$`SNP Start`, recq4l_chr5_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 5 Genetic Map")
 
-#slight increasing
-recq4l_chr6_spl <- smooth.spline(recq4l_chr6_snp2$rate, spar = 1)
+recq4l_chr6_spl <- smooth.spline(recq4l_chr6_snp2$rate, spar = .745)
 recq4l_chr6_snp2$pos <- (recq4l_chr6_snp2$`SNP Start`*recq4l_chr6_spl$y)
 plot(recq4l_chr6_snp2$`SNP Start`, recq4l_chr6_snp2$pos)
 plot(recq4l_chr6_snp2$`SNP Start`, recq4l_chr6_snp2$pos/recq4l_chr6_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -612,7 +611,7 @@ plot(recq4l_chr6_snp2$`SNP Start`, recq4l_chr6_finalpos$pos, type = "l", xlab = 
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 6 Genetic Map")
 
 #slight increase
-recq4l_chr7_spl <- smooth.spline(recq4l_chr7_snp2$rate, spar = 0.9)
+recq4l_chr7_spl <- smooth.spline(recq4l_chr7_snp2$rate, spar = 0.7)
 recq4l_chr7_snp2$pos <- (recq4l_chr7_snp2$`SNP Start`*recq4l_chr7_spl$y)
 plot(recq4l_chr7_snp2$`SNP Start`, recq4l_chr7_snp2$pos)
 plot(recq4l_chr7_snp2$`SNP Start`, recq4l_chr7_snp2$pos/recq4l_chr7_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -622,7 +621,7 @@ is.unsorted(recq4l_chr7_finalpos$pos)
 plot(recq4l_chr7_snp2$`SNP Start`, recq4l_chr7_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 7 Genetic Map")
 
-recq4l_chr8_spl <- smooth.spline(recq4l_chr8_snp2$rate, spar = .7)
+recq4l_chr8_spl <- smooth.spline(recq4l_chr8_snp2$rate, spar = .75)
 recq4l_chr8_snp2$pos <- (recq4l_chr8_snp2$`SNP Start`*recq4l_chr8_spl$y)
 plot(recq4l_chr8_snp2$`SNP Start`, recq4l_chr8_snp2$pos)
 plot(recq4l_chr8_snp2$`SNP Start`, recq4l_chr8_snp2$pos/recq4l_chr8_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -633,7 +632,7 @@ plot(recq4l_chr8_snp2$`SNP Start`, recq4l_chr8_finalpos$pos, type = "l", xlab = 
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 8 Genetic Map")
 
 #slight increase
-recq4l_chr9_spl <- smooth.spline(recq4l_chr9_snp2$rate, spar = .8)
+recq4l_chr9_spl <- smooth.spline(recq4l_chr9_snp2$rate, spar = .9)
 recq4l_chr9_snp2$pos <- (recq4l_chr9_snp2$`SNP Start`*recq4l_chr9_spl$y)
 plot(recq4l_chr9_snp2$`SNP Start`, recq4l_chr9_snp2$pos)
 plot(recq4l_chr9_snp2$`SNP Start`, recq4l_chr9_snp2$pos/recq4l_chr9_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -644,7 +643,7 @@ plot(recq4l_chr9_snp2$`SNP Start`, recq4l_chr9_finalpos$pos, type = "l", xlab = 
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 9 Genetic Map")
 
 #slight increase
-recq4l_chr10_spl <- smooth.spline(recq4l_chr10_snp2$rate, spar =.7)
+recq4l_chr10_spl <- smooth.spline(recq4l_chr10_snp2$rate, spar =.6)
 recq4l_chr10_snp2$pos <- (recq4l_chr10_snp2$`SNP Start`*recq4l_chr10_spl$y)
 plot(recq4l_chr10_snp2$`SNP Start`, recq4l_chr10_snp2$pos)
 plot(recq4l_chr10_snp2$`SNP Start`, recq4l_chr10_snp2$pos/recq4l_chr10_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -654,7 +653,7 @@ is.unsorted(recq4l_chr10_finalpos$pos)
 plot(recq4l_chr10_snp2$`SNP Start`, recq4l_chr10_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 10 Genetic Map")
 
-recq4l_chr11_spl <- smooth.spline(recq4l_chr11_snp2$rate, spar = .7)
+recq4l_chr11_spl <- smooth.spline(recq4l_chr11_snp2$rate, spar = .45)
 recq4l_chr11_snp2$pos <- (recq4l_chr11_snp2$`SNP Start`*recq4l_chr11_spl$y)
 plot(recq4l_chr11_snp2$`SNP Start`, recq4l_chr11_snp2$pos)
 plot(recq4l_chr11_snp2$`SNP Start`, recq4l_chr11_snp2$pos/recq4l_chr11_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -664,7 +663,7 @@ is.unsorted(recq4l_chr11_finalpos$pos)
 plot(recq4l_chr11_snp2$`SNP Start`, recq4l_chr11_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 11 Genetic Map")
 
-recq4l_chr12_spl <- smooth.spline(recq4l_chr12_snp2$rate, spar = .9)
+recq4l_chr12_spl <- smooth.spline(recq4l_chr12_snp2$rate, spar = .415)
 recq4l_chr12_snp2$pos <- (recq4l_chr12_snp2$`SNP Start`*recq4l_chr12_spl$y)
 plot(recq4l_chr12_snp2$`SNP Start`, recq4l_chr12_snp2$pos)
 plot(recq4l_chr12_snp2$`SNP Start`, recq4l_chr12_snp2$pos/recq4l_chr12_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -674,7 +673,7 @@ is.unsorted(recq4l_chr12_finalpos$pos)
 plot(recq4l_chr12_snp2$`SNP Start`, recq4l_chr12_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 12 Genetic Map")
 
-#Japonica final genetic map
+#Final genetic map
 recq4l_chr1 <- recq4l_chr1_finalpos$pos/100
 recq4l_chr1len <- length(recq4l_chr1)
 dim(recq4l_chr1) <- c(recq4l_chr1len,1)
@@ -754,9 +753,9 @@ recq4l_final_map <- list(recq4l_chr1[[1]], recq4l_chr2[[1]],
 # 11- 12
 # 12- 11.9
 
-recq4l_centromere <- c(0.010325450, 343.110113, 371.72908082, 582.45291,407.72051,
-                         740.6347040,733.698173,1103.814663,223.626564,732.75628,
-                         756.64794, 574.211448)
+recq4l_centromere <- c(0.3100890, 3.81623774, 0.457891882,0.21452355,1.05074478,
+                       2.9987313, 0.14337907,0.1459114,0.8811805,1.4236994,
+                       0.051867636, .5859670)
 recq4l_centromere <- recq4l_centromere/100
 
 
