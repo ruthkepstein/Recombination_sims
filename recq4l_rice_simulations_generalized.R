@@ -72,7 +72,7 @@ recq4l_chr12_snp$`SNP End` <- recq4l_chr12_snp$`SNP End` - min(recq4l_chr12_snp$
 recq4l_chr12_snp$`SNP Start` <- recq4l_chr12_snp$`SNP Start`- min(recq4l_chr12_snp$`SNP Start`)
 
 
-#recq4l mutant recomb rates
+#recq4l mutant recomb rates from "unleashing meoitic ... paper"
 recq4l_CO <- read.csv("jap_mut_recq4l.csv", header = TRUE)
 colnames(recq4l_CO) <- c("Chr", "CO Start", "CO End", "recq4l_rate")
 recq4l_CO <- recq4l_CO[order(recq4l_CO$Chr,recq4l_CO$`CO Start`),]
