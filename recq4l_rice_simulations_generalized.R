@@ -260,7 +260,6 @@ jap_chr12_CO$`CO Start` <- jap_chr12_CO$`CO Start` - min(jap_chr12_CO$`CO Start`
 
 
 ##Binding WT + Recqm Mutant rates & calculating difference
-#omit all NaN
 recq4l_chr1_CO<- cbind(recq4l_chr1_CO, WT_rate =jap_chr1_CO$`WT_rate`)
 recq4l_chr1_CO$diff <- abs(recq4l_chr1_CO$`WT_rate`-recq4l_chr1_CO$`recq4l_rate`)/((recq4l_chr1_CO$`WT_rate`+recq4l_chr1_CO$`recq4l_rate`)/2)
 chr1_diff <- mean(recq4l_chr1_CO$diff)
@@ -364,6 +363,120 @@ rownames(recq4l_chr12_CO)<-c(1:21)
 recq4l_chr12_CO$avg_rate <- chr12_diff
 recq4l_chr12_CO[7:10,8] <- 0
 
+#import fine scale recombination rates
+WTJap_CO <- read.table("japonica_rec_rate.bed", header = FALSE)
+colnames(WTJap_CO) <- c("Chr", "CO Start", "CO End", "rate")
+WTJap_CO <- WTJap_CO[order(WTJap_CO$Chr,WTJap_CO$`CO Start`),]
+
+WTJap_chr1_CO <- WTJap_CO[ which(WTJap_CO$Chr == "chr01"),]
+WTJap_chr1_CO$midpoint <- (WTJap_chr1_CO$`CO Start`+ WTJap_chr1_CO$`CO End`)/2
+WTJap_chr1_CO <- WTJap_chr1_CO[order(WTJap_chr1_CO$`CO Start`),]
+
+WTJap_chr2_CO <- WTJap_CO[ which(WTJap_CO$Chr == "chr02"),]
+WTJap_chr2_CO$midpoint <- (WTJap_chr2_CO$`CO Start`+ WTJap_chr2_CO$`CO End`)/2
+WTJap_chr2_CO <- WTJap_chr2_CO[order(WTJap_chr2_CO$`CO Start`),]
+
+WTJap_chr3_CO <- WTJap_CO[ which(WTJap_CO$Chr == "chr03"),]
+WTJap_chr3_CO$midpoint <- (WTJap_chr3_CO$`CO Start`+ WTJap_chr3_CO$`CO End`)/2
+WTJap_chr3_CO <- WTJap_chr3_CO[order(WTJap_chr3_CO$`CO Start`),]
+
+WTJap_chr4_CO <- WTJap_CO[ which(WTJap_CO$Chr == "chr04"),]
+WTJap_chr4_CO$midpoint <- (WTJap_chr4_CO$`CO Start`+ WTJap_chr4_CO$`CO End`)/2
+WTJap_chr4_CO <- WTJap_chr4_CO[order(WTJap_chr4_CO$`CO Start`),]
+
+WTJap_chr5_CO <- WTJap_CO[ which(WTJap_CO$Chr == "chr05"),]
+WTJap_chr5_CO$midpoint <- (WTJap_chr5_CO$`CO Start`+ WTJap_chr5_CO$`CO End`)/2
+WTJap_chr5_CO <- WTJap_chr5_CO[order(WTJap_chr5_CO$`CO Start`),]
+
+WTJap_chr6_CO <- WTJap_CO[ which(WTJap_CO$Chr == "chr06"),]
+WTJap_chr6_CO$midpoint <- (WTJap_chr6_CO$`CO Start`+ WTJap_chr6_CO$`CO End`)/2
+WTJap_chr6_CO <- WTJap_chr6_CO[order(WTJap_chr6_CO$`CO Start`),]
+
+WTJap_chr7_CO <- WTJap_CO[ which(WTJap_CO$Chr == "chr07"),]
+WTJap_chr7_CO$midpoint <- (WTJap_chr7_CO$`CO Start`+ WTJap_chr7_CO$`CO End`)/2
+WTJap_chr7_CO <- WTJap_chr7_CO[order(WTJap_chr7_CO$`CO Start`),]
+
+WTJap_chr8_CO <- WTJap_CO[ which(WTJap_CO$Chr == "chr08"),]
+WTJap_chr8_CO$midpoint <- (WTJap_chr8_CO$`CO Start`+ WTJap_chr8_CO$`CO End`)/2
+WTJap_chr8_CO <- WTJap_chr8_CO[order(WTJap_chr8_CO$`CO Start`),]
+
+WTJap_chr9_CO <- WTJap_CO[ which(WTJap_CO$Chr == "chr09"),]
+WTJap_chr9_CO$midpoint <- (WTJap_chr9_CO$`CO Start`+ WTJap_chr9_CO$`CO End`)/2
+WTJap_chr9_CO <- WTJap_chr9_CO[order(WTJap_chr9_CO$`CO Start`),]
+
+WTJap_chr10_CO <- WTJap_CO[ which(WTJap_CO$Chr == "chr10"),]
+WTJap_chr10_CO$midpoint <- (WTJap_chr10_CO$`CO Start`+ WTJap_chr10_CO$`CO End`)/2
+WTJap_chr10_CO <- WTJap_chr10_CO[order(WTJap_chr10_CO$`CO Start`),]
+
+WTJap_chr11_CO <- WTJap_CO[ which(WTJap_CO$Chr == "chr11"),]
+WTJap_chr11_CO$midpoint <- (WTJap_chr11_CO$`CO Start`+ WTJap_chr11_CO$`CO End`)/2
+WTJap_chr11_CO <- WTJap_chr11_CO[order(WTJap_chr11_CO$`CO Start`),]
+
+WTJap_chr12_CO <- WTJap_CO[ which(WTJap_CO$Chr == "chr12"),]
+WTJap_chr12_CO$midpoint <- (WTJap_chr12_CO$`CO Start`+ WTJap_chr12_CO$`CO End`)/2
+WTJap_chr12_CO <- WTJap_chr12_CO[order(WTJap_chr12_CO$`CO Start`),]
+
+WTJap_chr1_CO$`CO End` <- WTJap_chr1_CO$`CO End` - min(WTJap_chr1_CO$`CO Start`)
+WTJap_chr1_CO$`CO Start` <- WTJap_chr1_CO$`CO Start` - min(WTJap_chr1_CO$`CO Start`)
+
+WTJap_chr2_CO$`CO End` <- WTJap_chr2_CO$`CO End` - min(WTJap_chr2_CO$`CO Start`)
+WTJap_chr2_CO$`CO Start` <- WTJap_chr2_CO$`CO Start` - min(WTJap_chr2_CO$`CO Start`)
+
+WTJap_chr3_CO$`CO End` <- WTJap_chr3_CO$`CO End` - min(WTJap_chr3_CO$`CO Start`)
+WTJap_chr3_CO$`CO Start` <- WTJap_chr3_CO$`CO Start` - min(WTJap_chr3_CO$`CO Start`)
+
+WTJap_chr4_CO$`CO End` <- WTJap_chr4_CO$`CO End` - min(WTJap_chr4_CO$`CO Start`)
+WTJap_chr4_CO$`CO Start` <- WTJap_chr4_CO$`CO Start` - min(WTJap_chr4_CO$`CO Start`)
+
+WTJap_chr5_CO$`CO End` <- WTJap_chr5_CO$`CO End` - min(WTJap_chr5_CO$`CO Start`)
+WTJap_chr5_CO$`CO Start` <- WTJap_chr5_CO$`CO Start` - min(WTJap_chr5_CO$`CO Start`)
+
+WTJap_chr6_CO$`CO End` <- WTJap_chr6_CO$`CO End` - min(WTJap_chr6_CO$`CO Start`)
+WTJap_chr6_CO$`CO Start` <- WTJap_chr6_CO$`CO Start` - min(WTJap_chr6_CO$`CO Start`)
+
+WTJap_chr7_CO$`CO End` <- WTJap_chr7_CO$`CO End` - min(WTJap_chr7_CO$`CO Start`)
+WTJap_chr7_CO$`CO Start` <- WTJap_chr7_CO$`CO Start` - min(WTJap_chr7_CO$`CO Start`)
+
+WTJap_chr8_CO$`CO End` <- WTJap_chr8_CO$`CO End` - min(WTJap_chr8_CO$`CO Start`)
+WTJap_chr8_CO$`CO Start` <- WTJap_chr8_CO$`CO Start` - min(WTJap_chr8_CO$`CO Start`)
+
+WTJap_chr9_CO$`CO End` <- WTJap_chr9_CO$`CO End` - min(WTJap_chr9_CO$`CO Start`)
+WTJap_chr9_CO$`CO Start` <- WTJap_chr9_CO$`CO Start` - min(WTJap_chr9_CO$`CO Start`)
+
+WTJap_chr10_CO$`CO End` <- WTJap_chr10_CO$`CO End` - min(WTJap_chr10_CO$`CO Start`)
+WTJap_chr10_CO$`CO Start` <- WTJap_chr10_CO$`CO Start` - min(WTJap_chr10_CO$`CO Start`)
+
+WTJap_chr11_CO$`CO End` <- WTJap_chr11_CO$`CO End` - min(WTJap_chr11_CO$`CO Start`)
+WTJap_chr11_CO$`CO Start` <- WTJap_chr11_CO$`CO Start` - min(WTJap_chr11_CO$`CO Start`)
+
+WTJap_chr12_CO$`CO End` <- WTJap_chr12_CO$`CO End` - min(WTJap_chr12_CO$`CO Start`)
+WTJap_chr12_CO$`CO Start` <- WTJap_chr12_CO$`CO Start` - min(WTJap_chr12_CO$`CO Start`)
+
+## Multiply recombination fine scale data by the avg rate
+new_rates <- function(avg_rate, old_rate){
+  for(i in 1:nrow(old_rate)){
+    for(k in 1:nrow(avg_rate)){
+      if(isTRUE((old_rate$`CO Start`[i] >= (avg_rate$`CO Start`[k]*1000000)) && (old_rate$`CO End`[i] <= (avg_rate$`CO End`[k] *1000000)))){
+        old_rate$rate[i] <- old_rate$rate[i] + (avg_rate$avg_rate[k]*old_rate$rate[i])
+      }
+    }
+  }
+  print(old_rate)
+}
+recq4l_chr1_CO_2<-new_rates(recq4l_chr1_CO, WTJap_chr1_CO)
+recq4l_chr2_CO_2<-new_rates(recq4l_chr2_CO, WTJap_chr2_CO)
+recq4l_chr3_CO_2<-new_rates(recq4l_chr3_CO, WTJap_chr3_CO)
+recq4l_chr4_CO_2<-new_rates(recq4l_chr4_CO, WTJap_chr4_CO)
+recq4l_chr5_CO_2<-new_rates(recq4l_chr5_CO, WTJap_chr5_CO)
+recq4l_chr6_CO_2<-new_rates(recq4l_chr6_CO, WTJap_chr6_CO)
+recq4l_chr7_CO_2<-new_rates(recq4l_chr7_CO, WTJap_chr7_CO)
+recq4l_chr8_CO_2<-new_rates(recq4l_chr8_CO, WTJap_chr8_CO)
+recq4l_chr9_CO_2<-new_rates(recq4l_chr9_CO, WTJap_chr9_CO)
+recq4l_chr10_CO_2<-new_rates(recq4l_chr10_CO, WTJap_chr10_CO)
+recq4l_chr11_CO_2<-new_rates(recq4l_chr11_CO, WTJap_chr11_CO)
+recq4l_chr12_CO_2<-new_rates(recq4l_chr12_CO, WTJap_chr12_CO)
+
+
 ## assigning frequency to SNPs based on recombination frequency in each bin
 snp_rate <- function(chr_rate, chr_snp){
   for(i in 1:nrow(chr_snp)){
@@ -376,46 +489,47 @@ snp_rate <- function(chr_rate, chr_snp){
   print(chr_snp)
 }
 
-#converted SNP start to Mb
-recq4l_chr1_snp$`SNP Start`<- recq4l_chr1_snp$`SNP Start`/1000000
-recq4l_chr2_snp$`SNP Start` <- recq4l_chr2_snp$`SNP Start`/1000000
-recq4l_chr3_snp$`SNP Start` <- recq4l_chr3_snp$`SNP Start`/1000000
-recq4l_chr4_snp$`SNP Start` <- recq4l_chr4_snp$`SNP Start`/1000000
-recq4l_chr5_snp$`SNP Start` <- recq4l_chr5_snp$`SNP Start`/1000000
-recq4l_chr6_snp$`SNP Start` <- recq4l_chr6_snp$`SNP Start`/1000000
-recq4l_chr7_snp$`SNP Start` <- recq4l_chr7_snp$`SNP Start`/1000000
-recq4l_chr8_snp$`SNP Start` <- recq4l_chr8_snp$`SNP Start`/1000000
-recq4l_chr9_snp$`SNP Start` <- recq4l_chr9_snp$`SNP Start`/1000000
-recq4l_chr10_snp$`SNP Start` <- recq4l_chr10_snp$`SNP Start`/1000000
-recq4l_chr11_snp$`SNP Start` <- recq4l_chr11_snp$`SNP Start`/1000000
-recq4l_chr12_snp$`SNP Start` <- recq4l_chr12_snp$`SNP Start`/1000000
-
-recq4l_chr1_snp$`SNP End`<- recq4l_chr1_snp$`SNP End`/1000000
-recq4l_chr2_snp$`SNP End` <- recq4l_chr2_snp$`SNP End`/1000000
-recq4l_chr3_snp$`SNP End` <- recq4l_chr3_snp$`SNP End`/1000000
-recq4l_chr4_snp$`SNP End` <- recq4l_chr4_snp$`SNP End`/1000000
-recq4l_chr5_snp$`SNP End` <- recq4l_chr5_snp$`SNP End`/1000000
-recq4l_chr6_snp$`SNP End` <- recq4l_chr6_snp$`SNP End`/1000000
-recq4l_chr7_snp$`SNP End` <- recq4l_chr7_snp$`SNP End`/1000000
-recq4l_chr8_snp$`SNP End` <- recq4l_chr8_snp$`SNP End`/1000000
-recq4l_chr9_snp$`SNP End` <- recq4l_chr9_snp$`SNP End`/1000000
-recq4l_chr10_snp$`SNP End` <- recq4l_chr10_snp$`SNP End`/1000000
-recq4l_chr11_snp$`SNP End` <- recq4l_chr11_snp$`SNP End`/1000000
-recq4l_chr12_snp$`SNP End` <- recq4l_chr12_snp$`SNP End`/1000000
 
 #using function,  get cM/Mb for final genetic position - assign rates
-recq4l_chr1_snp2 <- snp_rate(recq4l_chr1_CO, recq4l_chr1_snp)
-recq4l_chr2_snp2 <- snp_rate(recq4l_chr2_CO, recq4l_chr2_snp)
-recq4l_chr3_snp2 <- snp_rate(recq4l_chr3_CO, recq4l_chr3_snp)
-recq4l_chr4_snp2 <- snp_rate(recq4l_chr4_CO, recq4l_chr4_snp)
-recq4l_chr5_snp2 <- snp_rate(recq4l_chr5_CO, recq4l_chr5_snp)
-recq4l_chr6_snp2 <- snp_rate(recq4l_chr6_CO, recq4l_chr6_snp)
-recq4l_chr7_snp2 <- snp_rate(recq4l_chr7_CO, recq4l_chr7_snp)
-recq4l_chr8_snp2 <- snp_rate(recq4l_chr8_CO, recq4l_chr8_snp)
-recq4l_chr9_snp2 <- snp_rate(recq4l_chr9_CO, recq4l_chr9_snp)
-recq4l_chr10_snp2 <- snp_rate(recq4l_chr10_CO, recq4l_chr10_snp)
-recq4l_chr11_snp2 <- snp_rate(recq4l_chr11_CO, recq4l_chr11_snp)
-recq4l_chr12_snp2 <- snp_rate(recq4l_chr12_CO, recq4l_chr12_snp)
+recq4l_chr1_snp2 <- snp_rate(recq4l_chr1_CO_2, recq4l_chr1_snp)
+recq4l_chr2_snp2 <- snp_rate(recq4l_chr2_CO_2, recq4l_chr2_snp)
+recq4l_chr3_snp2 <- snp_rate(recq4l_chr3_CO_2, recq4l_chr3_snp)
+recq4l_chr4_snp2 <- snp_rate(recq4l_chr4_CO_2, recq4l_chr4_snp)
+recq4l_chr5_snp2 <- snp_rate(recq4l_chr5_CO_2, recq4l_chr5_snp)
+recq4l_chr6_snp2 <- snp_rate(recq4l_chr6_CO_2, recq4l_chr6_snp)
+recq4l_chr7_snp2 <- snp_rate(recq4l_chr7_CO_2, recq4l_chr7_snp)
+recq4l_chr8_snp2 <- snp_rate(recq4l_chr8_CO_2, recq4l_chr8_snp)
+recq4l_chr9_snp2 <- snp_rate(recq4l_chr9_CO_2, recq4l_chr9_snp)
+recq4l_chr10_snp2 <- snp_rate(recq4l_chr10_CO_2, recq4l_chr10_snp)
+recq4l_chr11_snp2 <- snp_rate(recq4l_chr11_CO_2, recq4l_chr11_snp)
+recq4l_chr12_snp2 <- snp_rate(recq4l_chr12_CO_2, recq4l_chr12_snp)
+
+#converted SNP start to Mb
+recq4l_chr1_snp2$`SNP Start` <- recq4l_chr1_snp2$`SNP Start`/1000000
+recq4l_chr2_snp2$`SNP Start` <- recq4l_chr2_snp2$`SNP Start`/1000000
+recq4l_chr3_snp2$`SNP Start` <- recq4l_chr3_snp2$`SNP Start`/1000000
+recq4l_chr4_snp2$`SNP Start` <- recq4l_chr4_snp2$`SNP Start`/1000000
+recq4l_chr5_snp2$`SNP Start` <- recq4l_chr5_snp2$`SNP Start`/1000000
+recq4l_chr6_snp2$`SNP Start` <- recq4l_chr6_snp2$`SNP Start`/1000000
+recq4l_chr7_snp2$`SNP Start` <- recq4l_chr7_snp2$`SNP Start`/1000000
+recq4l_chr8_snp2$`SNP Start` <- recq4l_chr8_snp2$`SNP Start`/1000000
+recq4l_chr9_snp2$`SNP Start` <- recq4l_chr9_snp2$`SNP Start`/1000000
+recq4l_chr10_snp2$`SNP Start` <- recq4l_chr10_snp2$`SNP Start`/1000000
+recq4l_chr11_snp2$`SNP Start` <- recq4l_chr11_snp2$`SNP Start`/1000000
+recq4l_chr12_snp2$`SNP Start` <- recq4l_chr12_snp2$`SNP Start`/1000000
+
+recq4l_chr1_snp2$`SNP End` <- recq4l_chr1_snp2$`SNP End`/1000000
+recq4l_chr2_snp2$`SNP End` <- recq4l_chr2_snp2$`SNP End`/1000000
+recq4l_chr3_snp2$`SNP End` <- recq4l_chr3_snp2$`SNP End`/1000000
+recq4l_chr4_snp2$`SNP End` <- recq4l_chr4_snp2$`SNP End`/1000000
+recq4l_chr5_snp2$`SNP End` <- recq4l_chr5_snp2$`SNP End`/1000000
+recq4l_chr6_snp2$`SNP End` <- recq4l_chr6_snp2$`SNP End`/1000000
+recq4l_chr7_snp2$`SNP End` <- recq4l_chr7_snp2$`SNP End`/1000000
+recq4l_chr8_snp2$`SNP End` <- recq4l_chr8_snp2$`SNP End`/1000000
+recq4l_chr9_snp2$`SNP End` <- recq4l_chr9_snp2$`SNP End`/1000000
+recq4l_chr10_snp2$`SNP End` <- recq4l_chr10_snp2$`SNP End`/1000000
+recq4l_chr11_snp2$`SNP End` <- recq4l_chr11_snp2$`SNP End`/1000000
+recq4l_chr12_snp2$`SNP End` <- recq4l_chr12_snp2$`SNP End`/1000000
 
 #omit empty col
 recq4l_chr1_snp2<-na.omit(recq4l_chr1_snp2)
