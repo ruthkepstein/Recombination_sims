@@ -314,7 +314,7 @@ chr12_diff <- mean(recq4l_chr12_CO$diff)
 ## multiplying WT recombination rates by the avg difference
 # exclude pericentromeric regions (suppresion regions)
 # 1. create avg diff column (supression region = 0)
-# 2. loop through, multiple wt rate from other paper (fine scale recombination rate) by avg rate
+# 2. loop through, multiply wt rate from other paper (fine scale recombination rate) by avg rate
 recq4l_chr1_CO$avg_rate <- chr1_diff
 recq4l_chr1_CO[11:13,8] <- 0
 
@@ -354,10 +354,8 @@ rownames(recq4l_chr10_CO)<-c(1:21)
 recq4l_chr10_CO$avg_rate <- chr10_diff
 recq4l_chr10_CO[6:9,8] <- 0
 
-#WT rates in file doesn't rly match centromeric position
 rownames(recq4l_chr11_CO)<-c(1:20)
 recq4l_chr11_CO$avg_rate <- chr11_diff
-recq4l_chr11_CO[8:9,8] <- 0
 
 rownames(recq4l_chr12_CO)<-c(1:21)
 recq4l_chr12_CO$avg_rate <- chr12_diff
