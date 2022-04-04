@@ -368,7 +368,7 @@ is.unsorted(zmet2_chr2_finalpos$pos)
 plot(zmet2_chr2_snp2$`SNP Start`, zmet2_chr2_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica zmet2 Chromosome 2 Genetic Map")
 
-zmet2_chr3_spl <- smooth.spline(zmet2_chr3_snp2$rate, spar = .65)
+zmet2_chr3_spl <- smooth.spline(zmet2_chr3_snp2$rate, spar = .6)
 zmet2_chr3_snp2$pos <- (zmet2_chr3_snp2$`SNP Start`*zmet2_chr3_spl$y)
 plot(zmet2_chr3_snp2$`SNP Start`, zmet2_chr3_snp2$pos)
 plot(zmet2_chr3_snp2$`SNP Start`, zmet2_chr3_snp2$pos/zmet2_chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -438,7 +438,7 @@ is.unsorted(zmet2_chr9_finalpos$pos)
 plot(zmet2_chr9_snp2$`SNP Start`, zmet2_chr9_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica zmet2 Chromosome 9 Genetic Map")
 
-zmet2_chr10_spl <- smooth.spline(zmet2_chr10_snp2$rate, spar =1)
+zmet2_chr10_spl <- smooth.spline(zmet2_chr10_snp2$rate, spar =.7)
 zmet2_chr10_snp2$pos <- (zmet2_chr10_snp2$`SNP Start`*zmet2_chr10_spl$y)
 plot(zmet2_chr10_snp2$`SNP Start`, zmet2_chr10_snp2$pos)
 plot(zmet2_chr10_snp2$`SNP Start`, zmet2_chr10_snp2$pos/zmet2_chr10_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -448,7 +448,7 @@ is.unsorted(zmet2_chr10_finalpos$pos)
 plot(zmet2_chr10_snp2$`SNP Start`, zmet2_chr10_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica zmet2 Chromosome 10 Genetic Map")
 
-zmet2_chr11_spl <- smooth.spline(zmet2_chr11_snp2$rate, spar = 1)
+zmet2_chr11_spl <- smooth.spline(zmet2_chr11_snp2$rate, spar = .7)
 zmet2_chr11_snp2$pos <- (zmet2_chr11_snp2$`SNP Start`*zmet2_chr11_spl$y)
 plot(zmet2_chr11_snp2$`SNP Start`, zmet2_chr11_snp2$pos)
 plot(zmet2_chr11_snp2$`SNP Start`, zmet2_chr11_snp2$pos/zmet2_chr11_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
