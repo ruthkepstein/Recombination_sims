@@ -191,6 +191,7 @@ jap_chr12_CO <- jap_CO[ which(jap_CO$Chr == "chr12"),]
 jap_chr12_CO$midpoint <- (jap_chr12_CO$`CO Start`+ jap_chr12_CO$`CO End`)/2
 jap_chr12_CO <- jap_chr12_CO[order(jap_chr12_CO$`CO Start`),]
 
+
 ind_CO <- read.table("indica_rec_rates.bed", header = FALSE)
 colnames(ind_CO) <- c("Chr", "CO Start", "CO End", "rate")
 ind_CO <- ind_CO[order(ind_CO$Chr,ind_CO$`CO Start`),]
@@ -348,13 +349,171 @@ isTRUE(jap_chr10_CO[1,2] == 0)
 isTRUE(jap_chr11_CO[1,2] == 0)
 isTRUE(jap_chr12_CO[1,2] == 0)
 
+#bin rates into ~1 Mb regions and average each region
+fill_start<- function(chr_CO){
+  l<-0
+  for(k in 1:nrow(chr_CO)){
+    if(isFALSE(is.na(chr_CO$rates[k]))){
+      temp<-chr_CO$`CO Start`[k]
+      chr_CO$`CO Start`[k] <-l
+      l<-temp
+    }
+  }
+  print(chr_CO)
+}
 
-##assigning frequency to SNPs based on recombination frequency in each bin
+jap_chr1_CO_2 <- jap_chr1_CO
+bins<-as.integer(nrow(jap_chr1_CO)/44)
+jap_chr1_CO_2$rates<- rollapply(jap_chr1_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+jap_chr1_CO_2<-fill_start(jap_chr1_CO_2)
+jap_chr1_CO_2<- jap_chr1_CO_2 %>% drop_na(rates)
+
+jap_chr2_CO_2 <- jap_chr2_CO
+bins<-as.integer(nrow(jap_chr2_CO)/400)
+jap_chr2_CO_2$rates<- rollapply(jap_chr2_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+jap_chr2_CO_2<-fill_start(jap_chr2_CO_2)
+jap_chr2_CO_2<- jap_chr2_CO_2 %>% drop_na(rates)
+
+jap_chr3_CO_2 <- jap_chr3_CO
+bins<-as.integer(nrow(jap_chr3_CO)/410)
+jap_chr3_CO_2$rates<- rollapply(jap_chr3_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+jap_chr3_CO_2<-fill_start(jap_chr3_CO_2)
+jap_chr3_CO_2<- jap_chr3_CO_2 %>% drop_na(rates)
+
+jap_chr4_CO_2 <- jap_chr4_CO
+bins<-as.integer(nrow(jap_chr4_CO)/390)
+jap_chr4_CO_2$rates<- rollapply(jap_chr4_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+jap_chr4_CO_2<-fill_start(jap_chr4_CO_2)
+jap_chr4_CO_2<- jap_chr4_CO_2 %>% drop_na(rates)
+
+jap_chr5_CO_2 <- jap_chr5_CO
+bins<-as.integer(nrow(jap_chr5_CO)/330)
+jap_chr5_CO_2$rates<- rollapply(jap_chr5_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+jap_chr5_CO_2<-fill_start(jap_chr5_CO_2)
+jap_chr5_CO_2<- jap_chr5_CO_2 %>% drop_na(rates)
+
+jap_chr6_CO_2 <- jap_chr6_CO
+bins<-as.integer(nrow(jap_chr6_CO)/320)
+jap_chr6_CO_2$rates<- rollapply(jap_chr6_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+jap_chr6_CO_2<-fill_start(jap_chr6_CO_2)
+jap_chr6_CO_2<- jap_chr6_CO_2 %>% drop_na(rates)
+
+jap_chr7_CO_2 <- jap_chr7_CO
+bins<-as.integer(nrow(jap_chr7_CO)/350)
+jap_chr7_CO_2$rates<- rollapply(jap_chr7_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+jap_chr7_CO_2<-fill_start(jap_chr7_CO_2)
+jap_chr7_CO_2<- jap_chr7_CO_2 %>% drop_na(rates)
+
+jap_chr8_CO_2 <- jap_chr8_CO
+bins<-as.integer(nrow(jap_chr8_CO)/280)
+jap_chr8_CO_2$rates<- rollapply(jap_chr8_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+jap_chr8_CO_2<-fill_start(jap_chr8_CO_2)
+jap_chr8_CO_2<- jap_chr8_CO_2 %>% drop_na(rates)
+
+jap_chr9_CO_2 <- jap_chr9_CO
+bins<-as.integer(nrow(jap_chr9_CO)/220)
+jap_chr9_CO_2$rates<- rollapply(jap_chr9_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+jap_chr9_CO_2<-fill_start(jap_chr9_CO_2)
+jap_chr9_CO_2<- jap_chr9_CO_2 %>% drop_na(rates)
+
+jap_chr10_CO_2 <- jap_chr10_CO
+bins<-as.integer(nrow(jap_chr10_CO)/270)
+jap_chr10_CO_2$rates<- rollapply(jap_chr10_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+jap_chr10_CO_2<-fill_start(jap_chr10_CO_2)
+jap_chr10_CO_2<- jap_chr10_CO_2 %>% drop_na(rates)
+
+jap_chr11_CO_2 <- jap_chr11_CO
+bins<-as.integer(nrow(jap_chr11_CO)/300)
+jap_chr11_CO_2$rates<- rollapply(jap_chr11_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+jap_chr11_CO_2<-fill_start(jap_chr11_CO_2)
+jap_chr11_CO_2<- jap_chr11_CO_2 %>% drop_na(rates)
+
+jap_chr12_CO_2 <- jap_chr12_CO
+bins<-as.integer(nrow(jap_chr12_CO)/310)
+jap_chr12_CO_2$rates<- rollapply(jap_chr12_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+jap_chr12_CO_2<-fill_start(jap_chr12_CO_2)
+jap_chr12_CO_2<- jap_chr12_CO_2 %>% drop_na(rates)
+
+
+ind_chr1_CO_2 <- ind_chr1_CO
+bins<-as.integer(nrow(ind_chr1_CO)/44)
+ind_chr1_CO_2$rates<- rollapply(ind_chr1_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr1_CO_2<-fill_start(ind_chr1_CO_2)
+ind_chr1_CO_2<- ind_chr1_CO_2 %>% drop_na(rates)
+
+ind_chr2_CO_2 <- ind_chr2_CO
+bins<-as.integer(nrow(ind_chr2_CO)/400)
+ind_chr2_CO_2$rates<- rollapply(ind_chr2_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr2_CO_2<-fill_start(ind_chr2_CO_2)
+ind_chr2_CO_2<- ind_chr2_CO_2 %>% drop_na(rates)
+
+ind_chr3_CO_2 <- ind_chr3_CO
+bins<-as.integer(nrow(ind_chr3_CO)/410)
+ind_chr3_CO_2$rates<- rollapply(ind_chr3_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr3_CO_2<-fill_start(ind_chr3_CO_2)
+ind_chr3_CO_2<- ind_chr3_CO_2 %>% drop_na(rates)
+
+ind_chr4_CO_2 <- ind_chr4_CO
+bins<-as.integer(nrow(ind_chr4_CO)/390)
+ind_chr4_CO_2$rates<- rollapply(ind_chr4_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr4_CO_2<-fill_start(ind_chr4_CO_2)
+ind_chr4_CO_2<- ind_chr4_CO_2 %>% drop_na(rates)
+
+ind_chr5_CO_2 <- ind_chr5_CO
+bins<-as.integer(nrow(ind_chr5_CO)/330)
+ind_chr5_CO_2$rates<- rollapply(ind_chr5_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr5_CO_2<-fill_start(ind_chr5_CO_2)
+ind_chr5_CO_2<- ind_chr5_CO_2 %>% drop_na(rates)
+
+ind_chr6_CO_2 <- ind_chr6_CO
+bins<-as.integer(nrow(ind_chr6_CO)/320)
+ind_chr6_CO_2$rates<- rollapply(ind_chr6_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr6_CO_2<-fill_start(ind_chr6_CO_2)
+ind_chr6_CO_2<- ind_chr6_CO_2 %>% drop_na(rates)
+
+ind_chr7_CO_2 <- ind_chr7_CO
+bins<-as.integer(nrow(ind_chr7_CO)/350)
+ind_chr7_CO_2$rates<- rollapply(ind_chr7_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr7_CO_2<-fill_start(ind_chr7_CO_2)
+ind_chr7_CO_2<- ind_chr7_CO_2 %>% drop_na(rates)
+
+ind_chr8_CO_2 <- ind_chr8_CO
+bins<-as.integer(nrow(ind_chr8_CO)/280)
+ind_chr8_CO_2$rates<- rollapply(ind_chr8_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr8_CO_2<-fill_start(ind_chr8_CO_2)
+ind_chr8_CO_2<- ind_chr8_CO_2 %>% drop_na(rates)
+
+ind_chr9_CO_2 <- ind_chr9_CO
+bins<-as.integer(nrow(ind_chr9_CO)/220)
+ind_chr9_CO_2$rates<- rollapply(ind_chr9_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr9_CO_2<-fill_start(ind_chr9_CO_2)
+ind_chr9_CO_2<- ind_chr9_CO_2 %>% drop_na(rates)
+
+ind_chr10_CO_2 <- ind_chr10_CO
+bins<-as.integer(nrow(ind_chr10_CO)/270)
+ind_chr10_CO_2$rates<- rollapply(ind_chr10_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr10_CO_2<-fill_start(ind_chr10_CO_2)
+ind_chr10_CO_2<- ind_chr10_CO_2 %>% drop_na(rates)
+
+ind_chr11_CO_2 <- ind_chr11_CO
+bins<-as.integer(nrow(ind_chr11_CO)/300)
+ind_chr11_CO_2$rates<- rollapply(ind_chr11_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr11_CO_2<-fill_start(ind_chr11_CO_2)
+ind_chr11_CO_2<- ind_chr11_CO_2 %>% drop_na(rates)
+
+ind_chr12_CO_2 <- ind_chr12_CO
+bins<-as.integer(nrow(ind_chr12_CO)/310)
+ind_chr12_CO_2$rates<- rollapply(ind_chr12_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr12_CO_2<-fill_start(ind_chr12_CO_2)
+ind_chr12_CO_2<- ind_chr12_CO_2 %>% drop_na(rates)
+
+
+##assigning frequency to SNPs based on avg recombination rate in each bin
 snp_rate <- function(chr_rate, chr_snp){
   for(i in 1:nrow(chr_snp)){
     for(k in 1:nrow(chr_rate)){
       if(isTRUE((chr_snp$`SNP Start`[i] >= chr_rate$`CO Start`[k]) && (chr_snp$`SNP Start`[i] <= chr_rate$`CO End`[k]))){
-        chr_snp$rate[i] <- chr_rate$rate[k]
+        chr_snp$rate[i] <- chr_rate$rates[k]
       }
     }
   }
@@ -363,18 +522,18 @@ snp_rate <- function(chr_rate, chr_snp){
 
 ##JAPONICA
 #using function, converted SNP start to Mb to get cM/Mb for final genetic position - assign rates
-jap_chr1_snp2 <- snp_rate(jap_chr1_CO, jap_chr1_snp)
-jap_chr2_snp2 <- snp_rate(jap_chr2_CO, jap_chr2_snp)
-jap_chr3_snp2 <- snp_rate(jap_chr3_CO, jap_chr3_snp)
-jap_chr4_snp2 <- snp_rate(jap_chr4_CO, jap_chr4_snp)
-jap_chr5_snp2 <- snp_rate(jap_chr5_CO, jap_chr5_snp)
-jap_chr6_snp2 <- snp_rate(jap_chr6_CO, jap_chr6_snp)
-jap_chr7_snp2 <- snp_rate(jap_chr7_CO, jap_chr7_snp)
-jap_chr8_snp2 <- snp_rate(jap_chr8_CO, jap_chr8_snp)
-jap_chr9_snp2 <- snp_rate(jap_chr9_CO, jap_chr9_snp)
-jap_chr10_snp2 <- snp_rate(jap_chr10_CO, jap_chr10_snp)
-jap_chr11_snp2 <- snp_rate(jap_chr11_CO, jap_chr11_snp)
-jap_chr12_snp2 <- snp_rate(jap_chr12_CO, jap_chr12_snp)
+jap_chr1_snp2 <- snp_rate(jap_chr1_CO_2, jap_chr1_snp)
+jap_chr2_snp2 <- snp_rate(jap_chr2_CO_2, jap_chr2_snp)
+jap_chr3_snp2 <- snp_rate(jap_chr3_CO_2, jap_chr3_snp)
+jap_chr4_snp2 <- snp_rate(jap_chr4_CO_2, jap_chr4_snp)
+jap_chr5_snp2 <- snp_rate(jap_chr5_CO_2, jap_chr5_snp)
+jap_chr6_snp2 <- snp_rate(jap_chr6_CO_2, jap_chr6_snp)
+jap_chr7_snp2 <- snp_rate(jap_chr7_CO_2, jap_chr7_snp)
+jap_chr8_snp2 <- snp_rate(jap_chr8_CO_2, jap_chr8_snp)
+jap_chr9_snp2 <- snp_rate(jap_chr9_CO_2, jap_chr9_snp)
+jap_chr10_snp2 <- snp_rate(jap_chr10_CO_2, jap_chr10_snp)
+jap_chr11_snp2 <- snp_rate(jap_chr11_CO_2, jap_chr11_snp)
+jap_chr12_snp2 <- snp_rate(jap_chr12_CO_2, jap_chr12_snp)
 
 #make mutable copies of data
 jap_chr1_snp3 <- jap_chr1_snp2
@@ -455,6 +614,7 @@ jap_chr12_snp3<- subset(jap_chr12_snp3, jap_chr12_snp3$rate > (Q12[1] - 1.5*iqr1
 
 
 jap_chr1_snp3 <- jap_chr1_snp3[order(jap_chr1_snp3$`SNP Start`),]
+jap_chr1_snp3<-na.omit(jap_chr1_snp3)
 jap_chr1_spl <- smooth.spline(jap_chr1_snp3$rate, spar = .3)
 jap_chr1_snp3$pos <- (jap_chr1_snp3$`SNP Start`*jap_chr1_spl$y)
 plot(jap_chr1_snp3$`SNP Start`, jap_chr1_snp3$pos)
@@ -705,7 +865,7 @@ is.unsorted(ind_chr3_finalpos$pos)
 plot(ind_chr3_snp3$`SNP Start`, ind_chr3_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Indica Chromosome 3 Genetic Map")
 
-ind_chr4_spl <- smooth.spline(ind_chr4_snp3$rate, spar = .25)
+ind_chr4_spl <- smooth.spline(ind_chr4_snp3$rate, spar = .35)
 ind_chr4_snp3$pos <- (ind_chr4_snp3$`SNP Start`*ind_chr4_spl$y)
 plot(ind_chr4_snp3$`SNP Start`, ind_chr4_snp3$pos)
 plot(ind_chr4_snp3$`SNP Start`, ind_chr4_snp3$pos/ind_chr4_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -944,13 +1104,46 @@ indica_final_map <- list(ind_chr1[[1]], ind_chr2[[1]],
 # 10- 8.2
 # 11- 12
 # 12- 11.9
-indica_centromere <- c(1.0947231, 0.48723257, 2.0158492, 0.0639479223, 0.5695539,
-                       0.38584634, 0.8162163,0.3893409,0.035338128,0.16559445,
-                       0.5642381, 0.7727717)
-indica_centromere <- indica_centromere/100
-japonica_centromere <- c(0.0025530669, 0.09149242, 0.041497468, 0.013788485,0.076120679,
-                         0.2689744,0.0917161863,0.17468126,0.0376642081,0.132877256,
-                         0.039759012, 0.2177786627)
-japonica_centromere <- japonica_centromere/100
+find_centromere<-function(centromere,finalpos){
+  row.names(finalpos) <- NULL
+  index<- finalpos[which.min(abs(centromere-finalpos$`SNP Start`)),]
+  row<-as.integer(rownames(index))
+  print(finalpos$pos[row])
+}
+c1 <-find_centromere(16.7,jap_chr1_finalpos)
+c2 <-find_centromere(13.6,jap_chr2_finalpos)
+c3 <-find_centromere(19.4,jap_chr3_finalpos)
+c4 <-find_centromere(9.7,jap_chr4_finalpos)
+c5 <-find_centromere(12.4,jap_chr5_finalpos)
+c6 <-find_centromere(15.3,jap_chr6_finalpos)
+c7 <-find_centromere(12.1,jap_chr7_finalpos)
+c8 <-find_centromere(12.9,jap_chr8_finalpos)
+c9 <-find_centromere(2.8,jap_chr9_finalpos)
+c10 <-find_centromere(8.2,jap_chr10_finalpos)
+c11 <-find_centromere(12,jap_chr11_finalpos)
+c12 <-find_centromere(11.9,jap_chr12_finalpos)
+
+jap_centromere <- c(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12)
+jap_centromere <- jap_centromere/100
+
+c1 <-find_centromere(16.7,ind_chr1_finalpos)
+c2 <-find_centromere(13.6,ind_chr2_finalpos)
+c3 <-find_centromere(19.4,ind_chr3_finalpos)
+c4 <-find_centromere(9.7,ind_chr4_finalpos)
+c5 <-find_centromere(12.4,ind_chr5_finalpos)
+c6 <-find_centromere(15.3,ind_chr6_finalpos)
+c7 <-find_centromere(12.1,ind_chr7_finalpos)
+c8 <-find_centromere(12.9,ind_chr8_finalpos)
+c9 <-find_centromere(2.8,ind_chr9_finalpos)
+c10 <-find_centromere(8.2,ind_chr10_finalpos)
+c11 <-find_centromere(12,ind_chr11_finalpos)
+c12 <-find_centromere(11.9,ind_chr12_finalpos)
+
+ind_centromere <- c(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12)
+ind_centromere <- ind_centromere/100
+
+
+
+
 
 

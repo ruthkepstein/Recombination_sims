@@ -474,6 +474,91 @@ recq4l_chr10_CO_2<-new_rates(recq4l_chr10_CO, WTJap_chr10_CO)
 recq4l_chr11_CO_2<-new_rates(recq4l_chr11_CO, WTJap_chr11_CO)
 recq4l_chr12_CO_2<-new_rates(recq4l_chr12_CO, WTJap_chr12_CO)
 
+#bin rates into ~1 Mb regions and average each region
+fill_start<- function(chr_CO){
+  l<-0
+  for(k in 1:nrow(chr_CO)){
+    if(isFALSE(is.na(chr_CO$rates[k]))){
+      temp<-chr_CO$`CO Start`[k]
+      chr_CO$`CO Start`[k] <-l
+      l<-temp
+    }
+  }
+  print(chr_CO)
+}
+
+recq4l_chr1_CO_3 <- recq4l_chr1_CO_2
+bins<-as.integer(nrow(recq4l_chr1_CO_2)/44)
+recq4l_chr1_CO_3$rates<- rollapply(recq4l_chr1_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+recq4l_chr1_CO_3<-fill_start(recq4l_chr1_CO_3)
+recq4l_chr1_CO_3<- recq4l_chr1_CO_3 %>% drop_na(rates)
+
+recq4l_chr2_CO_3 <- recq4l_chr2_CO_2
+bins<-as.integer(nrow(recq4l_chr2_CO_2)/400)
+recq4l_chr2_CO_3$rates<- rollapply(recq4l_chr2_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+recq4l_chr2_CO_3<-fill_start(recq4l_chr2_CO_3)
+recq4l_chr2_CO_3<- recq4l_chr2_CO_3 %>% drop_na(rates)
+
+recq4l_chr3_CO_3 <- recq4l_chr3_CO_2
+bins<-as.integer(nrow(recq4l_chr3_CO_2)/410)
+recq4l_chr3_CO_3$rates<- rollapply(recq4l_chr3_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+recq4l_chr3_CO_3<-fill_start(recq4l_chr3_CO_3)
+recq4l_chr3_CO_3<- recq4l_chr3_CO_3 %>% drop_na(rates)
+
+recq4l_chr4_CO_3 <- recq4l_chr4_CO_2
+bins<-as.integer(nrow(recq4l_chr4_CO_2)/390)
+recq4l_chr4_CO_3$rates<- rollapply(recq4l_chr4_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+recq4l_chr4_CO_3<-fill_start(recq4l_chr4_CO_3)
+recq4l_chr4_CO_3<- recq4l_chr4_CO_3 %>% drop_na(rates)
+
+recq4l_chr5_CO_3 <- recq4l_chr5_CO_2
+bins<-as.integer(nrow(recq4l_chr5_CO_2)/330)
+recq4l_chr5_CO_3$rates<- rollapply(recq4l_chr5_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+recq4l_chr5_CO_3<-fill_start(recq4l_chr5_CO_3)
+recq4l_chr5_CO_3<- recq4l_chr5_CO_3 %>% drop_na(rates)
+
+recq4l_chr6_CO_3 <- recq4l_chr6_CO_2
+bins<-as.integer(nrow(recq4l_chr6_CO_2)/320)
+recq4l_chr6_CO_3$rates<- rollapply(recq4l_chr6_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+recq4l_chr6_CO_3<-fill_start(recq4l_chr6_CO_3)
+recq4l_chr6_CO_3<- recq4l_chr6_CO_3 %>% drop_na(rates)
+
+recq4l_chr7_CO_3 <- recq4l_chr7_CO_2
+bins<-as.integer(nrow(recq4l_chr7_CO_2)/350)
+recq4l_chr7_CO_3$rates<- rollapply(recq4l_chr7_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+recq4l_chr7_CO_3<-fill_start(recq4l_chr7_CO_3)
+recq4l_chr7_CO_3<- recq4l_chr7_CO_3 %>% drop_na(rates)
+
+recq4l_chr8_CO_3 <- recq4l_chr8_CO_2
+bins<-as.integer(nrow(recq4l_chr8_CO_2)/280)
+recq4l_chr8_CO_3$rates<- rollapply(recq4l_chr8_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+recq4l_chr8_CO_3<-fill_start(recq4l_chr8_CO_3)
+recq4l_chr8_CO_3<- recq4l_chr8_CO_3 %>% drop_na(rates)
+
+recq4l_chr9_CO_3 <- recq4l_chr9_CO_2
+bins<-as.integer(nrow(recq4l_chr9_CO_2)/220)
+recq4l_chr9_CO_3$rates<- rollapply(recq4l_chr9_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+recq4l_chr9_CO_3<-fill_start(recq4l_chr9_CO_3)
+recq4l_chr9_CO_3<- recq4l_chr9_CO_3 %>% drop_na(rates)
+
+recq4l_chr10_CO_3 <- recq4l_chr10_CO_2
+bins<-as.integer(nrow(recq4l_chr10_CO_2)/270)
+recq4l_chr10_CO_3$rates<- rollapply(recq4l_chr10_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+recq4l_chr10_CO_3<-fill_start(recq4l_chr10_CO_3)
+recq4l_chr10_CO_3<- recq4l_chr10_CO_3 %>% drop_na(rates)
+
+recq4l_chr11_CO_3 <- recq4l_chr11_CO_2
+bins<-as.integer(nrow(recq4l_chr11_CO_2)/300)
+recq4l_chr11_CO_3$rates<- rollapply(recq4l_chr11_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+recq4l_chr11_CO_3<-fill_start(recq4l_chr11_CO_3)
+recq4l_chr11_CO_3<- recq4l_chr11_CO_3 %>% drop_na(rates)
+
+recq4l_chr12_CO_3 <- recq4l_chr12_CO_2
+bins<-as.integer(nrow(recq4l_chr12_CO_2)/310)
+recq4l_chr12_CO_3$rates<- rollapply(recq4l_chr12_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+recq4l_chr12_CO_3<-fill_start(recq4l_chr12_CO_3)
+recq4l_chr12_CO_3<- recq4l_chr12_CO_3 %>% drop_na(rates)
+
 
 ## assigning frequency to SNPs based on recombination frequency in each bin
 snp_rate <- function(chr_rate, chr_snp){
@@ -489,18 +574,18 @@ snp_rate <- function(chr_rate, chr_snp){
 
 
 #using function,  get cM/Mb for final genetic position - assign rates
-recq4l_chr1_snp2 <- snp_rate(recq4l_chr1_CO_2, recq4l_chr1_snp)
-recq4l_chr2_snp2 <- snp_rate(recq4l_chr2_CO_2, recq4l_chr2_snp)
-recq4l_chr3_snp2 <- snp_rate(recq4l_chr3_CO_2, recq4l_chr3_snp)
-recq4l_chr4_snp2 <- snp_rate(recq4l_chr4_CO_2, recq4l_chr4_snp)
-recq4l_chr5_snp2 <- snp_rate(recq4l_chr5_CO_2, recq4l_chr5_snp)
-recq4l_chr6_snp2 <- snp_rate(recq4l_chr6_CO_2, recq4l_chr6_snp)
-recq4l_chr7_snp2 <- snp_rate(recq4l_chr7_CO_2, recq4l_chr7_snp)
-recq4l_chr8_snp2 <- snp_rate(recq4l_chr8_CO_2, recq4l_chr8_snp)
-recq4l_chr9_snp2 <- snp_rate(recq4l_chr9_CO_2, recq4l_chr9_snp)
-recq4l_chr10_snp2 <- snp_rate(recq4l_chr10_CO_2, recq4l_chr10_snp)
-recq4l_chr11_snp2 <- snp_rate(recq4l_chr11_CO_2, recq4l_chr11_snp)
-recq4l_chr12_snp2 <- snp_rate(recq4l_chr12_CO_2, recq4l_chr12_snp)
+recq4l_chr1_snp2 <- snp_rate(recq4l_chr1_CO_3, recq4l_chr1_snp)
+recq4l_chr2_snp2 <- snp_rate(recq4l_chr2_CO_3, recq4l_chr2_snp)
+recq4l_chr3_snp2 <- snp_rate(recq4l_chr3_CO_3, recq4l_chr3_snp)
+recq4l_chr4_snp2 <- snp_rate(recq4l_chr4_CO_3, recq4l_chr4_snp)
+recq4l_chr5_snp2 <- snp_rate(recq4l_chr5_CO_3, recq4l_chr5_snp)
+recq4l_chr6_snp2 <- snp_rate(recq4l_chr6_CO_3, recq4l_chr6_snp)
+recq4l_chr7_snp2 <- snp_rate(recq4l_chr7_CO_3, recq4l_chr7_snp)
+recq4l_chr8_snp2 <- snp_rate(recq4l_chr8_CO_3, recq4l_chr8_snp)
+recq4l_chr9_snp2 <- snp_rate(recq4l_chr9_CO_3, recq4l_chr9_snp)
+recq4l_chr10_snp2 <- snp_rate(recq4l_chr10_CO_3, recq4l_chr10_snp)
+recq4l_chr11_snp2 <- snp_rate(recq4l_chr11_CO_3, recq4l_chr11_snp)
+recq4l_chr12_snp2 <- snp_rate(recq4l_chr12_CO_3, recq4l_chr12_snp)
 
 #converted SNP start to Mb
 recq4l_chr1_snp2$`SNP Start` <- recq4l_chr1_snp2$`SNP Start`/1000000
