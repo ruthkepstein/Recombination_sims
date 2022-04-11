@@ -136,7 +136,7 @@ library(OneR)
 
 #bin crossovers into 200 uneven bins
 chr1_CO <- chr1_CO[order(chr1_CO$`CO Start`),]
-chr1_bin <- binning(chr1_CO$midpoint, nbins = 300, type = "kmeans")
+chr1_bin <- binning(chr1_CO$midpoint, nbins = max(ref_genes1$X307041717)/1000000, type = "kmeans")
 chr1_bin <- as.data.frame(summary(chr1_bin))
 #transforming data; making bin interval into 2 columns
 chr1_bin <- within(chr1_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr1_bin$levels), ',', fixed=TRUE))))
@@ -145,137 +145,137 @@ chr1_bin <- chr1_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X
 chr1_bin <- chr1_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 chr1_bin[1,4] <- 502954
 #making intervals start at 0
-chr1_bin$foo.X1 <- chr1_bin$foo.X1 - 502954
-chr1_bin$foo.X2 <- chr1_bin$foo.X2 - 502954
+#chr1_bin$foo.X1 <- chr1_bin$foo.X1 - 502954
+#chr1_bin$foo.X2 <- chr1_bin$foo.X2 - 502954
 #expanding last bin to include last SNP site to avoid NAs in future
-chr1_bin[300,5] <- max(chr1_snp$`SNP End`)
+chr1_bin[max(ref_genes1$X307041717)/1000000,5] <- max(ref_genes1$X307041717)
 #adding length of bin as column and making in Mb
 chr1_bin$length <- (chr1_bin$foo.X2-chr1_bin$foo.X1)/1000000
 chr1_bin$rate <- ((chr1_bin$freq/4713)*100)/chr1_bin$length
 
 chr2_CO <- chr2_CO[order(chr2_CO$`CO Start`),]
-chr2_bin <- binning(chr2_CO$midpoint, nbins = 220, type = "kmeans")
+chr2_bin <- binning(chr2_CO$midpoint, nbins = max(ref_genes2$X307041717)/1000000, type = "kmeans")
 chr2_bin <- as.data.frame(summary(chr2_bin))
 chr2_bin <- within(chr2_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr2_bin$levels), ',', fixed=TRUE))))
 chr2_bin <- do.call(data.frame, chr2_bin)
 chr2_bin <- chr2_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr2_bin <- chr2_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 chr2_bin[1,4] <- 440104
-chr2_bin$foo.X1 <- chr2_bin$foo.X1 - 440104
-chr2_bin$foo.X2 <- chr2_bin$foo.X2 - 440104
-chr2_bin[220,5] <- max(chr2_snp$`SNP End`)
+#chr2_bin$foo.X1 <- chr2_bin$foo.X1 - 440104
+#chr2_bin$foo.X2 <- chr2_bin$foo.X2 - 440104
+chr2_bin[max(ref_genes2$X307041717)/1000000,5] <- max(ref_genes2$X307041717)
 chr2_bin$length <- (chr2_bin$foo.X2-chr2_bin$foo.X1)/1000000
 chr2_bin$rate <- ((chr2_bin$freq/4713)*100)/chr2_bin$length
 
 chr3_CO <- chr3_CO[order(chr3_CO$`CO Start`),]
-chr3_bin <- binning(chr3_CO$midpoint, nbins = 200, type = "kmeans")
+chr3_bin <- binning(chr3_CO$midpoint, nbins = max(ref_genes3$X307041717)/1000000, type = "kmeans")
 chr3_bin <- as.data.frame(summary(chr3_bin))
 chr3_bin <- within(chr3_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr3_bin$levels), ',', fixed=TRUE))))
 chr3_bin <- do.call(data.frame, chr3_bin)
 chr3_bin <- chr3_bin %>% mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr3_bin <- chr3_bin %>% mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 chr3_bin[1,4] <- 865390
-chr3_bin$foo.X1 <- chr3_bin$foo.X1 - 865390
-chr3_bin$foo.X2 <- chr3_bin$foo.X2 - 865390
-chr3_bin[200,5] <- max(chr3_snp$`SNP End`)
+#chr3_bin$foo.X1 <- chr3_bin$foo.X1 - 865390
+#chr3_bin$foo.X2 <- chr3_bin$foo.X2 - 865390
+chr3_bin[max(ref_genes3$X307041717)/1000000,5] <- max(ref_genes3$X307041717)
 chr3_bin$length <- (chr3_bin$foo.X2-chr3_bin$foo.X1)/1000000
 chr3_bin$rate <- ((chr3_bin$freq/4713)*100)/chr3_bin$length
 
 chr4_CO <- chr4_CO[order(chr4_CO$`CO Start`),]
-chr4_bin <- binning(chr4_CO$midpoint, nbins = 200, type = "kmeans")
+chr4_bin <- binning(chr4_CO$midpoint, nbins = max(ref_genes4$X307041717)/1000000, type = "kmeans")
 chr4_bin <- as.data.frame(summary(chr4_bin))
 chr4_bin <- within(chr4_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr4_bin$levels), ',', fixed=TRUE))))
 chr4_bin <- do.call(data.frame, chr4_bin)
 chr4_bin <- chr4_bin %>% mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr4_bin <- chr4_bin %>% mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 chr4_bin[1,4] <- 272401
-chr4_bin$foo.X1 <- chr4_bin$foo.X1 - 272401
-chr4_bin$foo.X2 <- chr4_bin$foo.X2 - 272401
-chr4_bin[200,5] <- max(chr4_snp$`SNP End`)
+#chr4_bin$foo.X1 <- chr4_bin$foo.X1 - 272401
+#chr4_bin$foo.X2 <- chr4_bin$foo.X2 - 272401
+chr4_bin[max(ref_genes4$X307041717)/1000000,5] <- max(ref_genes4$X307041717)
 chr4_bin$length <- (chr4_bin$foo.X2-chr4_bin$foo.X1)/1000000
 chr4_bin$rate <- ((chr4_bin$freq/4713)*100)/chr4_bin$length
 
 chr5_CO <- chr5_CO[order(chr5_CO$`CO Start`),]
-chr5_bin <- binning(chr5_CO$midpoint, nbins = 120, type = "kmeans")
+chr5_bin <- binning(chr5_CO$midpoint, nbins = max(ref_genes5$X307041717)/1000000, type = "kmeans")
 chr5_bin <- as.data.frame(summary(chr5_bin))
 chr5_bin <- within(chr5_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr5_bin$levels), ',', fixed=TRUE))))
 chr5_bin <- do.call(data.frame, chr5_bin)
 chr5_bin <- chr5_bin %>% mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr5_bin <- chr5_bin %>% mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 chr5_bin[1,4] <- 267335.5
-chr5_bin$foo.X1 <- chr5_bin$foo.X1 - 267335.5
-chr5_bin$foo.X2 <- chr5_bin$foo.X2 - 267335.5
-chr5_bin[120,5] <- max(chr5_snp$`SNP End`)
+#chr5_bin$foo.X1 <- chr5_bin$foo.X1 - 267335.5
+#chr5_bin$foo.X2 <- chr5_bin$foo.X2 - 267335.5
+chr5_bin[max(ref_genes5$X307041717)/1000000,5] <- max(ref_genes5$X307041717)
 chr5_bin$length <- (chr5_bin$foo.X2-chr5_bin$foo.X1)/1000000
 chr5_bin$rate <- ((chr5_bin$freq/4713)*100)/chr5_bin$length
 
 chr6_CO <- chr6_CO[order(chr6_CO$`CO Start`),]
-chr6_bin <- binning(chr6_CO$midpoint, nbins = 80, type = "kmeans")
+chr6_bin <- binning(chr6_CO$midpoint, nbins = max(ref_genes6$X307041717)/1000000, type = "kmeans")
 chr6_bin <- as.data.frame(summary(chr6_bin))
 chr6_bin <- within(chr6_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr6_bin$levels), ',', fixed=TRUE))))
 chr6_bin <- do.call(data.frame, chr6_bin)
 chr6_bin <- chr6_bin %>% mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr6_bin <- chr6_bin %>% mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 chr6_bin[1,4] <- 197266.5
-chr6_bin$foo.X1 <- chr6_bin$foo.X1 - 197266.5
-chr6_bin$foo.X2 <- chr6_bin$foo.X2 - 197266.5
-chr6_bin[80,5] <- max(chr6_snp$`SNP End`)
+#chr6_bin$foo.X1 <- chr6_bin$foo.X1 - 197266.5
+#chr6_bin$foo.X2 <- chr6_bin$foo.X2 - 197266.5
+chr6_bin[max(ref_genes6$X307041717)/1000000,5] <- max(ref_genes6$X307041717)
 chr6_bin$length <- (chr6_bin$foo.X2-chr6_bin$foo.X1)/1000000
 chr6_bin$rate <- ((chr6_bin$freq/4713)*100)/chr6_bin$length
 
 chr7_CO <- chr7_CO[order(chr7_CO$`CO Start`),]
-chr7_bin <- binning(chr7_CO$midpoint, nbins = 200, type = "kmeans")
+chr7_bin <- binning(chr7_CO$midpoint, nbins = max(ref_genes7$X307041717)/1000000, type = "kmeans")
 chr7_bin <- as.data.frame(summary(chr7_bin))
 chr7_bin <- within(chr7_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr7_bin$levels), ',', fixed=TRUE))))
 chr7_bin <- do.call(data.frame, chr7_bin)
 chr7_bin <- chr7_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr7_bin <- chr7_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 chr7_bin[1,4] <- 375904
-chr7_bin$foo.X1 <- chr7_bin$foo.X1 - 375904
-chr7_bin$foo.X2 <- chr7_bin$foo.X2 - 375904
-chr7_bin[200,5] <- max(chr7_snp$`SNP End`)
+#chr7_bin$foo.X1 <- chr7_bin$foo.X1 - 375904
+#chr7_bin$foo.X2 <- chr7_bin$foo.X2 - 375904
+chr7_bin[max(ref_genes7$X307041717)/1000000,5] <- max(ref_genes7$X307041717)
 chr7_bin$length <- (chr7_bin$foo.X2-chr7_bin$foo.X1)/1000000
 chr7_bin$rate <- ((chr7_bin$freq/4713)*100)/chr7_bin$length
 
 chr8_CO <- chr8_CO[order(chr8_CO$`CO Start`),]
-chr8_bin <- binning(chr8_CO$midpoint, nbins = 150, type = "kmeans")
+chr8_bin <- binning(chr8_CO$midpoint, nbins = max(ref_genes8$X307041717)/1000000, type = "kmeans")
 chr8_bin <- as.data.frame(summary(chr8_bin))
 chr8_bin <- within(chr8_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr8_bin$levels), ',', fixed=TRUE))))
 chr8_bin <- do.call(data.frame, chr8_bin)
 chr8_bin <- chr8_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr8_bin <- chr8_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 chr8_bin[1,4] <- 132181
-chr8_bin$foo.X1 <- chr8_bin$foo.X1 - 132181
-chr8_bin$foo.X2 <- chr8_bin$foo.X2 - 132181
-chr8_bin[150,5] <- max(chr8_snp$`SNP End`)
+#chr8_bin$foo.X1 <- chr8_bin$foo.X1 - 132181
+#chr8_bin$foo.X2 <- chr8_bin$foo.X2 - 132181
+chr8_bin[max(ref_genes8$X307041717)/1000000,5] <- max(ref_genes8$X307041717)
 chr8_bin$length <- (chr8_bin$foo.X2-chr8_bin$foo.X1)/1000000
 chr8_bin$rate <- ((chr8_bin$freq/4713)*100)/chr8_bin$length
 
 chr9_CO <- chr9_CO[order(chr9_CO$`CO Start`),]
-chr9_bin <- binning(chr9_CO$midpoint, nbins = 120, type = "kmeans")
+chr9_bin <- binning(chr9_CO$midpoint, nbins = max(ref_genes9$X307041717)/1000000, type = "kmeans")
 chr9_bin <- as.data.frame(summary(chr9_bin))
 chr9_bin <- within(chr9_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr9_bin$levels), ',', fixed=TRUE))))
 chr9_bin <- do.call(data.frame, chr9_bin)
 chr9_bin <- chr9_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr9_bin <- chr9_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 chr9_bin[1,4] <- 317217.5
-chr9_bin$foo.X1 <- chr9_bin$foo.X1 - 317217.5
-chr9_bin$foo.X2 <- chr9_bin$foo.X2 - 317217.5
-chr9_bin[120,5] <- max(chr9_snp$`SNP End`)
+#chr9_bin$foo.X1 <- chr9_bin$foo.X1 - 317217.5
+#chr9_bin$foo.X2 <- chr9_bin$foo.X2 - 317217.5
+chr9_bin[max(ref_genes9$X307041717)/1000000,5] <- max(ref_genes9$X307041717)
 chr9_bin$length <- (chr9_bin$foo.X2-chr9_bin$foo.X1)/1000000
 chr9_bin$rate <- ((chr9_bin$freq/4713)*100)/chr9_bin$length
 
 chr10_CO <- chr10_CO[order(chr10_CO$`CO Start`),]
-chr10_bin <- binning(chr10_CO$midpoint, nbins = 150, type = "kmeans")
+chr10_bin <- binning(chr10_CO$midpoint, nbins = max(ref_genes10$X307041717)/1000000, type = "kmeans")
 chr10_bin <- as.data.frame(summary(chr10_bin))
 chr10_bin <- within(chr10_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr10_bin$levels), ',', fixed=TRUE))))
 chr10_bin <- do.call(data.frame, chr10_bin)
 chr10_bin <- chr10_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr10_bin <- chr10_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 chr10_bin[1,4] <- 698530
-chr10_bin$foo.X1 <- chr10_bin$foo.X1 - 698530
-chr10_bin$foo.X2 <- chr10_bin$foo.X2 - 698530
-chr10_bin[150,5] <- max(chr10_snp$`SNP End`)
+#chr10_bin$foo.X1 <- chr10_bin$foo.X1 - 698530
+#chr10_bin$foo.X2 <- chr10_bin$foo.X2 - 698530
+chr10_bin[max(ref_genes10$X307041717)/1000000,5] <- max(ref_genes10$X307041717)
 chr10_bin$length <- (chr10_bin$foo.X2-chr10_bin$foo.X1)/1000000
 chr10_bin$rate <- ((chr10_bin$freq/4713)*100)/chr10_bin$length
 #use plot to look at distribution of k-means
@@ -307,108 +307,249 @@ ref_genes8 <- ref_genes[which(ref_genes$Chr1 == 'Chr8'),]
 ref_genes9 <- ref_genes[which(ref_genes$Chr1 == 'Chr9'),]
 ref_genes10 <- ref_genes[which(ref_genes$Chr1 == 'Chr10'),]
 
-genes_bin1 <- as.data.frame(summary(binning(ref_genes1$X1, nbins = 300, type = "kmeans")))
+genes_bin1 <- as.data.frame(summary(binning(ref_genes1$X1, nbins = round(max(ref_genes1$X307041717)/1000000), type = "kmeans")))
 genes_bin1 <- within(genes_bin1, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin1$levels), ',', fixed=TRUE))))
 genes_bin1 <- do.call(data.frame, genes_bin1)
 genes_bin1 <- genes_bin1 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 genes_bin1 <- genes_bin1 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 genes_bin1[1,4]<-44289
-genes_bin1$foo.X1 <- genes_bin1$foo.X1 - 44289
-genes_bin1$foo.X2 <- genes_bin1$foo.X2 - 44289
-genes_bin1[300,5] <- max(chr1_snp$`SNP End`)
+#genes_bin1$foo.X1 <- genes_bin1$foo.X1 - 44289
+#genes_bin1$foo.X2 <- genes_bin1$foo.X2 - 44289
+genes_bin1$length <- (genes_bin1$foo.X2-genes_bin1$foo.X1)/1000000
+genes_bin1[round(max(ref_genes1$X307041717)/1000000),5] <- max(ref_genes1$X307041717)
+genes_bin1$density <- (genes_bin1$freq/genes_bin1$length)
 
-genes_bin2 <- as.data.frame(summary(binning(ref_genes2$X1, nbins = 300, type = "kmeans")))
+genes_bin2 <- as.data.frame(summary(binning(ref_genes2$X1, nbins = round(max(ref_genes2$X307041717)/1000000), type = "kmeans")))
 genes_bin2 <- within(genes_bin2, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin2$levels), ',', fixed=TRUE))))
 genes_bin2 <- do.call(data.frame, genes_bin2)
 genes_bin2 <- genes_bin2 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 genes_bin2 <- genes_bin2 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 genes_bin2[1,4]<-40178
-genes_bin2$foo.X1 <- genes_bin2$foo.X1 - 40178
-genes_bin2$foo.X2 <- genes_bin2$foo.X2 - 40178
-genes_bin2[300,5] <- max(chr2_snp$`SNP End`)
+#genes_bin2$foo.X1 <- genes_bin2$foo.X1 - 40178
+#genes_bin2$foo.X2 <- genes_bin2$foo.X2 - 40178
+genes_bin2$length <- (genes_bin2$foo.X2-genes_bin2$foo.X1)/1000000
+genes_bin2[round(max(ref_genes2$X307041717)/1000000),5] <- max(ref_genes2$X307041717)
+genes_bin2$density <- (genes_bin2$freq/genes_bin2$length)
 
-genes_bin3 <- as.data.frame(summary(binning(ref_genes3$X1, nbins = 300, type = "kmeans")))
+genes_bin3 <- as.data.frame(summary(binning(ref_genes3$X1, nbins = round(max(ref_genes3$X307041717)/1000000), type = "kmeans")))
 genes_bin3 <- within(genes_bin3, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin3$levels), ',', fixed=TRUE))))
 genes_bin3 <- do.call(data.frame, genes_bin3)
 genes_bin3 <- genes_bin3 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 genes_bin3 <- genes_bin3 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 genes_bin3[1,4]<-191993
-genes_bin3$foo.X1 <- genes_bin3$foo.X1 - 191993
-genes_bin3$foo.X2 <- genes_bin3$foo.X2 - 191993
-genes_bin3[300,5] <- max(chr3_snp$`SNP End`)
+#genes_bin3$foo.X1 <- genes_bin3$foo.X1 - 191993
+#genes_bin3$foo.X2 <- genes_bin3$foo.X2 - 191993
+genes_bin3$length <- (genes_bin3$foo.X2-genes_bin3$foo.X1)/1000000
+genes_bin3[round(max(ref_genes4$X307041717)/1000000),5] <- max(ref_genes3$X307041717)
+genes_bin3$density <- (genes_bin3$freq/genes_bin3$length)
 
-genes_bin4 <- as.data.frame(summary(binning(ref_genes4$X1, nbins = 300, type = "kmeans")))
+genes_bin4 <- as.data.frame(summary(binning(ref_genes4$X1, nbins = round(max(ref_genes4$X307041717)/1000000), type = "kmeans")))
 genes_bin4 <- within(genes_bin4, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin4$levels), ',', fixed=TRUE))))
 genes_bin4 <- do.call(data.frame, genes_bin4)
 genes_bin4 <- genes_bin4 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 genes_bin4 <- genes_bin4 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 genes_bin4[1,4]<-50320
-genes_bin4$foo.X1 <- genes_bin4$foo.X1 - 50320
-genes_bin4$foo.X2 <- genes_bin4$foo.X2 - 50320
-genes_bin4[300,5] <- max(chr4_snp$`SNP End`)
+#genes_bin4$foo.X1 <- genes_bin4$foo.X1 - 50320
+#genes_bin4$foo.X2 <- genes_bin4$foo.X2 - 50320
+genes_bin4$length <- (genes_bin4$foo.X2-genes_bin4$foo.X1)/1000000
+genes_bin4[round(max(ref_genes4$X307041717)/1000000),5] <- max(ref_genes4$X307041717)
+genes_bin4$density <- (genes_bin4$freq/genes_bin4$length)
 
-genes_bin5 <- as.data.frame(summary(binning(ref_genes5$X1, nbins = 300, type = "kmeans")))
+genes_bin5 <- as.data.frame(summary(binning(ref_genes5$X1, nbins = round(max(ref_genes5$X307041717)/1000000), type = "kmeans")))
 genes_bin5 <- within(genes_bin5, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin5$levels), ',', fixed=TRUE))))
 genes_bin5 <- do.call(data.frame, genes_bin5)
 genes_bin5 <- genes_bin5 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 genes_bin5 <- genes_bin5 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 genes_bin5[1,4]<-32368
-genes_bin5$foo.X1 <- genes_bin5$foo.X1 - 32368
-genes_bin5$foo.X2 <- genes_bin5$foo.X2 - 32368
-genes_bin5[300,5] <- max(chr5_snp$`SNP End`)
+#genes_bin5$foo.X1 <- genes_bin5$foo.X1 - 32368
+#genes_bin5$foo.X2 <- genes_bin5$foo.X2 - 32368
+genes_bin5$length <- (genes_bin5$foo.X2-genes_bin5$foo.X1)/1000000
+genes_bin5[round(max(ref_genes5$X307041717)/1000000),5] <- max(ref_genes5$X307041717)
+genes_bin5$density <- (genes_bin5$freq/genes_bin5$length)
 
-genes_bin6 <- as.data.frame(summary(binning(ref_genes6$X1, nbins = 300, type = "kmeans")))
+genes_bin6 <- as.data.frame(summary(binning(ref_genes6$X1, nbins = round(max(ref_genes6$X307041717)/1000000), type = "kmeans")))
 genes_bin6 <- within(genes_bin6, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin6$levels), ',', fixed=TRUE))))
 genes_bin6 <- do.call(data.frame, genes_bin6)
 genes_bin6 <- genes_bin6 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 genes_bin6 <- genes_bin6 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 genes_bin6[1,4]<-168702
-genes_bin6$foo.X1 <- genes_bin6$foo.X1 - 168702
-genes_bin6$foo.X2 <- genes_bin6$foo.X2 - 168702
-genes_bin6[300,5] <- max(chr6_snp$`SNP End`)
+#genes_bin6$foo.X1 <- genes_bin6$foo.X1 - 168702
+#genes_bin6$foo.X2 <- genes_bin6$foo.X2 - 168702
+genes_bin6$length <- (genes_bin6$foo.X2-genes_bin6$foo.X1)/1000000
+genes_bin6[round(max(ref_genes6$X307041717)/1000000),5] <- max(ref_genes6$X307041717)
+genes_bin6$density <- (genes_bin6$freq/genes_bin6$length)
 
-genes_bin7 <- as.data.frame(summary(binning(ref_genes7$X1, nbins = 300, type = "kmeans")))
+genes_bin7 <- as.data.frame(summary(binning(ref_genes7$X1, nbins = round(max(ref_genes7$X307041717)/1000000), type = "kmeans")))
 genes_bin7 <- within(genes_bin7, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin7$levels), ',', fixed=TRUE))))
 genes_bin7 <- do.call(data.frame, genes_bin7)
 genes_bin7 <- genes_bin7 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 genes_bin7 <- genes_bin7 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 genes_bin7[1,4]<-107948
-genes_bin7$foo.X1 <- genes_bin7$foo.X1 - 107948
-genes_bin7$foo.X2 <- genes_bin7$foo.X2 - 107948
-genes_bin7[300,5] <- max(chr7_snp$`SNP End`)
+#genes_bin7$foo.X1 <- genes_bin7$foo.X1 - 107948
+#genes_bin7$foo.X2 <- genes_bin7$foo.X2 - 107948
+genes_bin7$length <- (genes_bin7$foo.X2-genes_bin7$foo.X1)/1000000
+genes_bin7[round(max(ref_genes7$X307041717)/1000000),5] <- max(ref_genes7$X307041717)
+genes_bin7$density <- (genes_bin7$freq/genes_bin7$length)
 
-genes_bin8 <- as.data.frame(summary(binning(ref_genes8$X1, nbins = 300, type = "kmeans")))
+genes_bin8 <- as.data.frame(summary(binning(ref_genes8$X1, nbins = round(max(ref_genes8$X307041717)/1000000), type = "kmeans")))
 genes_bin8 <- within(genes_bin8, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin8$levels), ',', fixed=TRUE))))
 genes_bin8 <- do.call(data.frame, genes_bin8)
 genes_bin8 <- genes_bin8 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 genes_bin8 <- genes_bin8 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 genes_bin8[1,4]<-77622
-genes_bin8$foo.X1 <- genes_bin8$foo.X1 - 77622
-genes_bin8$foo.X2 <- genes_bin8$foo.X2 - 77622
-genes_bin8[300,5] <- max(chr8_snp$`SNP End`)
+#genes_bin8$foo.X1 <- genes_bin8$foo.X1 - 77622
+#genes_bin8$foo.X2 <- genes_bin8$foo.X2 - 77622
+genes_bin8$length <- (genes_bin8$foo.X2-genes_bin8$foo.X1)/1000000
+genes_bin8[round(max(ref_genes8$X307041717)/1000000),5] <- max(ref_genes8$X307041717)
+genes_bin8$density <- (genes_bin8$freq/genes_bin8$length)
 
-genes_bin9 <- as.data.frame(summary(binning(ref_genes9$X1, nbins = 300, type = "kmeans")))
+genes_bin9 <- as.data.frame(summary(binning(ref_genes9$X1, nbins = round(max(ref_genes9$X307041717)/1000000), type = "kmeans")))
 genes_bin9 <- within(genes_bin9, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin9$levels), ',', fixed=TRUE))))
 genes_bin9 <- do.call(data.frame, genes_bin9)
 genes_bin9 <- genes_bin9 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 genes_bin9 <- genes_bin9 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 genes_bin9[1,4]<-59372
-genes_bin9$foo.X1 <- genes_bin9$foo.X1 - 59372
-genes_bin9$foo.X2 <- genes_bin9$foo.X2 - 59372
-genes_bin9[300,5] <- max(chr9_snp$`SNP End`)
+#genes_bin9$foo.X1 <- genes_bin9$foo.X1 - 59372
+#genes_bin9$foo.X2 <- genes_bin9$foo.X2 - 59372
+genes_bin9$length <- (genes_bin9$foo.X2-genes_bin9$foo.X1)/1000000
+genes_bin9[round(max(ref_genes9$X307041717)/1000000),5] <- max(ref_genes9$X307041717)
+genes_bin9$density <- (genes_bin9$freq/genes_bin9$length)
 
-genes_bin10 <- binning(ref_genes10$X1, nbins = 300, type = "kmeans")
-plot(genes_bin10)
-genes_bin10 <- as.data.frame(summary(binning(ref_genes10$X1, nbins = 300, type = "kmeans")))
+genes_bin10 <- binning(ref_genes10$X1, nbins = round(max(ref_genes10$X307041717)/1000000), type = "kmeans")
+genes_bin10 <- as.data.frame(summary(binning(ref_genes10$X1, nbins = round(max(ref_genes10$X307041717)/1000000), type = "kmeans")))
 genes_bin10 <- within(genes_bin10, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin10$levels), ',', fixed=TRUE))))
 genes_bin10 <- do.call(data.frame, genes_bin10)
 genes_bin10 <- genes_bin10 %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 genes_bin10 <- genes_bin10 %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
 genes_bin10[1,4]<-130112
-genes_bin10$foo.X1 <- genes_bin10$foo.X1 - 130112
-genes_bin10$foo.X2 <- genes_bin10$foo.X2 - 130112
-genes_bin10[300,5] <- max(chr10_snp$`SNP End`)
+#genes_bin10$foo.X1 <- genes_bin10$foo.X1 - 130112
+#genes_bin10$foo.X2 <- genes_bin10$foo.X2 - 130112
+genes_bin10$length <- (genes_bin10$foo.X2-genes_bin10$foo.X1)/1000000
+genes_bin10[round(max(ref_genes10$X307041717)/1000000),5] <- max(ref_genes10$X307041717)
+genes_bin10$density <- (genes_bin10$freq/genes_bin10$length)
 
+##Spearmen correlation test to find correlation between gene density & recombination rate
+chr1_corr <- genes_bin1$density
+chr1_corr <- as.data.frame(chr1_corr)
+colnames(chr1_corr) <- "density"
+chr1_corr$start <- genes_bin1$foo.X1
+chr1_corr$end <- genes_bin1$foo.X2
+chr1_corr$rate <- NA
+
+chr2_corr <- genes_bin2$density
+chr2_corr <- as.data.frame(chr2_corr)
+colnames(chr2_corr) <- "density"
+chr2_corr$start <- genes_bin2$foo.X1
+chr2_corr$end <- genes_bin2$foo.X2
+chr2_corr$rate <- NA
+
+chr3_corr <- genes_bin3$density
+chr3_corr <- as.data.frame(chr3_corr)
+colnames(chr3_corr) <- "density"
+chr3_corr$start <- genes_bin3$foo.X1
+chr3_corr$end <- genes_bin3$foo.X2
+chr3_corr$rate <- NA
+
+chr4_corr <- genes_bin4$density
+chr4_corr <- as.data.frame(chr4_corr)
+colnames(chr4_corr) <- "density"
+chr4_corr$start <- genes_bin4$foo.X1
+chr4_corr$end <- genes_bin4$foo.X2
+chr4_corr$rate <- NA
+
+chr5_corr <- genes_bin5$density
+chr5_corr <- as.data.frame(chr5_corr)
+colnames(chr5_corr) <- "density"
+chr5_corr$start <- genes_bin5$foo.X1
+chr5_corr$end <- genes_bin5$foo.X2
+chr5_corr$rate <- NA
+
+chr6_corr <- genes_bin6$density
+chr6_corr <- as.data.frame(chr6_corr)
+colnames(chr6_corr) <- "density"
+chr6_corr$start <- genes_bin6$foo.X1
+chr6_corr$end <- genes_bin6$foo.X2
+chr6_corr$rate <- NA
+
+chr7_corr <- genes_bin7$density
+chr7_corr <- as.data.frame(chr7_corr)
+colnames(chr7_corr) <- "density"
+chr7_corr$start <- genes_bin7$foo.X1
+chr7_corr$end <- genes_bin7$foo.X2
+chr7_corr$rate <- NA
+
+chr8_corr <- genes_bin8$density
+chr8_corr <- as.data.frame(chr8_corr)
+colnames(chr8_corr) <- "density"
+chr8_corr$start <- genes_bin8$foo.X1
+chr8_corr$end <- genes_bin8$foo.X2
+chr8_corr$rate <- NA
+
+chr9_corr <- genes_bin9$density
+chr9_corr <- as.data.frame(chr9_corr)
+colnames(chr9_corr) <- "density"
+chr9_corr$start <- genes_bin9$foo.X1
+chr9_corr$end <- genes_bin9$foo.X2
+chr9_corr$rate <- NA
+
+chr10_corr <- genes_bin10$density
+chr10_corr <- as.data.frame(chr10_corr)
+colnames(chr10_corr) <- "density"
+chr10_corr$start <- genes_bin10$foo.X1
+chr10_corr$end <- genes_bin10$foo.X2
+chr10_corr$rate <- NA
+
+assign_rate <- function(chr_bin, chr_corr){
+  for(i in 1:nrow(chr_bin)){
+    for(k in 1:nrow(chr_corr)){
+      if(isTRUE((chr_bin$foo.X1[i] <= chr_corr$end[k]) && (chr_bin$foo.X2[i] >= chr_corr$end[k]))){
+        chr_corr$rate[k] <- chr_bin$rate[i]
+      }
+    }
+  }
+  return(chr_corr)
+}
+chr1_corr_rate <- assign_rate(chr1_bin, chr1_corr)
+cor.test(chr1_corr_rate$rate, chr1_corr_rate$density,  method = "spearman", alternative = "greater")
+
+chr2_corr_rate <- assign_rate(chr2_bin, chr2_corr)
+cor.test(chr2_corr_rate$rate, chr2_corr_rate$density,  method = "spearman", alternative = "greater")
+
+chr3_corr_rate <- assign_rate(chr3_bin, chr3_corr)
+#chr3_corr_rate <- chr3_corr_rate[-c(1,2,233:247),]
+cor.test(chr3_corr_rate$rate, chr3_corr_rate$density,  method = "spearman", alternative = "greater")
+
+chr4_corr_rate <- assign_rate(chr4_bin, chr4_corr)
+#chr4_corr_rate <- chr4_corr_rate[-c(246,247),]
+cor.test(chr4_corr_rate$rate, chr4_corr_rate$density,  method = "spearman", alternative = "greater")
+
+chr5_corr_rate <- assign_rate(chr5_bin, chr5_corr)
+#chr5_corr_rate <- chr5_corr_rate[-c(205:224),]
+cor.test(chr5_corr_rate$rate, chr5_corr_rate$density,  method = "spearman", alternative = "greater")
+
+chr6_corr_rate <- assign_rate(chr6_bin, chr6_corr)
+#chr6_corr_rate <- chr6_corr_rate[-c(157:174),]
+cor.test(chr6_corr_rate$rate, chr6_corr_rate$density,  method = "spearman", alternative = "greater")
+
+chr7_corr_rate <- assign_rate(chr7_bin, chr7_corr)
+#chr7_corr_rate <- chr7_corr_rate[-c(205:224),]
+cor.test(chr7_corr_rate$rate, chr7_corr_rate$density,  method = "spearman", alternative = "greater")
+
+chr8_corr_rate <- assign_rate(chr8_bin, chr8_corr)
+#chr8_corr_rate <- chr8_corr_rate[-c(205:224),]
+cor.test(chr8_corr_rate$rate, chr8_corr_rate$density,  method = "spearman", alternative = "greater")
+
+chr9_corr_rate <- assign_rate(chr9_bin, chr9_corr)
+#chr9_corr_rate <- chr9_corr_rate[-c(205:224),]
+cor.test(chr9_corr_rate$rate, chr9_corr_rate$density,  method = "spearman", alternative = "greater")
+
+chr10_corr_rate <- assign_rate(chr10_bin, chr10_corr)
+#chr10_corr_rate <- chr5_corr_rate[-c(205:224),]
+cor.test(chr10_corr_rate$rate, chr10_corr_rate$density,  method = "spearman", alternative = "greater")
+
+genomewide <- rbind(chr1_corr_rate, chr2_corr_rate, chr3_corr_rate, chr4_corr_rate, chr5_corr_rate,
+                    chr6_corr_rate, chr7_corr_rate, chr8_corr_rate, chr9_corr_rate, chr10_corr_rate)
+cor.test(genomewide$rate, genomewide$density,  method = "spearman", alternative = "greater")
 
 #REASSIGN FREQ loop through snp positions, all snp that fall in bins with low gene density get 1/4 of mean rate
 snp_uniform_rate <- function(genes_bin, chr_snp, chr_snps_mean){
@@ -417,7 +558,23 @@ snp_uniform_rate <- function(genes_bin, chr_snp, chr_snps_mean){
       if(isTRUE((chr_snp$`SNP Start`[i] >= genes_bin$foo.X1[k]) && (chr_snp$`SNP Start`[i] <= genes_bin$foo.X2[k]))){
         if(isTRUE((genes_bin$Quartile[k]==1))){
           chr_snp$rate[i] <- 0.5*chr_snps_mean
-        } 
+        }
+        else{
+          chr_snp$rate[i] <- chr_snps_mean
+        }
+      }
+    }
+  }
+  return(chr_snp)
+}
+
+snp_uniform_rate_chr2 <- function(genes_bin, chr_snp, chr_snps_mean){
+  for(i in 1:nrow(chr_snp)){
+    for(k in 1:nrow(genes_bin)){
+      if(isTRUE((chr_snp$`SNP Start`[i] >= genes_bin$foo.X1[k]) && (chr_snp$`SNP Start`[i] <= genes_bin$foo.X2[k]))){
+        if(isTRUE((genes_bin$Quartile[k]==1 || genes_bin$Quartile[k]==2))){
+          chr_snp$rate[i] <- 0.5*chr_snps_mean
+        }
         else{
           chr_snp$rate[i] <- chr_snps_mean
         }
@@ -433,9 +590,6 @@ chr1_snp2 <- snp_rate(chr1_bin, chr1_snp)
 chr1_snps_mean <- mean(chr1_snp2$rate)
 genes_bin1$Quartile<-cut(genes_bin1$freq,quantile(genes_bin1$freq),include.lowest=TRUE,labels=FALSE)
 chr1_snp2 <-snp_uniform_rate(genes_bin1, chr1_snp, chr1_snps_mean)
-#chr1_snp2$rate[1:100] <- 1.097985
-#chr1_snp2$rate[101:199] <- 0.73199
-#chr1_snp2$rate[200:300] <- 1.097985
 chr1_snp2$`SNP Start`<- chr1_snp2$`SNP Start`/1000000
 chr1_snp2 <- chr1_snp2[order(chr1_snp2$`SNP Start`),]
 #smoothing the recombination rate so transitions between bins are not so abrupt
@@ -459,10 +613,7 @@ plot(chr1_finalpos$`SNP Start`, chr1_finalpos$pos)
 chr2_snp2 <- snp_rate(chr2_bin, chr2_snp)
 chr2_snps_mean <- mean(chr2_snp2$rate)
 genes_bin2$Quartile<-cut(genes_bin2$freq,quantile(genes_bin2$freq),include.lowest=TRUE,labels=FALSE)
-chr2_snp2 <-snp_uniform_rate(genes_bin2, chr2_snp, chr2_snps_mean)
-#chr2_snp2$rate[1:79] <- 1.318753
-#chr2_snp2$rate[80:158] <- 0.8791686
-#chr2_snp2$rate[159:237] <- 1.318753
+chr2_snp2 <-snp_uniform_rate_chr2(genes_bin2, chr2_snp, chr2_snps_mean)
 chr2_snp2$`SNP Start` <- chr2_snp2$`SNP Start`/1000000
 chr2_snp2 <- chr2_snp2[-(196:237),]
 #chr2_spl <- smooth.spline(chr2_snp2$rate, spar = 0.6)
@@ -662,9 +813,9 @@ chr9len <- length(chr9)
 dim(chr9) <- c(chr9len,1)
 chr9 <- list(chr9)
 
-final_map <- list(chr1[[1]], chr2[[1]], 
-                  chr3[[1]], chr4[[1]], chr5[[1]], 
-                  chr6[[1]], chr7[[1]], chr8[[1]], 
+final_map <- list(chr1[[1]], chr2[[1]],
+                  chr3[[1]], chr4[[1]], chr5[[1]],
+                  chr6[[1]], chr7[[1]], chr8[[1]],
                   chr9[[1]], chr10[[1]])
 
 #Creating vector of centromere positions
@@ -884,94 +1035,94 @@ pop20_pheno <- matrix(nrow=40,ncol=10)
     nQtlPerChr = 1
     SP$addTraitA(nQtlPerChr)
     SP$setVarE(h2=0.9)
-    
+
     pop <- newPop(founderPop, simParam = SP)
     pop <- setPheno(pop = pop, h2 = 0.9, simParam = SP)
-    
+
     pop_F1 <- randCross(pop, nCrosses = 50, nProgeny = 10, simParam = SP)
     pop_DH <- makeDH(pop_F1, nDH = 1, simParam = SP)
     pop_DH <- setPheno(pop_DH, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel <- selectInd(pop_DH, nInd = 50, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel_cross <- randCross(pop1_sel, 10, nProgeny = 50, simParam = SP)
     pop1_sel_cross <- setPheno(pop1_sel_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel2 <- selectInd(pop1_sel_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel2_cross <- randCross(pop1_sel2, 10, nProgeny = 50, simParam = SP)
     pop1_sel2_cross <- setPheno(pop1_sel2_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel3 <- selectInd(pop1_sel2_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel3_cross <- randCross(pop1_sel3, 10, nProgeny = 50, simParam = SP)
     pop1_sel3_cross <- setPheno(pop1_sel3_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel4 <- selectInd(pop1_sel3_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel4_cross <- randCross(pop1_sel4, 10, nProgeny = 50, simParam = SP)
     pop1_sel4_cross <- setPheno(pop1_sel4_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel5_cross <- randCross(pop1_sel5, 10, nProgeny = 50, simParam = SP)
     pop1_sel5_cross <- setPheno(pop1_sel5_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel6 <- selectInd(pop1_sel5_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel6_cross <- randCross(pop1_sel6, 10, nProgeny = 50, simParam = SP)
     pop1_sel6_cross <- setPheno(pop1_sel6_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel7 <- selectInd(pop1_sel6_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel7_cross <- randCross(pop1_sel7, 10, nProgeny = 50, simParam = SP)
     pop1_sel7_cross <- setPheno(pop1_sel7_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel8 <- selectInd(pop1_sel7_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel8_cross <- randCross(pop1_sel8, 10, nProgeny = 50, simParam = SP)
     pop1_sel8_cross <- setPheno(pop1_sel8_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel9 <- selectInd(pop1_sel8_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel9_cross <- randCross(pop1_sel9, 10, nProgeny = 50, simParam = SP)
     pop1_sel9_cross <- setPheno(pop1_sel9_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel10 <- selectInd(pop1_sel9_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel10_cross <- randCross(pop1_sel10, 10, nProgeny = 50, simParam = SP)
     pop1_sel10_cross <- setPheno(pop1_sel10_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel11 <- selectInd(pop1_sel10_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel11_cross <- randCross(pop1_sel11, 10, nProgeny = 50, simParam = SP)
     pop1_sel11_cross <- setPheno(pop1_sel11_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel12 <- selectInd(pop1_sel11_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel12_cross <- randCross(pop1_sel12, 10, nProgeny = 50, simParam = SP)
     pop1_sel12_cross <- setPheno(pop1_sel12_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel13 <- selectInd(pop1_sel12_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel13_cross <- randCross(pop1_sel13, 10, nProgeny = 50, simParam = SP)
     pop1_sel13_cross <- setPheno(pop1_sel13_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel14 <- selectInd(pop1_sel13_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel14_cross <- randCross(pop1_sel14, 10, nProgeny = 50, simParam = SP)
     pop1_sel14_cross <- setPheno(pop1_sel14_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel15 <- selectInd(pop1_sel14_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel15_cross <- randCross(pop1_sel15, 10, nProgeny = 50, simParam = SP)
     pop1_sel15_cross <- setPheno(pop1_sel15_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel16 <- selectInd(pop1_sel15_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel16_cross <- randCross(pop1_sel16, 10, nProgeny = 50, simParam = SP)
     pop1_sel16_cross <- setPheno(pop1_sel16_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel17 <- selectInd(pop1_sel16_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel17_cross <- randCross(pop1_sel17, 10, nProgeny = 50, simParam = SP)
     pop1_sel17_cross <- setPheno(pop1_sel17_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel18 <- selectInd(pop1_sel17_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel18_cross <- randCross(pop1_sel18, 10, nProgeny = 50, simParam = SP)
     pop1_sel18_cross <- setPheno(pop1_sel18_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel19 <- selectInd(pop1_sel18_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel19_cross <- randCross(pop1_sel19, 10, nProgeny = 50, simParam = SP)
     pop1_sel19_cross <- setPheno(pop1_sel19_cross, h2 = 0.9, simParam = SP)
-    
+
     pop1_sel20 <- selectInd(pop1_sel19_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop1_sel20_cross <- randCross(pop1_sel20, 10, nProgeny = 50, simParam = SP)
     pop1_sel20_cross <- setPheno(pop1_sel20_cross, h2 = 0.9, simParam = SP)
-    
+
     final_sel <- selectInd(pop1_sel20_cross, nInd = 10, use = "pheno", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
     pop18_pheno[i,]<- gv(final_sel)
   }
