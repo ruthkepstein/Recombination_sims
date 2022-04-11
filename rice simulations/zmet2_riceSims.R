@@ -173,7 +173,7 @@ avg_diff <-1.2 #in telomeres? should I apply this generally or ... specify telom
 ## Multiply recombination fine scale data by the avg rate
 new_rates <- function(old_rate){
   for(i in 1:nrow(old_rate)){
-    old_rate$rate[i] <-(avg_diff*old_rate$rate[i])
+    old_rate$rate[i] <-(avg_diff*old_rate$rate[i]) + old_rate$rate[i]
   }
   print(old_rate)
 }

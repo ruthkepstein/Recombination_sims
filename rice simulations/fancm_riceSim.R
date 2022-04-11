@@ -180,7 +180,7 @@ fancm_chr12_CO[9,7]<-abs(fancm_chr12_CO[9,4]-fancm_chr12_CO[9,6])
 
 fancm_CO_bind<-rbind(fancm_chr1_CO,fancm_chr4_CO,fancm_chr7_CO,fancm_chr10_CO,fancm_chr12_CO)
 fancm_CO_bind<-na.omit(fancm_CO_bind)
-avg_diff <- mean(fancm_CO_bind$diff)
+avg_diff <- 1.252264
 
 ## multiplying WT recombination rates by the avg difference
 # exclude pericentromeric regions (suppresion regions)

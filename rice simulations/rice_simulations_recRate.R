@@ -361,7 +361,7 @@ fill_start<- function(chr_CO){
   }
   print(chr_CO)
 }
-
+library(zoo)
 jap_chr1_CO_2 <- jap_chr1_CO
 bins<-as.integer(nrow(jap_chr1_CO)/44)
 jap_chr1_CO_2$rates<- rollapply(jap_chr1_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
@@ -369,67 +369,67 @@ jap_chr1_CO_2<-fill_start(jap_chr1_CO_2)
 jap_chr1_CO_2<- jap_chr1_CO_2 %>% drop_na(rates)
 
 jap_chr2_CO_2 <- jap_chr2_CO
-bins<-as.integer(nrow(jap_chr2_CO)/400)
+bins<-as.integer(nrow(jap_chr2_CO)/40)
 jap_chr2_CO_2$rates<- rollapply(jap_chr2_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr2_CO_2<-fill_start(jap_chr2_CO_2)
 jap_chr2_CO_2<- jap_chr2_CO_2 %>% drop_na(rates)
 
 jap_chr3_CO_2 <- jap_chr3_CO
-bins<-as.integer(nrow(jap_chr3_CO)/410)
+bins<-as.integer(nrow(jap_chr3_CO)/41)
 jap_chr3_CO_2$rates<- rollapply(jap_chr3_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr3_CO_2<-fill_start(jap_chr3_CO_2)
 jap_chr3_CO_2<- jap_chr3_CO_2 %>% drop_na(rates)
 
 jap_chr4_CO_2 <- jap_chr4_CO
-bins<-as.integer(nrow(jap_chr4_CO)/390)
+bins<-as.integer(nrow(jap_chr4_CO)/39)
 jap_chr4_CO_2$rates<- rollapply(jap_chr4_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr4_CO_2<-fill_start(jap_chr4_CO_2)
 jap_chr4_CO_2<- jap_chr4_CO_2 %>% drop_na(rates)
 
 jap_chr5_CO_2 <- jap_chr5_CO
-bins<-as.integer(nrow(jap_chr5_CO)/330)
+bins<-as.integer(nrow(jap_chr5_CO)/33)
 jap_chr5_CO_2$rates<- rollapply(jap_chr5_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr5_CO_2<-fill_start(jap_chr5_CO_2)
 jap_chr5_CO_2<- jap_chr5_CO_2 %>% drop_na(rates)
 
 jap_chr6_CO_2 <- jap_chr6_CO
-bins<-as.integer(nrow(jap_chr6_CO)/320)
+bins<-as.integer(nrow(jap_chr6_CO)/32)
 jap_chr6_CO_2$rates<- rollapply(jap_chr6_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr6_CO_2<-fill_start(jap_chr6_CO_2)
 jap_chr6_CO_2<- jap_chr6_CO_2 %>% drop_na(rates)
 
 jap_chr7_CO_2 <- jap_chr7_CO
-bins<-as.integer(nrow(jap_chr7_CO)/350)
+bins<-as.integer(nrow(jap_chr7_CO)/35)
 jap_chr7_CO_2$rates<- rollapply(jap_chr7_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr7_CO_2<-fill_start(jap_chr7_CO_2)
 jap_chr7_CO_2<- jap_chr7_CO_2 %>% drop_na(rates)
 
 jap_chr8_CO_2 <- jap_chr8_CO
-bins<-as.integer(nrow(jap_chr8_CO)/280)
+bins<-as.integer(nrow(jap_chr8_CO)/28)
 jap_chr8_CO_2$rates<- rollapply(jap_chr8_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr8_CO_2<-fill_start(jap_chr8_CO_2)
 jap_chr8_CO_2<- jap_chr8_CO_2 %>% drop_na(rates)
 
 jap_chr9_CO_2 <- jap_chr9_CO
-bins<-as.integer(nrow(jap_chr9_CO)/220)
+bins<-as.integer(nrow(jap_chr9_CO)/22)
 jap_chr9_CO_2$rates<- rollapply(jap_chr9_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr9_CO_2<-fill_start(jap_chr9_CO_2)
 jap_chr9_CO_2<- jap_chr9_CO_2 %>% drop_na(rates)
 
 jap_chr10_CO_2 <- jap_chr10_CO
-bins<-as.integer(nrow(jap_chr10_CO)/270)
+bins<-as.integer(nrow(jap_chr10_CO)/27)
 jap_chr10_CO_2$rates<- rollapply(jap_chr10_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr10_CO_2<-fill_start(jap_chr10_CO_2)
 jap_chr10_CO_2<- jap_chr10_CO_2 %>% drop_na(rates)
 
 jap_chr11_CO_2 <- jap_chr11_CO
-bins<-as.integer(nrow(jap_chr11_CO)/300)
+bins<-as.integer(nrow(jap_chr11_CO)/30)
 jap_chr11_CO_2$rates<- rollapply(jap_chr11_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr11_CO_2<-fill_start(jap_chr11_CO_2)
 jap_chr11_CO_2<- jap_chr11_CO_2 %>% drop_na(rates)
 
 jap_chr12_CO_2 <- jap_chr12_CO
-bins<-as.integer(nrow(jap_chr12_CO)/310)
+bins<-as.integer(nrow(jap_chr12_CO)/31)
 jap_chr12_CO_2$rates<- rollapply(jap_chr12_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr12_CO_2<-fill_start(jap_chr12_CO_2)
 jap_chr12_CO_2<- jap_chr12_CO_2 %>% drop_na(rates)
@@ -442,67 +442,67 @@ ind_chr1_CO_2<-fill_start(ind_chr1_CO_2)
 ind_chr1_CO_2<- ind_chr1_CO_2 %>% drop_na(rates)
 
 ind_chr2_CO_2 <- ind_chr2_CO
-bins<-as.integer(nrow(ind_chr2_CO)/400)
+bins<-as.integer(nrow(ind_chr2_CO)/40)
 ind_chr2_CO_2$rates<- rollapply(ind_chr2_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr2_CO_2<-fill_start(ind_chr2_CO_2)
 ind_chr2_CO_2<- ind_chr2_CO_2 %>% drop_na(rates)
 
 ind_chr3_CO_2 <- ind_chr3_CO
-bins<-as.integer(nrow(ind_chr3_CO)/410)
+bins<-as.integer(nrow(ind_chr3_CO)/41)
 ind_chr3_CO_2$rates<- rollapply(ind_chr3_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr3_CO_2<-fill_start(ind_chr3_CO_2)
 ind_chr3_CO_2<- ind_chr3_CO_2 %>% drop_na(rates)
 
 ind_chr4_CO_2 <- ind_chr4_CO
-bins<-as.integer(nrow(ind_chr4_CO)/390)
+bins<-as.integer(nrow(ind_chr4_CO)/39)
 ind_chr4_CO_2$rates<- rollapply(ind_chr4_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr4_CO_2<-fill_start(ind_chr4_CO_2)
 ind_chr4_CO_2<- ind_chr4_CO_2 %>% drop_na(rates)
 
 ind_chr5_CO_2 <- ind_chr5_CO
-bins<-as.integer(nrow(ind_chr5_CO)/330)
+bins<-as.integer(nrow(ind_chr5_CO)/33)
 ind_chr5_CO_2$rates<- rollapply(ind_chr5_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr5_CO_2<-fill_start(ind_chr5_CO_2)
 ind_chr5_CO_2<- ind_chr5_CO_2 %>% drop_na(rates)
 
 ind_chr6_CO_2 <- ind_chr6_CO
-bins<-as.integer(nrow(ind_chr6_CO)/320)
+bins<-as.integer(nrow(ind_chr6_CO)/32)
 ind_chr6_CO_2$rates<- rollapply(ind_chr6_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr6_CO_2<-fill_start(ind_chr6_CO_2)
 ind_chr6_CO_2<- ind_chr6_CO_2 %>% drop_na(rates)
 
 ind_chr7_CO_2 <- ind_chr7_CO
-bins<-as.integer(nrow(ind_chr7_CO)/350)
+bins<-as.integer(nrow(ind_chr7_CO)/35)
 ind_chr7_CO_2$rates<- rollapply(ind_chr7_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr7_CO_2<-fill_start(ind_chr7_CO_2)
 ind_chr7_CO_2<- ind_chr7_CO_2 %>% drop_na(rates)
 
 ind_chr8_CO_2 <- ind_chr8_CO
-bins<-as.integer(nrow(ind_chr8_CO)/280)
+bins<-as.integer(nrow(ind_chr8_CO)/28)
 ind_chr8_CO_2$rates<- rollapply(ind_chr8_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr8_CO_2<-fill_start(ind_chr8_CO_2)
 ind_chr8_CO_2<- ind_chr8_CO_2 %>% drop_na(rates)
 
 ind_chr9_CO_2 <- ind_chr9_CO
-bins<-as.integer(nrow(ind_chr9_CO)/220)
+bins<-as.integer(nrow(ind_chr9_CO)/22)
 ind_chr9_CO_2$rates<- rollapply(ind_chr9_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr9_CO_2<-fill_start(ind_chr9_CO_2)
 ind_chr9_CO_2<- ind_chr9_CO_2 %>% drop_na(rates)
 
 ind_chr10_CO_2 <- ind_chr10_CO
-bins<-as.integer(nrow(ind_chr10_CO)/270)
+bins<-as.integer(nrow(ind_chr10_CO)/27)
 ind_chr10_CO_2$rates<- rollapply(ind_chr10_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr10_CO_2<-fill_start(ind_chr10_CO_2)
 ind_chr10_CO_2<- ind_chr10_CO_2 %>% drop_na(rates)
 
 ind_chr11_CO_2 <- ind_chr11_CO
-bins<-as.integer(nrow(ind_chr11_CO)/300)
+bins<-as.integer(nrow(ind_chr11_CO)/30)
 ind_chr11_CO_2$rates<- rollapply(ind_chr11_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr11_CO_2<-fill_start(ind_chr11_CO_2)
 ind_chr11_CO_2<- ind_chr11_CO_2 %>% drop_na(rates)
 
 ind_chr12_CO_2 <- ind_chr12_CO
-bins<-as.integer(nrow(ind_chr12_CO)/310)
+bins<-as.integer(nrow(ind_chr12_CO)/31)
 ind_chr12_CO_2$rates<- rollapply(ind_chr12_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr12_CO_2<-fill_start(ind_chr12_CO_2)
 ind_chr12_CO_2<- ind_chr12_CO_2 %>% drop_na(rates)
@@ -647,6 +647,7 @@ is.unsorted(jap_chr3_finalpos$pos)
 plot(jap_chr3_snp3$`SNP Start`, jap_chr3_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Chromosome 3 Genetic Map")
 
+jap_chr4_snp3<-na.omit(jap_chr4_snp3)
 jap_chr4_spl <- smooth.spline(jap_chr4_snp3$rate, spar = .35)
 jap_chr4_snp3$pos <- (jap_chr4_snp3$`SNP Start`*jap_chr4_spl$y)
 plot(jap_chr4_snp3$`SNP Start`, jap_chr4_snp3$pos)
@@ -667,7 +668,6 @@ is.unsorted(jap_chr5_finalpos$pos)
 plot(jap_chr5_snp3$`SNP Start`, jap_chr5_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Chromosome 5 Genetic Map")
 
-#slight increasing
 jap_chr6_spl <- smooth.spline(jap_chr6_snp3$rate, spar = .291)
 jap_chr6_snp3$pos <- (jap_chr6_snp3$`SNP Start`*jap_chr6_spl$y)
 plot(jap_chr6_snp3$`SNP Start`, jap_chr6_snp3$pos)
@@ -678,7 +678,6 @@ is.unsorted(jap_chr6_finalpos$pos)
 plot(jap_chr6_snp3$`SNP Start`, jap_chr6_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Chromosome 6 Genetic Map")
 
-#slight increase
 jap_chr7_spl <- smooth.spline(jap_chr7_snp3$rate, spar = 0.27)
 jap_chr7_snp3$pos <- (jap_chr7_snp3$`SNP Start`*jap_chr7_spl$y)
 plot(jap_chr7_snp3$`SNP Start`, jap_chr7_snp3$pos)
@@ -689,6 +688,7 @@ is.unsorted(jap_chr7_finalpos$pos)
 plot(jap_chr7_snp3$`SNP Start`, jap_chr7_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Chromosome 7 Genetic Map")
 
+jap_chr8_snp3<-na.omit(jap_chr8_snp3)
 jap_chr8_spl <- smooth.spline(jap_chr8_snp3$rate, spar = .4)
 jap_chr8_snp3$pos <- (jap_chr8_snp3$`SNP Start`*jap_chr8_spl$y)
 plot(jap_chr8_snp3$`SNP Start`, jap_chr8_snp3$pos)
@@ -699,7 +699,6 @@ is.unsorted(jap_chr8_finalpos$pos)
 plot(jap_chr8_snp3$`SNP Start`, jap_chr8_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Chromosome 8 Genetic Map")
 
-#slight increase
 jap_chr9_spl <- smooth.spline(jap_chr9_snp3$rate, spar = .65)
 jap_chr9_snp3$pos <- (jap_chr9_snp3$`SNP Start`*jap_chr9_spl$y)
 plot(jap_chr9_snp3$`SNP Start`, jap_chr9_snp3$pos)
@@ -710,7 +709,6 @@ is.unsorted(jap_chr9_finalpos$pos)
 plot(jap_chr9_snp3$`SNP Start`, jap_chr9_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Chromosome 9 Genetic Map")
 
-#slight increase
 jap_chr10_spl <- smooth.spline(jap_chr10_snp3$rate, spar =.5)
 jap_chr10_snp3$pos <- (jap_chr10_snp3$`SNP Start`*jap_chr10_spl$y)
 plot(jap_chr10_snp3$`SNP Start`, jap_chr10_snp3$pos)
@@ -743,18 +741,18 @@ plot(jap_chr12_snp3$`SNP Start`, jap_chr12_finalpos$pos, type = "l", xlab = "Phy
 
 ##INDICA 
 #assign recomb rates
-ind_chr1_snp2 <- snp_rate(ind_chr1_CO, ind_chr1_snp)
-ind_chr2_snp2 <- snp_rate(ind_chr2_CO, ind_chr2_snp)
-ind_chr3_snp2 <- snp_rate(ind_chr3_CO, ind_chr3_snp)
-ind_chr4_snp2 <- snp_rate(ind_chr4_CO, ind_chr4_snp)
-ind_chr5_snp2 <- snp_rate(ind_chr5_CO, ind_chr5_snp)
-ind_chr6_snp2 <- snp_rate(ind_chr6_CO, ind_chr6_snp)
-ind_chr7_snp2 <- snp_rate(ind_chr7_CO, ind_chr7_snp)
-ind_chr8_snp2 <- snp_rate(ind_chr8_CO, ind_chr8_snp)
-ind_chr9_snp2 <- snp_rate(ind_chr9_CO, ind_chr9_snp)
-ind_chr10_snp2 <- snp_rate(ind_chr10_CO, ind_chr10_snp)
-ind_chr11_snp2 <- snp_rate(ind_chr11_CO, ind_chr11_snp)
-ind_chr12_snp2 <- snp_rate(ind_chr12_CO, ind_chr12_snp)
+ind_chr1_snp2 <- snp_rate(ind_chr1_CO_2, ind_chr1_snp)
+ind_chr2_snp2 <- snp_rate(ind_chr2_CO_2, ind_chr2_snp)
+ind_chr3_snp2 <- snp_rate(ind_chr3_CO_2, ind_chr3_snp)
+ind_chr4_snp2 <- snp_rate(ind_chr4_CO_2, ind_chr4_snp)
+ind_chr5_snp2 <- snp_rate(ind_chr5_CO_2, ind_chr5_snp)
+ind_chr6_snp2 <- snp_rate(ind_chr6_CO_2, ind_chr6_snp)
+ind_chr7_snp2 <- snp_rate(ind_chr7_CO_2, ind_chr7_snp)
+ind_chr8_snp2 <- snp_rate(ind_chr8_CO_2, ind_chr8_snp)
+ind_chr9_snp2 <- snp_rate(ind_chr9_CO_2, ind_chr9_snp)
+ind_chr10_snp2 <- snp_rate(ind_chr10_CO_2, ind_chr10_snp)
+ind_chr11_snp2 <- snp_rate(ind_chr11_CO_2, ind_chr11_snp)
+ind_chr12_snp2 <- snp_rate(ind_chr12_CO_2, ind_chr12_snp)
 
 #make mutable copies of data
 ind_chr1_snp3 <- ind_chr1_snp2
@@ -833,6 +831,7 @@ Q12 <- quantile(ind_chr12_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
 iqr12 <- IQR(ind_chr12_snp3$rate)
 ind_chr12_snp3<- subset(ind_chr12_snp3, ind_chr12_snp3$rate > (Q12[1] - 1.5*iqr12) & ind_chr12_snp3$rate < (Q12[2]+1.5*iqr12))
 
+ind_chr1_snp3<-na.omit(ind_chr1_snp3)
 ind_chr1_snp3 <- ind_chr1_snp3[order(ind_chr1_snp3$`SNP Start`),]
 ind_chr1_spl <- smooth.spline(ind_chr1_snp3$rate, spar =.27)
 ind_chr1_snp3$pos <- (ind_chr1_snp3$`SNP Start`*ind_chr1_spl$y)
@@ -845,6 +844,7 @@ is.unsorted(ind_chr1_finalpos$pos)
 plot(ind_chr1_snp3$`SNP Start`, ind_chr1_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Indica Chromosome 1 Genetic Map")
 
+ind_chr2_snp3<-na.omit(ind_chr2_snp3)
 ind_chr2_spl <- smooth.spline(ind_chr2_snp3$rate, spar = .22)
 ind_chr2_snp3$pos <- (ind_chr2_snp3$`SNP Start`*ind_chr2_spl$y)
 plot(ind_chr2_snp3$`SNP Start`, ind_chr2_snp3$pos)
@@ -905,6 +905,7 @@ is.unsorted(ind_chr7_finalpos$pos)
 plot(ind_chr7_snp3$`SNP Start`, ind_chr7_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Indica Chromosome 7 Genetic Map")
 
+ind_chr8_snp3<-na.omit(ind_chr8_snp3)
 ind_chr8_spl <- smooth.spline(ind_chr8_snp3$rate, spar = .24)
 ind_chr8_snp3$pos <- (ind_chr8_snp3$`SNP Start`*ind_chr8_spl$y)
 plot(ind_chr8_snp3$`SNP Start`, ind_chr8_snp3$pos)
@@ -915,7 +916,7 @@ is.unsorted(ind_chr8_finalpos$pos)
 plot(ind_chr8_snp3$`SNP Start`, ind_chr8_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Indica Chromosome 8 Genetic Map")
 
-ind_chr9_spl <- smooth.spline(ind_chr9_snp3$rate, spar = .35)
+ind_chr9_spl <- smooth.spline(ind_chr9_snp3$rate, spar = .5)
 ind_chr9_snp3$pos <- (ind_chr9_snp3$`SNP Start`*ind_chr9_spl$y)
 plot(ind_chr9_snp3$`SNP Start`, ind_chr9_snp3$pos)
 plot(ind_chr9_snp3$`SNP Start`, ind_chr9_snp3$pos/ind_chr9_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -925,7 +926,7 @@ is.unsorted(ind_chr9_finalpos$pos)
 plot(ind_chr9_snp3$`SNP Start`, ind_chr9_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Indica Chromosome 9 Genetic Map")
 
-ind_chr10_spl <- smooth.spline(ind_chr10_snp3$rate, spar = .33)
+ind_chr10_spl <- smooth.spline(ind_chr10_snp3$rate, spar = .5)
 ind_chr10_snp3$pos <- (ind_chr10_snp3$`SNP Start`*ind_chr10_spl$y)
 plot(ind_chr10_snp3$`SNP Start`, ind_chr10_snp3$pos)
 plot(ind_chr10_snp3$`SNP Start`, ind_chr10_snp3$pos/ind_chr10_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
