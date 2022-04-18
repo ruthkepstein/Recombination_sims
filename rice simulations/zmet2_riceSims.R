@@ -204,73 +204,73 @@ fill_start<- function(chr_CO){
 }
 library(zoo)
 zmet2_chr1_CO_3 <- zmet2_chr1_CO_2
-bins<-as.integer(nrow(zmet2_chr1_CO_2)/44)
+bins<-as.integer(nrow(zmet2_chr1_CO_2)/440)
 zmet2_chr1_CO_3$rates<- rollapply(zmet2_chr1_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr1_CO_3<-fill_start(zmet2_chr1_CO_3)
 zmet2_chr1_CO_3<- zmet2_chr1_CO_3 %>% drop_na(rates)
 
 zmet2_chr2_CO_3 <- zmet2_chr2_CO_2
-bins<-as.integer(nrow(zmet2_chr2_CO_2)/40)
+bins<-as.integer(nrow(zmet2_chr2_CO_2)/400)
 zmet2_chr2_CO_3$rates<- rollapply(zmet2_chr2_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr2_CO_3<-fill_start(zmet2_chr2_CO_3)
 zmet2_chr2_CO_3<- zmet2_chr2_CO_3 %>% drop_na(rates)
 
 zmet2_chr3_CO_3 <- zmet2_chr3_CO_2
-bins<-as.integer(nrow(zmet2_chr3_CO_2)/41)
+bins<-as.integer(nrow(zmet2_chr3_CO_2)/410)
 zmet2_chr3_CO_3$rates<- rollapply(zmet2_chr3_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr3_CO_3<-fill_start(zmet2_chr3_CO_3)
 zmet2_chr3_CO_3<- zmet2_chr3_CO_3 %>% drop_na(rates)
 
 zmet2_chr4_CO_3 <- zmet2_chr4_CO_2
-bins<-as.integer(nrow(zmet2_chr4_CO_2)/39)
+bins<-as.integer(nrow(zmet2_chr4_CO_2)/390)
 zmet2_chr4_CO_3$rates<- rollapply(zmet2_chr4_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr4_CO_3<-fill_start(zmet2_chr4_CO_3)
 zmet2_chr4_CO_3<- zmet2_chr4_CO_3 %>% drop_na(rates)
 
 zmet2_chr5_CO_3 <- zmet2_chr5_CO_2
-bins<-as.integer(nrow(zmet2_chr5_CO_2)/33)
+bins<-as.integer(nrow(zmet2_chr5_CO_2)/330)
 zmet2_chr5_CO_3$rates<- rollapply(zmet2_chr5_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr5_CO_3<-fill_start(zmet2_chr5_CO_3)
 zmet2_chr5_CO_3<- zmet2_chr5_CO_3 %>% drop_na(rates)
 
 zmet2_chr6_CO_3 <- zmet2_chr6_CO_2
-bins<-as.integer(nrow(zmet2_chr6_CO_2)/32)
+bins<-as.integer(nrow(zmet2_chr6_CO_2)/320)
 zmet2_chr6_CO_3$rates<- rollapply(zmet2_chr6_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr6_CO_3<-fill_start(zmet2_chr6_CO_3)
 zmet2_chr6_CO_3<- zmet2_chr6_CO_3 %>% drop_na(rates)
 
 zmet2_chr7_CO_3 <- zmet2_chr7_CO_2
-bins<-as.integer(nrow(zmet2_chr7_CO_2)/35)
+bins<-as.integer(nrow(zmet2_chr7_CO_2)/350)
 zmet2_chr7_CO_3$rates<- rollapply(zmet2_chr7_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr7_CO_3<-fill_start(zmet2_chr7_CO_3)
 zmet2_chr7_CO_3<- zmet2_chr7_CO_3 %>% drop_na(rates)
 
 zmet2_chr8_CO_3 <- zmet2_chr8_CO_2
-bins<-as.integer(nrow(zmet2_chr8_CO_2)/28)
+bins<-as.integer(nrow(zmet2_chr8_CO_2)/280)
 zmet2_chr8_CO_3$rates<- rollapply(zmet2_chr8_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr8_CO_3<-fill_start(zmet2_chr8_CO_3)
 zmet2_chr8_CO_3<- zmet2_chr8_CO_3 %>% drop_na(rates)
 
 zmet2_chr9_CO_3 <- zmet2_chr9_CO_2
-bins<-as.integer(nrow(zmet2_chr9_CO_2)/22)
+bins<-as.integer(nrow(zmet2_chr9_CO_2)/220)
 zmet2_chr9_CO_3$rates<- rollapply(zmet2_chr9_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr9_CO_3<-fill_start(zmet2_chr9_CO_3)
 zmet2_chr9_CO_3<- zmet2_chr9_CO_3 %>% drop_na(rates)
 
 zmet2_chr10_CO_3 <- zmet2_chr10_CO_2
-bins<-as.integer(nrow(zmet2_chr10_CO_2)/27)
+bins<-as.integer(nrow(zmet2_chr10_CO_2)/270)
 zmet2_chr10_CO_3$rates<- rollapply(zmet2_chr10_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr10_CO_3<-fill_start(zmet2_chr10_CO_3)
 zmet2_chr10_CO_3<- zmet2_chr10_CO_3 %>% drop_na(rates)
 
 zmet2_chr11_CO_3 <- zmet2_chr11_CO_2
-bins<-as.integer(nrow(zmet2_chr11_CO_2)/30)
+bins<-as.integer(nrow(zmet2_chr11_CO_2)/300)
 zmet2_chr11_CO_3$rates<- rollapply(zmet2_chr11_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr11_CO_3<-fill_start(zmet2_chr11_CO_3)
 zmet2_chr11_CO_3<- zmet2_chr11_CO_3 %>% drop_na(rates)
 
 zmet2_chr12_CO_3 <- zmet2_chr12_CO_2
-bins<-as.integer(nrow(zmet2_chr12_CO_2)/31)
+bins<-as.integer(nrow(zmet2_chr12_CO_2)/310)
 zmet2_chr12_CO_3$rates<- rollapply(zmet2_chr12_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr12_CO_3<-fill_start(zmet2_chr12_CO_3)
 zmet2_chr12_CO_3<- zmet2_chr12_CO_3 %>% drop_na(rates)
