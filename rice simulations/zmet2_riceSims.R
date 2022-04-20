@@ -168,7 +168,7 @@ WTJap_chr12_CO$`CO Start` <- WTJap_chr12_CO$`CO Start` - min(WTJap_chr12_CO$`CO 
 
 
 ##Using zmet2 recombination landscape--> 20% increase in COs
-avg_diff <-1.2 #in telomeres? should I apply this generally or ... specify telomeric regions?
+avg_diff <-1
 
 ## Multiply recombination fine scale data by the avg rate
 new_rates <- function(old_rate){
@@ -367,24 +367,25 @@ is.unsorted(zmet2_chr2_finalpos$pos)
 plot(zmet2_chr2_snp2$`SNP Start`, zmet2_chr2_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica zmet2 Chromosome 2 Genetic Map")
 
-zmet2_chr3_spl <- smooth.spline(zmet2_chr3_snp2$rate, spar = .9)
-
+zmet2_chr3_spl <- smooth.spline(zmet2_chr3_snp2$rate, spar = 1)
 zmet2_chr3_snp2$pos <- (zmet2_chr3_snp2$`SNP Start`*zmet2_chr3_spl$y)
 plot(zmet2_chr3_snp2$`SNP Start`, zmet2_chr3_snp2$pos)
 plot(zmet2_chr3_snp2$`SNP Start`, zmet2_chr3_snp2$pos/zmet2_chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica zmet2 Chromosome 3 Recombination Distribution")
 zmet2_chr3_finalpos <- zmet2_chr3_snp2[order(zmet2_chr3_snp2$pos),]
 is.unsorted(zmet2_chr3_finalpos$pos)
+zmet2_chr3_finalpos$pos <- zmet2_chr3_finalpos$pos + abs(min(zmet2_chr3_finalpos$pos))
 plot(zmet2_chr3_snp2$`SNP Start`, zmet2_chr3_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica zmet2 Chromosome 3 Genetic Map")
 
-zmet2_chr4_spl <- smooth.spline(zmet2_chr4_snp2$rate, spar = 1)
+zmet2_chr4_spl <- smooth.spline(zmet2_chr4_snp2$rate, spar = .7)
 zmet2_chr4_snp2$pos <- (zmet2_chr4_snp2$`SNP Start`*zmet2_chr4_spl$y)
 plot(zmet2_chr4_snp2$`SNP Start`, zmet2_chr4_snp2$pos)
 plot(zmet2_chr4_snp2$`SNP Start`, zmet2_chr4_snp2$pos/zmet2_chr4_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica zmet2 Chromosome 4 Recombination Distribution")
 zmet2_chr4_finalpos <- zmet2_chr4_snp2[order(zmet2_chr4_snp2$pos),]
 is.unsorted(zmet2_chr4_finalpos$pos)
+zmet2_chr4_finalpos$pos <- zmet2_chr4_finalpos$pos + abs(min(zmet2_chr4_finalpos$pos))
 plot(zmet2_chr4_snp2$`SNP Start`, zmet2_chr4_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica zmet2 Chromosome 4 Genetic Map")
 

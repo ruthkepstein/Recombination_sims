@@ -563,6 +563,19 @@ jap_chr10_snp3$`SNP Start` <- jap_chr10_snp3$`SNP Start`/1000000
 jap_chr11_snp3$`SNP Start` <- jap_chr11_snp3$`SNP Start`/1000000
 jap_chr12_snp3$`SNP Start` <- jap_chr12_snp3$`SNP Start`/1000000
 
+jap_chr1_snp3<-na.omit(jap_chr1_snp3)
+jap_chr2_snp3<-na.omit(jap_chr2_snp3)
+jap_chr3_snp3<-na.omit(jap_chr3_snp3)
+jap_chr4_snp3<-na.omit(jap_chr4_snp3)
+jap_chr5_snp3<-na.omit(jap_chr5_snp3)
+jap_chr6_snp3<-na.omit(jap_chr6_snp3)
+jap_chr7_snp3<-na.omit(jap_chr7_snp3)
+jap_chr8_snp3<-na.omit(jap_chr8_snp3)
+jap_chr9_snp3<-na.omit(jap_chr9_snp3)
+jap_chr10_snp3<-na.omit(jap_chr10_snp3)
+jap_chr11_snp3<-na.omit(jap_chr11_snp3)
+jap_chr12_snp3<-na.omit(jap_chr12_snp3)
+
 #cleaning up data - removing outliers
 Q1 <- quantile(jap_chr1_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
 iqr1 <- IQR(jap_chr1_snp3$rate)
@@ -612,22 +625,8 @@ Q12 <- quantile(jap_chr12_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
 iqr12 <- IQR(jap_chr12_snp3$rate)
 jap_chr12_snp3<- subset(jap_chr12_snp3, jap_chr12_snp3$rate > (Q12[1] - 1.5*iqr12) & jap_chr12_snp3$rate < (Q12[2]+1.5*iqr12))
 
-jap_chr1_snp3<-na.omit(jap_chr1_snp3)
-jap_chr2_snp3<-na.omit(jap_chr2_snp3)
-jap_chr3_snp3<-na.omit(jap_chr3_snp3)
-jap_chr4_snp3<-na.omit(jap_chr4_snp3)
-jap_chr5_snp3<-na.omit(jap_chr5_snp3)
-jap_chr6_snp3<-na.omit(jap_chr6_snp3)
-jap_chr7_snp3<-na.omit(jap_chr7_snp3)
-jap_chr8_snp3<-na.omit(jap_chr8_snp3)
-jap_chr9_snp3<-na.omit(jap_chr9_snp3)
-jap_chr10_snp3<-na.omit(jap_chr10_snp3)
-jap_chr11_snp3<-na.omit(jap_chr11_snp3)
-jap_chr12_snp3<-na.omit(jap_chr12_snp3)
 
-
-jap_chr1_snp3<-na.omit(jap_chr1_snp3)
-jap_chr1_spl <- smooth.spline(jap_chr1_snp3$rate, spar = .5)
+jap_chr1_spl <- smooth.spline(jap_chr1_snp3$rate, spar = .4)
 jap_chr1_snp3$pos <- (jap_chr1_snp3$`SNP Start`*jap_chr1_spl$y)
 plot(jap_chr1_snp3$`SNP Start`, jap_chr1_snp3$rate, type = "l")
 ggplot(jap_chr1_snp3, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
@@ -649,7 +648,7 @@ is.unsorted(jap_chr2_finalpos$pos)
 plot(jap_chr2_snp3$`SNP Start`, jap_chr2_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Chromosome 2 Genetic Map")
 
-jap_chr3_spl <- smooth.spline(jap_chr3_snp3$rate, spar = .3)
+jap_chr3_spl <- smooth.spline(jap_chr3_snp3$rate, spar = .4)
 jap_chr3_snp3$pos <- (jap_chr3_snp3$`SNP Start`*jap_chr3_spl$y)
 plot(jap_chr3_snp3$`SNP Start`, jap_chr3_snp3$pos)
 plot(jap_chr3_snp3$`SNP Start`, jap_chr3_snp3$pos/jap_chr3_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -679,7 +678,7 @@ is.unsorted(jap_chr5_finalpos$pos)
 plot(jap_chr5_snp3$`SNP Start`, jap_chr5_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Chromosome 5 Genetic Map")
 
-jap_chr6_spl <- smooth.spline(jap_chr6_snp3$rate, spar = .291)
+jap_chr6_spl <- smooth.spline(jap_chr6_snp3$rate, spar = .4)
 jap_chr6_snp3$pos <- (jap_chr6_snp3$`SNP Start`*jap_chr6_spl$y)
 plot(jap_chr6_snp3$`SNP Start`, jap_chr6_snp3$pos)
 plot(jap_chr6_snp3$`SNP Start`, jap_chr6_snp3$pos/jap_chr6_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -689,7 +688,7 @@ is.unsorted(jap_chr6_finalpos$pos)
 plot(jap_chr6_snp3$`SNP Start`, jap_chr6_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Chromosome 6 Genetic Map")
 
-jap_chr7_spl <- smooth.spline(jap_chr7_snp3$rate, spar = 0.27)
+jap_chr7_spl <- smooth.spline(jap_chr7_snp3$rate, spar = 0.4)
 jap_chr7_snp3$pos <- (jap_chr7_snp3$`SNP Start`*jap_chr7_spl$y)
 plot(jap_chr7_snp3$`SNP Start`, jap_chr7_snp3$pos)
 plot(jap_chr7_snp3$`SNP Start`, jap_chr7_snp3$pos/jap_chr7_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -729,7 +728,7 @@ is.unsorted(jap_chr10_finalpos$pos)
 plot(jap_chr10_snp3$`SNP Start`, jap_chr10_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Chromosome 10 Genetic Map")
 
-jap_chr11_spl <- smooth.spline(jap_chr11_snp3$rate, spar = .3)
+jap_chr11_spl <- smooth.spline(jap_chr11_snp3$rate, spar = .4)
 jap_chr11_snp3$pos <- (jap_chr11_snp3$`SNP Start`*jap_chr11_spl$y)
 plot(jap_chr11_snp3$`SNP Start`, jap_chr11_snp3$pos)
 plot(jap_chr11_snp3$`SNP Start`, jap_chr11_snp3$pos/jap_chr11_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -739,7 +738,7 @@ is.unsorted(jap_chr11_finalpos$pos)
 plot(jap_chr11_snp3$`SNP Start`, jap_chr11_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Chromosome 11 Genetic Map")
 
-jap_chr12_spl <- smooth.spline(jap_chr12_snp3$rate, spar = .29)
+jap_chr12_spl <- smooth.spline(jap_chr12_snp3$rate, spar = .4)
 jap_chr12_snp3$pos <- (jap_chr12_snp3$`SNP Start`*jap_chr12_spl$y)
 plot(jap_chr12_snp3$`SNP Start`, jap_chr12_snp3$pos)
 plot(jap_chr12_snp3$`SNP Start`, jap_chr12_snp3$pos/jap_chr12_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",

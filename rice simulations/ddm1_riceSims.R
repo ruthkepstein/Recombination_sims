@@ -482,7 +482,7 @@ ddm1_chr11_snp2<-na.omit(ddm1_chr11_snp2)
 ddm1_chr12_snp2<-na.omit(ddm1_chr12_snp2)
 
 #gen maps
-ddm1_chr1_spl <- smooth.spline(ddm1_chr1_snp2$rate, spar =1)
+ddm1_chr1_spl <- smooth.spline(ddm1_chr1_snp2$rate, spar =.8)
 ddm1_chr1_snp2$pos <- (ddm1_chr1_snp2$`SNP Start`*ddm1_chr1_spl$y)
 #ddm1_chr1_snp2$pos <- (ddm1_chr1_snp2$`SNP Start`*ddm1_chr1_snp2$rate)
 plot(ddm1_chr1_snp2$`SNP Start`, ddm1_chr1_snp2$pos)
@@ -496,7 +496,7 @@ plot(ddm1_chr1_snp2$`SNP Start`, ddm1_chr1_finalpos$pos, type = "l", xlab = "Phy
      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 1 Genetic Map")
 plot(ddm1_chr1_finalpos$`SNP Start`, ddm1_chr1_finalpos$pos)
 
-ddm1_chr2_spl <- smooth.spline(ddm1_chr2_snp2$rate, spar = 1.1)
+ddm1_chr2_spl <- smooth.spline(ddm1_chr2_snp2$rate, spar = .8)
 ddm1_chr2_snp2$pos <- (ddm1_chr2_snp2$`SNP Start`*ddm1_chr2_spl$y)
 plot(ddm1_chr2_snp2$`SNP Start`, ddm1_chr2_snp2$pos)
 plot(ddm1_chr2_snp2$`SNP Start`, ddm1_chr2_snp2$pos/ddm1_chr2_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -506,7 +506,7 @@ is.unsorted(ddm1_chr2_finalpos$pos)
 plot(ddm1_chr2_snp2$`SNP Start`, ddm1_chr2_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 2 Genetic Map")
 
-ddm1_chr3_spl <- smooth.spline(ddm1_chr3_snp2$rate, spar =.8)
+ddm1_chr3_spl <- smooth.spline(ddm1_chr3_snp2$rate, spar =.4)
 ddm1_chr3_snp2$pos <- (ddm1_chr3_snp2$`SNP Start`*ddm1_chr3_spl$y)
 plot(ddm1_chr3_snp2$`SNP Start`, ddm1_chr3_snp2$pos)
 plot(ddm1_chr3_snp2$`SNP Start`, ddm1_chr3_snp2$pos/ddm1_chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -514,20 +514,22 @@ plot(ddm1_chr3_snp2$`SNP Start`, ddm1_chr3_snp2$pos/ddm1_chr3_snp2$`SNP Start`, 
 ddm1_chr3_finalpos <- ddm1_chr3_snp2[order(ddm1_chr3_snp2$pos),]
 is.unsorted(ddm1_chr3_finalpos$pos)
 ddm1_chr3_finalpos$pos <- ddm1_chr3_finalpos$pos + abs(min(ddm1_chr3_finalpos$pos))
+ddm1_chr3_finalpos$pos <- ddm1_chr3_finalpos$pos + abs(min(ddm1_chr3_finalpos$pos))
 plot(ddm1_chr3_snp2$`SNP Start`, ddm1_chr3_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 3 Genetic Map")
 
-ddm1_chr4_spl <- smooth.spline(ddm1_chr4_snp2$rate, spar =.9)
+ddm1_chr4_spl <- smooth.spline(ddm1_chr4_snp2$rate, spar =.4)
 ddm1_chr4_snp2$pos <- (ddm1_chr4_snp2$`SNP Start`*ddm1_chr4_spl$y)
 plot(ddm1_chr4_snp2$`SNP Start`, ddm1_chr4_snp2$pos)
 plot(ddm1_chr4_snp2$`SNP Start`, ddm1_chr4_snp2$pos/ddm1_chr4_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 4 Recombination Distribution")
 ddm1_chr4_finalpos <- ddm1_chr4_snp2[order(ddm1_chr4_snp2$pos),]
 is.unsorted(ddm1_chr4_finalpos$pos)
+ddm1_chr4_finalpos$pos <- ddm1_chr4_finalpos$pos + abs(min(ddm1_chr4_finalpos$pos))
 plot(ddm1_chr4_snp2$`SNP Start`, ddm1_chr4_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 4 Genetic Map")
 
-ddm1_chr5_spl <- smooth.spline(ddm1_chr5_snp2$rate, spar =.9)
+ddm1_chr5_spl <- smooth.spline(ddm1_chr5_snp2$rate, spar =.8)
 ddm1_chr5_snp2$pos <- (ddm1_chr5_snp2$`SNP Start`*ddm1_chr5_spl$y)
 plot(ddm1_chr5_snp2$`SNP Start`, ddm1_chr5_snp2$pos)
 plot(ddm1_chr5_snp2$`SNP Start`, ddm1_chr5_snp2$pos/ddm1_chr5_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -538,53 +540,58 @@ ddm1_chr5_finalpos$pos <- ddm1_chr5_finalpos$pos + abs(min(ddm1_chr5_finalpos$po
 plot(ddm1_chr5_snp2$`SNP Start`, ddm1_chr5_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 5 Genetic Map")
 
-ddm1_chr6_spl <- smooth.spline(ddm1_chr6_snp2$rate, spar = .8)
+ddm1_chr6_spl <- smooth.spline(ddm1_chr6_snp2$rate, spar = .5)
 ddm1_chr6_snp2$pos <- (ddm1_chr6_snp2$`SNP Start`*ddm1_chr6_spl$y)
 plot(ddm1_chr6_snp2$`SNP Start`, ddm1_chr6_snp2$pos)
 plot(ddm1_chr6_snp2$`SNP Start`, ddm1_chr6_snp2$pos/ddm1_chr6_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 6 Recombination Distribution")
 ddm1_chr6_finalpos <- ddm1_chr6_snp2[order(ddm1_chr6_snp2$pos),]
 is.unsorted(ddm1_chr6_finalpos$pos)
+ddm1_chr6_finalpos$pos <- ddm1_chr6_finalpos$pos + abs(min(ddm1_chr6_finalpos$pos))
 plot(ddm1_chr6_snp2$`SNP Start`, ddm1_chr6_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 6 Genetic Map")
 
-ddm1_chr7_spl <- smooth.spline(ddm1_chr7_snp2$rate, spar = 1.2)
+ddm1_chr7_spl <- smooth.spline(ddm1_chr7_snp2$rate, spar = .5)
 ddm1_chr7_snp2$pos <- (ddm1_chr7_snp2$`SNP Start`*ddm1_chr7_spl$y)
 plot(ddm1_chr7_snp2$`SNP Start`, ddm1_chr7_snp2$pos)
 plot(ddm1_chr7_snp2$`SNP Start`, ddm1_chr7_snp2$pos/ddm1_chr7_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 7 Recombination Distribution")
 ddm1_chr7_finalpos <- ddm1_chr7_snp2[order(ddm1_chr7_snp2$pos),]
 is.unsorted(ddm1_chr7_finalpos$pos)
+ddm1_chr7_finalpos$pos <- ddm1_chr7_finalpos$pos + abs(min(ddm1_chr7_finalpos$pos))
 plot(ddm1_chr7_snp2$`SNP Start`, ddm1_chr7_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 7 Genetic Map")
 
-ddm1_chr8_spl <- smooth.spline(ddm1_chr8_snp2$rate, spar = .8)
+ddm1_chr8_spl <- smooth.spline(ddm1_chr8_snp2$rate, spar = .6)
 ddm1_chr8_snp2$pos <- (ddm1_chr8_snp2$`SNP Start`*ddm1_chr8_spl$y)
 plot(ddm1_chr8_snp2$`SNP Start`, ddm1_chr8_snp2$pos)
 plot(ddm1_chr8_snp2$`SNP Start`, ddm1_chr8_snp2$pos/ddm1_chr8_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 8 Recombination Distribution")
 ddm1_chr8_finalpos <- ddm1_chr8_snp2[order(ddm1_chr8_snp2$pos),]
 is.unsorted(ddm1_chr8_finalpos$pos)
+ddm1_chr8_finalpos$pos <- ddm1_chr8_finalpos$pos + abs(min(ddm1_chr8_finalpos$pos))
 plot(ddm1_chr8_snp2$`SNP Start`, ddm1_chr8_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 8 Genetic Map")
 
-ddm1_chr9_spl <- smooth.spline(ddm1_chr9_snp2$rate, spar = .9)
+ddm1_chr9_spl <- smooth.spline(ddm1_chr9_snp2$rate, spar = .5)
 ddm1_chr9_snp2$pos <- (ddm1_chr9_snp2$`SNP Start`*ddm1_chr9_spl$y)
 plot(ddm1_chr9_snp2$`SNP Start`, ddm1_chr9_snp2$pos)
 plot(ddm1_chr9_snp2$`SNP Start`, ddm1_chr9_snp2$pos/ddm1_chr9_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 9 Recombination Distribution")
 ddm1_chr9_finalpos <- ddm1_chr9_snp2[order(ddm1_chr9_snp2$pos),]
 is.unsorted(ddm1_chr9_finalpos$pos)
+ddm1_chr9_finalpos$pos <- ddm1_chr9_finalpos$pos + abs(min(ddm1_chr9_finalpos$pos))
 plot(ddm1_chr9_snp2$`SNP Start`, ddm1_chr9_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 9 Genetic Map")
 
-ddm1_chr10_spl <- smooth.spline(ddm1_chr10_snp2$rate, spar =.8)
+ddm1_chr10_spl <- smooth.spline(ddm1_chr10_snp2$rate, spar =.5)
 ddm1_chr10_snp2$pos <- (ddm1_chr10_snp2$`SNP Start`*ddm1_chr10_spl$y)
 plot(ddm1_chr10_snp2$`SNP Start`, ddm1_chr10_snp2$pos)
 plot(ddm1_chr10_snp2$`SNP Start`, ddm1_chr10_snp2$pos/ddm1_chr10_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 10 Recombination Distribution")
 ddm1_chr10_finalpos <- ddm1_chr10_snp2[order(ddm1_chr10_snp2$pos),]
 is.unsorted(ddm1_chr10_finalpos$pos)
+ddm1_chr10_finalpos$pos <- ddm1_chr10_finalpos$pos + abs(min(ddm1_chr10_finalpos$pos))
 plot(ddm1_chr10_snp2$`SNP Start`, ddm1_chr10_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 10 Genetic Map")
 
@@ -599,145 +606,16 @@ ddm1_chr11_finalpos$pos <- ddm1_chr11_finalpos$pos + abs(min(ddm1_chr11_finalpos
 plot(ddm1_chr11_snp2$`SNP Start`, ddm1_chr11_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 11 Genetic Map")
 
-ddm1_chr12_spl <- smooth.spline(ddm1_chr12_snp2$rate, spar = 1)
+ddm1_chr12_spl <- smooth.spline(ddm1_chr12_snp2$rate, spar = .5)
 ddm1_chr12_snp2$pos <- (ddm1_chr12_snp2$`SNP Start`*ddm1_chr12_spl$y)
 plot(ddm1_chr12_snp2$`SNP Start`, ddm1_chr12_snp2$pos)
 plot(ddm1_chr12_snp2$`SNP Start`, ddm1_chr12_snp2$pos/ddm1_chr12_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 12 Recombination Distribution")
 ddm1_chr12_finalpos <- ddm1_chr12_snp2[order(ddm1_chr12_snp2$pos),]
 is.unsorted(ddm1_chr12_finalpos$pos)
+ddm1_chr12_finalpos$pos <- ddm1_chr12_finalpos$pos + abs(min(ddm1_chr12_finalpos$pos))
 plot(ddm1_chr12_snp2$`SNP Start`, ddm1_chr12_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 12 Genetic Map")
-
-# ddm1_chr2_snp2$pos <- (ddm1_chr2_snp2$`SNP Start`*ddm1_chr2_snp2$rate)
-# plot(ddm1_chr2_snp2$`SNP Start`, ddm1_chr2_snp2$pos)
-# plot(ddm1_chr2_snp2$`SNP Start`, ddm1_chr2_snp2$pos/ddm1_chr2_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 2 Recombination Distribution")
-# ddm1_chr2_finalpos <- ddm1_chr2_snp2[order(ddm1_chr2_snp2$pos),]
-# is.unsorted(ddm1_chr2_finalpos$pos)
-# ddm1_chr2_spl <- smooth.spline(ddm1_chr2_finalpos$pos, spar = .5)
-# plot(ddm1_chr2_snp2$`SNP Start`, ddm1_chr2_spl$y, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 2 Genetic Map")
-# 
-# ddm1_chr3_spl <- smooth.spline(ddm1_chr3_snp2$rate, spar = .7)
-# ddm1_chr3_snp2$pos <- (ddm1_chr3_snp2$`SNP Start`*ddm1_chr3_spl$y)
-# #ddm1_chr3_snp2$pos <- (ddm1_chr3_snp2$`SNP Start`*ddm1_chr3_snp2$rate)
-# plot(ddm1_chr3_snp2$`SNP Start`, ddm1_chr3_snp2$pos)
-# plot(ddm1_chr3_snp2$`SNP Start`, ddm1_chr3_snp2$pos/ddm1_chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 3 Recombination Distribution")
-# ddm1_chr3_finalpos <- ddm1_chr3_snp2[order(ddm1_chr3_snp2$pos),]
-# is.unsorted(ddm1_chr3_finalpos$pos)
-# #ddm1_chr3_spl <- smooth.spline(ddm1_chr3_finalpos$pos, spar = .5)
-# plot(ddm1_chr3_snp2$`SNP Start`, ddm1_chr3_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 3 Genetic Map")
-# 
-# #ddm1_chr4_spl <- smooth.spline(ddm1_chr4_snp2$rate, spar = .8)
-# #ddm1_chr4_snp2$pos <- (ddm1_chr4_snp2$`SNP Start`*ddm1_chr4_spl$y)
-# ddm1_chr4_snp2$pos <- (ddm1_chr4_snp2$`SNP Start`*ddm1_chr4_snp2$rate)
-# plot(ddm1_chr4_snp2$`SNP Start`, ddm1_chr4_snp2$pos)
-# plot(ddm1_chr4_snp2$`SNP Start`, ddm1_chr4_snp2$pos/ddm1_chr4_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 4 Recombination Distribution")
-# ddm1_chr4_finalpos <- ddm1_chr4_snp2[order(ddm1_chr4_snp2$pos),]
-# is.unsorted(ddm1_chr4_finalpos$pos)
-# ddm1_chr4_spl <- smooth.spline(ddm1_chr4_finalpos$pos, spar = .5)
-# plot(ddm1_chr4_snp2$`SNP Start`, ddm1_chr4_spl$y, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 4 Genetic Map")
-# 
-# #ddm1_chr5_spl <- smooth.spline(ddm1_chr5_snp2$rate, spar =.66)
-# #ddm1_chr5_snp2$pos <- (ddm1_chr5_snp2$`SNP Start`*ddm1_chr5_spl$y)
-# ddm1_chr5_snp2$pos <- (ddm1_chr5_snp2$`SNP Start`*ddm1_chr5_snp2$rate)
-# plot(ddm1_chr5_snp2$`SNP Start`, ddm1_chr5_snp2$pos)
-# plot(ddm1_chr5_snp2$`SNP Start`, ddm1_chr5_snp2$pos/ddm1_chr5_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 5 Recombination Distribution")
-# ddm1_chr5_finalpos <- ddm1_chr5_snp2[order(ddm1_chr5_snp2$pos),]
-# is.unsorted(ddm1_chr5_finalpos$pos)
-# ddm1_chr5_spl <- smooth.spline(ddm1_chr5_finalpos$pos, spar = .5)
-# plot(ddm1_chr5_snp2$`SNP Start`, ddm1_chr5_spl$y, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 5 Genetic Map")
-# 
-# ddm1_chr6_spl <- smooth.spline(ddm1_chr6_snp2$rate, spar = 1.2)
-# ddm1_chr6_snp2$pos <- (ddm1_chr6_snp2$`SNP Start`*ddm1_chr6_spl$y)
-# #ddm1_chr6_snp2$pos <- (ddm1_chr6_snp2$`SNP Start`*ddm1_chr6_snp2$rate)
-# plot(ddm1_chr6_snp2$`SNP Start`, ddm1_chr6_snp2$pos)
-# plot(ddm1_chr6_snp2$`SNP Start`, ddm1_chr6_snp2$pos/ddm1_chr6_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 6 Recombination Distribution")
-# ddm1_chr6_finalpos <- ddm1_chr6_snp2[order(ddm1_chr6_snp2$pos),]
-# is.unsorted(ddm1_chr6_finalpos$pos)
-# #ddm1_chr6_spl <- smooth.spline(ddm1_chr6_finalpos$pos, spar = 1.3)
-# plot(ddm1_chr6_snp2$`SNP Start`, ddm1_chr6_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 6 Genetic Map")
-# 
-# #ddm1_chr7_spl <- smooth.spline(ddm1_chr7_snp2$rate, spar = 0.7)
-# #ddm1_chr7_snp2$pos <- (ddm1_chr7_snp2$`SNP Start`*ddm1_chr7_spl$y)
-# ddm1_chr7_snp2$pos <- (ddm1_chr7_snp2$`SNP Start`*ddm1_chr7_snp2$rate)
-# plot(ddm1_chr7_snp2$`SNP Start`, ddm1_chr7_snp2$pos)
-# plot(ddm1_chr7_snp2$`SNP Start`, ddm1_chr7_snp2$pos/ddm1_chr7_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 7 Recombination Distribution")
-# ddm1_chr7_finalpos <- ddm1_chr7_snp2[order(ddm1_chr7_snp2$pos),]
-# is.unsorted(ddm1_chr7_finalpos$pos)
-# ddm1_chr7_spl <- smooth.spline(ddm1_chr7_finalpos$pos, spar = .5)
-# plot(ddm1_chr7_snp2$`SNP Start`, ddm1_chr7_spl$y, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 7 Genetic Map")
-# 
-# #ddm1_chr8_spl <- smooth.spline(ddm1_chr8_snp2$rate, spar = 1)
-# #ddm1_chr8_snp2$pos <- (ddm1_chr8_snp2$`SNP Start`*ddm1_chr8_spl$y)
-# ddm1_chr8_snp2$pos <- (ddm1_chr8_snp2$`SNP Start`*ddm1_chr8_snp2$rate)
-# plot(ddm1_chr8_snp2$`SNP Start`, ddm1_chr8_snp2$pos)
-# plot(ddm1_chr8_snp2$`SNP Start`, ddm1_chr8_snp2$pos/ddm1_chr8_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 8 Recombination Distribution")
-# ddm1_chr8_finalpos <- ddm1_chr8_snp2[order(ddm1_chr8_snp2$pos),]
-# is.unsorted(ddm1_chr8_finalpos$pos)
-# ddm1_chr8_spl <- smooth.spline(ddm1_chr8_finalpos$pos, spar = .5)
-# plot(ddm1_chr8_snp2$`SNP Start`, ddm1_chr8_spl$y, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 8 Genetic Map")
-# 
-# #ddm1_chr9_spl <- smooth.spline(ddm1_chr9_snp2$rate, spar = .9)
-# #ddm1_chr9_snp2$pos <- (ddm1_chr9_snp2$`SNP Start`*ddm1_chr9_spl$y)
-# ddm1_chr9_snp2$pos <- (ddm1_chr9_snp2$`SNP Start`*ddm1_chr9_snp2$rate)
-# plot(ddm1_chr9_snp2$`SNP Start`, ddm1_chr9_snp2$pos)
-# plot(ddm1_chr9_snp2$`SNP Start`, ddm1_chr9_snp2$pos/ddm1_chr9_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 9 Recombination Distribution")
-# ddm1_chr9_finalpos <- ddm1_chr9_snp2[order(ddm1_chr9_snp2$pos),]
-# is.unsorted(ddm1_chr9_finalpos$pos)
-# ddm1_chr9_spl <- smooth.spline(ddm1_chr9_finalpos$pos, spar = .5)
-# plot(ddm1_chr9_snp2$`SNP Start`, ddm1_chr9_spl$y, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 9 Genetic Map")
-# 
-# #ddm1_chr10_spl <- smooth.spline(ddm1_chr10_snp2$rate, spar =1)
-# #ddm1_chr10_snp2$pos <- (ddm1_chr10_snp2$`SNP Start`*ddm1_chr10_spl$y)
-# ddm1_chr10_snp2$pos <- (ddm1_chr10_snp2$`SNP Start`*ddm1_chr10_snp2$rate)
-# plot(ddm1_chr10_snp2$`SNP Start`, ddm1_chr10_snp2$pos)
-# plot(ddm1_chr10_snp2$`SNP Start`, ddm1_chr10_snp2$pos/ddm1_chr10_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 10 Recombination Distribution")
-# ddm1_chr10_finalpos <- ddm1_chr10_snp2[order(ddm1_chr10_snp2$pos),]
-# is.unsorted(ddm1_chr10_finalpos$pos)
-# ddm1_chr10_spl <- smooth.spline(ddm1_chr10_finalpos$pos, spar = .5)
-# plot(ddm1_chr10_snp2$`SNP Start`, ddm1_chr10_spl$y, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 10 Genetic Map")
-# 
-# #ddm1_chr11_spl <- smooth.spline(ddm1_chr11_snp2$rate, spar = 1)
-# #ddm1_chr11_snp2$pos <- (ddm1_chr11_snp2$`SNP Start`*ddm1_chr11_spl$y)
-# ddm1_chr11_snp2$pos <- (ddm1_chr11_snp2$`SNP Start`*ddm1_chr11_snp2$rate)
-# plot(ddm1_chr11_snp2$`SNP Start`, ddm1_chr11_snp2$pos)
-# plot(ddm1_chr11_snp2$`SNP Start`, ddm1_chr11_snp2$pos/ddm1_chr11_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 11 Recombination Distribution")
-# ddm1_chr11_finalpos <- ddm1_chr11_snp2[order(ddm1_chr11_snp2$pos),]
-# is.unsorted(ddm1_chr11_finalpos$pos)
-# ddm1_chr11_spl <- smooth.spline(ddm1_chr11_finalpos$pos, spar = .5)
-# plot(ddm1_chr11_snp2$`SNP Start`, ddm1_chr11_spl$y, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 11 Genetic Map")
-# 
-# #ddm1_chr12_spl <- smooth.spline(ddm1_chr12_snp2$rate, spar = .99)
-# #ddm1_chr12_snp2$pos <- (ddm1_chr12_snp2$`SNP Start`*ddm1_chr12_spl$y)
-# ddm1_chr12_snp2$pos <- (ddm1_chr12_snp2$`SNP Start`*ddm1_chr12_snp2$rate)
-# plot(ddm1_chr12_snp2$`SNP Start`, ddm1_chr12_snp2$pos)
-# plot(ddm1_chr12_snp2$`SNP Start`, ddm1_chr12_snp2$pos/ddm1_chr12_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Recombination rate (cM/Mb)", main = "Japonica ddm1 Chromosome 12 Recombination Distribution")
-# ddm1_chr12_finalpos <- ddm1_chr12_snp2[order(ddm1_chr12_snp2$pos),]
-# is.unsorted(ddm1_chr12_finalpos$pos)
-# ddm1_chr12_spl <- smooth.spline(ddm1_chr12_finalpos$pos, spar = .5)
-# plot(ddm1_chr12_snp2$`SNP Start`, ddm1_chr12_spl$y, type = "l", xlab = "Physical Positions (Mb)",
-#      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 12 Genetic Map")
 
 #Final genetic map
 ddm1_chr1 <- ddm1_chr1_finalpos$pos/100
