@@ -613,11 +613,10 @@ iqr12 <- IQR(jap_chr12_snp3$rate)
 jap_chr12_snp3<- subset(jap_chr12_snp3, jap_chr12_snp3$rate > (Q12[1] - 1.5*iqr12) & jap_chr12_snp3$rate < (Q12[2]+1.5*iqr12))
 
 
-jap_chr1_snp3 <- jap_chr1_snp3[order(jap_chr1_snp3$`SNP Start`),]
 jap_chr1_snp3<-na.omit(jap_chr1_snp3)
 jap_chr1_spl <- smooth.spline(jap_chr1_snp3$rate, spar = .9)
 jap_chr1_snp3$pos <- (jap_chr1_snp3$`SNP Start`*jap_chr1_spl$y)
-plot(jap_chr1_snp3$`SNP Start`, jap_chr1_snp3$pos)
+plot(jap_chr1_snp3$`SNP Start`, jap_chr1_snp3$rate, type = "l")
 ggplot(jap_chr1_snp3, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
 plot(jap_chr1_snp3$`SNP Start`, jap_chr1_snp3$pos/jap_chr1_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Chromosome 1 Recombination Distribution")
