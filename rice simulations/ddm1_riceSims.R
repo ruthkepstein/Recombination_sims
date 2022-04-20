@@ -168,51 +168,51 @@ jap_chr12_CO$`CO Start` <- jap_chr12_CO$`CO Start` - min(jap_chr12_CO$`CO Start`
 #apply avg difference to telomeric regions (divide chromosome into fifths and apply avg diff to first and last fifth)
 avg_diff <-2.346557
 jap_chr1_CO$avg_rate <- avg_diff
-jap_chr1_CO[8:20,6] <- 0
+jap_chr1_CO[8:203,6] <- 0
 
 rownames(jap_chr2_CO)<-c(1:20)
 jap_chr2_CO$avg_rate <- avg_diff
-jap_chr2_CO[7:10,6] <- 0
+jap_chr2_CO[7:15,6] <- 0
 
 rownames(jap_chr3_CO)<-c(1:13)
 jap_chr3_CO$avg_rate <- avg_diff
-jap_chr3_CO[6:10,6] <- 0
+jap_chr3_CO[6:12,6] <- 0
 
 rownames(jap_chr4_CO)<-c(1:17)
 jap_chr4_CO$avg_rate <- avg_diff
-jap_chr4_CO[7:10,6] <- 0
+jap_chr4_CO[7:16,6] <- 0
 
 rownames(jap_chr5_CO)<-c(1:15)
 jap_chr5_CO$avg_rate <- avg_diff
-jap_chr5_CO[5:10,6] <- 0
+jap_chr5_CO[5:13,6] <- 0
 
 rownames(jap_chr6_CO)<-c(1:18)
 jap_chr6_CO$avg_rate <- avg_diff
-jap_chr6_CO[3:10,6] <- 0
+jap_chr6_CO[3:15,6] <- 0
 
 rownames(jap_chr7_CO)<-c(1:20)
 jap_chr7_CO$avg_rate <- avg_diff
-jap_chr7_CO[5:10,6] <- 0
+jap_chr7_CO[5:19,6] <- 0
 
 rownames(jap_chr8_CO)<-c(1:19)
 jap_chr8_CO$avg_rate <- avg_diff
-jap_chr8_CO[7:10,6] <- 0
+jap_chr8_CO[7:17,6] <- 0
 
 rownames(jap_chr9_CO)<-c(1:17)
 jap_chr9_CO$avg_rate <- avg_diff
-jap_chr9_CO[5:10,6] <- 0
+jap_chr9_CO[5:14,6] <- 0
 
 rownames(jap_chr10_CO)<-c(1:21)
 jap_chr10_CO$avg_rate <- avg_diff
-jap_chr10_CO[5:10,6] <- 0
+jap_chr10_CO[5:20,6] <- 0
 
 rownames(jap_chr11_CO)<-c(1:20)
 jap_chr11_CO$avg_rate <- avg_diff
-jap_chr11_CO[5:10,6] <- 0
+jap_chr11_CO[5:16,6] <- 0
 
 rownames(jap_chr12_CO)<-c(1:21)
 jap_chr12_CO$avg_rate <- avg_diff
-jap_chr12_CO[6:10,6] <- 0
+jap_chr12_CO[6:19,6] <- 0
 
 #import fine scale recombination rates
 WTJap_CO <- read.table("japonica_rec_rate.bed", header = FALSE)
