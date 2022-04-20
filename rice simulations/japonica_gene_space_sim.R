@@ -9,7 +9,7 @@ set.seed(420)
 jap_snps <- read.table("japonica_SNPs.bed", header =FALSE)
 colnames(jap_snps) <- c("Chr#", "SNP Start", "SNP End")
 #sample SNPs?
-jap_snps <- sample_n(jap_snps, 4000)
+jap_snps <- sample_n(jap_snps, 2000)
 jap_snps <- jap_snps[order(jap_snps$`Chr#`,jap_snps$`SNP Start`),]
 
 #Japonica

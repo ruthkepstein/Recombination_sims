@@ -7,7 +7,7 @@ set.seed(420)
 
 japonica_snps <- read.table("japonica_SNPs.bed", header =FALSE)
 colnames(japonica_snps) <- c("Chr#", "SNP Start", "SNP End")
-recq4l_snps <- sample_n(japonica_snps, 4000)
+recq4l_snps <- sample_n(japonica_snps, 1000)
 recq4l_snps <- recq4l_snps[order(recq4l_snps$`Chr#`,recq4l_snps$`SNP Start`),]
 
 #splitting recq4l snps

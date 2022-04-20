@@ -7,7 +7,7 @@ set.seed(420)
 
 japonica_snps <- read.table("japonica_SNPs.bed", header =FALSE)
 colnames(japonica_snps) <- c("Chr#", "SNP Start", "SNP End")
-fancm_snps <- sample_n(japonica_snps, 4000)
+fancm_snps <- sample_n(japonica_snps, 1000)
 fancm_snps <- fancm_snps[order(fancm_snps$`Chr#`,fancm_snps$`SNP Start`),]
 
 #splitting fancm snps
