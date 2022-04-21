@@ -470,7 +470,7 @@ gen_pos <- function(SNP, spl){
   print(SNP$pos)
 }
 #gen maps
-ddm1_chr1_spl <- smooth.spline(ddm1_chr1_snp2$rate, spar=0.4)
+ddm1_chr1_spl <- smooth.spline(ddm1_chr1_snp2$rate, spar=0)
 ddm1_chr1_snp2$pos <- gen_pos(ddm1_chr1_snp2,ddm1_chr1_spl)
 plot(ddm1_chr1_snp2$`SNP Start`, ddm1_chr1_snp2$pos, type = "l")
 ggplot(ddm1_chr1_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
@@ -482,7 +482,7 @@ plot(ddm1_chr1_snp2$`SNP Start`, ddm1_chr1_finalpos$pos, type = "l", xlab = "Phy
      ylab = "Genetic Position (cM)", main = "Japonica ddm1 Chromosome 1 Genetic Map")
 plot(ddm1_chr1_finalpos$`SNP Start`, ddm1_chr1_finalpos$pos)
 
-ddm1_chr2_spl <- smooth.spline(ddm1_chr2_snp2$rate, spar = .4)
+ddm1_chr2_spl <- smooth.spline(ddm1_chr2_snp2$rate, spar = 0)
 ddm1_chr2_snp2$pos <- gen_pos(ddm1_chr2_snp2,ddm1_chr2_spl)
 plot(ddm1_chr2_snp2$`SNP Start`, ddm1_chr2_snp2$pos)
 plot(ddm1_chr2_snp2$`SNP Start`, ddm1_chr2_snp2$pos/ddm1_chr2_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
