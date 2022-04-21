@@ -363,146 +363,146 @@ fill_start<- function(chr_CO){
 }
 library(zoo)
 jap_chr1_CO_2 <- jap_chr1_CO
-bins<-as.integer(nrow(jap_chr1_CO)/440)
+bins<-as.integer(nrow(jap_chr1_CO)/10)
 jap_chr1_CO_2$rates<- rollapply(jap_chr1_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr1_CO_2<-fill_start(jap_chr1_CO_2)
 jap_chr1_CO_2<- jap_chr1_CO_2 %>% drop_na(rates)
 
 jap_chr2_CO_2 <- jap_chr2_CO
-bins<-as.integer(nrow(jap_chr2_CO)/400)
+bins<-as.integer(nrow(jap_chr2_CO)/10)
 jap_chr2_CO_2$rates<- rollapply(jap_chr2_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr2_CO_2<-fill_start(jap_chr2_CO_2)
 jap_chr2_CO_2<- jap_chr2_CO_2 %>% drop_na(rates)
 
 jap_chr3_CO_2 <- jap_chr3_CO
-bins<-as.integer(nrow(jap_chr3_CO)/410)
+bins<-as.integer(nrow(jap_chr3_CO)/10)
 jap_chr3_CO_2$rates<- rollapply(jap_chr3_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr3_CO_2<-fill_start(jap_chr3_CO_2)
 jap_chr3_CO_2<- jap_chr3_CO_2 %>% drop_na(rates)
 
 jap_chr4_CO_2 <- jap_chr4_CO
-bins<-as.integer(nrow(jap_chr4_CO)/390)
+bins<-as.integer(nrow(jap_chr4_CO)/10)
 jap_chr4_CO_2$rates<- rollapply(jap_chr4_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr4_CO_2<-fill_start(jap_chr4_CO_2)
 jap_chr4_CO_2<- jap_chr4_CO_2 %>% drop_na(rates)
 
 jap_chr5_CO_2 <- jap_chr5_CO
-bins<-as.integer(nrow(jap_chr5_CO)/330)
+bins<-as.integer(nrow(jap_chr5_CO)/10)
 jap_chr5_CO_2$rates<- rollapply(jap_chr5_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr5_CO_2<-fill_start(jap_chr5_CO_2)
 jap_chr5_CO_2<- jap_chr5_CO_2 %>% drop_na(rates)
 
 jap_chr6_CO_2 <- jap_chr6_CO
-bins<-as.integer(nrow(jap_chr6_CO)/320)
+bins<-as.integer(nrow(jap_chr6_CO)/10)
 jap_chr6_CO_2$rates<- rollapply(jap_chr6_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr6_CO_2<-fill_start(jap_chr6_CO_2)
 jap_chr6_CO_2<- jap_chr6_CO_2 %>% drop_na(rates)
 
 jap_chr7_CO_2 <- jap_chr7_CO
-bins<-as.integer(nrow(jap_chr7_CO)/350)
+bins<-as.integer(nrow(jap_chr7_CO)/10)
 jap_chr7_CO_2$rates<- rollapply(jap_chr7_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr7_CO_2<-fill_start(jap_chr7_CO_2)
 jap_chr7_CO_2<- jap_chr7_CO_2 %>% drop_na(rates)
 
 jap_chr8_CO_2 <- jap_chr8_CO
-bins<-as.integer(nrow(jap_chr8_CO)/280)
+bins<-as.integer(nrow(jap_chr8_CO)/10)
 jap_chr8_CO_2$rates<- rollapply(jap_chr8_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr8_CO_2<-fill_start(jap_chr8_CO_2)
 jap_chr8_CO_2<- jap_chr8_CO_2 %>% drop_na(rates)
 
 jap_chr9_CO_2 <- jap_chr9_CO
-bins<-as.integer(nrow(jap_chr9_CO)/220)
+bins<-as.integer(nrow(jap_chr9_CO)/10)
 jap_chr9_CO_2$rates<- rollapply(jap_chr9_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr9_CO_2<-fill_start(jap_chr9_CO_2)
 jap_chr9_CO_2<- jap_chr9_CO_2 %>% drop_na(rates)
 
 jap_chr10_CO_2 <- jap_chr10_CO
-bins<-as.integer(nrow(jap_chr10_CO)/270)
+bins<-as.integer(nrow(jap_chr10_CO)/10)
 jap_chr10_CO_2$rates<- rollapply(jap_chr10_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr10_CO_2<-fill_start(jap_chr10_CO_2)
 jap_chr10_CO_2<- jap_chr10_CO_2 %>% drop_na(rates)
 
 jap_chr11_CO_2 <- jap_chr11_CO
-bins<-as.integer(nrow(jap_chr11_CO)/300)
+bins<-as.integer(nrow(jap_chr11_CO)/10)
 jap_chr11_CO_2$rates<- rollapply(jap_chr11_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr11_CO_2<-fill_start(jap_chr11_CO_2)
 jap_chr11_CO_2<- jap_chr11_CO_2 %>% drop_na(rates)
 
 jap_chr12_CO_2 <- jap_chr12_CO
-bins<-as.integer(nrow(jap_chr12_CO)/310)
+bins<-as.integer(nrow(jap_chr12_CO)/10)
 jap_chr12_CO_2$rates<- rollapply(jap_chr12_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr12_CO_2<-fill_start(jap_chr12_CO_2)
 jap_chr12_CO_2<- jap_chr12_CO_2 %>% drop_na(rates)
 
 
 ind_chr1_CO_2 <- ind_chr1_CO
-bins<-as.integer(nrow(ind_chr1_CO)/440)
+bins<-as.integer(nrow(ind_chr1_CO)/10)
 ind_chr1_CO_2$rates<- rollapply(ind_chr1_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr1_CO_2<-fill_start(ind_chr1_CO_2)
 ind_chr1_CO_2<- ind_chr1_CO_2 %>% drop_na(rates)
 
 ind_chr2_CO_2 <- ind_chr2_CO
-bins<-as.integer(nrow(ind_chr2_CO)/400)
+bins<-as.integer(nrow(ind_chr2_CO)/10)
 ind_chr2_CO_2$rates<- rollapply(ind_chr2_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr2_CO_2<-fill_start(ind_chr2_CO_2)
 ind_chr2_CO_2<- ind_chr2_CO_2 %>% drop_na(rates)
 
 ind_chr3_CO_2 <- ind_chr3_CO
-bins<-as.integer(nrow(ind_chr3_CO)/410)
+bins<-as.integer(nrow(ind_chr3_CO)/10)
 ind_chr3_CO_2$rates<- rollapply(ind_chr3_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr3_CO_2<-fill_start(ind_chr3_CO_2)
 ind_chr3_CO_2<- ind_chr3_CO_2 %>% drop_na(rates)
 
 ind_chr4_CO_2 <- ind_chr4_CO
-bins<-as.integer(nrow(ind_chr4_CO)/390)
+bins<-as.integer(nrow(ind_chr4_CO)/10)
 ind_chr4_CO_2$rates<- rollapply(ind_chr4_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr4_CO_2<-fill_start(ind_chr4_CO_2)
 ind_chr4_CO_2<- ind_chr4_CO_2 %>% drop_na(rates)
 
 ind_chr5_CO_2 <- ind_chr5_CO
-bins<-as.integer(nrow(ind_chr5_CO)/330)
+bins<-as.integer(nrow(ind_chr5_CO)/10)
 ind_chr5_CO_2$rates<- rollapply(ind_chr5_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr5_CO_2<-fill_start(ind_chr5_CO_2)
 ind_chr5_CO_2<- ind_chr5_CO_2 %>% drop_na(rates)
 
 ind_chr6_CO_2 <- ind_chr6_CO
-bins<-as.integer(nrow(ind_chr6_CO)/320)
+bins<-as.integer(nrow(ind_chr6_CO)/10)
 ind_chr6_CO_2$rates<- rollapply(ind_chr6_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr6_CO_2<-fill_start(ind_chr6_CO_2)
 ind_chr6_CO_2<- ind_chr6_CO_2 %>% drop_na(rates)
 
 ind_chr7_CO_2 <- ind_chr7_CO
-bins<-as.integer(nrow(ind_chr7_CO)/350)
+bins<-as.integer(nrow(ind_chr7_CO)/10)
 ind_chr7_CO_2$rates<- rollapply(ind_chr7_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr7_CO_2<-fill_start(ind_chr7_CO_2)
 ind_chr7_CO_2<- ind_chr7_CO_2 %>% drop_na(rates)
 
 ind_chr8_CO_2 <- ind_chr8_CO
-bins<-as.integer(nrow(ind_chr8_CO)/280)
+bins<-as.integer(nrow(ind_chr8_CO)/10)
 ind_chr8_CO_2$rates<- rollapply(ind_chr8_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr8_CO_2<-fill_start(ind_chr8_CO_2)
 ind_chr8_CO_2<- ind_chr8_CO_2 %>% drop_na(rates)
 
 ind_chr9_CO_2 <- ind_chr9_CO
-bins<-as.integer(nrow(ind_chr9_CO)/220)
+bins<-as.integer(nrow(ind_chr9_CO)/10)
 ind_chr9_CO_2$rates<- rollapply(ind_chr9_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr9_CO_2<-fill_start(ind_chr9_CO_2)
 ind_chr9_CO_2<- ind_chr9_CO_2 %>% drop_na(rates)
 
 ind_chr10_CO_2 <- ind_chr10_CO
-bins<-as.integer(nrow(ind_chr10_CO)/270)
+bins<-as.integer(nrow(ind_chr10_CO)/10)
 ind_chr10_CO_2$rates<- rollapply(ind_chr10_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr10_CO_2<-fill_start(ind_chr10_CO_2)
 ind_chr10_CO_2<- ind_chr10_CO_2 %>% drop_na(rates)
 
 ind_chr11_CO_2 <- ind_chr11_CO
-bins<-as.integer(nrow(ind_chr11_CO)/300)
+bins<-as.integer(nrow(ind_chr11_CO)/10)
 ind_chr11_CO_2$rates<- rollapply(ind_chr11_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr11_CO_2<-fill_start(ind_chr11_CO_2)
 ind_chr11_CO_2<- ind_chr11_CO_2 %>% drop_na(rates)
 
 ind_chr12_CO_2 <- ind_chr12_CO
-bins<-as.integer(nrow(ind_chr12_CO)/310)
+bins<-as.integer(nrow(ind_chr12_CO)/10)
 ind_chr12_CO_2$rates<- rollapply(ind_chr12_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 ind_chr12_CO_2<-fill_start(ind_chr12_CO_2)
 ind_chr12_CO_2<- ind_chr12_CO_2 %>% drop_na(rates)

@@ -75,6 +75,135 @@ zmet2_chr12_snp$`SNP Start` <- zmet2_chr12_snp$`SNP Start`- min(zmet2_chr12_snp$
 # exclude pericentromeric regions (suppresion regions)
 # 1. create avg diff column (supression region = 0)
 # 2. loop through, multiply wt rate from other paper (fine scale recombination rate) by avg rate
+#japonica wildtype recomb rates
+jap_CO <- read.csv("jap_WT_rate.csv", header = TRUE)
+colnames(jap_CO) <- c("Chr", "CO Start", "CO End", "WT_rate")
+jap_CO <- jap_CO[order(jap_CO$Chr,jap_CO$`CO Start`),]
+
+jap_chr1_CO <- jap_CO[ which(jap_CO$Chr == "1"),]
+jap_chr1_CO$midpoint <- (jap_chr1_CO$`CO Start`+ jap_chr1_CO$`CO End`)/2
+jap_chr1_CO <- jap_chr1_CO[order(jap_chr1_CO$`CO Start`),]
+
+jap_chr2_CO <- jap_CO[ which(jap_CO$Chr == "2"),]
+jap_chr2_CO$midpoint <- (jap_chr2_CO$`CO Start`+ jap_chr2_CO$`CO End`)/2
+jap_chr2_CO <- jap_chr2_CO[order(jap_chr2_CO$`CO Start`),]
+
+jap_chr3_CO <- jap_CO[ which(jap_CO$Chr == "3"),]
+jap_chr3_CO$midpoint <- (jap_chr3_CO$`CO Start`+ jap_chr3_CO$`CO End`)/2
+jap_chr3_CO <- jap_chr3_CO[order(jap_chr3_CO$`CO Start`),]
+
+jap_chr4_CO <- jap_CO[ which(jap_CO$Chr == "4"),]
+jap_chr4_CO$midpoint <- (jap_chr4_CO$`CO Start`+ jap_chr4_CO$`CO End`)/2
+jap_chr4_CO <- jap_chr4_CO[order(jap_chr4_CO$`CO Start`),]
+
+jap_chr5_CO <- jap_CO[ which(jap_CO$Chr == "5"),]
+jap_chr5_CO$midpoint <- (jap_chr5_CO$`CO Start`+ jap_chr5_CO$`CO End`)/2
+jap_chr5_CO <- jap_chr5_CO[order(jap_chr5_CO$`CO Start`),]
+
+jap_chr6_CO <- jap_CO[ which(jap_CO$Chr == "6"),]
+jap_chr6_CO$midpoint <- (jap_chr6_CO$`CO Start`+ jap_chr6_CO$`CO End`)/2
+jap_chr6_CO <- jap_chr6_CO[order(jap_chr6_CO$`CO Start`),]
+
+jap_chr7_CO <- jap_CO[ which(jap_CO$Chr == "7"),]
+jap_chr7_CO$midpoint <- (jap_chr7_CO$`CO Start`+ jap_chr7_CO$`CO End`)/2
+jap_chr7_CO <- jap_chr7_CO[order(jap_chr7_CO$`CO Start`),]
+
+jap_chr8_CO <- jap_CO[ which(jap_CO$Chr == "8"),]
+jap_chr8_CO$midpoint <- (jap_chr8_CO$`CO Start`+ jap_chr8_CO$`CO End`)/2
+jap_chr8_CO <- jap_chr8_CO[order(jap_chr8_CO$`CO Start`),]
+
+jap_chr9_CO <- jap_CO[ which(jap_CO$Chr == "9"),]
+jap_chr9_CO$midpoint <- (jap_chr9_CO$`CO Start`+ jap_chr9_CO$`CO End`)/2
+jap_chr9_CO <- jap_chr9_CO[order(jap_chr9_CO$`CO Start`),]
+
+jap_chr10_CO <- jap_CO[ which(jap_CO$Chr == "10"),]
+jap_chr10_CO$midpoint <- (jap_chr10_CO$`CO Start`+ jap_chr10_CO$`CO End`)/2
+jap_chr10_CO <- jap_chr10_CO[order(jap_chr10_CO$`CO Start`),]
+
+jap_chr11_CO <- jap_CO[ which(jap_CO$Chr == "11"),]
+jap_chr11_CO$midpoint <- (jap_chr11_CO$`CO Start`+ jap_chr11_CO$`CO End`)/2
+jap_chr11_CO <- jap_chr11_CO[order(jap_chr11_CO$`CO Start`),]
+
+jap_chr12_CO <- jap_CO[ which(jap_CO$Chr == "12"),]
+jap_chr12_CO$midpoint <- (jap_chr12_CO$`CO Start`+ jap_chr12_CO$`CO End`)/2
+jap_chr12_CO <- jap_chr12_CO[order(jap_chr12_CO$`CO Start`),]
+
+#making intervals start at 0
+jap_chr1_CO$`CO End` <- jap_chr1_CO$`CO End` - min(jap_chr1_CO$`CO Start`)
+jap_chr1_CO$`CO Start` <- jap_chr1_CO$`CO Start` - min(jap_chr1_CO$`CO Start`)
+
+jap_chr2_CO$`CO End` <- jap_chr2_CO$`CO End` - min(jap_chr2_CO$`CO Start`)
+jap_chr2_CO$`CO Start` <- jap_chr2_CO$`CO Start` - min(jap_chr2_CO$`CO Start`)
+
+jap_chr3_CO$`CO End` <- jap_chr3_CO$`CO End` - min(jap_chr3_CO$`CO Start`)
+jap_chr3_CO$`CO Start` <- jap_chr3_CO$`CO Start` - min(jap_chr3_CO$`CO Start`)
+
+jap_chr4_CO$`CO End` <- jap_chr4_CO$`CO End` - min(jap_chr4_CO$`CO Start`)
+jap_chr4_CO$`CO Start` <- jap_chr4_CO$`CO Start` - min(jap_chr4_CO$`CO Start`)
+
+jap_chr5_CO$`CO End` <- jap_chr5_CO$`CO End` - min(jap_chr5_CO$`CO Start`)
+jap_chr5_CO$`CO Start` <- jap_chr5_CO$`CO Start` - min(jap_chr5_CO$`CO Start`)
+
+jap_chr6_CO$`CO End` <- jap_chr6_CO$`CO End` - min(jap_chr6_CO$`CO Start`)
+jap_chr6_CO$`CO Start` <- jap_chr6_CO$`CO Start` - min(jap_chr6_CO$`CO Start`)
+
+jap_chr7_CO$`CO End` <- jap_chr7_CO$`CO End` - min(jap_chr7_CO$`CO Start`)
+jap_chr7_CO$`CO Start` <- jap_chr7_CO$`CO Start` - min(jap_chr7_CO$`CO Start`)
+
+jap_chr8_CO$`CO End` <- jap_chr8_CO$`CO End` - min(jap_chr8_CO$`CO Start`)
+jap_chr8_CO$`CO Start` <- jap_chr8_CO$`CO Start` - min(jap_chr8_CO$`CO Start`)
+
+jap_chr9_CO$`CO End` <- jap_chr9_CO$`CO End` - min(jap_chr9_CO$`CO Start`)
+jap_chr9_CO$`CO Start` <- jap_chr9_CO$`CO Start` - min(jap_chr9_CO$`CO Start`)
+
+jap_chr10_CO$`CO End` <- jap_chr10_CO$`CO End` - min(jap_chr10_CO$`CO Start`)
+jap_chr10_CO$`CO Start` <- jap_chr10_CO$`CO Start` - min(jap_chr10_CO$`CO Start`)
+
+jap_chr11_CO$`CO End` <- jap_chr11_CO$`CO End` - min(jap_chr11_CO$`CO Start`)
+jap_chr11_CO$`CO Start` <- jap_chr11_CO$`CO Start` - min(jap_chr11_CO$`CO Start`)
+
+jap_chr12_CO$`CO End` <- jap_chr12_CO$`CO End` - min(jap_chr12_CO$`CO Start`)
+jap_chr12_CO$`CO Start` <- jap_chr12_CO$`CO Start` - min(jap_chr12_CO$`CO Start`)
+
+#apply avg difference to pericentromeric regions (divide chromosome into fifths and apply avg diff to middle fifth)
+# 1- 16.7
+# 2- 13.6 
+# 3- 19.4
+# 4- 9.7
+# 5- 12.4
+# 6- 15.3
+# 7- 12.1
+# 8- 12.9
+# 9- 2.8
+# 10- 8.2
+# 11- 12
+# 12- 11.9
+avg_diff <-1
+pericentromeric <- function(CO){
+  rownames(CO)<-c(1:nrow(CO))
+  CO$avg_rate <- 0
+  fifth<- max(CO$`CO End`)/5
+  start<-fifth
+  end<-fifth*3
+  for(i in 1:nrow(CO)){
+    if(CO$`CO Start`[i]>= start && CO$`CO End`[i]<= end ){
+      CO$avg_rate[i] <- avg_diff
+    }
+  }
+  print(CO)
+}
+jap_chr1_CO<- pericentromeric(jap_chr1_CO)
+jap_chr2_CO <- pericentromeric(jap_chr2_CO)
+jap_chr3_CO <- pericentromeric(jap_chr3_CO)
+jap_chr4_CO <- pericentromeric(jap_chr4_CO)
+jap_chr5_CO <- pericentromeric(jap_chr5_CO)
+jap_chr6_CO <- pericentromeric(jap_chr6_CO)
+jap_chr7_CO <- pericentromeric(jap_chr7_CO)
+jap_chr8_CO <- pericentromeric(jap_chr8_CO)
+jap_chr9_CO <- pericentromeric(jap_chr9_CO)
+jap_chr10_CO <- pericentromeric(jap_chr10_CO)
+jap_chr11_CO <- pericentromeric(jap_chr11_CO)
+jap_chr12_CO <- pericentromeric(jap_chr12_CO)
 
 #import fine scale recombination rates
 WTJap_CO <- read.table("japonica_rec_rate.bed", header = FALSE)
@@ -167,28 +296,30 @@ WTJap_chr12_CO$`CO End` <- WTJap_chr12_CO$`CO End` - min(WTJap_chr12_CO$`CO Star
 WTJap_chr12_CO$`CO Start` <- WTJap_chr12_CO$`CO Start` - min(WTJap_chr12_CO$`CO Start`)
 
 
-##Using zmet2 recombination landscape--> 20% increase in COs
-avg_diff <-1
 
 ## Multiply recombination fine scale data by the avg rate
-new_rates <- function(old_rate){
+new_rates <- function(avg_rate, old_rate){
   for(i in 1:nrow(old_rate)){
-    old_rate$rate[i] <-(avg_diff*old_rate$rate[i]) + old_rate$rate[i]
+    for(k in 1:nrow(avg_rate)){
+      if(isTRUE((old_rate$`CO Start`[i] >= (avg_rate$`CO Start`[k]*1000000)) && (old_rate$`CO End`[i] <= (avg_rate$`CO End`[k] *1000000)))){
+        old_rate$rate[i] <- old_rate$rate[i] + (avg_rate$avg_rate[k]*old_rate$rate[i])
+      }
+    }
   }
   print(old_rate)
 }
-zmet2_chr1_CO_2<-new_rates(WTJap_chr1_CO)
-zmet2_chr2_CO_2<-new_rates(WTJap_chr2_CO)
-zmet2_chr3_CO_2<-new_rates(WTJap_chr3_CO)
-zmet2_chr4_CO_2<-new_rates(WTJap_chr4_CO)
-zmet2_chr5_CO_2<-new_rates(WTJap_chr5_CO)
-zmet2_chr6_CO_2<-new_rates(WTJap_chr6_CO)
-zmet2_chr7_CO_2<-new_rates(WTJap_chr7_CO)
-zmet2_chr8_CO_2<-new_rates(WTJap_chr8_CO)
-zmet2_chr9_CO_2<-new_rates(WTJap_chr9_CO)
-zmet2_chr10_CO_2<-new_rates(WTJap_chr10_CO)
-zmet2_chr11_CO_2<-new_rates(WTJap_chr11_CO)
-zmet2_chr12_CO_2<-new_rates(WTJap_chr12_CO)
+zmet2_chr1_CO_2<-new_rates(jap_chr1_CO, WTJap_chr1_CO)
+zmet2_chr2_CO_2<-new_rates(jap_chr2_CO, WTJap_chr2_CO)
+zmet2_chr3_CO_2<-new_rates(jap_chr3_CO, WTJap_chr3_CO)
+zmet2_chr4_CO_2<-new_rates(jap_chr4_CO, WTJap_chr4_CO)
+zmet2_chr5_CO_2<-new_rates(jap_chr5_CO, WTJap_chr5_CO)
+zmet2_chr6_CO_2<-new_rates(jap_chr6_CO, WTJap_chr6_CO)
+zmet2_chr7_CO_2<-new_rates(jap_chr7_CO, WTJap_chr7_CO)
+zmet2_chr8_CO_2<-new_rates(jap_chr8_CO, WTJap_chr8_CO)
+zmet2_chr9_CO_2<-new_rates(jap_chr9_CO, WTJap_chr9_CO)
+zmet2_chr10_CO_2<-new_rates(jap_chr10_CO, WTJap_chr10_CO)
+zmet2_chr11_CO_2<-new_rates(jap_chr11_CO, WTJap_chr11_CO)
+zmet2_chr12_CO_2<-new_rates(jap_chr12_CO, WTJap_chr12_CO)
 
 #bin rates into ~1 Mb regions and average each region
 fill_start<- function(chr_CO){
@@ -204,73 +335,73 @@ fill_start<- function(chr_CO){
 }
 library(zoo)
 zmet2_chr1_CO_3 <- zmet2_chr1_CO_2
-bins<-as.integer(nrow(zmet2_chr1_CO_2)/440)
+bins<-as.integer(nrow(zmet2_chr1_CO_2)/10)
 zmet2_chr1_CO_3$rates<- rollapply(zmet2_chr1_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr1_CO_3<-fill_start(zmet2_chr1_CO_3)
 zmet2_chr1_CO_3<- zmet2_chr1_CO_3 %>% drop_na(rates)
 
 zmet2_chr2_CO_3 <- zmet2_chr2_CO_2
-bins<-as.integer(nrow(zmet2_chr2_CO_2)/400)
+bins<-as.integer(nrow(zmet2_chr2_CO_2)/10)
 zmet2_chr2_CO_3$rates<- rollapply(zmet2_chr2_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr2_CO_3<-fill_start(zmet2_chr2_CO_3)
 zmet2_chr2_CO_3<- zmet2_chr2_CO_3 %>% drop_na(rates)
 
 zmet2_chr3_CO_3 <- zmet2_chr3_CO_2
-bins<-as.integer(nrow(zmet2_chr3_CO_2)/410)
+bins<-as.integer(nrow(zmet2_chr3_CO_2)/10)
 zmet2_chr3_CO_3$rates<- rollapply(zmet2_chr3_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr3_CO_3<-fill_start(zmet2_chr3_CO_3)
 zmet2_chr3_CO_3<- zmet2_chr3_CO_3 %>% drop_na(rates)
 
 zmet2_chr4_CO_3 <- zmet2_chr4_CO_2
-bins<-as.integer(nrow(zmet2_chr4_CO_2)/390)
+bins<-as.integer(nrow(zmet2_chr4_CO_2)/10)
 zmet2_chr4_CO_3$rates<- rollapply(zmet2_chr4_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr4_CO_3<-fill_start(zmet2_chr4_CO_3)
 zmet2_chr4_CO_3<- zmet2_chr4_CO_3 %>% drop_na(rates)
 
 zmet2_chr5_CO_3 <- zmet2_chr5_CO_2
-bins<-as.integer(nrow(zmet2_chr5_CO_2)/330)
+bins<-as.integer(nrow(zmet2_chr5_CO_2)/10)
 zmet2_chr5_CO_3$rates<- rollapply(zmet2_chr5_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr5_CO_3<-fill_start(zmet2_chr5_CO_3)
 zmet2_chr5_CO_3<- zmet2_chr5_CO_3 %>% drop_na(rates)
 
 zmet2_chr6_CO_3 <- zmet2_chr6_CO_2
-bins<-as.integer(nrow(zmet2_chr6_CO_2)/320)
+bins<-as.integer(nrow(zmet2_chr6_CO_2)/10)
 zmet2_chr6_CO_3$rates<- rollapply(zmet2_chr6_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr6_CO_3<-fill_start(zmet2_chr6_CO_3)
 zmet2_chr6_CO_3<- zmet2_chr6_CO_3 %>% drop_na(rates)
 
 zmet2_chr7_CO_3 <- zmet2_chr7_CO_2
-bins<-as.integer(nrow(zmet2_chr7_CO_2)/350)
+bins<-as.integer(nrow(zmet2_chr7_CO_2)/10)
 zmet2_chr7_CO_3$rates<- rollapply(zmet2_chr7_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr7_CO_3<-fill_start(zmet2_chr7_CO_3)
 zmet2_chr7_CO_3<- zmet2_chr7_CO_3 %>% drop_na(rates)
 
 zmet2_chr8_CO_3 <- zmet2_chr8_CO_2
-bins<-as.integer(nrow(zmet2_chr8_CO_2)/280)
+bins<-as.integer(nrow(zmet2_chr8_CO_2)/10)
 zmet2_chr8_CO_3$rates<- rollapply(zmet2_chr8_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr8_CO_3<-fill_start(zmet2_chr8_CO_3)
 zmet2_chr8_CO_3<- zmet2_chr8_CO_3 %>% drop_na(rates)
 
 zmet2_chr9_CO_3 <- zmet2_chr9_CO_2
-bins<-as.integer(nrow(zmet2_chr9_CO_2)/220)
+bins<-as.integer(nrow(zmet2_chr9_CO_2)/10)
 zmet2_chr9_CO_3$rates<- rollapply(zmet2_chr9_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr9_CO_3<-fill_start(zmet2_chr9_CO_3)
 zmet2_chr9_CO_3<- zmet2_chr9_CO_3 %>% drop_na(rates)
 
 zmet2_chr10_CO_3 <- zmet2_chr10_CO_2
-bins<-as.integer(nrow(zmet2_chr10_CO_2)/270)
+bins<-as.integer(nrow(zmet2_chr10_CO_2)/10)
 zmet2_chr10_CO_3$rates<- rollapply(zmet2_chr10_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr10_CO_3<-fill_start(zmet2_chr10_CO_3)
 zmet2_chr10_CO_3<- zmet2_chr10_CO_3 %>% drop_na(rates)
 
 zmet2_chr11_CO_3 <- zmet2_chr11_CO_2
-bins<-as.integer(nrow(zmet2_chr11_CO_2)/300)
+bins<-as.integer(nrow(zmet2_chr11_CO_2)/10)
 zmet2_chr11_CO_3$rates<- rollapply(zmet2_chr11_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr11_CO_3<-fill_start(zmet2_chr11_CO_3)
 zmet2_chr11_CO_3<- zmet2_chr11_CO_3 %>% drop_na(rates)
 
 zmet2_chr12_CO_3 <- zmet2_chr12_CO_2
-bins<-as.integer(nrow(zmet2_chr12_CO_2)/310)
+bins<-as.integer(nrow(zmet2_chr12_CO_2)/10)
 zmet2_chr12_CO_3$rates<- rollapply(zmet2_chr12_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 zmet2_chr12_CO_3<-fill_start(zmet2_chr12_CO_3)
 zmet2_chr12_CO_3<- zmet2_chr12_CO_3 %>% drop_na(rates)
@@ -280,7 +411,7 @@ snp_rate <- function(chr_rate, chr_snp){
   for(i in 1:nrow(chr_snp)){
     for(k in 1:nrow(chr_rate)){
       if(isTRUE((chr_snp$`SNP Start`[i] >= chr_rate$`CO Start`[k]) && (chr_snp$`SNP Start`[i] <= chr_rate$`CO End`[k]))){
-        chr_snp$rate[i] <- chr_rate$rate[k]
+        chr_snp$rate[i] <- chr_rate$rates[k]
       }
     }
   }
@@ -344,7 +475,7 @@ zmet2_chr11_snp2<-na.omit(zmet2_chr11_snp2)
 zmet2_chr12_snp2<-na.omit(zmet2_chr12_snp2)
 
 #gen maps
-zmet2_chr1_spl <- smooth.spline(zmet2_chr1_snp2$rate, spar = 1)
+zmet2_chr1_spl <- smooth.spline(zmet2_chr1_snp2$rate, spar = 0)
 zmet2_chr1_snp2$pos <- (zmet2_chr1_snp2$`SNP Start`*zmet2_chr1_spl$y)
 plot(zmet2_chr1_snp2$`SNP Start`, zmet2_chr1_snp2$pos)
 ggplot(zmet2_chr1_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
@@ -357,7 +488,7 @@ plot(zmet2_chr1_snp2$`SNP Start`, zmet2_chr1_finalpos$pos, type = "l", xlab = "P
 plot(zmet2_chr1_finalpos$`SNP Start`, zmet2_chr1_finalpos$pos)
 
 
-zmet2_chr2_spl <- smooth.spline(zmet2_chr2_snp2$rate, spar = .67)
+zmet2_chr2_spl <- smooth.spline(zmet2_chr2_snp2$rate, spar = .4)
 zmet2_chr2_snp2$pos <- (zmet2_chr2_snp2$`SNP Start`*zmet2_chr2_spl$y)
 plot(zmet2_chr2_snp2$`SNP Start`, zmet2_chr2_snp2$pos)
 plot(zmet2_chr2_snp2$`SNP Start`, zmet2_chr2_snp2$pos/zmet2_chr2_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -367,7 +498,7 @@ is.unsorted(zmet2_chr2_finalpos$pos)
 plot(zmet2_chr2_snp2$`SNP Start`, zmet2_chr2_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica zmet2 Chromosome 2 Genetic Map")
 
-zmet2_chr3_spl <- smooth.spline(zmet2_chr3_snp2$rate, spar = 1)
+zmet2_chr3_spl <- smooth.spline(zmet2_chr3_snp2$rate, spar = .4)
 zmet2_chr3_snp2$pos <- (zmet2_chr3_snp2$`SNP Start`*zmet2_chr3_spl$y)
 plot(zmet2_chr3_snp2$`SNP Start`, zmet2_chr3_snp2$pos)
 plot(zmet2_chr3_snp2$`SNP Start`, zmet2_chr3_snp2$pos/zmet2_chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -378,7 +509,7 @@ zmet2_chr3_finalpos$pos <- zmet2_chr3_finalpos$pos + abs(min(zmet2_chr3_finalpos
 plot(zmet2_chr3_snp2$`SNP Start`, zmet2_chr3_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica zmet2 Chromosome 3 Genetic Map")
 
-zmet2_chr4_spl <- smooth.spline(zmet2_chr4_snp2$rate, spar = .7)
+zmet2_chr4_spl <- smooth.spline(zmet2_chr4_snp2$rate, spar = .4)
 zmet2_chr4_snp2$pos <- (zmet2_chr4_snp2$`SNP Start`*zmet2_chr4_spl$y)
 plot(zmet2_chr4_snp2$`SNP Start`, zmet2_chr4_snp2$pos)
 plot(zmet2_chr4_snp2$`SNP Start`, zmet2_chr4_snp2$pos/zmet2_chr4_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -389,7 +520,7 @@ zmet2_chr4_finalpos$pos <- zmet2_chr4_finalpos$pos + abs(min(zmet2_chr4_finalpos
 plot(zmet2_chr4_snp2$`SNP Start`, zmet2_chr4_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica zmet2 Chromosome 4 Genetic Map")
 
-zmet2_chr5_spl <- smooth.spline(zmet2_chr5_snp2$rate, spar =.66)
+zmet2_chr5_spl <- smooth.spline(zmet2_chr5_snp2$rate, spar =.4)
 zmet2_chr5_snp2$pos <- (zmet2_chr5_snp2$`SNP Start`*zmet2_chr5_spl$y)
 plot(zmet2_chr5_snp2$`SNP Start`, zmet2_chr5_snp2$pos)
 plot(zmet2_chr5_snp2$`SNP Start`, zmet2_chr5_snp2$pos/zmet2_chr5_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -399,7 +530,7 @@ is.unsorted(zmet2_chr5_finalpos$pos)
 plot(zmet2_chr5_snp2$`SNP Start`, zmet2_chr5_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica zmet2 Chromosome 5 Genetic Map")
 
-zmet2_chr6_spl <- smooth.spline(zmet2_chr6_snp2$rate, spar = .745)
+zmet2_chr6_spl <- smooth.spline(zmet2_chr6_snp2$rate, spar = .4)
 zmet2_chr6_snp2$pos <- (zmet2_chr6_snp2$`SNP Start`*zmet2_chr6_spl$y)
 plot(zmet2_chr6_snp2$`SNP Start`, zmet2_chr6_snp2$pos)
 plot(zmet2_chr6_snp2$`SNP Start`, zmet2_chr6_snp2$pos/zmet2_chr6_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",

@@ -74,50 +74,118 @@ fancm_chr12_snp$`SNP Start` <- fancm_chr12_snp$`SNP Start`- min(fancm_chr12_snp$
 
 #fancm mutant recomb rates from "unleashing meoitic ... paper"
 #only contains data for chr 1,4,7,10,12
-fancm_CO <- read.csv("jap_mut_fancm.csv", header = TRUE)
-colnames(fancm_CO) <- c("Chr", "CO Start", "CO End", "fancm_rate")
-fancm_CO <- fancm_CO[order(fancm_CO$Chr,fancm_CO$`CO Start`),]
+# fancm_CO <- read.csv("jap_mut_fancm.csv", header = TRUE)
+# colnames(fancm_CO) <- c("Chr", "CO Start", "CO End", "fancm_rate")
+# fancm_CO <- fancm_CO[order(fancm_CO$Chr,fancm_CO$`CO Start`),]
+# 
+# fancm_chr1_CO <- fancm_CO[ which(fancm_CO$Chr == "1"),]
+# fancm_chr1_CO$midpoint <- (fancm_chr1_CO$`CO Start`+ fancm_chr1_CO$`CO End`)/2
+# fancm_chr1_CO <- fancm_chr1_CO[order(fancm_chr1_CO$`CO Start`),]
+# 
+# fancm_chr4_CO <- fancm_CO[ which(fancm_CO$Chr == "4"),]
+# fancm_chr4_CO$midpoint <- (fancm_chr4_CO$`CO Start`+ fancm_chr4_CO$`CO End`)/2
+# fancm_chr4_CO <- fancm_chr4_CO[order(fancm_chr4_CO$`CO Start`),]
+# 
+# fancm_chr7_CO <- fancm_CO[ which(fancm_CO$Chr == "7"),]
+# fancm_chr7_CO$midpoint <- (fancm_chr7_CO$`CO Start`+ fancm_chr7_CO$`CO End`)/2
+# fancm_chr7_CO <- fancm_chr7_CO[order(fancm_chr7_CO$`CO Start`),]
+# 
+# fancm_chr10_CO <- fancm_CO[ which(fancm_CO$Chr == "10"),]
+# fancm_chr10_CO$midpoint <- (fancm_chr10_CO$`CO Start`+ fancm_chr10_CO$`CO End`)/2
+# fancm_chr10_CO <- fancm_chr10_CO[order(fancm_chr10_CO$`CO Start`),]
+# 
+# fancm_chr12_CO <- fancm_CO[ which(fancm_CO$Chr == "12"),]
+# fancm_chr12_CO$midpoint <- (fancm_chr12_CO$`CO Start`+ fancm_chr12_CO$`CO End`)/2
+# fancm_chr12_CO <- fancm_chr12_CO[order(fancm_chr12_CO$`CO Start`),]
+# 
+# library(dlookr)
+# library(tidyverse)
+# library(OneR)
+# 
+# #making intervals start at 0
+# fancm_chr1_CO$`CO End` <- fancm_chr1_CO$`CO End` - min(fancm_chr1_CO$`CO Start`)
+# fancm_chr1_CO$`CO Start` <- fancm_chr1_CO$`CO Start` - min(fancm_chr1_CO$`CO Start`)
+# 
+# fancm_chr4_CO$`CO End` <- fancm_chr4_CO$`CO End` - min(fancm_chr4_CO$`CO Start`)
+# fancm_chr4_CO$`CO Start` <- fancm_chr4_CO$`CO Start` - min(fancm_chr4_CO$`CO Start`)
+# 
+# fancm_chr7_CO$`CO End` <- fancm_chr7_CO$`CO End` - min(fancm_chr7_CO$`CO Start`)
+# fancm_chr7_CO$`CO Start` <- fancm_chr7_CO$`CO Start` - min(fancm_chr7_CO$`CO Start`)
+# 
+# fancm_chr10_CO$`CO End` <- fancm_chr10_CO$`CO End` - min(fancm_chr10_CO$`CO Start`)
+# fancm_chr10_CO$`CO Start` <- fancm_chr10_CO$`CO Start` - min(fancm_chr10_CO$`CO Start`)
+# 
+# fancm_chr12_CO$`CO End` <- fancm_chr12_CO$`CO End` - min(fancm_chr12_CO$`CO Start`)
+# fancm_chr12_CO$`CO Start` <- fancm_chr12_CO$`CO Start` - min(fancm_chr12_CO$`CO Start`)
+# 
+# #japonica wildtype recomb rates
+# jap_CO <- read.csv("jap_WT_rate.csv", header = TRUE)
+# colnames(jap_CO) <- c("Chr", "CO Start", "CO End", "WT_rate")
+# jap_CO <- jap_CO[order(jap_CO$Chr,jap_CO$`CO Start`),]
+# 
+# jap_chr1_CO <- jap_CO[ which(jap_CO$Chr == "1"),]
+# jap_chr1_CO$midpoint <- (jap_chr1_CO$`CO Start`+ jap_chr1_CO$`CO End`)/2
+# jap_chr1_CO <- jap_chr1_CO[order(jap_chr1_CO$`CO Start`),]
+# 
+# jap_chr4_CO <- jap_CO[ which(jap_CO$Chr == "4"),]
+# jap_chr4_CO$midpoint <- (jap_chr4_CO$`CO Start`+ jap_chr4_CO$`CO End`)/2
+# jap_chr4_CO <- jap_chr4_CO[order(jap_chr4_CO$`CO Start`),]
+# 
+# jap_chr7_CO <- jap_CO[ which(jap_CO$Chr == "7"),]
+# jap_chr7_CO$midpoint <- (jap_chr7_CO$`CO Start`+ jap_chr7_CO$`CO End`)/2
+# jap_chr7_CO <- jap_chr7_CO[order(jap_chr7_CO$`CO Start`),]
+# 
+# jap_chr10_CO <- jap_CO[ which(jap_CO$Chr == "10"),]
+# jap_chr10_CO$midpoint <- (jap_chr10_CO$`CO Start`+ jap_chr10_CO$`CO End`)/2
+# jap_chr10_CO <- jap_chr10_CO[order(jap_chr10_CO$`CO Start`),]
+# 
+# jap_chr12_CO <- jap_CO[ which(jap_CO$Chr == "12"),]
+# jap_chr12_CO$midpoint <- (jap_chr12_CO$`CO Start`+ jap_chr12_CO$`CO End`)/2
+# jap_chr12_CO <- jap_chr12_CO[order(jap_chr12_CO$`CO Start`),]
+# 
+# #making intervals start at 0
+# jap_chr1_CO$`CO End` <- jap_chr1_CO$`CO End` - min(jap_chr1_CO$`CO Start`)
+# jap_chr1_CO$`CO Start` <- jap_chr1_CO$`CO Start` - min(jap_chr1_CO$`CO Start`)
+# 
+# jap_chr4_CO$`CO End` <- jap_chr4_CO$`CO End` - min(jap_chr4_CO$`CO Start`)
+# jap_chr4_CO$`CO Start` <- jap_chr4_CO$`CO Start` - min(jap_chr4_CO$`CO Start`)
+# 
+# jap_chr7_CO$`CO End` <- jap_chr7_CO$`CO End` - min(jap_chr7_CO$`CO Start`)
+# jap_chr7_CO$`CO Start` <- jap_chr7_CO$`CO Start` - min(jap_chr7_CO$`CO Start`)
+# 
+# jap_chr10_CO$`CO End` <- jap_chr10_CO$`CO End` - min(jap_chr10_CO$`CO Start`)
+# jap_chr10_CO$`CO Start` <- jap_chr10_CO$`CO Start` - min(jap_chr10_CO$`CO Start`)
+# 
+# jap_chr12_CO$`CO End` <- jap_chr12_CO$`CO End` - min(jap_chr12_CO$`CO Start`)
+# jap_chr12_CO$`CO Start` <- jap_chr12_CO$`CO Start` - min(jap_chr12_CO$`CO Start`)
+# 
+# 
+# ##Binding WT + Recqm Mutant rates & calculating difference
+# fancm_chr1_CO<- cbind(fancm_chr1_CO, WT_rate =jap_chr1_CO$`WT_rate`)
+# fancm_chr1_CO$diff <- abs(fancm_chr1_CO$`WT_rate`-fancm_chr1_CO$`fancm_rate`)/((fancm_chr1_CO$`WT_rate`+fancm_chr1_CO$`fancm_rate`)/2)
+# 
+# fancm_chr4_CO<- cbind(fancm_chr4_CO, WT_rate =jap_chr4_CO$`WT_rate`)
+# fancm_chr4_CO$diff <- abs(fancm_chr4_CO$`WT_rate`-fancm_chr4_CO$`fancm_rate`)/((fancm_chr4_CO$`WT_rate`+fancm_chr4_CO$`fancm_rate`)/2)
+# 
+# fancm_chr7_CO<- cbind(fancm_chr7_CO, WT_rate =jap_chr7_CO$`WT_rate`)
+# fancm_chr7_CO$diff <- abs(fancm_chr7_CO$`WT_rate`-fancm_chr7_CO$`fancm_rate`)/((fancm_chr7_CO$`WT_rate`+fancm_chr7_CO$`fancm_rate`)/2)
+# 
+# fancm_chr10_CO <- cbind(fancm_chr10_CO, WT_rate =jap_chr10_CO$`WT_rate`)
+# fancm_chr10_CO$diff <- abs(fancm_chr10_CO$`WT_rate`-fancm_chr10_CO$`fancm_rate`)/((fancm_chr10_CO$`WT_rate`+fancm_chr10_CO$`fancm_rate`)/2)
+# fancm_chr10_CO[11,7]<-abs(fancm_chr10_CO[11,4]-fancm_chr10_CO[11,6])
+# 
+# fancm_chr12_CO<- cbind(fancm_chr12_CO, WT_rate =jap_chr12_CO$`WT_rate`)
+# fancm_chr12_CO$diff <- abs(fancm_chr12_CO$`WT_rate`-fancm_chr12_CO$`fancm_rate`)/((fancm_chr12_CO$`WT_rate`+fancm_chr12_CO$`fancm_rate`)/2)
+# fancm_chr12_CO[9,7]<-abs(fancm_chr12_CO[9,4]-fancm_chr12_CO[9,6])
+# 
+# fancm_CO_bind<-rbind(fancm_chr1_CO,fancm_chr4_CO,fancm_chr7_CO,fancm_chr10_CO,fancm_chr12_CO)
+# fancm_CO_bind<-na.omit(fancm_CO_bind)
+# avg_diff <- 1.252264
 
-fancm_chr1_CO <- fancm_CO[ which(fancm_CO$Chr == "1"),]
-fancm_chr1_CO$midpoint <- (fancm_chr1_CO$`CO Start`+ fancm_chr1_CO$`CO End`)/2
-fancm_chr1_CO <- fancm_chr1_CO[order(fancm_chr1_CO$`CO Start`),]
-
-fancm_chr4_CO <- fancm_CO[ which(fancm_CO$Chr == "4"),]
-fancm_chr4_CO$midpoint <- (fancm_chr4_CO$`CO Start`+ fancm_chr4_CO$`CO End`)/2
-fancm_chr4_CO <- fancm_chr4_CO[order(fancm_chr4_CO$`CO Start`),]
-
-fancm_chr7_CO <- fancm_CO[ which(fancm_CO$Chr == "7"),]
-fancm_chr7_CO$midpoint <- (fancm_chr7_CO$`CO Start`+ fancm_chr7_CO$`CO End`)/2
-fancm_chr7_CO <- fancm_chr7_CO[order(fancm_chr7_CO$`CO Start`),]
-
-fancm_chr10_CO <- fancm_CO[ which(fancm_CO$Chr == "10"),]
-fancm_chr10_CO$midpoint <- (fancm_chr10_CO$`CO Start`+ fancm_chr10_CO$`CO End`)/2
-fancm_chr10_CO <- fancm_chr10_CO[order(fancm_chr10_CO$`CO Start`),]
-
-fancm_chr12_CO <- fancm_CO[ which(fancm_CO$Chr == "12"),]
-fancm_chr12_CO$midpoint <- (fancm_chr12_CO$`CO Start`+ fancm_chr12_CO$`CO End`)/2
-fancm_chr12_CO <- fancm_chr12_CO[order(fancm_chr12_CO$`CO Start`),]
-
-library(dlookr)
-library(tidyverse)
-library(OneR)
-
-#making intervals start at 0
-fancm_chr1_CO$`CO End` <- fancm_chr1_CO$`CO End` - min(fancm_chr1_CO$`CO Start`)
-fancm_chr1_CO$`CO Start` <- fancm_chr1_CO$`CO Start` - min(fancm_chr1_CO$`CO Start`)
-
-fancm_chr4_CO$`CO End` <- fancm_chr4_CO$`CO End` - min(fancm_chr4_CO$`CO Start`)
-fancm_chr4_CO$`CO Start` <- fancm_chr4_CO$`CO Start` - min(fancm_chr4_CO$`CO Start`)
-
-fancm_chr7_CO$`CO End` <- fancm_chr7_CO$`CO End` - min(fancm_chr7_CO$`CO Start`)
-fancm_chr7_CO$`CO Start` <- fancm_chr7_CO$`CO Start` - min(fancm_chr7_CO$`CO Start`)
-
-fancm_chr10_CO$`CO End` <- fancm_chr10_CO$`CO End` - min(fancm_chr10_CO$`CO Start`)
-fancm_chr10_CO$`CO Start` <- fancm_chr10_CO$`CO Start` - min(fancm_chr10_CO$`CO Start`)
-
-fancm_chr12_CO$`CO End` <- fancm_chr12_CO$`CO End` - min(fancm_chr12_CO$`CO Start`)
-fancm_chr12_CO$`CO Start` <- fancm_chr12_CO$`CO Start` - min(fancm_chr12_CO$`CO Start`)
-
+## multiplying WT recombination rates by the avg difference
+# exclude pericentromeric regions (suppresion regions)
+# 1. create avg diff column (supression region = 0)
+# 2. loop through, multiply wt rate from other paper (fine scale recombination rate) by avg rate
 #japonica wildtype recomb rates
 jap_CO <- read.csv("jap_WT_rate.csv", header = TRUE)
 colnames(jap_CO) <- c("Chr", "CO Start", "CO End", "WT_rate")
@@ -127,17 +195,45 @@ jap_chr1_CO <- jap_CO[ which(jap_CO$Chr == "1"),]
 jap_chr1_CO$midpoint <- (jap_chr1_CO$`CO Start`+ jap_chr1_CO$`CO End`)/2
 jap_chr1_CO <- jap_chr1_CO[order(jap_chr1_CO$`CO Start`),]
 
+jap_chr2_CO <- jap_CO[ which(jap_CO$Chr == "2"),]
+jap_chr2_CO$midpoint <- (jap_chr2_CO$`CO Start`+ jap_chr2_CO$`CO End`)/2
+jap_chr2_CO <- jap_chr2_CO[order(jap_chr2_CO$`CO Start`),]
+
+jap_chr3_CO <- jap_CO[ which(jap_CO$Chr == "3"),]
+jap_chr3_CO$midpoint <- (jap_chr3_CO$`CO Start`+ jap_chr3_CO$`CO End`)/2
+jap_chr3_CO <- jap_chr3_CO[order(jap_chr3_CO$`CO Start`),]
+
 jap_chr4_CO <- jap_CO[ which(jap_CO$Chr == "4"),]
 jap_chr4_CO$midpoint <- (jap_chr4_CO$`CO Start`+ jap_chr4_CO$`CO End`)/2
 jap_chr4_CO <- jap_chr4_CO[order(jap_chr4_CO$`CO Start`),]
+
+jap_chr5_CO <- jap_CO[ which(jap_CO$Chr == "5"),]
+jap_chr5_CO$midpoint <- (jap_chr5_CO$`CO Start`+ jap_chr5_CO$`CO End`)/2
+jap_chr5_CO <- jap_chr5_CO[order(jap_chr5_CO$`CO Start`),]
+
+jap_chr6_CO <- jap_CO[ which(jap_CO$Chr == "6"),]
+jap_chr6_CO$midpoint <- (jap_chr6_CO$`CO Start`+ jap_chr6_CO$`CO End`)/2
+jap_chr6_CO <- jap_chr6_CO[order(jap_chr6_CO$`CO Start`),]
 
 jap_chr7_CO <- jap_CO[ which(jap_CO$Chr == "7"),]
 jap_chr7_CO$midpoint <- (jap_chr7_CO$`CO Start`+ jap_chr7_CO$`CO End`)/2
 jap_chr7_CO <- jap_chr7_CO[order(jap_chr7_CO$`CO Start`),]
 
+jap_chr8_CO <- jap_CO[ which(jap_CO$Chr == "8"),]
+jap_chr8_CO$midpoint <- (jap_chr8_CO$`CO Start`+ jap_chr8_CO$`CO End`)/2
+jap_chr8_CO <- jap_chr8_CO[order(jap_chr8_CO$`CO Start`),]
+
+jap_chr9_CO <- jap_CO[ which(jap_CO$Chr == "9"),]
+jap_chr9_CO$midpoint <- (jap_chr9_CO$`CO Start`+ jap_chr9_CO$`CO End`)/2
+jap_chr9_CO <- jap_chr9_CO[order(jap_chr9_CO$`CO Start`),]
+
 jap_chr10_CO <- jap_CO[ which(jap_CO$Chr == "10"),]
 jap_chr10_CO$midpoint <- (jap_chr10_CO$`CO Start`+ jap_chr10_CO$`CO End`)/2
 jap_chr10_CO <- jap_chr10_CO[order(jap_chr10_CO$`CO Start`),]
+
+jap_chr11_CO <- jap_CO[ which(jap_CO$Chr == "11"),]
+jap_chr11_CO$midpoint <- (jap_chr11_CO$`CO Start`+ jap_chr11_CO$`CO End`)/2
+jap_chr11_CO <- jap_chr11_CO[order(jap_chr11_CO$`CO Start`),]
 
 jap_chr12_CO <- jap_CO[ which(jap_CO$Chr == "12"),]
 jap_chr12_CO$midpoint <- (jap_chr12_CO$`CO Start`+ jap_chr12_CO$`CO End`)/2
@@ -147,46 +243,66 @@ jap_chr12_CO <- jap_chr12_CO[order(jap_chr12_CO$`CO Start`),]
 jap_chr1_CO$`CO End` <- jap_chr1_CO$`CO End` - min(jap_chr1_CO$`CO Start`)
 jap_chr1_CO$`CO Start` <- jap_chr1_CO$`CO Start` - min(jap_chr1_CO$`CO Start`)
 
+jap_chr2_CO$`CO End` <- jap_chr2_CO$`CO End` - min(jap_chr2_CO$`CO Start`)
+jap_chr2_CO$`CO Start` <- jap_chr2_CO$`CO Start` - min(jap_chr2_CO$`CO Start`)
+
+jap_chr3_CO$`CO End` <- jap_chr3_CO$`CO End` - min(jap_chr3_CO$`CO Start`)
+jap_chr3_CO$`CO Start` <- jap_chr3_CO$`CO Start` - min(jap_chr3_CO$`CO Start`)
+
 jap_chr4_CO$`CO End` <- jap_chr4_CO$`CO End` - min(jap_chr4_CO$`CO Start`)
 jap_chr4_CO$`CO Start` <- jap_chr4_CO$`CO Start` - min(jap_chr4_CO$`CO Start`)
+
+jap_chr5_CO$`CO End` <- jap_chr5_CO$`CO End` - min(jap_chr5_CO$`CO Start`)
+jap_chr5_CO$`CO Start` <- jap_chr5_CO$`CO Start` - min(jap_chr5_CO$`CO Start`)
+
+jap_chr6_CO$`CO End` <- jap_chr6_CO$`CO End` - min(jap_chr6_CO$`CO Start`)
+jap_chr6_CO$`CO Start` <- jap_chr6_CO$`CO Start` - min(jap_chr6_CO$`CO Start`)
 
 jap_chr7_CO$`CO End` <- jap_chr7_CO$`CO End` - min(jap_chr7_CO$`CO Start`)
 jap_chr7_CO$`CO Start` <- jap_chr7_CO$`CO Start` - min(jap_chr7_CO$`CO Start`)
 
+jap_chr8_CO$`CO End` <- jap_chr8_CO$`CO End` - min(jap_chr8_CO$`CO Start`)
+jap_chr8_CO$`CO Start` <- jap_chr8_CO$`CO Start` - min(jap_chr8_CO$`CO Start`)
+
+jap_chr9_CO$`CO End` <- jap_chr9_CO$`CO End` - min(jap_chr9_CO$`CO Start`)
+jap_chr9_CO$`CO Start` <- jap_chr9_CO$`CO Start` - min(jap_chr9_CO$`CO Start`)
+
 jap_chr10_CO$`CO End` <- jap_chr10_CO$`CO End` - min(jap_chr10_CO$`CO Start`)
 jap_chr10_CO$`CO Start` <- jap_chr10_CO$`CO Start` - min(jap_chr10_CO$`CO Start`)
+
+jap_chr11_CO$`CO End` <- jap_chr11_CO$`CO End` - min(jap_chr11_CO$`CO Start`)
+jap_chr11_CO$`CO Start` <- jap_chr11_CO$`CO Start` - min(jap_chr11_CO$`CO Start`)
 
 jap_chr12_CO$`CO End` <- jap_chr12_CO$`CO End` - min(jap_chr12_CO$`CO Start`)
 jap_chr12_CO$`CO Start` <- jap_chr12_CO$`CO Start` - min(jap_chr12_CO$`CO Start`)
 
-
-##Binding WT + Recqm Mutant rates & calculating difference
-fancm_chr1_CO<- cbind(fancm_chr1_CO, WT_rate =jap_chr1_CO$`WT_rate`)
-fancm_chr1_CO$diff <- abs(fancm_chr1_CO$`WT_rate`-fancm_chr1_CO$`fancm_rate`)/((fancm_chr1_CO$`WT_rate`+fancm_chr1_CO$`fancm_rate`)/2)
-
-fancm_chr4_CO<- cbind(fancm_chr4_CO, WT_rate =jap_chr4_CO$`WT_rate`)
-fancm_chr4_CO$diff <- abs(fancm_chr4_CO$`WT_rate`-fancm_chr4_CO$`fancm_rate`)/((fancm_chr4_CO$`WT_rate`+fancm_chr4_CO$`fancm_rate`)/2)
-
-fancm_chr7_CO<- cbind(fancm_chr7_CO, WT_rate =jap_chr7_CO$`WT_rate`)
-fancm_chr7_CO$diff <- abs(fancm_chr7_CO$`WT_rate`-fancm_chr7_CO$`fancm_rate`)/((fancm_chr7_CO$`WT_rate`+fancm_chr7_CO$`fancm_rate`)/2)
-
-fancm_chr10_CO <- cbind(fancm_chr10_CO, WT_rate =jap_chr10_CO$`WT_rate`)
-fancm_chr10_CO$diff <- abs(fancm_chr10_CO$`WT_rate`-fancm_chr10_CO$`fancm_rate`)/((fancm_chr10_CO$`WT_rate`+fancm_chr10_CO$`fancm_rate`)/2)
-fancm_chr10_CO[11,7]<-abs(fancm_chr10_CO[11,4]-fancm_chr10_CO[11,6])
-
-fancm_chr12_CO<- cbind(fancm_chr12_CO, WT_rate =jap_chr12_CO$`WT_rate`)
-fancm_chr12_CO$diff <- abs(fancm_chr12_CO$`WT_rate`-fancm_chr12_CO$`fancm_rate`)/((fancm_chr12_CO$`WT_rate`+fancm_chr12_CO$`fancm_rate`)/2)
-fancm_chr12_CO[9,7]<-abs(fancm_chr12_CO[9,4]-fancm_chr12_CO[9,6])
-
-fancm_CO_bind<-rbind(fancm_chr1_CO,fancm_chr4_CO,fancm_chr7_CO,fancm_chr10_CO,fancm_chr12_CO)
-fancm_CO_bind<-na.omit(fancm_CO_bind)
-avg_diff <- 1.252264
-
-## multiplying WT recombination rates by the avg difference
-# exclude pericentromeric regions (suppresion regions)
-# 1. create avg diff column (supression region = 0)
-# 2. loop through, multiply wt rate from other paper (fine scale recombination rate) by avg rate
-
+#apply avg difference to telomeric regions (divide chromosome into fifths and apply avg diff to middle fifth)
+avg_diff <-1.252264
+pericentromeric <- function(CO){
+  rownames(CO)<-c(1:nrow(CO))
+  CO$avg_rate <- avg_diff
+  fifth<- max(CO$`CO End`)/5
+  start<-fifth*2
+  end<-fifth*4
+  for(i in 1:nrow(CO)){
+    if(CO$`CO Start`[i]>= start && CO$`CO End`[i]<= end ){
+      CO$avg_rate[i] <- 0
+    }
+  }
+  print(CO)
+}
+jap_chr1_CO<- pericentromeric(jap_chr1_CO)
+jap_chr2_CO <- pericentromeric(jap_chr2_CO)
+jap_chr3_CO <- pericentromeric(jap_chr3_CO)
+jap_chr4_CO <- pericentromeric(jap_chr4_CO)
+jap_chr5_CO <- pericentromeric(jap_chr5_CO)
+jap_chr6_CO <- pericentromeric(jap_chr6_CO)
+jap_chr7_CO <- pericentromeric(jap_chr7_CO)
+jap_chr8_CO <- pericentromeric(jap_chr8_CO)
+jap_chr9_CO <- pericentromeric(jap_chr9_CO)
+jap_chr10_CO <- pericentromeric(jap_chr10_CO)
+jap_chr11_CO <- pericentromeric(jap_chr11_CO)
+jap_chr12_CO <- pericentromeric(jap_chr12_CO)
 #import fine scale recombination rates
 WTJap_CO <- read.table("japonica_rec_rate.bed", header = FALSE)
 colnames(WTJap_CO) <- c("Chr", "CO Start", "CO End", "rate")
@@ -310,73 +426,73 @@ fill_start<- function(chr_CO){
 }
 library(zoo)
 fancm_chr1_CO_3 <- fancm_chr1_CO_2
-bins<-as.integer(nrow(fancm_chr1_CO_2)/44)
+bins<-as.integer(nrow(fancm_chr1_CO_2)/10)
 fancm_chr1_CO_3$rates<- rollapply(fancm_chr1_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 fancm_chr1_CO_3<-fill_start(fancm_chr1_CO_3)
 fancm_chr1_CO_3<- fancm_chr1_CO_3 %>% drop_na(rates)
 
 fancm_chr2_CO_3 <- fancm_chr2_CO_2
-bins<-as.integer(nrow(fancm_chr2_CO_2)/400)
+bins<-as.integer(nrow(fancm_chr2_CO_2)/10)
 fancm_chr2_CO_3$rates<- rollapply(fancm_chr2_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 fancm_chr2_CO_3<-fill_start(fancm_chr2_CO_3)
 fancm_chr2_CO_3<- fancm_chr2_CO_3 %>% drop_na(rates)
 
 fancm_chr3_CO_3 <- fancm_chr3_CO_2
-bins<-as.integer(nrow(fancm_chr3_CO_2)/410)
+bins<-as.integer(nrow(fancm_chr3_CO_2)/10)
 fancm_chr3_CO_3$rates<- rollapply(fancm_chr3_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 fancm_chr3_CO_3<-fill_start(fancm_chr3_CO_3)
 fancm_chr3_CO_3<- fancm_chr3_CO_3 %>% drop_na(rates)
 
 fancm_chr4_CO_3 <- fancm_chr4_CO_2
-bins<-as.integer(nrow(fancm_chr4_CO_2)/390)
+bins<-as.integer(nrow(fancm_chr4_CO_2)/10)
 fancm_chr4_CO_3$rates<- rollapply(fancm_chr4_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 fancm_chr4_CO_3<-fill_start(fancm_chr4_CO_3)
 fancm_chr4_CO_3<- fancm_chr4_CO_3 %>% drop_na(rates)
 
 fancm_chr5_CO_3 <- fancm_chr5_CO_2
-bins<-as.integer(nrow(fancm_chr5_CO_2)/330)
+bins<-as.integer(nrow(fancm_chr5_CO_2)/10)
 fancm_chr5_CO_3$rates<- rollapply(fancm_chr5_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 fancm_chr5_CO_3<-fill_start(fancm_chr5_CO_3)
 fancm_chr5_CO_3<- fancm_chr5_CO_3 %>% drop_na(rates)
 
 fancm_chr6_CO_3 <- fancm_chr6_CO_2
-bins<-as.integer(nrow(fancm_chr6_CO_2)/320)
+bins<-as.integer(nrow(fancm_chr6_CO_2)/10)
 fancm_chr6_CO_3$rates<- rollapply(fancm_chr6_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 fancm_chr6_CO_3<-fill_start(fancm_chr6_CO_3)
 fancm_chr6_CO_3<- fancm_chr6_CO_3 %>% drop_na(rates)
 
 fancm_chr7_CO_3 <- fancm_chr7_CO_2
-bins<-as.integer(nrow(fancm_chr7_CO_2)/350)
+bins<-as.integer(nrow(fancm_chr7_CO_2)/10)
 fancm_chr7_CO_3$rates<- rollapply(fancm_chr7_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 fancm_chr7_CO_3<-fill_start(fancm_chr7_CO_3)
 fancm_chr7_CO_3<- fancm_chr7_CO_3 %>% drop_na(rates)
 
 fancm_chr8_CO_3 <- fancm_chr8_CO_2
-bins<-as.integer(nrow(fancm_chr8_CO_2)/280)
+bins<-as.integer(nrow(fancm_chr8_CO_2)/10)
 fancm_chr8_CO_3$rates<- rollapply(fancm_chr8_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 fancm_chr8_CO_3<-fill_start(fancm_chr8_CO_3)
 fancm_chr8_CO_3<- fancm_chr8_CO_3 %>% drop_na(rates)
 
 fancm_chr9_CO_3 <- fancm_chr9_CO_2
-bins<-as.integer(nrow(fancm_chr9_CO_2)/220)
+bins<-as.integer(nrow(fancm_chr9_CO_2)/10)
 fancm_chr9_CO_3$rates<- rollapply(fancm_chr9_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 fancm_chr9_CO_3<-fill_start(fancm_chr9_CO_3)
 fancm_chr9_CO_3<- fancm_chr9_CO_3 %>% drop_na(rates)
 
 fancm_chr10_CO_3 <- fancm_chr10_CO_2
-bins<-as.integer(nrow(fancm_chr10_CO_2)/270)
+bins<-as.integer(nrow(fancm_chr10_CO_2)/10)
 fancm_chr10_CO_3$rates<- rollapply(fancm_chr10_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 fancm_chr10_CO_3<-fill_start(fancm_chr10_CO_3)
 fancm_chr10_CO_3<- fancm_chr10_CO_3 %>% drop_na(rates)
 
 fancm_chr11_CO_3 <- fancm_chr11_CO_2
-bins<-as.integer(nrow(fancm_chr11_CO_2)/300)
+bins<-as.integer(nrow(fancm_chr11_CO_2)/10)
 fancm_chr11_CO_3$rates<- rollapply(fancm_chr11_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 fancm_chr11_CO_3<-fill_start(fancm_chr11_CO_3)
 fancm_chr11_CO_3<- fancm_chr11_CO_3 %>% drop_na(rates)
 
 fancm_chr12_CO_3 <- fancm_chr12_CO_2
-bins<-as.integer(nrow(fancm_chr12_CO_2)/310)
+bins<-as.integer(nrow(fancm_chr12_CO_2)/10)
 fancm_chr12_CO_3$rates<- rollapply(fancm_chr12_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 fancm_chr12_CO_3<-fill_start(fancm_chr12_CO_3)
 fancm_chr12_CO_3<- fancm_chr12_CO_3 %>% drop_na(rates)
@@ -386,7 +502,7 @@ snp_rate <- function(chr_rate, chr_snp){
   for(i in 1:nrow(chr_snp)){
     for(k in 1:nrow(chr_rate)){
       if(isTRUE((chr_snp$`SNP Start`[i] >= chr_rate$`CO Start`[k]) && (chr_snp$`SNP End`[i] <= chr_rate$`CO End`[k]))){
-        chr_snp$rate[i] <- chr_rate$rate[k]
+        chr_snp$rate[i] <- chr_rate$rates[k]
       }
     }
   }

@@ -168,6 +168,11 @@ recq4l_chr11_CO$`CO Start` <- recq4l_chr11_CO$`CO Start` - min(recq4l_chr11_CO$`
 recq4l_chr12_CO$`CO End` <- recq4l_chr12_CO$`CO End` - min(recq4l_chr12_CO$`CO Start`)
 recq4l_chr12_CO$`CO Start` <- recq4l_chr12_CO$`CO Start` - min(recq4l_chr12_CO$`CO Start`)
 
+
+## multiplying WT recombination rates by the avg difference
+# exclude pericentromeric regions (suppresion regions)
+# 1. create avg diff column (supression region = 0)
+# 2. loop through, multiply wt rate from other paper (fine scale recombination rate) by avg rate
 #japonica wildtype recomb rates
 jap_CO <- read.csv("jap_WT_rate.csv", header = TRUE)
 colnames(jap_CO) <- c("Chr", "CO Start", "CO End", "WT_rate")
@@ -258,110 +263,33 @@ jap_chr11_CO$`CO Start` <- jap_chr11_CO$`CO Start` - min(jap_chr11_CO$`CO Start`
 jap_chr12_CO$`CO End` <- jap_chr12_CO$`CO End` - min(jap_chr12_CO$`CO Start`)
 jap_chr12_CO$`CO Start` <- jap_chr12_CO$`CO Start` - min(jap_chr12_CO$`CO Start`)
 
-
-##Binding WT + Recqm Mutant rates & calculating difference
-recq4l_chr1_CO<- cbind(recq4l_chr1_CO, WT_rate =jap_chr1_CO$`WT_rate`)
-recq4l_chr1_CO$diff <- abs(recq4l_chr1_CO$`WT_rate`-recq4l_chr1_CO$`recq4l_rate`)/((recq4l_chr1_CO$`WT_rate`+recq4l_chr1_CO$`recq4l_rate`)/2)
-chr1_diff <- mean(recq4l_chr1_CO$diff)
-
-recq4l_chr2_CO<- cbind(recq4l_chr2_CO, WT_rate =jap_chr2_CO$`WT_rate`)
-recq4l_chr2_CO$diff <- abs(recq4l_chr2_CO$`WT_rate`-recq4l_chr2_CO$`recq4l_rate`)/((recq4l_chr2_CO$`WT_rate`+recq4l_chr2_CO$`recq4l_rate`)/2)
-chr2_diff <- mean(recq4l_chr2_CO$diff)
-
-recq4l_chr3_CO<- cbind(recq4l_chr3_CO, WT_rate =jap_chr3_CO$`WT_rate`)
-recq4l_chr3_CO$diff <- abs(recq4l_chr3_CO$`WT_rate`-recq4l_chr3_CO$`recq4l_rate`)/((recq4l_chr3_CO$`WT_rate`+recq4l_chr3_CO$`recq4l_rate`)/2)
-chr3_diff <- mean(recq4l_chr3_CO$diff)
-
-recq4l_chr4_CO<- cbind(recq4l_chr4_CO, WT_rate =jap_chr4_CO$`WT_rate`)
-recq4l_chr4_CO$diff <- abs(recq4l_chr4_CO$`WT_rate`-recq4l_chr4_CO$`recq4l_rate`)/((recq4l_chr4_CO$`WT_rate`+recq4l_chr4_CO$`recq4l_rate`)/2)
-chr4_diff <- mean(recq4l_chr4_CO$diff)
-
-recq4l_chr5_CO<- cbind(recq4l_chr5_CO, WT_rate =jap_chr5_CO$`WT_rate`)
-recq4l_chr5_CO$diff <- abs(recq4l_chr5_CO$`WT_rate`-recq4l_chr5_CO$`recq4l_rate`)/((recq4l_chr5_CO$`WT_rate`+recq4l_chr5_CO$`recq4l_rate`)/2)
-chr5_diff <- mean(recq4l_chr5_CO$diff)
-
-recq4l_chr6_CO<- cbind(recq4l_chr6_CO, WT_rate =jap_chr6_CO$`WT_rate`)
-recq4l_chr6_CO$diff <- abs(recq4l_chr6_CO$`WT_rate`-recq4l_chr6_CO$`recq4l_rate`)/((recq4l_chr6_CO$`WT_rate`+recq4l_chr6_CO$`recq4l_rate`)/2)
-chr6_diff <- mean(recq4l_chr6_CO$diff)
-
-recq4l_chr7_CO<- cbind(recq4l_chr7_CO, WT_rate =jap_chr7_CO$`WT_rate`)
-recq4l_chr7_CO$diff <- abs(recq4l_chr7_CO$`WT_rate`-recq4l_chr7_CO$`recq4l_rate`)/((recq4l_chr7_CO$`WT_rate`+recq4l_chr7_CO$`recq4l_rate`)/2)
-chr7_diff <- mean(recq4l_chr7_CO$diff)
-
-recq4l_chr8_CO<- cbind(recq4l_chr8_CO, WT_rate =jap_chr8_CO$`WT_rate`)
-recq4l_chr8_CO$diff <- abs(recq4l_chr8_CO$`WT_rate`-recq4l_chr8_CO$`recq4l_rate`)/((recq4l_chr8_CO$`WT_rate`+recq4l_chr8_CO$`recq4l_rate`)/2)
-recq4l_chr8_CO[12,7]<-abs(recq4l_chr8_CO[12,4]-recq4l_chr8_CO[12,6])
-chr8_diff <- mean(recq4l_chr8_CO$diff)
-
-recq4l_chr9_CO<- cbind(recq4l_chr9_CO, WT_rate =jap_chr9_CO$`WT_rate`)
-recq4l_chr9_CO$diff <- abs(recq4l_chr9_CO$`WT_rate`-recq4l_chr9_CO$`recq4l_rate`)/((recq4l_chr9_CO$`WT_rate`+recq4l_chr9_CO$`recq4l_rate`)/2)
-chr9_diff <- mean(recq4l_chr9_CO$diff)
-
-recq4l_chr10_CO <- cbind(recq4l_chr10_CO, WT_rate =jap_chr10_CO$`WT_rate`)
-recq4l_chr10_CO$diff <- abs(recq4l_chr10_CO$`WT_rate`-recq4l_chr10_CO$`recq4l_rate`)/((recq4l_chr10_CO$`WT_rate`+recq4l_chr10_CO$`recq4l_rate`)/2)
-recq4l_chr10_CO[11,7]<-abs(recq4l_chr10_CO[11,4]-recq4l_chr10_CO[11,6])
-chr10_diff <- mean(recq4l_chr10_CO$diff)
-
-recq4l_chr11_CO<- cbind(recq4l_chr11_CO, WT_rate =jap_chr11_CO$`WT_rate`)
-recq4l_chr11_CO$diff <- abs(recq4l_chr11_CO$`WT_rate`-recq4l_chr11_CO$`recq4l_rate`)/((recq4l_chr11_CO$`WT_rate`+recq4l_chr11_CO$`recq4l_rate`)/2)
-chr11_diff <- mean(recq4l_chr11_CO$diff)
-
-recq4l_chr12_CO<- cbind(recq4l_chr12_CO, WT_rate =jap_chr12_CO$`WT_rate`)
-recq4l_chr12_CO$diff <- abs(recq4l_chr12_CO$`WT_rate`-recq4l_chr12_CO$`recq4l_rate`)/((recq4l_chr12_CO$`WT_rate`+recq4l_chr12_CO$`recq4l_rate`)/2)
-recq4l_chr12_CO[9,7]<-abs(recq4l_chr12_CO[9,4]-recq4l_chr12_CO[9,6])
-chr12_diff <- mean(recq4l_chr12_CO$diff)
-
-## multiplying WT recombination rates by the avg difference
-# exclude pericentromeric regions (suppresion regions)
-# 1. create avg diff column (supression region = 0)
-# 2. loop through, multiply wt rate from other paper (fine scale recombination rate) by avg rate
+#apply avg difference to telomeric regions (divide chromosome into fifths and apply avg diff to first & last fifth)
 avg_diff <- 1.581055
-recq4l_chr1_CO$avg_rate <- avg_diff
-recq4l_chr1_CO[11:13,8] <- 0
-
-rownames(recq4l_chr2_CO)<-c(1:20)
-recq4l_chr2_CO$avg_rate <- avg_diff
-recq4l_chr2_CO[8:11,8] <- 0
-
-rownames(recq4l_chr3_CO)<-c(1:13)
-recq4l_chr3_CO$avg_rate <- avg_diff
-recq4l_chr3_CO[5:7,8] <- 0
-
-rownames(recq4l_chr4_CO)<-c(1:17)
-recq4l_chr4_CO$avg_rate <- avg_diff
-recq4l_chr4_CO[6:7,8] <- 0
-
-rownames(recq4l_chr5_CO)<-c(1:15)
-recq4l_chr5_CO$avg_rate <- avg_diff
-recq4l_chr5_CO[6:7,8] <- 0
-
-rownames(recq4l_chr6_CO)<-c(1:18)
-recq4l_chr6_CO$avg_rate <- avg_diff
-recq4l_chr6_CO[9:10,8] <- 0
-
-rownames(recq4l_chr7_CO)<-c(1:20)
-recq4l_chr7_CO$avg_rate <- avg_diff
-recq4l_chr7_CO[8:10,8] <- 0
-
-rownames(recq4l_chr8_CO)<-c(1:18)
-recq4l_chr8_CO$avg_rate <- avg_diff
-recq4l_chr8_CO[11:12,8] <- 0
-
-rownames(recq4l_chr9_CO)<-c(1:17)
-recq4l_chr9_CO$avg_rate <- avg_diff
-recq4l_chr9_CO[2:4,8] <- 0
-
-rownames(recq4l_chr10_CO)<-c(1:21)
-recq4l_chr10_CO$avg_rate <- avg_diff
-recq4l_chr10_CO[6:9,8] <- 0
-
-rownames(recq4l_chr11_CO)<-c(1:20)
-recq4l_chr11_CO$avg_rate <- avg_diff
-
-rownames(recq4l_chr12_CO)<-c(1:21)
-recq4l_chr12_CO$avg_rate <- avg_diff
-recq4l_chr12_CO[7:10,8] <- 0
-
+pericentromeric <- function(CO){
+  rownames(CO)<-c(1:nrow(CO))
+  CO$avg_rate <- avg_diff
+  fifth<- max(CO$`CO End`)/5
+  start<-fifth*2
+  end<-fifth*4
+  for(i in 1:nrow(CO)){
+    if(CO$`CO Start`[i]>= start && CO$`CO End`[i]<= end ){
+      CO$avg_rate[i] <- 0
+    }
+  }
+  print(CO)
+}
+jap_chr1_CO<- pericentromeric(jap_chr1_CO)
+jap_chr2_CO <- pericentromeric(jap_chr2_CO)
+jap_chr3_CO <- pericentromeric(jap_chr3_CO)
+jap_chr4_CO <- pericentromeric(jap_chr4_CO)
+jap_chr5_CO <- pericentromeric(jap_chr5_CO)
+jap_chr6_CO <- pericentromeric(jap_chr6_CO)
+jap_chr7_CO <- pericentromeric(jap_chr7_CO)
+jap_chr8_CO <- pericentromeric(jap_chr8_CO)
+jap_chr9_CO <- pericentromeric(jap_chr9_CO)
+jap_chr10_CO <- pericentromeric(jap_chr10_CO)
+jap_chr11_CO <- pericentromeric(jap_chr11_CO)
+jap_chr12_CO <- pericentromeric(jap_chr12_CO)
 #import fine scale recombination rates
 WTJap_CO <- read.table("japonica_rec_rate.bed", header = FALSE)
 colnames(WTJap_CO) <- c("Chr", "CO Start", "CO End", "rate")
@@ -486,73 +414,73 @@ fill_start<- function(chr_CO){
 
 library(zoo)
 recq4l_chr1_CO_3 <- recq4l_chr1_CO_2
-bins<-as.integer(nrow(recq4l_chr1_CO_2)/440)
+bins<-as.integer(nrow(recq4l_chr1_CO_2)/10)
 recq4l_chr1_CO_3$rates<- rollapply(recq4l_chr1_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 recq4l_chr1_CO_3<-fill_start(recq4l_chr1_CO_3)
 recq4l_chr1_CO_3<- recq4l_chr1_CO_3 %>% drop_na(rates)
 
 recq4l_chr2_CO_3 <- recq4l_chr2_CO_2
-bins<-as.integer(nrow(recq4l_chr2_CO_2)/400)
+bins<-as.integer(nrow(recq4l_chr2_CO_2)/10)
 recq4l_chr2_CO_3$rates<- rollapply(recq4l_chr2_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 recq4l_chr2_CO_3<-fill_start(recq4l_chr2_CO_3)
 recq4l_chr2_CO_3<- recq4l_chr2_CO_3 %>% drop_na(rates)
 
 recq4l_chr3_CO_3 <- recq4l_chr3_CO_2
-bins<-as.integer(nrow(recq4l_chr3_CO_2)/410)
+bins<-as.integer(nrow(recq4l_chr3_CO_2)/10)
 recq4l_chr3_CO_3$rates<- rollapply(recq4l_chr3_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 recq4l_chr3_CO_3<-fill_start(recq4l_chr3_CO_3)
 recq4l_chr3_CO_3<- recq4l_chr3_CO_3 %>% drop_na(rates)
 
 recq4l_chr4_CO_3 <- recq4l_chr4_CO_2
-bins<-as.integer(nrow(recq4l_chr4_CO_2)/390)
+bins<-as.integer(nrow(recq4l_chr4_CO_2)/10)
 recq4l_chr4_CO_3$rates<- rollapply(recq4l_chr4_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 recq4l_chr4_CO_3<-fill_start(recq4l_chr4_CO_3)
 recq4l_chr4_CO_3<- recq4l_chr4_CO_3 %>% drop_na(rates)
 
 recq4l_chr5_CO_3 <- recq4l_chr5_CO_2
-bins<-as.integer(nrow(recq4l_chr5_CO_2)/330)
+bins<-as.integer(nrow(recq4l_chr5_CO_2)/10)
 recq4l_chr5_CO_3$rates<- rollapply(recq4l_chr5_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 recq4l_chr5_CO_3<-fill_start(recq4l_chr5_CO_3)
 recq4l_chr5_CO_3<- recq4l_chr5_CO_3 %>% drop_na(rates)
 
 recq4l_chr6_CO_3 <- recq4l_chr6_CO_2
-bins<-as.integer(nrow(recq4l_chr6_CO_2)/320)
+bins<-as.integer(nrow(recq4l_chr6_CO_2)/10)
 recq4l_chr6_CO_3$rates<- rollapply(recq4l_chr6_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 recq4l_chr6_CO_3<-fill_start(recq4l_chr6_CO_3)
 recq4l_chr6_CO_3<- recq4l_chr6_CO_3 %>% drop_na(rates)
 
 recq4l_chr7_CO_3 <- recq4l_chr7_CO_2
-bins<-as.integer(nrow(recq4l_chr7_CO_2)/350)
+bins<-as.integer(nrow(recq4l_chr7_CO_2)/10)
 recq4l_chr7_CO_3$rates<- rollapply(recq4l_chr7_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 recq4l_chr7_CO_3<-fill_start(recq4l_chr7_CO_3)
 recq4l_chr7_CO_3<- recq4l_chr7_CO_3 %>% drop_na(rates)
 
 recq4l_chr8_CO_3 <- recq4l_chr8_CO_2
-bins<-as.integer(nrow(recq4l_chr8_CO_2)/280)
+bins<-as.integer(nrow(recq4l_chr8_CO_2)/10)
 recq4l_chr8_CO_3$rates<- rollapply(recq4l_chr8_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 recq4l_chr8_CO_3<-fill_start(recq4l_chr8_CO_3)
 recq4l_chr8_CO_3<- recq4l_chr8_CO_3 %>% drop_na(rates)
 
 recq4l_chr9_CO_3 <- recq4l_chr9_CO_2
-bins<-as.integer(nrow(recq4l_chr9_CO_2)/220)
+bins<-as.integer(nrow(recq4l_chr9_CO_2)/10)
 recq4l_chr9_CO_3$rates<- rollapply(recq4l_chr9_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 recq4l_chr9_CO_3<-fill_start(recq4l_chr9_CO_3)
 recq4l_chr9_CO_3<- recq4l_chr9_CO_3 %>% drop_na(rates)
 
 recq4l_chr10_CO_3 <- recq4l_chr10_CO_2
-bins<-as.integer(nrow(recq4l_chr10_CO_2)/270)
+bins<-as.integer(nrow(recq4l_chr10_CO_2)/10)
 recq4l_chr10_CO_3$rates<- rollapply(recq4l_chr10_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 recq4l_chr10_CO_3<-fill_start(recq4l_chr10_CO_3)
 recq4l_chr10_CO_3<- recq4l_chr10_CO_3 %>% drop_na(rates)
 
 recq4l_chr11_CO_3 <- recq4l_chr11_CO_2
-bins<-as.integer(nrow(recq4l_chr11_CO_2)/300)
+bins<-as.integer(nrow(recq4l_chr11_CO_2)/10)
 recq4l_chr11_CO_3$rates<- rollapply(recq4l_chr11_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 recq4l_chr11_CO_3<-fill_start(recq4l_chr11_CO_3)
 recq4l_chr11_CO_3<- recq4l_chr11_CO_3 %>% drop_na(rates)
 
 recq4l_chr12_CO_3 <- recq4l_chr12_CO_2
-bins<-as.integer(nrow(recq4l_chr12_CO_2)/310)
+bins<-as.integer(nrow(recq4l_chr12_CO_2)/10)
 recq4l_chr12_CO_3$rates<- rollapply(recq4l_chr12_CO_2$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 recq4l_chr12_CO_3<-fill_start(recq4l_chr12_CO_3)
 recq4l_chr12_CO_3<- recq4l_chr12_CO_3 %>% drop_na(rates)
@@ -563,7 +491,7 @@ snp_rate <- function(chr_rate, chr_snp){
   for(i in 1:nrow(chr_snp)){
     for(k in 1:nrow(chr_rate)){
       if(isTRUE((chr_snp$`SNP Start`[i] >= chr_rate$`CO Start`[k]) && (chr_snp$`SNP End`[i] <= chr_rate$`CO End`[k]))){
-        chr_snp$rate[i] <- chr_rate$rate[k]
+        chr_snp$rate[i] <- chr_rate$rates[k]
       }
     }
   }
