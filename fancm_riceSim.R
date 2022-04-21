@@ -72,116 +72,6 @@ fancm_chr12_snp$`SNP End` <- fancm_chr12_snp$`SNP End` - min(fancm_chr12_snp$`SN
 fancm_chr12_snp$`SNP Start` <- fancm_chr12_snp$`SNP Start`- min(fancm_chr12_snp$`SNP Start`)
 
 
-#fancm mutant recomb rates from "unleashing meoitic ... paper"
-#only contains data for chr 1,4,7,10,12
-# fancm_CO <- read.csv("jap_mut_fancm.csv", header = TRUE)
-# colnames(fancm_CO) <- c("Chr", "CO Start", "CO End", "fancm_rate")
-# fancm_CO <- fancm_CO[order(fancm_CO$Chr,fancm_CO$`CO Start`),]
-# 
-# fancm_chr1_CO <- fancm_CO[ which(fancm_CO$Chr == "1"),]
-# fancm_chr1_CO$midpoint <- (fancm_chr1_CO$`CO Start`+ fancm_chr1_CO$`CO End`)/2
-# fancm_chr1_CO <- fancm_chr1_CO[order(fancm_chr1_CO$`CO Start`),]
-# 
-# fancm_chr4_CO <- fancm_CO[ which(fancm_CO$Chr == "4"),]
-# fancm_chr4_CO$midpoint <- (fancm_chr4_CO$`CO Start`+ fancm_chr4_CO$`CO End`)/2
-# fancm_chr4_CO <- fancm_chr4_CO[order(fancm_chr4_CO$`CO Start`),]
-# 
-# fancm_chr7_CO <- fancm_CO[ which(fancm_CO$Chr == "7"),]
-# fancm_chr7_CO$midpoint <- (fancm_chr7_CO$`CO Start`+ fancm_chr7_CO$`CO End`)/2
-# fancm_chr7_CO <- fancm_chr7_CO[order(fancm_chr7_CO$`CO Start`),]
-# 
-# fancm_chr10_CO <- fancm_CO[ which(fancm_CO$Chr == "10"),]
-# fancm_chr10_CO$midpoint <- (fancm_chr10_CO$`CO Start`+ fancm_chr10_CO$`CO End`)/2
-# fancm_chr10_CO <- fancm_chr10_CO[order(fancm_chr10_CO$`CO Start`),]
-# 
-# fancm_chr12_CO <- fancm_CO[ which(fancm_CO$Chr == "12"),]
-# fancm_chr12_CO$midpoint <- (fancm_chr12_CO$`CO Start`+ fancm_chr12_CO$`CO End`)/2
-# fancm_chr12_CO <- fancm_chr12_CO[order(fancm_chr12_CO$`CO Start`),]
-# 
-# library(dlookr)
-# library(tidyverse)
-# library(OneR)
-# 
-# #making intervals start at 0
-# fancm_chr1_CO$`CO End` <- fancm_chr1_CO$`CO End` - min(fancm_chr1_CO$`CO Start`)
-# fancm_chr1_CO$`CO Start` <- fancm_chr1_CO$`CO Start` - min(fancm_chr1_CO$`CO Start`)
-# 
-# fancm_chr4_CO$`CO End` <- fancm_chr4_CO$`CO End` - min(fancm_chr4_CO$`CO Start`)
-# fancm_chr4_CO$`CO Start` <- fancm_chr4_CO$`CO Start` - min(fancm_chr4_CO$`CO Start`)
-# 
-# fancm_chr7_CO$`CO End` <- fancm_chr7_CO$`CO End` - min(fancm_chr7_CO$`CO Start`)
-# fancm_chr7_CO$`CO Start` <- fancm_chr7_CO$`CO Start` - min(fancm_chr7_CO$`CO Start`)
-# 
-# fancm_chr10_CO$`CO End` <- fancm_chr10_CO$`CO End` - min(fancm_chr10_CO$`CO Start`)
-# fancm_chr10_CO$`CO Start` <- fancm_chr10_CO$`CO Start` - min(fancm_chr10_CO$`CO Start`)
-# 
-# fancm_chr12_CO$`CO End` <- fancm_chr12_CO$`CO End` - min(fancm_chr12_CO$`CO Start`)
-# fancm_chr12_CO$`CO Start` <- fancm_chr12_CO$`CO Start` - min(fancm_chr12_CO$`CO Start`)
-# 
-# #japonica wildtype recomb rates
-# jap_CO <- read.csv("jap_WT_rate.csv", header = TRUE)
-# colnames(jap_CO) <- c("Chr", "CO Start", "CO End", "WT_rate")
-# jap_CO <- jap_CO[order(jap_CO$Chr,jap_CO$`CO Start`),]
-# 
-# jap_chr1_CO <- jap_CO[ which(jap_CO$Chr == "1"),]
-# jap_chr1_CO$midpoint <- (jap_chr1_CO$`CO Start`+ jap_chr1_CO$`CO End`)/2
-# jap_chr1_CO <- jap_chr1_CO[order(jap_chr1_CO$`CO Start`),]
-# 
-# jap_chr4_CO <- jap_CO[ which(jap_CO$Chr == "4"),]
-# jap_chr4_CO$midpoint <- (jap_chr4_CO$`CO Start`+ jap_chr4_CO$`CO End`)/2
-# jap_chr4_CO <- jap_chr4_CO[order(jap_chr4_CO$`CO Start`),]
-# 
-# jap_chr7_CO <- jap_CO[ which(jap_CO$Chr == "7"),]
-# jap_chr7_CO$midpoint <- (jap_chr7_CO$`CO Start`+ jap_chr7_CO$`CO End`)/2
-# jap_chr7_CO <- jap_chr7_CO[order(jap_chr7_CO$`CO Start`),]
-# 
-# jap_chr10_CO <- jap_CO[ which(jap_CO$Chr == "10"),]
-# jap_chr10_CO$midpoint <- (jap_chr10_CO$`CO Start`+ jap_chr10_CO$`CO End`)/2
-# jap_chr10_CO <- jap_chr10_CO[order(jap_chr10_CO$`CO Start`),]
-# 
-# jap_chr12_CO <- jap_CO[ which(jap_CO$Chr == "12"),]
-# jap_chr12_CO$midpoint <- (jap_chr12_CO$`CO Start`+ jap_chr12_CO$`CO End`)/2
-# jap_chr12_CO <- jap_chr12_CO[order(jap_chr12_CO$`CO Start`),]
-# 
-# #making intervals start at 0
-# jap_chr1_CO$`CO End` <- jap_chr1_CO$`CO End` - min(jap_chr1_CO$`CO Start`)
-# jap_chr1_CO$`CO Start` <- jap_chr1_CO$`CO Start` - min(jap_chr1_CO$`CO Start`)
-# 
-# jap_chr4_CO$`CO End` <- jap_chr4_CO$`CO End` - min(jap_chr4_CO$`CO Start`)
-# jap_chr4_CO$`CO Start` <- jap_chr4_CO$`CO Start` - min(jap_chr4_CO$`CO Start`)
-# 
-# jap_chr7_CO$`CO End` <- jap_chr7_CO$`CO End` - min(jap_chr7_CO$`CO Start`)
-# jap_chr7_CO$`CO Start` <- jap_chr7_CO$`CO Start` - min(jap_chr7_CO$`CO Start`)
-# 
-# jap_chr10_CO$`CO End` <- jap_chr10_CO$`CO End` - min(jap_chr10_CO$`CO Start`)
-# jap_chr10_CO$`CO Start` <- jap_chr10_CO$`CO Start` - min(jap_chr10_CO$`CO Start`)
-# 
-# jap_chr12_CO$`CO End` <- jap_chr12_CO$`CO End` - min(jap_chr12_CO$`CO Start`)
-# jap_chr12_CO$`CO Start` <- jap_chr12_CO$`CO Start` - min(jap_chr12_CO$`CO Start`)
-# 
-# 
-# ##Binding WT + Recqm Mutant rates & calculating difference
-# fancm_chr1_CO<- cbind(fancm_chr1_CO, WT_rate =jap_chr1_CO$`WT_rate`)
-# fancm_chr1_CO$diff <- abs(fancm_chr1_CO$`WT_rate`-fancm_chr1_CO$`fancm_rate`)/((fancm_chr1_CO$`WT_rate`+fancm_chr1_CO$`fancm_rate`)/2)
-# 
-# fancm_chr4_CO<- cbind(fancm_chr4_CO, WT_rate =jap_chr4_CO$`WT_rate`)
-# fancm_chr4_CO$diff <- abs(fancm_chr4_CO$`WT_rate`-fancm_chr4_CO$`fancm_rate`)/((fancm_chr4_CO$`WT_rate`+fancm_chr4_CO$`fancm_rate`)/2)
-# 
-# fancm_chr7_CO<- cbind(fancm_chr7_CO, WT_rate =jap_chr7_CO$`WT_rate`)
-# fancm_chr7_CO$diff <- abs(fancm_chr7_CO$`WT_rate`-fancm_chr7_CO$`fancm_rate`)/((fancm_chr7_CO$`WT_rate`+fancm_chr7_CO$`fancm_rate`)/2)
-# 
-# fancm_chr10_CO <- cbind(fancm_chr10_CO, WT_rate =jap_chr10_CO$`WT_rate`)
-# fancm_chr10_CO$diff <- abs(fancm_chr10_CO$`WT_rate`-fancm_chr10_CO$`fancm_rate`)/((fancm_chr10_CO$`WT_rate`+fancm_chr10_CO$`fancm_rate`)/2)
-# fancm_chr10_CO[11,7]<-abs(fancm_chr10_CO[11,4]-fancm_chr10_CO[11,6])
-# 
-# fancm_chr12_CO<- cbind(fancm_chr12_CO, WT_rate =jap_chr12_CO$`WT_rate`)
-# fancm_chr12_CO$diff <- abs(fancm_chr12_CO$`WT_rate`-fancm_chr12_CO$`fancm_rate`)/((fancm_chr12_CO$`WT_rate`+fancm_chr12_CO$`fancm_rate`)/2)
-# fancm_chr12_CO[9,7]<-abs(fancm_chr12_CO[9,4]-fancm_chr12_CO[9,6])
-# 
-# fancm_CO_bind<-rbind(fancm_chr1_CO,fancm_chr4_CO,fancm_chr7_CO,fancm_chr10_CO,fancm_chr12_CO)
-# fancm_CO_bind<-na.omit(fancm_CO_bind)
-# avg_diff <- 1.252264
-
 ## multiplying WT recombination rates by the avg difference
 # exclude pericentromeric regions (suppresion regions)
 # 1. create avg diff column (supression region = 0)
@@ -566,7 +456,7 @@ fancm_chr11_snp2<-na.omit(fancm_chr11_snp2)
 fancm_chr12_snp2<-na.omit(fancm_chr12_snp2)
 
 #gen maps
-fancm_chr1_spl <- smooth.spline(fancm_chr1_snp2$rate, spar = .8)
+fancm_chr1_spl <- smooth.spline(fancm_chr1_snp2$rate, spar = .4)
 fancm_chr1_snp2$pos <- (fancm_chr1_snp2$`SNP Start`*fancm_chr1_spl$y)
 plot(fancm_chr1_snp2$`SNP Start`, fancm_chr1_snp2$pos)
 ggplot(fancm_chr1_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
@@ -578,7 +468,7 @@ plot(fancm_chr1_snp2$`SNP Start`, fancm_chr1_finalpos$pos, type = "l", xlab = "P
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 1 Genetic Map")
 plot(fancm_chr1_finalpos$`SNP Start`, fancm_chr1_finalpos$pos)
 
-fancm_chr2_spl <- smooth.spline(fancm_chr2_snp2$rate, spar = .8)
+fancm_chr2_spl <- smooth.spline(fancm_chr2_snp2$rate, spar = .4)
 fancm_chr2_snp2$pos <- (fancm_chr2_snp2$`SNP Start`*fancm_chr2_spl$y)
 plot(fancm_chr2_snp2$`SNP Start`, fancm_chr2_snp2$pos)
 plot(fancm_chr2_snp2$`SNP Start`, fancm_chr2_snp2$pos/fancm_chr2_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -588,7 +478,7 @@ is.unsorted(fancm_chr2_finalpos$pos)
 plot(fancm_chr2_snp2$`SNP Start`, fancm_chr2_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 2 Genetic Map")
 
-fancm_chr3_spl <- smooth.spline(fancm_chr3_snp2$rate, spar = .65)
+fancm_chr3_spl <- smooth.spline(fancm_chr3_snp2$rate, spar = .4)
 fancm_chr3_snp2$pos <- (fancm_chr3_snp2$`SNP Start`*fancm_chr3_spl$y)
 plot(fancm_chr3_snp2$`SNP Start`, fancm_chr3_snp2$pos)
 plot(fancm_chr3_snp2$`SNP Start`, fancm_chr3_snp2$pos/fancm_chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -598,7 +488,7 @@ is.unsorted(fancm_chr3_finalpos$pos)
 plot(fancm_chr3_snp2$`SNP Start`, fancm_chr3_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 3 Genetic Map")
 
-fancm_chr4_spl <- smooth.spline(fancm_chr4_snp2$rate, spar = .5)
+fancm_chr4_spl <- smooth.spline(fancm_chr4_snp2$rate, spar = .4)
 fancm_chr4_snp2$pos <- (fancm_chr4_snp2$`SNP Start`*fancm_chr4_spl$y)
 plot(fancm_chr4_snp2$`SNP Start`, fancm_chr4_snp2$pos)
 plot(fancm_chr4_snp2$`SNP Start`, fancm_chr4_snp2$pos/fancm_chr4_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -609,7 +499,7 @@ fancm_chr4_finalpos$pos <- fancm_chr4_finalpos$pos + abs(min(fancm_chr4_finalpos
 plot(fancm_chr4_snp2$`SNP Start`, fancm_chr4_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 4 Genetic Map")
 
-fancm_chr5_spl <- smooth.spline(fancm_chr5_snp2$rate, spar =.66)
+fancm_chr5_spl <- smooth.spline(fancm_chr5_snp2$rate, spar =.4)
 fancm_chr5_snp2$pos <- (fancm_chr5_snp2$`SNP Start`*fancm_chr5_spl$y)
 plot(fancm_chr5_snp2$`SNP Start`, fancm_chr5_snp2$pos)
 plot(fancm_chr5_snp2$`SNP Start`, fancm_chr5_snp2$pos/fancm_chr5_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -619,7 +509,7 @@ is.unsorted(fancm_chr5_finalpos$pos)
 plot(fancm_chr5_snp2$`SNP Start`, fancm_chr5_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 5 Genetic Map")
 
-fancm_chr6_spl <- smooth.spline(fancm_chr6_snp2$rate, spar = .745)
+fancm_chr6_spl <- smooth.spline(fancm_chr6_snp2$rate, spar = .4)
 fancm_chr6_snp2$pos <- (fancm_chr6_snp2$`SNP Start`*fancm_chr6_spl$y)
 plot(fancm_chr6_snp2$`SNP Start`, fancm_chr6_snp2$pos)
 plot(fancm_chr6_snp2$`SNP Start`, fancm_chr6_snp2$pos/fancm_chr6_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -629,7 +519,7 @@ is.unsorted(fancm_chr6_finalpos$pos)
 plot(fancm_chr6_snp2$`SNP Start`, fancm_chr6_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 6 Genetic Map")
 
-fancm_chr7_spl <- smooth.spline(fancm_chr7_snp2$rate, spar = 0.7)
+fancm_chr7_spl <- smooth.spline(fancm_chr7_snp2$rate, spar = 0.4)
 fancm_chr7_snp2$pos <- (fancm_chr7_snp2$`SNP Start`*fancm_chr7_spl$y)
 plot(fancm_chr7_snp2$`SNP Start`, fancm_chr7_snp2$pos)
 plot(fancm_chr7_snp2$`SNP Start`, fancm_chr7_snp2$pos/fancm_chr7_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -639,7 +529,7 @@ is.unsorted(fancm_chr7_finalpos$pos)
 plot(fancm_chr7_snp2$`SNP Start`, fancm_chr7_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 7 Genetic Map")
 
-fancm_chr8_spl <- smooth.spline(fancm_chr8_snp2$rate, spar = 1)
+fancm_chr8_spl <- smooth.spline(fancm_chr8_snp2$rate, spar = .4)
 fancm_chr8_snp2$pos <- (fancm_chr8_snp2$`SNP Start`*fancm_chr8_spl$y)
 plot(fancm_chr8_snp2$`SNP Start`, fancm_chr8_snp2$pos)
 plot(fancm_chr8_snp2$`SNP Start`, fancm_chr8_snp2$pos/fancm_chr8_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -649,7 +539,7 @@ is.unsorted(fancm_chr8_finalpos$pos)
 plot(fancm_chr8_snp2$`SNP Start`, fancm_chr8_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 8 Genetic Map")
 
-fancm_chr9_spl <- smooth.spline(fancm_chr9_snp2$rate, spar = .5)
+fancm_chr9_spl <- smooth.spline(fancm_chr9_snp2$rate, spar = .4)
 fancm_chr9_snp2$pos <- (fancm_chr9_snp2$`SNP Start`*fancm_chr9_spl$y)
 plot(fancm_chr9_snp2$`SNP Start`, fancm_chr9_snp2$pos)
 plot(fancm_chr9_snp2$`SNP Start`, fancm_chr9_snp2$pos/fancm_chr9_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -660,7 +550,7 @@ fancm_chr9_finalpos$pos <- fancm_chr9_finalpos$pos + abs(min(fancm_chr9_finalpos
 plot(fancm_chr9_snp2$`SNP Start`, fancm_chr9_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 9 Genetic Map")
 
-fancm_chr10_spl <- smooth.spline(fancm_chr10_snp2$rate, spar =.75)
+fancm_chr10_spl <- smooth.spline(fancm_chr10_snp2$rate, spar =.4)
 fancm_chr10_snp2$pos <- (fancm_chr10_snp2$`SNP Start`*fancm_chr10_spl$y)
 plot(fancm_chr10_snp2$`SNP Start`, fancm_chr10_snp2$pos)
 plot(fancm_chr10_snp2$`SNP Start`, fancm_chr10_snp2$pos/fancm_chr10_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -671,7 +561,7 @@ fancm_chr10_finalpos$pos <- fancm_chr10_finalpos$pos + abs(min(fancm_chr10_final
 plot(fancm_chr10_snp2$`SNP Start`, fancm_chr10_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 10 Genetic Map")
 
-fancm_chr11_spl <- smooth.spline(fancm_chr11_snp2$rate, spar = 1)
+fancm_chr11_spl <- smooth.spline(fancm_chr11_snp2$rate, spar = .4)
 fancm_chr11_snp2$pos <- (fancm_chr11_snp2$`SNP Start`*fancm_chr11_spl$y)
 plot(fancm_chr11_snp2$`SNP Start`, fancm_chr11_snp2$pos)
 plot(fancm_chr11_snp2$`SNP Start`, fancm_chr11_snp2$pos/fancm_chr11_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -681,7 +571,7 @@ is.unsorted(fancm_chr11_finalpos$pos)
 plot(fancm_chr11_snp2$`SNP Start`, fancm_chr11_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 11 Genetic Map")
 
-fancm_chr12_spl <- smooth.spline(fancm_chr12_snp2$rate, spar = .9)
+fancm_chr12_spl <- smooth.spline(fancm_chr12_snp2$rate, spar = .4)
 fancm_chr12_snp2$pos <- (fancm_chr12_snp2$`SNP Start`*fancm_chr12_spl$y)
 plot(fancm_chr12_snp2$`SNP Start`, fancm_chr12_snp2$pos)
 plot(fancm_chr12_snp2$`SNP Start`, fancm_chr12_snp2$pos/fancm_chr12_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
