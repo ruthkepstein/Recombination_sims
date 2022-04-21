@@ -363,73 +363,73 @@ fill_start<- function(chr_CO){
 }
 library(zoo)
 jap_chr1_CO_2 <- jap_chr1_CO
-bins<-as.integer(nrow(jap_chr1_CO)/10)
+bins<-as.integer(nrow(jap_chr1_CO)/30)
 jap_chr1_CO_2$rates<- rollapply(jap_chr1_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr1_CO_2<-fill_start(jap_chr1_CO_2)
 jap_chr1_CO_2<- jap_chr1_CO_2 %>% drop_na(rates)
 
 jap_chr2_CO_2 <- jap_chr2_CO
-bins<-as.integer(nrow(jap_chr2_CO)/10)
+bins<-as.integer(nrow(jap_chr2_CO)/30)
 jap_chr2_CO_2$rates<- rollapply(jap_chr2_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr2_CO_2<-fill_start(jap_chr2_CO_2)
 jap_chr2_CO_2<- jap_chr2_CO_2 %>% drop_na(rates)
 
 jap_chr3_CO_2 <- jap_chr3_CO
-bins<-as.integer(nrow(jap_chr3_CO)/10)
+bins<-as.integer(nrow(jap_chr3_CO)/30)
 jap_chr3_CO_2$rates<- rollapply(jap_chr3_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr3_CO_2<-fill_start(jap_chr3_CO_2)
 jap_chr3_CO_2<- jap_chr3_CO_2 %>% drop_na(rates)
 
 jap_chr4_CO_2 <- jap_chr4_CO
-bins<-as.integer(nrow(jap_chr4_CO)/10)
+bins<-as.integer(nrow(jap_chr4_CO)/30)
 jap_chr4_CO_2$rates<- rollapply(jap_chr4_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr4_CO_2<-fill_start(jap_chr4_CO_2)
 jap_chr4_CO_2<- jap_chr4_CO_2 %>% drop_na(rates)
 
 jap_chr5_CO_2 <- jap_chr5_CO
-bins<-as.integer(nrow(jap_chr5_CO)/10)
+bins<-as.integer(nrow(jap_chr5_CO)/30)
 jap_chr5_CO_2$rates<- rollapply(jap_chr5_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr5_CO_2<-fill_start(jap_chr5_CO_2)
 jap_chr5_CO_2<- jap_chr5_CO_2 %>% drop_na(rates)
 
 jap_chr6_CO_2 <- jap_chr6_CO
-bins<-as.integer(nrow(jap_chr6_CO)/10)
+bins<-as.integer(nrow(jap_chr6_CO)/30)
 jap_chr6_CO_2$rates<- rollapply(jap_chr6_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr6_CO_2<-fill_start(jap_chr6_CO_2)
 jap_chr6_CO_2<- jap_chr6_CO_2 %>% drop_na(rates)
 
 jap_chr7_CO_2 <- jap_chr7_CO
-bins<-as.integer(nrow(jap_chr7_CO)/10)
+bins<-as.integer(nrow(jap_chr7_CO)/30)
 jap_chr7_CO_2$rates<- rollapply(jap_chr7_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr7_CO_2<-fill_start(jap_chr7_CO_2)
 jap_chr7_CO_2<- jap_chr7_CO_2 %>% drop_na(rates)
 
 jap_chr8_CO_2 <- jap_chr8_CO
-bins<-as.integer(nrow(jap_chr8_CO)/10)
+bins<-as.integer(nrow(jap_chr8_CO)/30)
 jap_chr8_CO_2$rates<- rollapply(jap_chr8_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr8_CO_2<-fill_start(jap_chr8_CO_2)
 jap_chr8_CO_2<- jap_chr8_CO_2 %>% drop_na(rates)
 
 jap_chr9_CO_2 <- jap_chr9_CO
-bins<-as.integer(nrow(jap_chr9_CO)/10)
+bins<-as.integer(nrow(jap_chr9_CO)/30)
 jap_chr9_CO_2$rates<- rollapply(jap_chr9_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr9_CO_2<-fill_start(jap_chr9_CO_2)
 jap_chr9_CO_2<- jap_chr9_CO_2 %>% drop_na(rates)
 
 jap_chr10_CO_2 <- jap_chr10_CO
-bins<-as.integer(nrow(jap_chr10_CO)/10)
+bins<-as.integer(nrow(jap_chr10_CO)/30)
 jap_chr10_CO_2$rates<- rollapply(jap_chr10_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr10_CO_2<-fill_start(jap_chr10_CO_2)
 jap_chr10_CO_2<- jap_chr10_CO_2 %>% drop_na(rates)
 
 jap_chr11_CO_2 <- jap_chr11_CO
-bins<-as.integer(nrow(jap_chr11_CO)/10)
+bins<-as.integer(nrow(jap_chr11_CO)/30)
 jap_chr11_CO_2$rates<- rollapply(jap_chr11_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr11_CO_2<-fill_start(jap_chr11_CO_2)
 jap_chr11_CO_2<- jap_chr11_CO_2 %>% drop_na(rates)
 
 jap_chr12_CO_2 <- jap_chr12_CO
-bins<-as.integer(nrow(jap_chr12_CO)/10)
+bins<-as.integer(nrow(jap_chr12_CO)/30)
 jap_chr12_CO_2$rates<- rollapply(jap_chr12_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
 jap_chr12_CO_2<-fill_start(jap_chr12_CO_2)
 jap_chr12_CO_2<- jap_chr12_CO_2 %>% drop_na(rates)
@@ -626,7 +626,7 @@ iqr12 <- IQR(jap_chr12_snp3$rate)
 jap_chr12_snp3<- subset(jap_chr12_snp3, jap_chr12_snp3$rate > (Q12[1] - 1.5*iqr12) & jap_chr12_snp3$rate < (Q12[2]+1.5*iqr12))
 
 
-jap_chr1_spl <- smooth.spline(jap_chr1_snp3$rate, spar = .4)
+jap_chr1_spl <- smooth.spline(jap_chr1_snp3$rate, spar = 0)
 jap_chr1_snp3$pos <- (jap_chr1_snp3$`SNP Start`*jap_chr1_spl$y)
 plot(jap_chr1_snp3$`SNP Start`, jap_chr1_snp3$rate, type = "l")
 ggplot(jap_chr1_snp3, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
