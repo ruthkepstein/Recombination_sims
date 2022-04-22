@@ -476,6 +476,7 @@ zmet2_chr12_snp2<-na.omit(zmet2_chr12_snp2)
 
 #gen maps
 gen_pos <- function(SNP, spl){
+  SNP <- SNP[order(SNP$`SNP Start`),]
   SNP$pos <- NA
   SNP$pos[1]<-SNP$`SNP Start`[1]*spl$y[1]
   for(i in 1:nrow(SNP)){
