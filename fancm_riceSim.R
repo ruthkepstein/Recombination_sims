@@ -456,20 +456,31 @@ fancm_chr11_snp2<-na.omit(fancm_chr11_snp2)
 fancm_chr12_snp2<-na.omit(fancm_chr12_snp2)
 
 #gen maps
-gen_pos <- function(SNP, spl){
-  SNP <- SNP[order(SNP$`SNP Start`),]
+gen_pos <- function(SNP){
   SNP$pos <- NA
-  SNP$pos[1]<-SNP$`SNP Start`[1]*spl$y[1]
+  SNP$pos[1]<-SNP$`SNP Start`[1]*SNP$rate[1]
   for(i in 1:nrow(SNP)){
     if(i>1){
-      SNP$pos[i]<-SNP$`SNP Start`[i]*spl$y[i] + SNP$`SNP Start`[i-1]
+      #SNP$pos[i]<-SNP$`SNP Start`[i]*spl$y[i] + SNP$`SNP Start`[i-1]
+      SNP$pos[i]<- SNP$pos[i-1] + (SNP$`SNP Start`[i] - SNP$`SNP Start`[i-1])*SNP$rate[i]
     }
   }
   print(SNP$pos)
 }
 
+graph_recomb <- function(SNP){
+  SNP$pos2[1]<-SNP$`SNP Start`[1]*SNP$rate[1]
+  for(i in 1:nrow(SNP)){
+    if(i>1){
+      SNP$pos2[i]<- (SNP$pos[i] - SNP$pos[i-1])/ (SNP$`SNP Start`[i] - SNP$`SNP Start`[i-1])
+    }
+  }
+  print(SNP$pos2)
+}
+
+
 fancm_chr1_spl <- smooth.spline(fancm_chr1_snp2$rate, spar = 0.1)
-fancm_chr1_snp2$pos <- gen_pos(fancm_chr1_snp2,fancm_chr1_spl)
+fancm_chr1_snp2$pos <- gen_pos(fancm_chr1_snp2)
 plot(fancm_chr1_snp2$`SNP Start`, fancm_chr1_snp2$pos)
 ggplot(fancm_chr1_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
 plot(fancm_chr1_snp2$`SNP Start`, fancm_chr1_snp2$pos/fancm_chr1_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
@@ -481,7 +492,7 @@ plot(fancm_chr1_snp2$`SNP Start`, fancm_chr1_finalpos$pos, type = "l", xlab = "P
 plot(fancm_chr1_finalpos$`SNP Start`, fancm_chr1_finalpos$pos)
 
 fancm_chr2_spl <- smooth.spline(fancm_chr2_snp2$rate, spar = 0.1)
-fancm_chr2_snp2$pos <-gen_pos(fancm_chr2_snp2,fancm_chr2_spl)
+fancm_chr2_snp2$pos <-gen_pos(fancm_chr2_snp2)
 plot(fancm_chr2_snp2$`SNP Start`, fancm_chr2_snp2$pos)
 plot(fancm_chr2_snp2$`SNP Start`, fancm_chr2_snp2$pos/fancm_chr2_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica fancm Chromosome 2 Recombination Distribution")
@@ -491,7 +502,7 @@ plot(fancm_chr2_snp2$`SNP Start`, fancm_chr2_finalpos$pos, type = "l", xlab = "P
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 2 Genetic Map")
 
 fancm_chr3_spl <- smooth.spline(fancm_chr3_snp2$rate, spar = 0.1)
-fancm_chr3_snp2$pos <-gen_pos(fancm_chr3_snp2,fancm_chr3_spl)
+fancm_chr3_snp2$pos <-gen_pos(fancm_chr3_snp2)
 plot(fancm_chr3_snp2$`SNP Start`, fancm_chr3_snp2$pos)
 plot(fancm_chr3_snp2$`SNP Start`, fancm_chr3_snp2$pos/fancm_chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica fancm Chromosome 3 Recombination Distribution")
@@ -501,18 +512,17 @@ plot(fancm_chr3_snp2$`SNP Start`, fancm_chr3_finalpos$pos, type = "l", xlab = "P
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 3 Genetic Map")
 
 fancm_chr4_spl <- smooth.spline(fancm_chr4_snp2$rate, spar = 0.1)
-fancm_chr4_snp2$pos <-gen_pos(fancm_chr4_snp2,fancm_chr4_spl)
+fancm_chr4_snp2$pos <-gen_pos(fancm_chr4_snp2)
 plot(fancm_chr4_snp2$`SNP Start`, fancm_chr4_snp2$pos)
 plot(fancm_chr4_snp2$`SNP Start`, fancm_chr4_snp2$pos/fancm_chr4_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica fancm Chromosome 4 Recombination Distribution")
 fancm_chr4_finalpos <- fancm_chr4_snp2[order(fancm_chr4_snp2$pos),]
 is.unsorted(fancm_chr4_finalpos$pos)
-fancm_chr4_finalpos$pos <- fancm_chr4_finalpos$pos + abs(min(fancm_chr4_finalpos$pos))
 plot(fancm_chr4_snp2$`SNP Start`, fancm_chr4_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 4 Genetic Map")
 
 fancm_chr5_spl <- smooth.spline(fancm_chr5_snp2$rate, spar =.1)
-fancm_chr5_snp2$pos <-gen_pos(fancm_chr5_snp2,fancm_chr5_spl)
+fancm_chr5_snp2$pos <-gen_pos(fancm_chr5_snp2)
 plot(fancm_chr5_snp2$`SNP Start`, fancm_chr5_snp2$pos)
 plot(fancm_chr5_snp2$`SNP Start`, fancm_chr5_snp2$pos/fancm_chr5_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica fancm Chromosome 5 Recombination Distribution")
@@ -522,7 +532,7 @@ plot(fancm_chr5_snp2$`SNP Start`, fancm_chr5_finalpos$pos, type = "l", xlab = "P
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 5 Genetic Map")
 
 fancm_chr6_spl <- smooth.spline(fancm_chr6_snp2$rate, spar = .1)
-fancm_chr6_snp2$pos <-gen_pos(fancm_chr6_snp2,fancm_chr6_spl)
+fancm_chr6_snp2$pos <-gen_pos(fancm_chr6_snp2)
 plot(fancm_chr6_snp2$`SNP Start`, fancm_chr6_snp2$pos)
 plot(fancm_chr6_snp2$`SNP Start`, fancm_chr6_snp2$pos/fancm_chr6_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica fancm Chromosome 6 Recombination Distribution")
@@ -532,7 +542,7 @@ plot(fancm_chr6_snp2$`SNP Start`, fancm_chr6_finalpos$pos, type = "l", xlab = "P
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 6 Genetic Map")
 
 fancm_chr7_spl <- smooth.spline(fancm_chr7_snp2$rate, spar = 0.1)
-fancm_chr7_snp2$pos <-gen_pos(fancm_chr7_snp2,fancm_chr7_spl)
+fancm_chr7_snp2$pos <-gen_pos(fancm_chr7_snp2)
 plot(fancm_chr7_snp2$`SNP Start`, fancm_chr7_snp2$pos)
 plot(fancm_chr7_snp2$`SNP Start`, fancm_chr7_snp2$pos/fancm_chr7_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica fancm Chromosome 7 Recombination Distribution")
@@ -542,7 +552,7 @@ plot(fancm_chr7_snp2$`SNP Start`, fancm_chr7_finalpos$pos, type = "l", xlab = "P
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 7 Genetic Map")
 
 fancm_chr8_spl <- smooth.spline(fancm_chr8_snp2$rate, spar = .1)
-fancm_chr8_snp2$pos <-gen_pos(fancm_chr8_snp2,fancm_chr8_spl)
+fancm_chr8_snp2$pos <-gen_pos(fancm_chr8_snp2)
 plot(fancm_chr8_snp2$`SNP Start`, fancm_chr8_snp2$pos)
 plot(fancm_chr8_snp2$`SNP Start`, fancm_chr8_snp2$pos/fancm_chr8_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica fancm Chromosome 8 Recombination Distribution")
@@ -552,29 +562,27 @@ plot(fancm_chr8_snp2$`SNP Start`, fancm_chr8_finalpos$pos, type = "l", xlab = "P
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 8 Genetic Map")
 
 fancm_chr9_spl <- smooth.spline(fancm_chr9_snp2$rate, spar = .1)
-fancm_chr9_snp2$pos <-gen_pos(fancm_chr9_snp2,fancm_chr9_spl)
+fancm_chr9_snp2$pos <-gen_pos(fancm_chr9_snp2)
 plot(fancm_chr9_snp2$`SNP Start`, fancm_chr9_snp2$pos)
 plot(fancm_chr9_snp2$`SNP Start`, fancm_chr9_snp2$pos/fancm_chr9_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica fancm Chromosome 9 Recombination Distribution")
 fancm_chr9_finalpos <- fancm_chr9_snp2[order(fancm_chr9_snp2$pos),]
 is.unsorted(fancm_chr9_finalpos$pos)
-fancm_chr9_finalpos$pos <- fancm_chr9_finalpos$pos + abs(min(fancm_chr9_finalpos$pos))
 plot(fancm_chr9_snp2$`SNP Start`, fancm_chr9_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 9 Genetic Map")
 
 fancm_chr10_spl <- smooth.spline(fancm_chr10_snp2$rate, spar =.1)
-fancm_chr10_snp2$pos <-gen_pos(fancm_chr10_snp2,fancm_chr10_spl)
+fancm_chr10_snp2$pos <-gen_pos(fancm_chr10_snp2)
 plot(fancm_chr10_snp2$`SNP Start`, fancm_chr10_snp2$pos)
 plot(fancm_chr10_snp2$`SNP Start`, fancm_chr10_snp2$pos/fancm_chr10_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica fancm Chromosome 10 Recombination Distribution")
 fancm_chr10_finalpos <- fancm_chr10_snp2[order(fancm_chr10_snp2$pos),]
 is.unsorted(fancm_chr10_finalpos$pos)
-fancm_chr10_finalpos$pos <- fancm_chr10_finalpos$pos + abs(min(fancm_chr10_finalpos$pos))
 plot(fancm_chr10_snp2$`SNP Start`, fancm_chr10_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 10 Genetic Map")
 
 fancm_chr11_spl <- smooth.spline(fancm_chr11_snp2$rate, spar = .1)
-fancm_chr11_snp2$pos <-gen_pos(fancm_chr11_snp2,fancm_chr11_spl)
+fancm_chr11_snp2$pos <-gen_pos(fancm_chr11_snp2)
 plot(fancm_chr11_snp2$`SNP Start`, fancm_chr11_snp2$pos)
 plot(fancm_chr11_snp2$`SNP Start`, fancm_chr11_snp2$pos/fancm_chr11_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica fancm Chromosome 11 Recombination Distribution")
@@ -584,7 +592,7 @@ plot(fancm_chr11_snp2$`SNP Start`, fancm_chr11_finalpos$pos, type = "l", xlab = 
      ylab = "Genetic Position (cM)", main = "Japonica fancm Chromosome 11 Genetic Map")
 
 fancm_chr12_spl <- smooth.spline(fancm_chr12_snp2$rate, spar = .1)
-fancm_chr12_snp2$pos <-gen_pos(fancm_chr12_snp2,fancm_chr12_spl)
+fancm_chr12_snp2$pos <-gen_pos(fancm_chr12_snp2)
 plot(fancm_chr12_snp2$`SNP Start`, fancm_chr12_snp2$pos)
 plot(fancm_chr12_snp2$`SNP Start`, fancm_chr12_snp2$pos/fancm_chr12_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica fancm Chromosome 12 Recombination Distribution")

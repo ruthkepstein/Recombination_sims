@@ -556,149 +556,148 @@ recq4l_chr12_snp2<-na.omit(recq4l_chr12_snp2)
 
 
 #gen maps
-gen_pos <- function(SNP, spl){
-  SNP <- SNP[order(SNP$`SNP Start`),]
+gen_pos <- function(SNP){
   SNP$pos <- NA
-  SNP$pos[1]<-SNP$`SNP Start`[1]*spl$y[1]
+  SNP$pos[1]<-SNP$`SNP Start`[1]*SNP$rate[1]
   for(i in 1:nrow(SNP)){
     if(i>1){
-      SNP$pos[i]<-SNP$`SNP Start`[i]*spl$y[i] + SNP$`SNP Start`[i-1]
+      #SNP$pos[i]<-SNP$`SNP Start`[i]*spl$y[i] + SNP$`SNP Start`[i-1]
+      SNP$pos[i]<- SNP$pos[i-1] + (SNP$`SNP Start`[i] - SNP$`SNP Start`[i-1])*SNP$rate[i]
     }
   }
   print(SNP$pos)
 }
 
+graph_recomb <- function(SNP){
+  SNP$pos2[1]<-SNP$`SNP Start`[1]*SNP$rate[1]
+  for(i in 1:nrow(SNP)){
+    if(i>1){
+      SNP$pos2[i]<- (SNP$pos[i] - SNP$pos[i-1])/ (SNP$`SNP Start`[i] - SNP$`SNP Start`[i-1])
+    }
+  }
+  print(SNP$pos2)
+}
+
+
 recq4l_chr1_spl <- smooth.spline(recq4l_chr1_snp2$rate, spar = 0.1)
-recq4l_chr1_snp2$pos <- gen_pos(recq4l_chr1_snp2,recq4l_chr1_spl)
+recq4l_chr1_snp2$pos <- gen_pos(recq4l_chr1_snp2)
 plot(recq4l_chr1_snp2$`SNP Start`, recq4l_chr1_snp2$pos)
 ggplot(recq4l_chr1_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
 plot(recq4l_chr1_snp2$`SNP Start`, recq4l_chr1_snp2$pos/recq4l_chr1_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica Recq4l Chromosome 1 Recombination Distribution")
 recq4l_chr1_finalpos <- recq4l_chr1_snp2[order(recq4l_chr1_snp2$pos),]
 is.unsorted(recq4l_chr1_finalpos$pos)
-recq4l_chr1_finalpos$pos <- recq4l_chr1_finalpos$pos + abs(min(recq4l_chr1_finalpos$pos))
 plot(recq4l_chr1_snp2$`SNP Start`, recq4l_chr1_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 1 Genetic Map")
 plot(recq4l_chr1_finalpos$`SNP Start`, recq4l_chr1_finalpos$pos)
 
 recq4l_chr2_spl <- smooth.spline(recq4l_chr2_snp2$rate, spar = 0.1)
-recq4l_chr2_snp2$pos <- gen_pos(recq4l_chr2_snp2,recq4l_chr2_spl)
+recq4l_chr2_snp2$pos <- gen_pos(recq4l_chr2_snp2)
 plot(recq4l_chr2_snp2$`SNP Start`, recq4l_chr2_snp2$pos)
 plot(recq4l_chr2_snp2$`SNP Start`, recq4l_chr2_snp2$pos/recq4l_chr2_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica Recq4l Chromosome 2 Recombination Distribution")
 recq4l_chr2_finalpos <- recq4l_chr2_snp2[order(recq4l_chr2_snp2$pos),]
 is.unsorted(recq4l_chr2_finalpos$pos)
-recq4l_chr2_finalpos$pos <- recq4l_chr2_finalpos$pos + abs(min(recq4l_chr2_finalpos$pos))
 plot(recq4l_chr2_snp2$`SNP Start`, recq4l_chr2_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 2 Genetic Map")
 
 recq4l_chr3_spl <- smooth.spline(recq4l_chr3_snp2$rate, spar = 0.1)
-recq4l_chr3_snp2$pos <- gen_pos(recq4l_chr3_snp2,recq4l_chr3_spl)
+recq4l_chr3_snp2$pos <- gen_pos(recq4l_chr3_snp2)
 plot(recq4l_chr3_snp2$`SNP Start`, recq4l_chr3_snp2$pos)
 plot(recq4l_chr3_snp2$`SNP Start`, recq4l_chr3_snp2$pos/recq4l_chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica Recq4l Chromosome 3 Recombination Distribution")
 recq4l_chr3_finalpos <- recq4l_chr3_snp2[order(recq4l_chr3_snp2$pos),]
 is.unsorted(recq4l_chr3_finalpos$pos)
-recq4l_chr3_finalpos$pos <- recq4l_chr3_finalpos$pos + abs(min(recq4l_chr3_finalpos$pos))
 plot(recq4l_chr3_snp2$`SNP Start`, recq4l_chr3_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 3 Genetic Map")
 
 recq4l_chr4_spl <- smooth.spline(recq4l_chr4_snp2$rate, spar =0.1)
-recq4l_chr4_snp2$pos <- gen_pos(recq4l_chr4_snp2,recq4l_chr4_spl)
+recq4l_chr4_snp2$pos <- gen_pos(recq4l_chr4_snp2)
 plot(recq4l_chr4_snp2$`SNP Start`, recq4l_chr4_snp2$pos)
 plot(recq4l_chr4_snp2$`SNP Start`, recq4l_chr4_snp2$pos/recq4l_chr4_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica Recq4l Chromosome 4 Recombination Distribution")
 recq4l_chr4_finalpos <- recq4l_chr4_snp2[order(recq4l_chr4_snp2$pos),]
 is.unsorted(recq4l_chr4_finalpos$pos)
-recq4l_chr4_finalpos$pos <- recq4l_chr4_finalpos$pos + abs(min(recq4l_chr4_finalpos$pos))
 plot(recq4l_chr4_snp2$`SNP Start`, recq4l_chr4_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 4 Genetic Map")
 
 recq4l_chr5_spl <- smooth.spline(recq4l_chr5_snp2$rate, spar =0.1)
-recq4l_chr5_snp2$pos <- gen_pos(recq4l_chr5_snp2,recq4l_chr5_spl)
+recq4l_chr5_snp2$pos <- gen_pos(recq4l_chr5_snp2)
 plot(recq4l_chr5_snp2$`SNP Start`, recq4l_chr5_snp2$pos)
 plot(recq4l_chr5_snp2$`SNP Start`, recq4l_chr5_snp2$pos/recq4l_chr5_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica Recq4l Chromosome 5 Recombination Distribution")
 recq4l_chr5_finalpos <- recq4l_chr5_snp2[order(recq4l_chr5_snp2$pos),]
 is.unsorted(recq4l_chr5_finalpos$pos)
-recq4l_chr5_finalpos$pos <- recq4l_chr5_finalpos$pos + abs(min(recq4l_chr5_finalpos$pos))
 plot(recq4l_chr5_snp2$`SNP Start`, recq4l_chr5_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 5 Genetic Map")
 
 recq4l_chr6_spl <- smooth.spline(recq4l_chr6_snp2$rate, spar = 0.1)
-recq4l_chr6_snp2$pos <- gen_pos(recq4l_chr6_snp2,recq4l_chr6_spl)
+recq4l_chr6_snp2$pos <- gen_pos(recq4l_chr6_snp2)
 plot(recq4l_chr6_snp2$`SNP Start`, recq4l_chr6_snp2$pos)
 plot(recq4l_chr6_snp2$`SNP Start`, recq4l_chr6_snp2$pos/recq4l_chr6_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica Recq4l Chromosome 6 Recombination Distribution")
 recq4l_chr6_finalpos <- recq4l_chr6_snp2[order(recq4l_chr6_snp2$pos),]
 is.unsorted(recq4l_chr6_finalpos$pos)
-recq4l_chr6_finalpos$pos <- recq4l_chr6_finalpos$pos + abs(min(recq4l_chr6_finalpos$pos))
 plot(recq4l_chr6_snp2$`SNP Start`, recq4l_chr6_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 6 Genetic Map")
 
 recq4l_chr7_spl <- smooth.spline(recq4l_chr7_snp2$rate, spar =0.1)
-recq4l_chr7_snp2$pos <- gen_pos(recq4l_chr7_snp2,recq4l_chr7_spl)
+recq4l_chr7_snp2$pos <- gen_pos(recq4l_chr7_snp2)
 plot(recq4l_chr7_snp2$`SNP Start`, recq4l_chr7_snp2$pos)
 plot(recq4l_chr7_snp2$`SNP Start`, recq4l_chr7_snp2$pos/recq4l_chr7_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica Recq4l Chromosome 7 Recombination Distribution")
 recq4l_chr7_finalpos <- recq4l_chr7_snp2[order(recq4l_chr7_snp2$pos),]
 is.unsorted(recq4l_chr7_finalpos$pos)
-recq4l_chr7_finalpos$pos <- recq4l_chr7_finalpos$pos + abs(min(recq4l_chr7_finalpos$pos))
 plot(recq4l_chr7_snp2$`SNP Start`, recq4l_chr7_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 7 Genetic Map")
 
 recq4l_chr8_spl <- smooth.spline(recq4l_chr8_snp2$rate, spar = 0.1)
-recq4l_chr8_snp2$pos <- gen_pos(recq4l_chr8_snp2,recq4l_chr8_spl)
+recq4l_chr8_snp2$pos <- gen_pos(recq4l_chr8_snp2)
 plot(recq4l_chr8_snp2$`SNP Start`, recq4l_chr8_snp2$pos)
 plot(recq4l_chr8_snp2$`SNP Start`, recq4l_chr8_snp2$pos/recq4l_chr8_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica Recq4l Chromosome 8 Recombination Distribution")
 recq4l_chr8_finalpos <- recq4l_chr8_snp2[order(recq4l_chr8_snp2$pos),]
 is.unsorted(recq4l_chr8_finalpos$pos)
-recq4l_chr8_finalpos$pos <- recq4l_chr8_finalpos$pos + abs(min(recq4l_chr8_finalpos$pos))
 plot(recq4l_chr8_snp2$`SNP Start`, recq4l_chr8_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 8 Genetic Map")
 
 recq4l_chr9_spl <- smooth.spline(recq4l_chr9_snp2$rate, spar = 0.1)
-recq4l_chr9_snp2$pos <- gen_pos(recq4l_chr9_snp2,recq4l_chr9_spl)
+recq4l_chr9_snp2$pos <- gen_pos(recq4l_chr9_snp2)
 plot(recq4l_chr9_snp2$`SNP Start`, recq4l_chr9_snp2$pos)
 plot(recq4l_chr9_snp2$`SNP Start`, recq4l_chr9_snp2$pos/recq4l_chr9_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica Recq4l Chromosome 9 Recombination Distribution")
 recq4l_chr9_finalpos <- recq4l_chr9_snp2[order(recq4l_chr9_snp2$pos),]
 is.unsorted(recq4l_chr9_finalpos$pos)
-recq4l_chr9_finalpos$pos <- recq4l_chr9_finalpos$pos + abs(min(recq4l_chr9_finalpos$pos))
 plot(recq4l_chr9_snp2$`SNP Start`, recq4l_chr9_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 9 Genetic Map")
 
 recq4l_chr10_spl <- smooth.spline(recq4l_chr10_snp2$rate, spar =0.1)
-recq4l_chr10_snp2$pos <- gen_pos(recq4l_chr10_snp2,recq4l_chr10_spl)
+recq4l_chr10_snp2$pos <- gen_pos(recq4l_chr10_snp2)
 plot(recq4l_chr10_snp2$`SNP Start`, recq4l_chr10_snp2$pos)
 plot(recq4l_chr10_snp2$`SNP Start`, recq4l_chr10_snp2$pos/recq4l_chr10_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica Recq4l Chromosome 10 Recombination Distribution")
 recq4l_chr10_finalpos <- recq4l_chr10_snp2[order(recq4l_chr10_snp2$pos),]
 is.unsorted(recq4l_chr10_finalpos$pos)
-recq4l_chr10_finalpos$pos <- recq4l_chr10_finalpos$pos + abs(min(recq4l_chr10_finalpos$pos))
 plot(recq4l_chr10_snp2$`SNP Start`, recq4l_chr10_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 10 Genetic Map")
 
 recq4l_chr11_spl <- smooth.spline(recq4l_chr11_snp2$rate, spar = 0.1)
-recq4l_chr11_snp2$pos <- gen_pos(recq4l_chr11_snp2,recq4l_chr11_spl)
+recq4l_chr11_snp2$pos <- gen_pos(recq4l_chr11_snp2)
 plot(recq4l_chr11_snp2$`SNP Start`, recq4l_chr11_snp2$pos)
 plot(recq4l_chr11_snp2$`SNP Start`, recq4l_chr11_snp2$pos/recq4l_chr11_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica Recq4l Chromosome 11 Recombination Distribution")
 recq4l_chr11_finalpos <- recq4l_chr11_snp2[order(recq4l_chr11_snp2$pos),]
 is.unsorted(recq4l_chr11_finalpos$pos)
-recq4l_chr11_finalpos$pos <- recq4l_chr11_finalpos$pos + abs(min(recq4l_chr11_finalpos$pos))
 plot(recq4l_chr11_snp2$`SNP Start`, recq4l_chr11_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 11 Genetic Map")
 
 recq4l_chr12_spl <- smooth.spline(recq4l_chr12_snp2$rate, spar = 0.1)
-recq4l_chr12_snp2$pos <- gen_pos(recq4l_chr12_snp2,recq4l_chr12_spl)
+recq4l_chr12_snp2$pos <- gen_pos(recq4l_chr12_snp2)
 plot(recq4l_chr12_snp2$`SNP Start`, recq4l_chr12_snp2$pos)
 plot(recq4l_chr12_snp2$`SNP Start`, recq4l_chr12_snp2$pos/recq4l_chr12_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica Recq4l Chromosome 12 Recombination Distribution")
 recq4l_chr12_finalpos <- recq4l_chr12_snp2[order(recq4l_chr12_snp2$pos),]
 is.unsorted(recq4l_chr12_finalpos$pos)
-recq4l_chr12_finalpos$pos <- recq4l_chr12_finalpos$pos + abs(min(recq4l_chr12_finalpos$pos))
 plot(recq4l_chr12_snp2$`SNP Start`, recq4l_chr12_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Recq4l Chromosome 12 Genetic Map")
 
