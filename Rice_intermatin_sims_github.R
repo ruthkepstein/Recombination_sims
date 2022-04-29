@@ -16,53 +16,87 @@ snp_pos<-function(lociPositions,finalpos){
 
 chr1_lociPos<-readRDS(file="chr1_locipos")
 chr1_geneProb<-readRDS(file="chr1_geneProb")
-chr1_lociPositions<-sample(chr1_lociPos,size=20,replace=FALSE,prob=chr1_geneProb)
+chr1_lociPositions<-sample(chr1_lociPos,size=30,replace=FALSE,prob=chr1_geneProb)
 chr1_finalPos<-readRDS("jap_chr1_finalpos.RData")
 chr1_lociPositions2<-snp_pos(chr1_lociPositions,chr1_finalPos)
+chr1_lociPositions2 <- chr1_lociPositions2[!duplicated(chr1_lociPositions2)]
 
 chr2_lociPos<-readRDS(file="chr2_locipos")
 chr2_geneProb<-readRDS(file="chr2_geneProb")
-chr2_lociPositions<-sample(chr2_lociPos,size=20,replace=FALSE,prob=chr2_geneProb)
+chr2_lociPositions<-sample(chr2_lociPos,size=25,replace=FALSE,prob=chr2_geneProb)
+chr2_finalPos<-readRDS("jap_chr2_finalpos.RData")
+chr2_lociPositions2<-snp_pos(chr2_lociPositions,chr2_finalPos)
+chr2_lociPositions2 <- chr2_lociPositions2[!duplicated(chr2_lociPositions2)]
 
 chr3_lociPos<-readRDS(file="chr3_locipos")
 chr3_geneProb<-readRDS(file="chr3_geneProb")
-chr3_lociPositions<-sample(chr3_lociPos,size=20,replace=FALSE,prob=chr3_geneProb)
+chr3_lociPositions<-sample(chr3_lociPos,size=25,replace=FALSE,prob=chr3_geneProb)
+chr3_finalPos<-readRDS("jap_chr3_finalpos.RData")
+chr3_lociPositions2<-snp_pos(chr3_lociPositions,chr3_finalPos)
+chr3_lociPositions2 <- chr3_lociPositions2[!duplicated(chr3_lociPositions2)]
 
 chr4_lociPos<-readRDS(file="chr4_locipos")
 chr4_geneProb<-readRDS(file="chr4_geneProb")
-chr4_lociPositions<-sample(chr4_lociPos,size=20,replace=FALSE,prob=chr4_geneProb)
+chr4_lociPositions<-sample(chr4_lociPos,size=25,replace=FALSE,prob=chr4_geneProb)
+chr4_finalPos<-readRDS("jap_chr4_finalpos.RData")
+chr4_lociPositions2<-snp_pos(chr4_lociPositions,chr4_finalPos)
+chr4_lociPositions2 <- chr4_lociPositions2[!duplicated(chr4_lociPositions2)]
 
 chr5_lociPos<-readRDS(file="chr5_locipos")
 chr5_geneProb<-readRDS(file="chr5_geneProb")
-chr5_lociPositions<-sample(chr5_lociPos,size=20,replace=FALSE,prob=chr5_geneProb)
+chr5_lociPositions<-sample(chr5_lociPos,size=22,replace=FALSE,prob=chr5_geneProb)
+chr5_finalPos<-readRDS("jap_chr5_finalpos.RData")
+chr5_lociPositions2<-snp_pos(chr5_lociPositions,chr5_finalPos)
+chr5_lociPositions2 <- chr5_lociPositions2[!duplicated(chr5_lociPositions2)]
 
 chr6_lociPos<-readRDS(file="chr6_locipos")
 chr6_geneProb<-readRDS(file="chr6_geneProb")
 chr6_lociPositions<-sample(chr6_lociPos,size=20,replace=FALSE,prob=chr6_geneProb)
+chr6_finalPos<-readRDS("jap_chr6_finalpos.RData")
+chr6_lociPositions2<-snp_pos(chr6_lociPositions,chr6_finalPos)
+chr6_lociPositions2 <- chr6_lociPositions2[!duplicated(chr6_lociPositions2)]
 
 chr7_lociPos<-readRDS(file="chr7_locipos")
 chr7_geneProb<-readRDS(file="chr7_geneProb")
-chr7_lociPositions<-sample(chr7_lociPos,size=20,replace=FALSE,prob=chr7_geneProb)
+chr7_lociPositions<-sample(chr7_lociPos,size=23,replace=FALSE,prob=chr7_geneProb)
+chr7_finalPos<-readRDS("jap_chr7_finalpos.RData")
+chr7_lociPositions2<-snp_pos(chr7_lociPositions,chr7_finalPos)
+chr7_lociPositions2 <- chr7_lociPositions2[!duplicated(chr7_lociPositions2)]
 
 chr8_lociPos<-readRDS(file="chr8_locipos")
 chr8_geneProb<-readRDS(file="chr8_geneProb")
-chr8_lociPositions<-sample(chr8_lociPos,size=20,replace=FALSE,prob=chr8_geneProb)
+chr8_lociPositions<-sample(chr8_lociPos,size=18,replace=FALSE,prob=chr8_geneProb)
+chr8_finalPos<-readRDS("jap_chr8_finalpos.RData")
+chr8_lociPositions2<-snp_pos(chr8_lociPositions,chr8_finalPos)
+chr8_lociPositions2 <- chr8_lociPositions2[!duplicated(chr8_lociPositions2)]
 
 chr9_lociPos<-readRDS(file="chr9_locipos")
 chr9_geneProb<-readRDS(file="chr9_geneProb")
-chr9_lociPositions<-sample(chr9_lociPos,size=20,replace=FALSE,prob=chr9_geneProb)
+chr9_lociPositions<-sample(chr9_lociPos,size=15,replace=FALSE,prob=chr9_geneProb)
+chr9_finalPos<-readRDS("jap_chr9_finalpos.RData")
+chr9_lociPositions2<-snp_pos(chr9_lociPositions,chr9_finalPos)
+chr9_lociPositions2 <- chr9_lociPositions2[!duplicated(chr9_lociPositions2)]
 
 chr10_lociPos<-readRDS(file="chr10_locipos")
 chr10_geneProb<-readRDS(file="chr10_geneProb")
-chr10_lociPositions<-sample(chr10_lociPos,size=20,replace=FALSE,prob=chr10_geneProb)
+chr10_lociPositions<-sample(chr10_lociPos,size=18,replace=FALSE,prob=chr10_geneProb)
+chr10_finalPos<-readRDS("jap_chr10_finalpos.RData")
+chr10_lociPositions2<-snp_pos(chr10_lociPositions,chr10_finalPos)
+chr10_lociPositions2 <- chr10_lociPositions2[!duplicated(chr10_lociPositions2)]
 
 chr11_lociPos<-readRDS(file="chr11_locipos")
 chr11_geneProb<-readRDS(file="chr11_geneProb")
 chr11_lociPositions<-sample(chr11_lociPos,size=20,replace=FALSE,prob=chr11_geneProb)
+chr11_finalPos<-readRDS("jap_chr11_finalpos.RData")
+chr11_lociPositions2<-snp_pos(chr11_lociPositions,chr11_finalPos)
+chr11_lociPositions2 <- chr11_lociPositions2[!duplicated(chr11_lociPositions2)]
 
 chr12_lociPos<-readRDS(file="chr12_locipos")
 chr12_geneProb<-readRDS(file="chr12_geneProb")
 chr12_lociPositions<-sample(chr12_lociPos,size=20,replace=FALSE,prob=chr12_geneProb)
+chr12_finalPos<-readRDS("jap_chr12_finalpos.RData")
+chr12_lociPositions2<-snp_pos(chr12_lociPositions,chr12_finalPos)
+chr12_lociPositions2 <- chr12_lociPositions2[!duplicated(chr12_lociPositions2)]
 
 
 #generating repulsion ONLY linkages between QTL
@@ -85,7 +119,9 @@ for(i in 1:100){
   SP$setTrackRec(TRUE)
   SP$p = 0.15
   #polygenic trait with QTLs in accurate gene space
-  trait_yield <- new("TraitA", nLoci = 300L, lociPerChr= c(30L,), lociLoc = c(chr1_lociPositions,chr2_lociPositions,chr3_lociPositions,chr4_lociPositions,chr5_lociPositions,chr6_lociPositions,chr1_lociPositions,chr1_lociPositions,chr1_lociPositions,chr1_lociPositions,chr1_lociPositions,chr1_lociPositions), addEff = addEff_mix, intercept = 0.1)
+  trait_yield <- new("TraitA", lociPerChr= c(length(chr1_lociPositions), length(chr2_lociPositions), length(chr3_lociPositions), length(chr4_lociPositions), length(chr5_lociPositions), length(chr6_lociPositions), length(chr7_lociPositions), length(chr8_lociPositions), length(chr9_lociPositions), length(chr10_lociPositions), length(chr11_lociPositions), length(chr12_lociPositions)),
+                     lociLoc = c(chr1_lociPositions2,chr2_lociPositions2,chr3_lociPositions2,chr4_lociPositions2,chr5_lociPositions2,chr6_lociPositions2,chr7_lociPositions2,chr8_lociPositions2,chr9_lociPositions2,chr10_lociPositions2,chr11_lociPositions2,chr12_lociPositions2),
+                     nLoci=sum(lociPerChr),addEff = addEff_mix, intercept = 0.1)
   SP$manAddTrait(trait_yield)
   pop_good <- newPop(founderPop, simParam = SP)
   pop_good <- randCross(pop_good, nCrosses= 10, nProgeny=10, simParam = SP)
