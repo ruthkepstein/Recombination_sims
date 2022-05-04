@@ -442,18 +442,26 @@ fancm_chr11_snp2$`SNP End` <- fancm_chr11_snp2$`SNP End`/1000000
 fancm_chr12_snp2$`SNP End` <- fancm_chr12_snp2$`SNP End`/1000000
 
 #omit empty col
-fancm_chr1_snp2<-na.omit(fancm_chr1_snp2)
-fancm_chr2_snp2<-na.omit(fancm_chr2_snp2)
-fancm_chr3_snp2<-na.omit(fancm_chr3_snp2)
-fancm_chr4_snp2<-na.omit(fancm_chr4_snp2)
-fancm_chr5_snp2<-na.omit(fancm_chr5_snp2)
-fancm_chr6_snp2<-na.omit(fancm_chr6_snp2)
-fancm_chr7_snp2<-na.omit(fancm_chr7_snp2)
-fancm_chr8_snp2<-na.omit(fancm_chr8_snp2)
-fancm_chr9_snp2<-na.omit(fancm_chr9_snp2)
-fancm_chr10_snp2<-na.omit(fancm_chr10_snp2)
-fancm_chr11_snp2<-na.omit(fancm_chr11_snp2)
-fancm_chr12_snp2<-na.omit(fancm_chr12_snp2)
+fill_NA<-function(SNP){
+  for(i in 1:nrow(SNP)){
+    if(is.na(SNP$rate[i])){
+      SNP$rate[i]<-SNP$rate[i-1]
+    }
+  }
+  print(SNP)
+}
+fancm_chr1_snp2<-fill_NA(fancm_chr1_snp2)
+fancm_chr2_snp2<-fill_NA(fancm_chr2_snp2)
+fancm_chr3_snp2<-fill_NA(fancm_chr3_snp2)
+fancm_chr4_snp2<-fill_NA(fancm_chr4_snp2)
+fancm_chr5_snp2<-fill_NA(fancm_chr5_snp2)
+fancm_chr6_snp2<-fill_NA(fancm_chr6_snp2)
+fancm_chr7_snp2<-fill_NA(fancm_chr7_snp2)
+fancm_chr8_snp2<-fill_NA(fancm_chr8_snp2)
+fancm_chr9_snp2<-fill_NA(fancm_chr9_snp2)
+fancm_chr10_snp2<-fill_NA(fancm_chr10_snp2)
+fancm_chr11_snp2<-fill_NA(fancm_chr11_snp2)
+fancm_chr12_snp2<-fill_NA(fancm_chr12_snp2)
 
 #gen maps
 gen_pos <- function(SNP){
@@ -627,10 +635,10 @@ fancm_chr5len <- length(fancm_chr5)
 dim(fancm_chr5) <- c(fancm_chr5len,1)
 fancm_chr5 <- list(fancm_chr5)
 
-fancm_chr5 <- fancm_chr5_finalpos$pos/100
-fancm_chr5len <- length(fancm_chr5)
-dim(fancm_chr5) <- c(fancm_chr5len,1)
-fancm_chr5 <- list(fancm_chr5)
+fancm_chr6 <- fancm_chr6_finalpos$pos/100
+fancm_chr6len <- length(fancm_chr6)
+dim(fancm_chr6) <- c(fancm_chr6len,1)
+fancm_chr6 <- list(fancm_chr6)
 
 fancm_chr7 <- fancm_chr7_finalpos$pos/100
 fancm_chr7len <- length(fancm_chr7)
@@ -663,9 +671,9 @@ dim(fancm_chr12) <- c(fancm_chr12len,1)
 fancm_chr12 <- list(fancm_chr12)
 
 fancm_final_map <- list(fancm_chr1[[1]], fancm_chr2[[1]], 
-                         fancm_chr3[[1]], fancm_chr4[[1]], fancm_chr5[[1]], 
-                         fancm_chr5[[1]], fancm_chr7[[1]], fancm_chr8[[1]], 
-                         fancm_chr9[[1]], fancm_chr10[[1]],fancm_chr11[[1]], fancm_chr12[[1]])
+                       fancm_chr3[[1]], fancm_chr4[[1]], fancm_chr5[[1]], 
+                       fancm_chr6[[1]], fancm_chr7[[1]], fancm_chr8[[1]], 
+                       fancm_chr9[[1]], fancm_chr10[[1]],fancm_chr11[[1]], fancm_chr12[[1]])
 
 #actual positions:http://rice.uga.edu/annotation_pseudo_centromeres.shtml
 # 1- 16.7
@@ -703,4 +711,21 @@ c12 <-find_centromere(11.9,fancm_chr12_finalpos)
 fancm_centromere <- c(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12)
 fancm_centromere <- fancm_centromere/100
 
+saveRDS(fancm_final_map, file="fancm_final_map.RData")
+saveRDS(fancm_centromere, file="fancm_centromeres.RData")
 
+saveRDS(fancm_chr1_finalpos, file="fancm_chr1_finalpos.RData")
+saveRDS(fancm_chr2_finalpos, file="fancm_chr2_finalpos.RData")
+saveRDS(fancm_chr3_finalpos, file="fancm_chr3_finalpos.RData")
+saveRDS(fancm_chr4_finalpos, file="fancm_chr4_finalpos.RData")
+saveRDS(fancm_chr5_finalpos, file="fancm_chr5_finalpos.RData")
+saveRDS(fancm_chr6_finalpos, file="fancm_chr6_finalpos.RData")
+saveRDS(fancm_chr7_finalpos, file="fancm_chr7_finalpos.RData")
+saveRDS(fancm_chr8_finalpos, file="fancm_chr8_finalpos.RData")
+saveRDS(fancm_chr9_finalpos, file="fancm_chr9_finalpos.RData")
+saveRDS(fancm_chr10_finalpos, file="fancm_chr10_finalpos.RData")
+saveRDS(fancm_chr11_finalpos, file="fancm_chr11_finalpos.RData")
+saveRDS(fancm_chr12_finalpos, file="fancm_chr12_finalpos.RData")
+
+fancm_nSNP<-c(nrow(fancm_chr1_finalpos),nrow(fancm_chr2_finalpos),nrow(fancm_chr3_finalpos),nrow(fancm_chr4_finalpos),nrow(fancm_chr5_finalpos),nrow(fancm_chr6_finalpos),nrow(fancm_chr7_finalpos),nrow(fancm_chr8_finalpos),nrow(fancm_chr9_finalpos),nrow(fancm_chr10_finalpos),nrow(fancm_chr11_finalpos),nrow(fancm_chr12_finalpos))
+saveRDS(fancm_nSNP, file="fancm_num_SNP.RData")

@@ -3,7 +3,7 @@ library(Rcpp)
 library(ggplot2)
 library(dplyr)
 
-setwd("C:/Users/16192/Documents/PNAS_Simulations")
+#setwd("C:/Users/16192/Documents/PNAS_Simulations")
 set.seed(420)
 
 jap_snps <- read.table("japonica_SNPs.bed", header =FALSE)
@@ -563,67 +563,26 @@ jap_chr10_snp3$`SNP Start` <- jap_chr10_snp3$`SNP Start`/1000000
 jap_chr11_snp3$`SNP Start` <- jap_chr11_snp3$`SNP Start`/1000000
 jap_chr12_snp3$`SNP Start` <- jap_chr12_snp3$`SNP Start`/1000000
 
-jap_chr1_snp3<-na.omit(jap_chr1_snp3)
-jap_chr2_snp3<-na.omit(jap_chr2_snp3)
-jap_chr3_snp3<-na.omit(jap_chr3_snp3)
-jap_chr4_snp3<-na.omit(jap_chr4_snp3)
-jap_chr5_snp3<-na.omit(jap_chr5_snp3)
-jap_chr6_snp3<-na.omit(jap_chr6_snp3)
-jap_chr7_snp3<-na.omit(jap_chr7_snp3)
-jap_chr8_snp3<-na.omit(jap_chr8_snp3)
-jap_chr9_snp3<-na.omit(jap_chr9_snp3)
-jap_chr10_snp3<-na.omit(jap_chr10_snp3)
-jap_chr11_snp3<-na.omit(jap_chr11_snp3)
-jap_chr12_snp3<-na.omit(jap_chr12_snp3)
-
-#cleaning up data - removing outliers
-# Q1 <- quantile(jap_chr1_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr1 <- IQR(jap_chr1_snp3$rate)
-# jap_chr1_snp3<- subset(jap_chr1_snp3, jap_chr1_snp3$rate > (Q1[1] - 1.5*iqr1) & jap_chr1_snp3$rate < (Q1[2]+1.5*iqr1))
-# 
-# Q2 <- quantile(jap_chr2_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr2 <- IQR(jap_chr2_snp3$rate)
-# jap_chr2_snp3<- subset(jap_chr2_snp3, jap_chr2_snp3$rate > (Q2[1] - 1.5*iqr2) & jap_chr2_snp3$rate < (Q2[2]+1.5*iqr2))
-# 
-# Q3 <- quantile(jap_chr3_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr3 <- IQR(jap_chr3_snp3$rate)
-# jap_chr3_snp3<- subset(jap_chr3_snp3, jap_chr3_snp3$rate > (Q3[1] - 1.5*iqr3) & jap_chr3_snp3$rate < (Q3[2]+1.5*iqr3))
-# 
-# Q4 <- quantile(jap_chr4_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr4 <- IQR(jap_chr4_snp3$rate)
-# jap_chr4_snp3<- subset(jap_chr4_snp3, jap_chr4_snp3$rate > (Q4[1] - 1.5*iqr4) & jap_chr4_snp3$rate < (Q4[2]+1.5*iqr4))
-# 
-# Q5 <- quantile(jap_chr5_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr5 <- IQR(jap_chr5_snp3$rate)
-# jap_chr5_snp3<- subset(jap_chr5_snp3, jap_chr5_snp3$rate < (Q5[2]+1.5*iqr5))
-# 
-# Q6 <- quantile(jap_chr6_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr6 <- IQR(jap_chr6_snp3$rate)
-# jap_chr6_snp3<- subset(jap_chr6_snp3, jap_chr6_snp3$rate > (Q6[1] - 1.5*iqr6) & jap_chr6_snp3$rate < (Q6[2]+1.5*iqr6))
-# 
-# Q7 <- quantile(jap_chr7_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr7 <- IQR(jap_chr7_snp3$rate)
-# jap_chr7_snp3<- subset(jap_chr7_snp3, jap_chr7_snp3$rate > (Q7[1] - 1.5*iqr7) & jap_chr7_snp3$rate < (Q7[2]+1.5*iqr7))
-# 
-# Q8 <- quantile(jap_chr8_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr8 <- IQR(jap_chr8_snp3$rate)
-# jap_chr8_snp3<- subset(jap_chr8_snp3, jap_chr8_snp3$rate > (Q8[1] - 1.5*iqr8) & jap_chr8_snp3$rate < (Q8[2]+1.5*iqr8))
-# 
-# Q9 <- quantile(jap_chr9_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr9 <- IQR(jap_chr9_snp3$rate)
-# jap_chr9_snp3<- subset(jap_chr9_snp3, jap_chr9_snp3$rate > (Q9[1] - 1.5*iqr9) & jap_chr9_snp3$rate < (Q9[2]+1.5*iqr9))
-# 
-# Q10 <- quantile(jap_chr10_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr10 <- IQR(jap_chr10_snp3$rate)
-# jap_chr10_snp3<- subset(jap_chr10_snp3, jap_chr10_snp3$rate > (Q10[1] - 1.5*iqr10) & jap_chr10_snp3$rate < (Q10[2]+1.5*iqr10))
-# 
-# Q11 <- quantile(jap_chr11_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr11 <- IQR(jap_chr11_snp3$rate)
-# jap_chr11_snp3<- subset(jap_chr11_snp3, jap_chr11_snp3$rate > (Q11[1] - 1.5*iqr11) & jap_chr11_snp3$rate < (Q11[2]+1.5*iqr11))
-# 
-# Q12 <- quantile(jap_chr12_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr12 <- IQR(jap_chr12_snp3$rate)
-# jap_chr12_snp3<- subset(jap_chr12_snp3, jap_chr12_snp3$rate > (Q12[1] - 1.5*iqr12) & jap_chr12_snp3$rate < (Q12[2]+1.5*iqr12))
+fill_NA<-function(SNP){
+  for(i in 1:nrow(SNP)){
+    if(is.na(SNP$rate[i])){
+      SNP$rate[i]<-SNP$rate[i-1]
+    }
+  }
+  print(SNP)
+}
+jap_chr1_snp3<-fill_NA(jap_chr1_snp3)
+jap_chr2_snp3<-fill_NA(jap_chr2_snp3)
+jap_chr3_snp3<-fill_NA(jap_chr3_snp3)
+jap_chr4_snp3<-fill_NA(jap_chr4_snp3)
+jap_chr5_snp3<-fill_NA(jap_chr5_snp3)
+jap_chr6_snp3<-fill_NA(jap_chr6_snp3)
+jap_chr7_snp3<-fill_NA(jap_chr7_snp3)
+jap_chr8_snp3<-fill_NA(jap_chr8_snp3)
+jap_chr9_snp3<-fill_NA(jap_chr9_snp3)
+jap_chr10_snp3<-fill_NA(jap_chr10_snp3)
+jap_chr11_snp3<-fill_NA(jap_chr11_snp3)
+jap_chr12_snp3<-fill_NA(jap_chr12_snp3)
 
 gen_pos <- function(SNP){
   SNP$pos <- NA
@@ -659,6 +618,7 @@ plot(jap_chr1_snp3$`SNP Start`, rates, type = "l", xlab = "Physical Positions (M
 plot(jap_chr1_snp3$`SNP Start`, jap_chr1_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica Chromosome 1 Genetic Map")
 plot(jap_chr1_finalpos$`SNP Start`, jap_chr1_finalpos$pos)
+
 
 jap_chr2_spl <- smooth.spline(jap_chr2_snp3$rate, spar = 0.1)
 jap_chr2_snp3$pos <- gen_pos(jap_chr2_snp3)
@@ -813,67 +773,18 @@ ind_chr10_snp3$`SNP Start` <- ind_chr10_snp3$`SNP Start`/1000000
 ind_chr11_snp3$`SNP Start` <- ind_chr11_snp3$`SNP Start`/1000000
 ind_chr12_snp3$`SNP Start` <- ind_chr12_snp3$`SNP Start`/1000000
 
-ind_chr1_snp3<-na.omit(ind_chr1_snp3)
-ind_chr2_snp3<-na.omit(ind_chr2_snp3)
-ind_chr3_snp3<-na.omit(ind_chr3_snp3)
-ind_chr4_snp3<-na.omit(ind_chr4_snp3)
-ind_chr5_snp3<-na.omit(ind_chr5_snp3)
-ind_chr6_snp3<-na.omit(ind_chr6_snp3)
-ind_chr7_snp3<-na.omit(ind_chr7_snp3)
-ind_chr8_snp3<-na.omit(ind_chr8_snp3)
-ind_chr9_snp3<-na.omit(ind_chr9_snp3)
-ind_chr10_snp3<-na.omit(ind_chr10_snp3)
-ind_chr11_snp3<-na.omit(ind_chr11_snp3)
-ind_chr12_snp3<-na.omit(ind_chr12_snp3)
-
-#cleaning up data - removing outliers
-# Q1 <- quantile(ind_chr1_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr1 <- IQR(ind_chr1_snp3$rate)
-# ind_chr1_snp3<- subset(ind_chr1_snp3, ind_chr1_snp3$rate > (Q1[1] - 1.5*iqr1) & ind_chr1_snp3$rate < (Q1[2]+1.5*iqr1))
-# 
-# Q2 <- quantile(ind_chr2_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr2 <- IQR(ind_chr2_snp3$rate)
-# ind_chr2_snp3<- subset(ind_chr2_snp3, ind_chr2_snp3$rate > (Q2[1] - 1.5*iqr2) & ind_chr2_snp3$rate < (Q2[2]+1.5*iqr2))
-# 
-# Q3 <- quantile(ind_chr3_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr3 <- IQR(ind_chr3_snp3$rate)
-# ind_chr3_snp3<- subset(ind_chr3_snp3, ind_chr3_snp3$rate > (Q3[1] - 1.5*iqr3) & ind_chr3_snp3$rate < (Q3[2]+1.5*iqr3))
-# 
-# Q4 <- quantile(ind_chr4_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr4 <- IQR(ind_chr4_snp3$rate)
-# ind_chr4_snp3<- subset(ind_chr4_snp3, ind_chr4_snp3$rate > (Q4[1] - 1.3*iqr4) & ind_chr4_snp3$rate < (Q4[2]+1.3*iqr4))
-# 
-# Q5 <- quantile(ind_chr5_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr5 <- IQR(ind_chr5_snp3$rate)
-# ind_chr5_snp3<- subset(ind_chr5_snp3, ind_chr5_snp3$rate > (Q5[1] - 1.5*iqr5) & ind_chr5_snp3$rate < (Q5[2]+1.5*iqr5))
-# 
-# Q6 <- quantile(ind_chr6_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr6 <- IQR(ind_chr6_snp3$rate)
-# ind_chr6_snp3<- subset(ind_chr6_snp3, ind_chr6_snp3$rate > (Q6[1] - 1.5*iqr6) & ind_chr6_snp3$rate < (Q6[2]+1.5*iqr6))
-# 
-# Q7 <- quantile(ind_chr7_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr7 <- IQR(ind_chr7_snp3$rate)
-# ind_chr7_snp3<- subset(ind_chr7_snp3, ind_chr7_snp3$rate > (Q7[1] - 1.5*iqr7) & ind_chr7_snp3$rate < (Q7[2]+1.5*iqr7))
-# 
-# Q8 <- quantile(ind_chr8_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr8 <- IQR(ind_chr8_snp3$rate)
-# ind_chr8_snp3<- subset(ind_chr8_snp3, ind_chr8_snp3$rate > (Q8[1] - 1.5*iqr8) & ind_chr8_snp3$rate < (Q8[2]+1.5*iqr8))
-# 
-# Q9 <- quantile(ind_chr9_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr9 <- IQR(ind_chr9_snp3$rate)
-# ind_chr9_snp3<- subset(ind_chr9_snp3, ind_chr9_snp3$rate > (Q9[1] - 1.5*iqr9) & ind_chr9_snp3$rate < (Q9[2]+1.5*iqr9))
-# 
-# Q10 <- quantile(ind_chr10_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr10 <- IQR(ind_chr10_snp3$rate)
-# ind_chr10_snp3<- subset(ind_chr10_snp3, ind_chr10_snp3$rate > (Q10[1] - 1.5*iqr10) & ind_chr10_snp3$rate < (Q10[2]+1.5*iqr10))
-# 
-# Q11 <- quantile(ind_chr11_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr11 <- IQR(ind_chr11_snp3$rate)
-# ind_chr11_snp3<- subset(ind_chr11_snp3, ind_chr11_snp3$rate > (Q11[1] - 1.5*iqr11) & ind_chr11_snp3$rate < (Q11[2]+1.5*iqr11))
-# 
-# Q12 <- quantile(ind_chr12_snp3$rate, probs=c(.25, .75), na.rm = FALSE)
-# iqr12 <- IQR(ind_chr12_snp3$rate)
-# ind_chr12_snp3<- subset(ind_chr12_snp3, ind_chr12_snp3$rate > (Q12[1] - 1.5*iqr12) & ind_chr12_snp3$rate < (Q12[2]+1.5*iqr12))
+ind_chr1_snp3<-fill_NA(ind_chr1_snp3)
+ind_chr2_snp3<-fill_NA(ind_chr2_snp3)
+ind_chr3_snp3<-fill_NA(ind_chr3_snp3)
+ind_chr4_snp3<-fill_NA(ind_chr4_snp3)
+ind_chr5_snp3<-fill_NA(ind_chr5_snp3)
+ind_chr6_snp3<-fill_NA(ind_chr6_snp3)
+ind_chr7_snp3<-fill_NA(ind_chr7_snp3)
+ind_chr8_snp3<-fill_NA(ind_chr8_snp3)
+ind_chr9_snp3<-fill_NA(ind_chr9_snp3)
+ind_chr10_snp3<-fill_NA(ind_chr10_snp3)
+ind_chr11_snp3<-fill_NA(ind_chr11_snp3)
+ind_chr12_snp3<-fill_NA(ind_chr12_snp3)
 
 ind_chr1_snp3 <- ind_chr1_snp3[order(ind_chr1_snp3$`SNP Start`),]
 ind_chr1_spl <- smooth.spline(ind_chr1_snp3$rate, spar =0)
@@ -1023,10 +934,10 @@ jap_chr5len <- length(jap_chr5)
 dim(jap_chr5) <- c(jap_chr5len,1)
 jap_chr5 <- list(jap_chr5)
 
-jap_chr5 <- jap_chr5_finalpos$pos/100
-jap_chr5len <- length(jap_chr5)
-dim(jap_chr5) <- c(jap_chr5len,1)
-jap_chr5 <- list(jap_chr5)
+jap_chr6 <- jap_chr6_finalpos$pos/100
+jap_chr6len <- length(jap_chr6)
+dim(jap_chr6) <- c(jap_chr6len,1)
+jap_chr6 <- list(jap_chr6)
 
 jap_chr7 <- jap_chr7_finalpos$pos/100
 jap_chr7len <- length(jap_chr7)
@@ -1060,7 +971,7 @@ jap_chr12 <- list(jap_chr12)
 
 japonica_final_map <- list(jap_chr1[[1]], jap_chr2[[1]], 
                   jap_chr3[[1]], jap_chr4[[1]], jap_chr5[[1]], 
-                  jap_chr5[[1]], jap_chr7[[1]], jap_chr8[[1]], 
+                  jap_chr6[[1]], jap_chr7[[1]], jap_chr8[[1]], 
                   jap_chr9[[1]], jap_chr10[[1]],jap_chr11[[1]], jap_chr12[[1]])
 
 #Indica final genetic map 
@@ -1183,3 +1094,25 @@ c12 <-find_centromere(11.9,ind_chr12_finalpos)
 
 ind_centromere <- c(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12)
 ind_centromere <- ind_centromere/100
+
+saveRDS(japonica_final_map, file="japonica_final_map.RData")
+saveRDS(indica_final_map, file="indica_final_map.RData")
+
+saveRDS(ind_centromere, file="indica_centromeres.RData")
+saveRDS(jap_centromere, file="japonica_centromeres.RData")
+
+saveRDS(jap_chr1_finalpos, file="jap_chr1_finalpos.RData")
+saveRDS(jap_chr2_finalpos, file="jap_chr2_finalpos.RData")
+saveRDS(jap_chr3_finalpos, file="jap_chr3_finalpos.RData")
+saveRDS(jap_chr4_finalpos, file="jap_chr4_finalpos.RData")
+saveRDS(jap_chr5_finalpos, file="jap_chr5_finalpos.RData")
+saveRDS(jap_chr6_finalpos, file="jap_chr6_finalpos.RData")
+saveRDS(jap_chr7_finalpos, file="jap_chr7_finalpos.RData")
+saveRDS(jap_chr8_finalpos, file="jap_chr8_finalpos.RData")
+saveRDS(jap_chr9_finalpos, file="jap_chr9_finalpos.RData")
+saveRDS(jap_chr10_finalpos, file="jap_chr10_finalpos.RData")
+saveRDS(jap_chr11_finalpos, file="jap_chr11_finalpos.RData")
+saveRDS(jap_chr12_finalpos, file="jap_chr12_finalpos.RData")
+
+jap_nSNP<-c(nrow(jap_chr1_finalpos),nrow(jap_chr2_finalpos),nrow(jap_chr3_finalpos),nrow(jap_chr4_finalpos),nrow(jap_chr5_finalpos),nrow(jap_chr6_finalpos),nrow(jap_chr7_finalpos),nrow(jap_chr8_finalpos),nrow(jap_chr9_finalpos),nrow(jap_chr10_finalpos),nrow(jap_chr11_finalpos),nrow(jap_chr12_finalpos))
+saveRDS(jap_nSNP, file="japonica_num_SNP.RData")

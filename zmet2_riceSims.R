@@ -461,18 +461,26 @@ zmet2_chr11_snp2$`SNP End` <- zmet2_chr11_snp2$`SNP End`/1000000
 zmet2_chr12_snp2$`SNP End` <- zmet2_chr12_snp2$`SNP End`/1000000
 
 #omit empty col
-zmet2_chr1_snp2<-na.omit(zmet2_chr1_snp2)
-zmet2_chr2_snp2<-na.omit(zmet2_chr2_snp2)
-zmet2_chr3_snp2<-na.omit(zmet2_chr3_snp2)
-zmet2_chr4_snp2<-na.omit(zmet2_chr4_snp2)
-zmet2_chr5_snp2<-na.omit(zmet2_chr5_snp2)
-zmet2_chr6_snp2<-na.omit(zmet2_chr6_snp2)
-zmet2_chr7_snp2<-na.omit(zmet2_chr7_snp2)
-zmet2_chr8_snp2<-na.omit(zmet2_chr8_snp2)
-zmet2_chr9_snp2<-na.omit(zmet2_chr9_snp2)
-zmet2_chr10_snp2<-na.omit(zmet2_chr10_snp2)
-zmet2_chr11_snp2<-na.omit(zmet2_chr11_snp2)
-zmet2_chr12_snp2<-na.omit(zmet2_chr12_snp2)
+fill_NA<-function(SNP){
+  for(i in 1:nrow(SNP)){
+    if(is.na(SNP$rate[i])){
+      SNP$rate[i]<-SNP$rate[i-1]
+    }
+  }
+  print(SNP)
+}
+zmet2_chr1_snp2<-fill_NA(zmet2_chr1_snp2)
+zmet2_chr2_snp2<-fill_NA(zmet2_chr2_snp2)
+zmet2_chr3_snp2<-fill_NA(zmet2_chr3_snp2)
+zmet2_chr4_snp2<-fill_NA(zmet2_chr4_snp2)
+zmet2_chr5_snp2<-fill_NA(zmet2_chr5_snp2)
+zmet2_chr6_snp2<-fill_NA(zmet2_chr6_snp2)
+zmet2_chr7_snp2<-fill_NA(zmet2_chr7_snp2)
+zmet2_chr8_snp2<-fill_NA(zmet2_chr8_snp2)
+zmet2_chr9_snp2<-fill_NA(zmet2_chr9_snp2)
+zmet2_chr10_snp2<-fill_NA(zmet2_chr10_snp2)
+zmet2_chr11_snp2<-fill_NA(zmet2_chr11_snp2)
+zmet2_chr12_snp2<-fill_NA(zmet2_chr12_snp2)
 
 #gen maps
 gen_pos <- function(SNP){
@@ -647,10 +655,10 @@ zmet2_chr5len <- length(zmet2_chr5)
 dim(zmet2_chr5) <- c(zmet2_chr5len,1)
 zmet2_chr5 <- list(zmet2_chr5)
 
-zmet2_chr5 <- zmet2_chr5_finalpos$pos/100
-zmet2_chr5len <- length(zmet2_chr5)
-dim(zmet2_chr5) <- c(zmet2_chr5len,1)
-zmet2_chr5 <- list(zmet2_chr5)
+zmet2_chr6 <- zmet2_chr6_finalpos$pos/100
+zmet2_chr6len <- length(zmet2_chr6)
+dim(zmet2_chr6) <- c(zmet2_chr6len,1)
+zmet2_chr6 <- list(zmet2_chr6)
 
 zmet2_chr7 <- zmet2_chr7_finalpos$pos/100
 zmet2_chr7len <- length(zmet2_chr7)
@@ -684,7 +692,7 @@ zmet2_chr12 <- list(zmet2_chr12)
 
 zmet2_final_map <- list(zmet2_chr1[[1]], zmet2_chr2[[1]], 
                        zmet2_chr3[[1]], zmet2_chr4[[1]], zmet2_chr5[[1]], 
-                       zmet2_chr5[[1]], zmet2_chr7[[1]], zmet2_chr8[[1]], 
+                       zmet2_chr6[[1]], zmet2_chr7[[1]], zmet2_chr8[[1]], 
                        zmet2_chr9[[1]], zmet2_chr10[[1]],zmet2_chr11[[1]], zmet2_chr12[[1]])
 
 #actual positions:http://rice.uga.edu/annotation_pseudo_centromeres.shtml
@@ -722,5 +730,24 @@ c12 <-find_centromere(11.9,zmet2_chr12_finalpos)
 
 zmet2_centromere <- c(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12)
 zmet2_centromere <- zmet2_centromere/100
+
+saveRDS(zmet2_final_map, file="zmet2_final_map.RData")
+saveRDS(zmet2_centromere, file="zmet2_centromeres.RData")
+
+saveRDS(zmet2_chr1_finalpos, file="zmet2_chr1_finalpos.RData")
+saveRDS(zmet2_chr2_finalpos, file="zmet2_chr2_finalpos.RData")
+saveRDS(zmet2_chr3_finalpos, file="zmet2_chr3_finalpos.RData")
+saveRDS(zmet2_chr4_finalpos, file="zmet2_chr4_finalpos.RData")
+saveRDS(zmet2_chr5_finalpos, file="zmet2_chr5_finalpos.RData")
+saveRDS(zmet2_chr6_finalpos, file="zmet2_chr6_finalpos.RData")
+saveRDS(zmet2_chr7_finalpos, file="zmet2_chr7_finalpos.RData")
+saveRDS(zmet2_chr8_finalpos, file="zmet2_chr8_finalpos.RData")
+saveRDS(zmet2_chr9_finalpos, file="zmet2_chr9_finalpos.RData")
+saveRDS(zmet2_chr10_finalpos, file="zmet2_chr10_finalpos.RData")
+saveRDS(zmet2_chr11_finalpos, file="zmet2_chr11_finalpos.RData")
+saveRDS(zmet2_chr12_finalpos, file="zmet2_chr12_finalpos.RData")
+
+zmet2_nSNP<-c(nrow(zmet2_chr1_finalpos),nrow(zmet2_chr2_finalpos),nrow(zmet2_chr3_finalpos),nrow(zmet2_chr4_finalpos),nrow(zmet2_chr5_finalpos),nrow(zmet2_chr6_finalpos),nrow(zmet2_chr7_finalpos),nrow(zmet2_chr8_finalpos),nrow(zmet2_chr9_finalpos),nrow(zmet2_chr10_finalpos),nrow(zmet2_chr11_finalpos),nrow(zmet2_chr12_finalpos))
+saveRDS(zmet2_nSNP, file="zmet2_num_SNP.RData")
 
 

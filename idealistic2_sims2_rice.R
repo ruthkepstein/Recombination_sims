@@ -491,18 +491,26 @@ ideal2_chr11_snp2$`SNP End` <- ideal2_chr11_snp2$`SNP End`/1000000
 ideal2_chr12_snp2$`SNP End` <- ideal2_chr12_snp2$`SNP End`/1000000
 
 #omit empty col
-ideal2_chr1_snp2<-na.omit(ideal2_chr1_snp2)
-ideal2_chr2_snp2<-na.omit(ideal2_chr2_snp2)
-ideal2_chr3_snp2<-na.omit(ideal2_chr3_snp2)
-ideal2_chr4_snp2<-na.omit(ideal2_chr4_snp2)
-ideal2_chr5_snp2<-na.omit(ideal2_chr5_snp2)
-ideal2_chr6_snp2<-na.omit(ideal2_chr6_snp2)
-ideal2_chr7_snp2<-na.omit(ideal2_chr7_snp2)
-ideal2_chr8_snp2<-na.omit(ideal2_chr8_snp2)
-ideal2_chr9_snp2<-na.omit(ideal2_chr9_snp2)
-ideal2_chr10_snp2<-na.omit(ideal2_chr10_snp2)
-ideal2_chr11_snp2<-na.omit(ideal2_chr11_snp2)
-ideal2_chr12_snp2<-na.omit(ideal2_chr12_snp2)
+fill_NA<-function(SNP){
+  for(i in 1:nrow(SNP)){
+    if(is.na(SNP$rate[i])){
+      SNP$rate[i]<-SNP$rate[i-1]
+    }
+  }
+  print(SNP)
+}
+ideal2_chr1_snp2<-fill_NA(ideal2_chr1_snp2)
+ideal2_chr2_snp2<-fill_NA(ideal2_chr2_snp2)
+ideal2_chr3_snp2<-fill_NA(ideal2_chr3_snp2)
+ideal2_chr4_snp2<-fill_NA(ideal2_chr4_snp2)
+ideal2_chr5_snp2<-fill_NA(ideal2_chr5_snp2)
+ideal2_chr6_snp2<-fill_NA(ideal2_chr6_snp2)
+ideal2_chr7_snp2<-fill_NA(ideal2_chr7_snp2)
+ideal2_chr8_snp2<-fill_NA(ideal2_chr8_snp2)
+ideal2_chr9_snp2<-fill_NA(ideal2_chr9_snp2)
+ideal2_chr10_snp2<-fill_NA(ideal2_chr10_snp2)
+ideal2_chr11_snp2<-fill_NA(ideal2_chr11_snp2)
+ideal2_chr12_snp2<-fill_NA(ideal2_chr12_snp2)
 
 #gen maps
 gen_pos <- function(SNP){
@@ -677,10 +685,10 @@ ideal2_chr5len <- length(ideal2_chr5)
 dim(ideal2_chr5) <- c(ideal2_chr5len,1)
 ideal2_chr5 <- list(ideal2_chr5)
 
-ideal2_chr5 <- ideal2_chr5_finalpos$pos/100
-ideal2_chr5len <- length(ideal2_chr5)
-dim(ideal2_chr5) <- c(ideal2_chr5len,1)
-ideal2_chr5 <- list(ideal2_chr5)
+ideal2_chr6 <- ideal2_chr6_finalpos$pos/100
+ideal2_chr6len <- length(ideal2_chr6)
+dim(ideal2_chr6) <- c(ideal2_chr6len,1)
+ideal2_chr6 <- list(ideal2_chr6)
 
 ideal2_chr7 <- ideal2_chr7_finalpos$pos/100
 ideal2_chr7len <- length(ideal2_chr7)
@@ -713,9 +721,9 @@ dim(ideal2_chr12) <- c(ideal2_chr12len,1)
 ideal2_chr12 <- list(ideal2_chr12)
 
 ideal2_final_map <- list(ideal2_chr1[[1]], ideal2_chr2[[1]], 
-                        ideal2_chr3[[1]], ideal2_chr4[[1]], ideal2_chr5[[1]], 
-                        ideal2_chr5[[1]], ideal2_chr7[[1]], ideal2_chr8[[1]], 
-                        ideal2_chr9[[1]], ideal2_chr10[[1]],ideal2_chr11[[1]], ideal2_chr12[[1]])
+                         ideal2_chr3[[1]], ideal2_chr4[[1]], ideal2_chr5[[1]], 
+                         ideal2_chr6[[1]], ideal2_chr7[[1]], ideal2_chr8[[1]], 
+                         ideal2_chr9[[1]], ideal2_chr10[[1]],ideal2_chr11[[1]], ideal2_chr12[[1]])
 
 #actual positions:http://rice.uga.edu/annotation_pseudo_centromeres.shtml
 # 1- 16.7
@@ -752,5 +760,24 @@ c12 <-find_centromere(11.9,ideal2_chr12_finalpos)
 
 ideal2_centromere <- c(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12)
 ideal2_centromere <- ideal2_centromere/100
+
+saveRDS(ideal2_final_map, file="ideal2_final_map.RData")
+saveRDS(ideal2_centromere, file="ideal2_centromeres.RData")
+
+saveRDS(ideal2_chr1_finalpos, file="ideal2_chr1_finalpos.RData")
+saveRDS(ideal2_chr2_finalpos, file="ideal2_chr2_finalpos.RData")
+saveRDS(ideal2_chr3_finalpos, file="ideal2_chr3_finalpos.RData")
+saveRDS(ideal2_chr4_finalpos, file="ideal2_chr4_finalpos.RData")
+saveRDS(ideal2_chr5_finalpos, file="ideal2_chr5_finalpos.RData")
+saveRDS(ideal2_chr6_finalpos, file="ideal2_chr6_finalpos.RData")
+saveRDS(ideal2_chr7_finalpos, file="ideal2_chr7_finalpos.RData")
+saveRDS(ideal2_chr8_finalpos, file="ideal2_chr8_finalpos.RData")
+saveRDS(ideal2_chr9_finalpos, file="ideal2_chr9_finalpos.RData")
+saveRDS(ideal2_chr10_finalpos, file="ideal2_chr10_finalpos.RData")
+saveRDS(ideal2_chr11_finalpos, file="ideal2_chr11_finalpos.RData")
+saveRDS(ideal2_chr12_finalpos, file="ideal2_chr12_finalpos.RData")
+
+ideal2_nSNP<-c(nrow(ideal2_chr1_finalpos),nrow(ideal2_chr2_finalpos),nrow(ideal2_chr3_finalpos),nrow(ideal2_chr4_finalpos),nrow(ideal2_chr5_finalpos),nrow(ideal2_chr6_finalpos),nrow(ideal2_chr7_finalpos),nrow(ideal2_chr8_finalpos),nrow(ideal2_chr9_finalpos),nrow(ideal2_chr10_finalpos),nrow(ideal2_chr11_finalpos),nrow(ideal2_chr12_finalpos))
+saveRDS(ideal2_nSNP, file="ideal2_num_SNP.RData")
 
 

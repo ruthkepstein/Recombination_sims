@@ -541,18 +541,26 @@ recq4l_chr11_snp2$`SNP End` <- recq4l_chr11_snp2$`SNP End`/1000000
 recq4l_chr12_snp2$`SNP End` <- recq4l_chr12_snp2$`SNP End`/1000000
 
 #omit empty col
-recq4l_chr1_snp2<-na.omit(recq4l_chr1_snp2)
-recq4l_chr2_snp2<-na.omit(recq4l_chr2_snp2)
-recq4l_chr3_snp2<-na.omit(recq4l_chr3_snp2)
-recq4l_chr4_snp2<-na.omit(recq4l_chr4_snp2)
-recq4l_chr5_snp2<-na.omit(recq4l_chr5_snp2)
-recq4l_chr6_snp2<-na.omit(recq4l_chr6_snp2)
-recq4l_chr7_snp2<-na.omit(recq4l_chr7_snp2)
-recq4l_chr8_snp2<-na.omit(recq4l_chr8_snp2)
-recq4l_chr9_snp2<-na.omit(recq4l_chr9_snp2)
-recq4l_chr10_snp2<-na.omit(recq4l_chr10_snp2)
-recq4l_chr11_snp2<-na.omit(recq4l_chr11_snp2)
-recq4l_chr12_snp2<-na.omit(recq4l_chr12_snp2)
+fill_NA<-function(SNP){
+  for(i in 1:nrow(SNP)){
+    if(is.na(SNP$rate[i])){
+      SNP$rate[i]<-SNP$rate[i-1]
+    }
+  }
+  print(SNP)
+}
+recq4l_chr1_snp2<-fill_NA(recq4l_chr1_snp2)
+recq4l_chr2_snp2<-fill_NA(recq4l_chr2_snp2)
+recq4l_chr3_snp2<-fill_NA(recq4l_chr3_snp2)
+recq4l_chr4_snp2<-fill_NA(recq4l_chr4_snp2)
+recq4l_chr5_snp2<-fill_NA(recq4l_chr5_snp2)
+recq4l_chr6_snp2<-fill_NA(recq4l_chr6_snp2)
+recq4l_chr7_snp2<-fill_NA(recq4l_chr7_snp2)
+recq4l_chr8_snp2<-fill_NA(recq4l_chr8_snp2)
+recq4l_chr9_snp2<-fill_NA(recq4l_chr9_snp2)
+recq4l_chr10_snp2<-fill_NA(recq4l_chr10_snp2)
+recq4l_chr11_snp2<-fill_NA(recq4l_chr11_snp2)
+recq4l_chr12_snp2<-fill_NA(recq4l_chr12_snp2)
 
 
 #gen maps
@@ -727,10 +735,10 @@ recq4l_chr5len <- length(recq4l_chr5)
 dim(recq4l_chr5) <- c(recq4l_chr5len,1)
 recq4l_chr5 <- list(recq4l_chr5)
 
-recq4l_chr5 <- recq4l_chr5_finalpos$pos/100
-recq4l_chr5len <- length(recq4l_chr5)
-dim(recq4l_chr5) <- c(recq4l_chr5len,1)
-recq4l_chr5 <- list(recq4l_chr5)
+recq4l_chr6 <- recq4l_chr6_finalpos$pos/100
+recq4l_chr6len <- length(recq4l_chr6)
+dim(recq4l_chr6) <- c(recq4l_chr6len,1)
+recq4l_chr6 <- list(recq4l_chr6)
 
 recq4l_chr7 <- recq4l_chr7_finalpos$pos/100
 recq4l_chr7len <- length(recq4l_chr7)
@@ -763,9 +771,9 @@ dim(recq4l_chr12) <- c(recq4l_chr12len,1)
 recq4l_chr12 <- list(recq4l_chr12)
 
 recq4l_final_map <- list(recq4l_chr1[[1]], recq4l_chr2[[1]], 
-                           recq4l_chr3[[1]], recq4l_chr4[[1]], recq4l_chr5[[1]], 
-                           recq4l_chr5[[1]], recq4l_chr7[[1]], recq4l_chr8[[1]], 
-                           recq4l_chr9[[1]], recq4l_chr10[[1]],recq4l_chr11[[1]], recq4l_chr12[[1]])
+                       recq4l_chr3[[1]], recq4l_chr4[[1]], recq4l_chr5[[1]], 
+                       recq4l_chr6[[1]], recq4l_chr7[[1]], recq4l_chr8[[1]], 
+                       recq4l_chr9[[1]], recq4l_chr10[[1]],recq4l_chr11[[1]], recq4l_chr12[[1]])
 
 #actual positions:http://rice.uga.edu/annotation_pseudo_centromeres.shtml
 # 1- 16.7
@@ -781,9 +789,45 @@ recq4l_final_map <- list(recq4l_chr1[[1]], recq4l_chr2[[1]],
 # 11- 12
 # 12- 11.9
 
-recq4l_centromere <- c(0.3100890, 3.81623774, 0.457891882,0.21452355,1.05074478,
-                       2.9987313, 0.14337907,0.1459114,0.8811805,1.4236994,
-                       0.051867636, .5859670)
+find_centromere<-function(centromere,finalpos){
+  row.names(finalpos) <- NULL
+  index<- finalpos[which.min(abs(centromere-finalpos$`SNP Start`)),]
+  row<-as.integer(rownames(index))
+  print(finalpos$pos[row])
+}
+c1 <-find_centromere(16.7,recq4l_chr1_finalpos)
+c2 <-find_centromere(13.6,recq4l_chr2_finalpos)
+c3 <-find_centromere(19.4,recq4l_chr3_finalpos)
+c4 <-find_centromere(9.7,recq4l_chr4_finalpos)
+c5 <-find_centromere(12.4,recq4l_chr5_finalpos)
+c6 <-find_centromere(15.3,recq4l_chr6_finalpos)
+c7 <-find_centromere(12.1,recq4l_chr7_finalpos)
+c8 <-find_centromere(12.9,recq4l_chr8_finalpos)
+c9 <-find_centromere(2.8,recq4l_chr9_finalpos)
+c10 <-find_centromere(8.2,recq4l_chr10_finalpos)
+c11 <-find_centromere(12,recq4l_chr11_finalpos)
+c12 <-find_centromere(11.9,recq4l_chr12_finalpos)
+
+recq4l_centromere <- c(c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12)
 recq4l_centromere <- recq4l_centromere/100
+
+saveRDS(recq4l_final_map, file="recq4l_final_map.RData")
+saveRDS(recq4l_centromere, file="recq4l_centromeres.RData")
+
+saveRDS(recq4l_chr1_finalpos, file="recq4l_chr1_finalpos.RData")
+saveRDS(recq4l_chr2_finalpos, file="recq4l_chr2_finalpos.RData")
+saveRDS(recq4l_chr3_finalpos, file="recq4l_chr3_finalpos.RData")
+saveRDS(recq4l_chr4_finalpos, file="recq4l_chr4_finalpos.RData")
+saveRDS(recq4l_chr5_finalpos, file="recq4l_chr5_finalpos.RData")
+saveRDS(recq4l_chr6_finalpos, file="recq4l_chr6_finalpos.RData")
+saveRDS(recq4l_chr7_finalpos, file="recq4l_chr7_finalpos.RData")
+saveRDS(recq4l_chr8_finalpos, file="recq4l_chr8_finalpos.RData")
+saveRDS(recq4l_chr9_finalpos, file="recq4l_chr9_finalpos.RData")
+saveRDS(recq4l_chr10_finalpos, file="recq4l_chr10_finalpos.RData")
+saveRDS(recq4l_chr11_finalpos, file="recq4l_chr11_finalpos.RData")
+saveRDS(recq4l_chr12_finalpos, file="recq4l_chr12_finalpos.RData")
+
+recq4l_nSNP<-c(nrow(recq4l_chr1_finalpos),nrow(recq4l_chr2_finalpos),nrow(recq4l_chr3_finalpos),nrow(recq4l_chr4_finalpos),nrow(recq4l_chr5_finalpos),nrow(recq4l_chr6_finalpos),nrow(recq4l_chr7_finalpos),nrow(recq4l_chr8_finalpos),nrow(recq4l_chr9_finalpos),nrow(recq4l_chr10_finalpos),nrow(recq4l_chr11_finalpos),nrow(recq4l_chr12_finalpos))
+saveRDS(recq4l_nSNP, file="recq4l_num_SNP.RData")
 
 
