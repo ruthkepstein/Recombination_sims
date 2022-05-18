@@ -606,129 +606,140 @@ graph_recomb <- function(SNP){
   print(SNP$pos2)
 }
 
-jap_chr1_spl <- smooth.spline(jap_chr1_snp3$rate, spar = 0)
+jap_chr1_spl <- smooth.spline(jap_chr1_snp3$rate, spar=0.1)
 jap_chr1_snp3$pos <- gen_pos(jap_chr1_snp3)
-plot(jap_chr1_snp3$`SNP Start`, jap_chr1_snp3$rate, type = "l")
+plot(jap_chr1_snp3$`SNP Start`, jap_chr1_snp3$pos, type = "l")
 ggplot(jap_chr1_snp3, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
+plot(jap_chr1_snp3$`SNP Start`, jap_chr1_snp3$pos/jap_chr1_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica jap Chromosome 1 Recombination Distribution")
 jap_chr1_finalpos <- jap_chr1_snp3[order(jap_chr1_snp3$pos),]
 is.unsorted(jap_chr1_finalpos$pos)
-rates <-graph_recomb(jap_chr1_snp3)
-plot(jap_chr1_snp3$`SNP Start`, rates, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Recombination rate (cM/Mb)", main = "Chromosome 1 Recombination Distribution")
 plot(jap_chr1_snp3$`SNP Start`, jap_chr1_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Genetic Position (cM)", main = "Japonica Chromosome 1 Genetic Map")
+     ylab = "Genetic Position (cM)", main = "Japonica jap Chromosome 1 Genetic Map")
 plot(jap_chr1_finalpos$`SNP Start`, jap_chr1_finalpos$pos)
-
+saveRDS(jap_chr1_finalpos,"chr1_snp2jap.RData")
 
 jap_chr2_spl <- smooth.spline(jap_chr2_snp3$rate, spar = 0.1)
 jap_chr2_snp3$pos <- gen_pos(jap_chr2_snp3)
 plot(jap_chr2_snp3$`SNP Start`, jap_chr2_snp3$pos)
 plot(jap_chr2_snp3$`SNP Start`, jap_chr2_snp3$pos/jap_chr2_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 2 Recombination Distribution")
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica jap Chromosome 2 Recombination Distribution")
 jap_chr2_finalpos <- jap_chr2_snp3[order(jap_chr2_snp3$pos),]
 is.unsorted(jap_chr2_finalpos$pos)
 plot(jap_chr2_snp3$`SNP Start`, jap_chr2_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Genetic Position (cM)", main = "Japonica Chromosome 2 Genetic Map")
+     ylab = "Genetic Position (cM)", main = "Japonica jap Chromosome 2 Genetic Map")
+saveRDS(jap_chr2_finalpos,"chr2_snp2jap.RData")
 
-jap_chr3_spl <- smooth.spline(jap_chr3_snp3$rate, spar = 0)
+jap_chr3_spl <- smooth.spline(jap_chr3_snp3$rate, spar =.1)
 jap_chr3_snp3$pos <- gen_pos(jap_chr3_snp3)
-plot(jap_chr3_snp3$`SNP Start`, jap_chr3_snp3$pos)
+plot(jap_chr3_snp3$`SNP Start`, jap_chr3_snp3$pos, type = "l")
 plot(jap_chr3_snp3$`SNP Start`, jap_chr3_snp3$pos/jap_chr3_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 3 Recombination Distribution")
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica jap Chromosome 3 Recombination Distribution")
 jap_chr3_finalpos <- jap_chr3_snp3[order(jap_chr3_snp3$pos),]
 is.unsorted(jap_chr3_finalpos$pos)
+#jap_chr3_finalpos$pos <- jap_chr3_finalpos$pos + abs(min(jap_chr3_finalpos$pos))
 plot(jap_chr3_snp3$`SNP Start`, jap_chr3_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Genetic Position (cM)", main = "Japonica Chromosome 3 Genetic Map")
+     ylab = "Genetic Position (cM)", main = "Japonica jap Chromosome 3 Genetic Map")
+saveRDS(jap_chr3_finalpos,"chr3_snp2jap.RData")
 
-jap_chr4_spl <- smooth.spline(jap_chr4_snp3$rate, spar = 0)
+jap_chr4_spl <- smooth.spline(jap_chr4_snp3$rate, spar =.1)
 jap_chr4_snp3$pos <- gen_pos(jap_chr4_snp3)
 plot(jap_chr4_snp3$`SNP Start`, jap_chr4_snp3$pos)
 plot(jap_chr4_snp3$`SNP Start`, jap_chr4_snp3$pos/jap_chr4_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 4 Recombination Distribution")
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica jap Chromosome 4 Recombination Distribution")
 jap_chr4_finalpos <- jap_chr4_snp3[order(jap_chr4_snp3$pos),]
 is.unsorted(jap_chr4_finalpos$pos)
 plot(jap_chr4_snp3$`SNP Start`, jap_chr4_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Genetic Position (cM)", main = "Japonica Chromosome 4 Genetic Map")
+     ylab = "Genetic Position (cM)", main = "Japonica jap Chromosome 4 Genetic Map")
+saveRDS(jap_chr4_finalpos,"chr4_snp2jap.RData")
 
-jap_chr5_spl <- smooth.spline(jap_chr5_snp3$rate, spar =0)
+jap_chr5_spl <- smooth.spline(jap_chr5_snp3$rate, spar =.1)
 jap_chr5_snp3$pos <- gen_pos(jap_chr5_snp3)
 plot(jap_chr5_snp3$`SNP Start`, jap_chr5_snp3$pos)
 plot(jap_chr5_snp3$`SNP Start`, jap_chr5_snp3$pos/jap_chr5_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 5 Recombination Distribution")
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica jap Chromosome 5 Recombination Distribution")
 jap_chr5_finalpos <- jap_chr5_snp3[order(jap_chr5_snp3$pos),]
 is.unsorted(jap_chr5_finalpos$pos)
 plot(jap_chr5_snp3$`SNP Start`, jap_chr5_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Genetic Position (cM)", main = "Japonica Chromosome 5 Genetic Map")
+     ylab = "Genetic Position (cM)", main = "Japonica jap Chromosome 5 Genetic Map")
+saveRDS(jap_chr5_finalpos,"chr5_snp2jap.RData")
 
-jap_chr6_spl <- smooth.spline(jap_chr6_snp3$rate, spar =0)
+jap_chr6_spl <- smooth.spline(jap_chr6_snp3$rate, spar = .1)
 jap_chr6_snp3$pos <- gen_pos(jap_chr6_snp3)
 plot(jap_chr6_snp3$`SNP Start`, jap_chr6_snp3$pos)
 plot(jap_chr6_snp3$`SNP Start`, jap_chr6_snp3$pos/jap_chr6_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 6 Recombination Distribution")
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica jap Chromosome 6 Recombination Distribution")
 jap_chr6_finalpos <- jap_chr6_snp3[order(jap_chr6_snp3$pos),]
 is.unsorted(jap_chr6_finalpos$pos)
 plot(jap_chr6_snp3$`SNP Start`, jap_chr6_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Genetic Position (cM)", main = "Japonica Chromosome 6 Genetic Map")
+     ylab = "Genetic Position (cM)", main = "Japonica jap Chromosome 6 Genetic Map")
+saveRDS(jap_chr6_finalpos,"chr6_snp2jap.RData")
 
-jap_chr7_spl <- smooth.spline(jap_chr7_snp3$rate, spar = 0)
+jap_chr7_spl <- smooth.spline(jap_chr7_snp3$rate, spar = .1)
 jap_chr7_snp3$pos <- gen_pos(jap_chr7_snp3)
 plot(jap_chr7_snp3$`SNP Start`, jap_chr7_snp3$pos)
 plot(jap_chr7_snp3$`SNP Start`, jap_chr7_snp3$pos/jap_chr7_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 7 Recombination Distribution")
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica jap Chromosome 7 Recombination Distribution")
 jap_chr7_finalpos <- jap_chr7_snp3[order(jap_chr7_snp3$pos),]
 is.unsorted(jap_chr7_finalpos$pos)
 plot(jap_chr7_snp3$`SNP Start`, jap_chr7_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Genetic Position (cM)", main = "Japonica Chromosome 7 Genetic Map")
+     ylab = "Genetic Position (cM)", main = "Japonica jap Chromosome 7 Genetic Map")
+saveRDS(jap_chr7_finalpos,"chr7_snp2jap.RData")
 
-jap_chr8_spl <- smooth.spline(jap_chr8_snp3$rate, spar = 0)
+jap_chr8_spl <- smooth.spline(jap_chr8_snp3$rate, spar = .1)
 jap_chr8_snp3$pos <- gen_pos(jap_chr8_snp3)
 plot(jap_chr8_snp3$`SNP Start`, jap_chr8_snp3$pos)
 plot(jap_chr8_snp3$`SNP Start`, jap_chr8_snp3$pos/jap_chr8_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 8 Recombination Distribution")
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica jap Chromosome 8 Recombination Distribution")
 jap_chr8_finalpos <- jap_chr8_snp3[order(jap_chr8_snp3$pos),]
 is.unsorted(jap_chr8_finalpos$pos)
 plot(jap_chr8_snp3$`SNP Start`, jap_chr8_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Genetic Position (cM)", main = "Japonica Chromosome 8 Genetic Map")
+     ylab = "Genetic Position (cM)", main = "Japonica jap Chromosome 8 Genetic Map")
+saveRDS(jap_chr8_finalpos,"chr8_snp2jap.RData")
 
-jap_chr9_spl <- smooth.spline(jap_chr9_snp3$rate, spar = 0)
+jap_chr9_spl <- smooth.spline(jap_chr9_snp3$rate, spar = .1)
 jap_chr9_snp3$pos <- gen_pos(jap_chr9_snp3)
 plot(jap_chr9_snp3$`SNP Start`, jap_chr9_snp3$pos)
 plot(jap_chr9_snp3$`SNP Start`, jap_chr9_snp3$pos/jap_chr9_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 9 Recombination Distribution")
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica jap Chromosome 9 Recombination Distribution")
 jap_chr9_finalpos <- jap_chr9_snp3[order(jap_chr9_snp3$pos),]
 is.unsorted(jap_chr9_finalpos$pos)
 plot(jap_chr9_snp3$`SNP Start`, jap_chr9_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Genetic Position (cM)", main = "Japonica Chromosome 9 Genetic Map")
+     ylab = "Genetic Position (cM)", main = "Japonica jap Chromosome 9 Genetic Map")
+saveRDS(jap_chr9_finalpos,"chr9_snp2jap.RData")
 
-jap_chr10_spl <- smooth.spline(jap_chr10_snp3$rate, spar =0)
+jap_chr10_spl <- smooth.spline(jap_chr10_snp3$rate, spar =.1)
 jap_chr10_snp3$pos <- gen_pos(jap_chr10_snp3)
 plot(jap_chr10_snp3$`SNP Start`, jap_chr10_snp3$pos)
 plot(jap_chr10_snp3$`SNP Start`, jap_chr10_snp3$pos/jap_chr10_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 10 Recombination Distribution")
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica jap Chromosome 10 Recombination Distribution")
 jap_chr10_finalpos <- jap_chr10_snp3[order(jap_chr10_snp3$pos),]
 is.unsorted(jap_chr10_finalpos$pos)
 plot(jap_chr10_snp3$`SNP Start`, jap_chr10_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Genetic Position (cM)", main = "Japonica Chromosome 10 Genetic Map")
+     ylab = "Genetic Position (cM)", main = "Japonica jap Chromosome 10 Genetic Map")
+saveRDS(jap_chr10_finalpos,"chr10_snp2jap.RData")
 
-jap_chr11_spl <- smooth.spline(jap_chr11_snp3$rate, spar = 0)
+jap_chr11_spl <- smooth.spline(jap_chr11_snp3$rate, spar = .1)
 jap_chr11_snp3$pos <- gen_pos(jap_chr11_snp3)
 plot(jap_chr11_snp3$`SNP Start`, jap_chr11_snp3$pos)
 plot(jap_chr11_snp3$`SNP Start`, jap_chr11_snp3$pos/jap_chr11_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 11 Recombination Distribution")
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica jap Chromosome 11 Recombination Distribution")
 jap_chr11_finalpos <- jap_chr11_snp3[order(jap_chr11_snp3$pos),]
 is.unsorted(jap_chr11_finalpos$pos)
 plot(jap_chr11_snp3$`SNP Start`, jap_chr11_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Genetic Position (cM)", main = "Japonica Chromosome 11 Genetic Map")
+     ylab = "Genetic Position (cM)", main = "Japonica jap Chromosome 11 Genetic Map")
+saveRDS(jap_chr11_finalpos,"chr11_snp2jap.RData")
 
-jap_chr12_spl <- smooth.spline(jap_chr12_snp3$rate, spar = 0)
+jap_chr12_spl <- smooth.spline(jap_chr12_snp3$rate, spar = .1)
 jap_chr12_snp3$pos <- gen_pos(jap_chr12_snp3)
 plot(jap_chr12_snp3$`SNP Start`, jap_chr12_snp3$pos)
 plot(jap_chr12_snp3$`SNP Start`, jap_chr12_snp3$pos/jap_chr12_snp3$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Recombination rate (cM/Mb)", main = "Japonica Chromosome 12 Recombination Distribution")
+     ylab = "Recombination rate (cM/Mb)", main = "Japonica jap Chromosome 12 Recombination Distribution")
 jap_chr12_finalpos <- jap_chr12_snp3[order(jap_chr12_snp3$pos),]
 is.unsorted(jap_chr12_finalpos$pos)
 plot(jap_chr12_snp3$`SNP Start`, jap_chr12_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
-     ylab = "Genetic Position (cM)", main = "Japonica Chromosome 12 Genetic Map")
+     ylab = "Genetic Position (cM)", main = "Japonica jap Chromosome 12 Genetic Map")
+saveRDS(jap_chr12_finalpos,"chr12_snp2jap.RData")
 
 ##INDICA 
 #assign recomb rates

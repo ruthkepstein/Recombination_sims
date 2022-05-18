@@ -501,9 +501,9 @@ graph_recomb <- function(SNP){
 }
 
 
-ideal1_chr1_spl <- smooth.spline(ideal1_chr1_snp2$rate, spar = .1)
-ideal1_chr1_snp2$pos <-gen_pos(ideal1_chr1_snp2)
-plot(ideal1_chr1_snp2$`SNP Start`, ideal1_chr1_snp2$pos)
+ideal1_chr1_spl <- smooth.spline(ideal1_chr1_snp2$rate, spar=0.1)
+ideal1_chr1_snp2$pos <- gen_pos(ideal1_chr1_snp2)
+plot(ideal1_chr1_snp2$`SNP Start`, ideal1_chr1_snp2$pos, type = "l")
 ggplot(ideal1_chr1_snp2, aes(`SNP Start`,pos)) + geom_point() + geom_smooth()
 plot(ideal1_chr1_snp2$`SNP Start`, ideal1_chr1_snp2$pos/ideal1_chr1_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ideal1 Chromosome 1 Recombination Distribution")
@@ -512,10 +512,10 @@ is.unsorted(ideal1_chr1_finalpos$pos)
 plot(ideal1_chr1_snp2$`SNP Start`, ideal1_chr1_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ideal1 Chromosome 1 Genetic Map")
 plot(ideal1_chr1_finalpos$`SNP Start`, ideal1_chr1_finalpos$pos)
+saveRDS(ideal1_chr1_finalpos,"chr1_snp2ideal1.RData")
 
-
-ideal1_chr2_spl <- smooth.spline(ideal1_chr2_snp2$rate, spar = .1)
-ideal1_chr2_snp2$pos <-gen_pos(ideal1_chr2_snp2)
+ideal1_chr2_spl <- smooth.spline(ideal1_chr2_snp2$rate, spar = 0.1)
+ideal1_chr2_snp2$pos <- gen_pos(ideal1_chr2_snp2)
 plot(ideal1_chr2_snp2$`SNP Start`, ideal1_chr2_snp2$pos)
 plot(ideal1_chr2_snp2$`SNP Start`, ideal1_chr2_snp2$pos/ideal1_chr2_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ideal1 Chromosome 2 Recombination Distribution")
@@ -523,19 +523,22 @@ ideal1_chr2_finalpos <- ideal1_chr2_snp2[order(ideal1_chr2_snp2$pos),]
 is.unsorted(ideal1_chr2_finalpos$pos)
 plot(ideal1_chr2_snp2$`SNP Start`, ideal1_chr2_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ideal1 Chromosome 2 Genetic Map")
+saveRDS(ideal1_chr2_finalpos,"chr2_snp2ideal1.RData")
 
-ideal1_chr3_spl <- smooth.spline(ideal1_chr3_snp2$rate, spar = .1)
-ideal1_chr3_snp2$pos <-gen_pos(ideal1_chr3_snp2)
-plot(ideal1_chr3_snp2$`SNP Start`, ideal1_chr3_snp2$pos)
+ideal1_chr3_spl <- smooth.spline(ideal1_chr3_snp2$rate, spar =.1)
+ideal1_chr3_snp2$pos <- gen_pos(ideal1_chr3_snp2)
+plot(ideal1_chr3_snp2$`SNP Start`, ideal1_chr3_snp2$pos, type = "l")
 plot(ideal1_chr3_snp2$`SNP Start`, ideal1_chr3_snp2$pos/ideal1_chr3_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ideal1 Chromosome 3 Recombination Distribution")
 ideal1_chr3_finalpos <- ideal1_chr3_snp2[order(ideal1_chr3_snp2$pos),]
 is.unsorted(ideal1_chr3_finalpos$pos)
+#ideal1_chr3_finalpos$pos <- ideal1_chr3_finalpos$pos + abs(min(ideal1_chr3_finalpos$pos))
 plot(ideal1_chr3_snp2$`SNP Start`, ideal1_chr3_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ideal1 Chromosome 3 Genetic Map")
+saveRDS(ideal1_chr3_finalpos,"chr3_snp2ideal1.RData")
 
-ideal1_chr4_spl <- smooth.spline(ideal1_chr4_snp2$rate, spar = .1)
-ideal1_chr4_snp2$pos <-gen_pos(ideal1_chr4_snp2)
+ideal1_chr4_spl <- smooth.spline(ideal1_chr4_snp2$rate, spar =.1)
+ideal1_chr4_snp2$pos <- gen_pos(ideal1_chr4_snp2)
 plot(ideal1_chr4_snp2$`SNP Start`, ideal1_chr4_snp2$pos)
 plot(ideal1_chr4_snp2$`SNP Start`, ideal1_chr4_snp2$pos/ideal1_chr4_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ideal1 Chromosome 4 Recombination Distribution")
@@ -543,9 +546,10 @@ ideal1_chr4_finalpos <- ideal1_chr4_snp2[order(ideal1_chr4_snp2$pos),]
 is.unsorted(ideal1_chr4_finalpos$pos)
 plot(ideal1_chr4_snp2$`SNP Start`, ideal1_chr4_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ideal1 Chromosome 4 Genetic Map")
+saveRDS(ideal1_chr4_finalpos,"chr4_snp2ideal1.RData")
 
 ideal1_chr5_spl <- smooth.spline(ideal1_chr5_snp2$rate, spar =.1)
-ideal1_chr5_snp2$pos <-gen_pos(ideal1_chr5_snp2)
+ideal1_chr5_snp2$pos <- gen_pos(ideal1_chr5_snp2)
 plot(ideal1_chr5_snp2$`SNP Start`, ideal1_chr5_snp2$pos)
 plot(ideal1_chr5_snp2$`SNP Start`, ideal1_chr5_snp2$pos/ideal1_chr5_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ideal1 Chromosome 5 Recombination Distribution")
@@ -553,9 +557,10 @@ ideal1_chr5_finalpos <- ideal1_chr5_snp2[order(ideal1_chr5_snp2$pos),]
 is.unsorted(ideal1_chr5_finalpos$pos)
 plot(ideal1_chr5_snp2$`SNP Start`, ideal1_chr5_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ideal1 Chromosome 5 Genetic Map")
+saveRDS(ideal1_chr5_finalpos,"chr5_snp2ideal1.RData")
 
 ideal1_chr6_spl <- smooth.spline(ideal1_chr6_snp2$rate, spar = .1)
-ideal1_chr6_snp2$pos <-gen_pos(ideal1_chr6_snp2)
+ideal1_chr6_snp2$pos <- gen_pos(ideal1_chr6_snp2)
 plot(ideal1_chr6_snp2$`SNP Start`, ideal1_chr6_snp2$pos)
 plot(ideal1_chr6_snp2$`SNP Start`, ideal1_chr6_snp2$pos/ideal1_chr6_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ideal1 Chromosome 6 Recombination Distribution")
@@ -563,9 +568,10 @@ ideal1_chr6_finalpos <- ideal1_chr6_snp2[order(ideal1_chr6_snp2$pos),]
 is.unsorted(ideal1_chr6_finalpos$pos)
 plot(ideal1_chr6_snp2$`SNP Start`, ideal1_chr6_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ideal1 Chromosome 6 Genetic Map")
+saveRDS(ideal1_chr6_finalpos,"chr6_snp2ideal1.RData")
 
 ideal1_chr7_spl <- smooth.spline(ideal1_chr7_snp2$rate, spar = .1)
-ideal1_chr7_snp2$pos <-gen_pos(ideal1_chr7_snp2)
+ideal1_chr7_snp2$pos <- gen_pos(ideal1_chr7_snp2)
 plot(ideal1_chr7_snp2$`SNP Start`, ideal1_chr7_snp2$pos)
 plot(ideal1_chr7_snp2$`SNP Start`, ideal1_chr7_snp2$pos/ideal1_chr7_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ideal1 Chromosome 7 Recombination Distribution")
@@ -573,9 +579,10 @@ ideal1_chr7_finalpos <- ideal1_chr7_snp2[order(ideal1_chr7_snp2$pos),]
 is.unsorted(ideal1_chr7_finalpos$pos)
 plot(ideal1_chr7_snp2$`SNP Start`, ideal1_chr7_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ideal1 Chromosome 7 Genetic Map")
+saveRDS(ideal1_chr7_finalpos,"chr7_snp2ideal1.RData")
 
 ideal1_chr8_spl <- smooth.spline(ideal1_chr8_snp2$rate, spar = .1)
-ideal1_chr8_snp2$pos <-gen_pos(ideal1_chr8_snp2)
+ideal1_chr8_snp2$pos <- gen_pos(ideal1_chr8_snp2)
 plot(ideal1_chr8_snp2$`SNP Start`, ideal1_chr8_snp2$pos)
 plot(ideal1_chr8_snp2$`SNP Start`, ideal1_chr8_snp2$pos/ideal1_chr8_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ideal1 Chromosome 8 Recombination Distribution")
@@ -583,9 +590,10 @@ ideal1_chr8_finalpos <- ideal1_chr8_snp2[order(ideal1_chr8_snp2$pos),]
 is.unsorted(ideal1_chr8_finalpos$pos)
 plot(ideal1_chr8_snp2$`SNP Start`, ideal1_chr8_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ideal1 Chromosome 8 Genetic Map")
+saveRDS(ideal1_chr8_finalpos,"chr8_snp2ideal1.RData")
 
 ideal1_chr9_spl <- smooth.spline(ideal1_chr9_snp2$rate, spar = .1)
-ideal1_chr9_snp2$pos <-gen_pos(ideal1_chr9_snp2)
+ideal1_chr9_snp2$pos <- gen_pos(ideal1_chr9_snp2)
 plot(ideal1_chr9_snp2$`SNP Start`, ideal1_chr9_snp2$pos)
 plot(ideal1_chr9_snp2$`SNP Start`, ideal1_chr9_snp2$pos/ideal1_chr9_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ideal1 Chromosome 9 Recombination Distribution")
@@ -593,9 +601,10 @@ ideal1_chr9_finalpos <- ideal1_chr9_snp2[order(ideal1_chr9_snp2$pos),]
 is.unsorted(ideal1_chr9_finalpos$pos)
 plot(ideal1_chr9_snp2$`SNP Start`, ideal1_chr9_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ideal1 Chromosome 9 Genetic Map")
+saveRDS(ideal1_chr9_finalpos,"chr9_snp2ideal1.RData")
 
 ideal1_chr10_spl <- smooth.spline(ideal1_chr10_snp2$rate, spar =.1)
-ideal1_chr10_snp2$pos <-gen_pos(ideal1_chr10_snp2)
+ideal1_chr10_snp2$pos <- gen_pos(ideal1_chr10_snp2)
 plot(ideal1_chr10_snp2$`SNP Start`, ideal1_chr10_snp2$pos)
 plot(ideal1_chr10_snp2$`SNP Start`, ideal1_chr10_snp2$pos/ideal1_chr10_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ideal1 Chromosome 10 Recombination Distribution")
@@ -603,9 +612,10 @@ ideal1_chr10_finalpos <- ideal1_chr10_snp2[order(ideal1_chr10_snp2$pos),]
 is.unsorted(ideal1_chr10_finalpos$pos)
 plot(ideal1_chr10_snp2$`SNP Start`, ideal1_chr10_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ideal1 Chromosome 10 Genetic Map")
+saveRDS(ideal1_chr10_finalpos,"chr10_snp2ideal1.RData")
 
 ideal1_chr11_spl <- smooth.spline(ideal1_chr11_snp2$rate, spar = .1)
-ideal1_chr11_snp2$pos <-gen_pos(ideal1_chr11_snp2)
+ideal1_chr11_snp2$pos <- gen_pos(ideal1_chr11_snp2)
 plot(ideal1_chr11_snp2$`SNP Start`, ideal1_chr11_snp2$pos)
 plot(ideal1_chr11_snp2$`SNP Start`, ideal1_chr11_snp2$pos/ideal1_chr11_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ideal1 Chromosome 11 Recombination Distribution")
@@ -613,9 +623,10 @@ ideal1_chr11_finalpos <- ideal1_chr11_snp2[order(ideal1_chr11_snp2$pos),]
 is.unsorted(ideal1_chr11_finalpos$pos)
 plot(ideal1_chr11_snp2$`SNP Start`, ideal1_chr11_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ideal1 Chromosome 11 Genetic Map")
+saveRDS(ideal1_chr11_finalpos,"chr11_snp2ideal1.RData")
 
-ideal1_chr12_spl <- smooth.spline(ideal1_chr12_snp2$rate, spar = 0.1)
-ideal1_chr12_snp2$pos <-gen_pos(ideal1_chr12_snp2)
+ideal1_chr12_spl <- smooth.spline(ideal1_chr12_snp2$rate, spar = .1)
+ideal1_chr12_snp2$pos <- gen_pos(ideal1_chr12_snp2)
 plot(ideal1_chr12_snp2$`SNP Start`, ideal1_chr12_snp2$pos)
 plot(ideal1_chr12_snp2$`SNP Start`, ideal1_chr12_snp2$pos/ideal1_chr12_snp2$`SNP Start`, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Recombination rate (cM/Mb)", main = "Japonica ideal1 Chromosome 12 Recombination Distribution")
@@ -623,6 +634,8 @@ ideal1_chr12_finalpos <- ideal1_chr12_snp2[order(ideal1_chr12_snp2$pos),]
 is.unsorted(ideal1_chr12_finalpos$pos)
 plot(ideal1_chr12_snp2$`SNP Start`, ideal1_chr12_finalpos$pos, type = "l", xlab = "Physical Positions (Mb)",
      ylab = "Genetic Position (cM)", main = "Japonica ideal1 Chromosome 12 Genetic Map")
+saveRDS(ideal1_chr12_finalpos,"chr12_snp2ideal1.RData")
+
 
 #Final genetic map
 ideal1_chr1 <- ideal1_chr1_finalpos$pos/100

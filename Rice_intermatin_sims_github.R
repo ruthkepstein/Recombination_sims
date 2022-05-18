@@ -16,6 +16,14 @@ recq4_centromere <-readRDS("recq4l_centromeres.RData")
 ideal1_centromere <-readRDS("ideal1_centromeres.RData")
 ideal2_centromere <-readRDS("ideal2_centromeres.RData")
 
+wt_nSNP<-readRDS("japonica_num_SNP.RData")
+ddm1_nSNP<-readRDS("ddm1_num_SNP.RData")
+zmet2_nSNP<-readRDS("zmet2_num_SNP.RData")
+fancm_nSNP<-readRDS("fancm_num_SNP.RData")
+recq4l_nSNP<-readRDS("recq4l_num_SNP.RData")
+ideal1_nSNP<-readRDS("ideal1_num_SNP.RData")
+ideal2_nSNP<-readRDS("ideal2_num_SNP.RData")
+
 snp_pos<-function(lociPositions,finalpos){
   snps <-c()
   row.names(finalpos) <- NULL
@@ -34,6 +42,7 @@ chr1_finalPos<-readRDS("jap_chr1_finalpos.RData")
 chr1_lociPositions2<-snp_pos(chr1_lociPositions,chr1_finalPos)
 chr1_lociPositions2 <- chr1_lociPositions2[!duplicated(chr1_lociPositions2)]
 chr1_lociPositions2 <- chr1_lociPositions2[c(1:40)]
+
 
 chr2_lociPos<-readRDS(file="chr2_locipos")
 chr2_geneProb<-readRDS(file="chr2_geneProb")
@@ -240,8 +249,7 @@ for(i in 1:100){
   SP$switchGenMap(final_map, centromere = real_centromere)
   wtvar1[i,] <- genicVarA(burn_in_pop)
   
-  #pop_good1 <- randCross(pop_good, nCrosses=10, nProgeny=10, simParam = SP)
-  pop_good1 <-randCross(pop_good, nCrosses=10, nProgeny=10, simParam = SP)
+  pop_good1 <-randCross(burn_in_pop, nCrosses=10, nProgeny=10, simParam = SP)
   #pop_good1 <- self(burn_in_pop, nProgeny=20, keepParents=FALSE, simParam = SP)
   pop_good1 <- setPheno(pop_good1, h2 = 0.8, simParam = SP)
   wtvar2[i,] <- genicVarA(pop_good1)
@@ -374,7 +382,8 @@ for(i in 1:100){
   SP$switchGenMap(ddm1_map, centromere = ddm1_centromere)
   ddm1var1[i,] <- genicVarA(burn_in_pop)
 
-  pop_good1 <- self(burn_in_pop, keepParents=FALSE, nProgeny=20, simParam = SP)
+  pop_good1 <-randCross(burn_in_pop, nCrosses=10, nProgeny=10, simParam = SP)
+  #pop_good1 <- self(burn_in_pop, keepParents=FALSE, nProgeny=20, simParam = SP)
   pop_good1 <- setPheno(pop_good1, h2 = 0.8, simParam = SP)
   ddm1var2[i,] <- genicVarA(pop_good1)
   
@@ -506,7 +515,8 @@ for(i in 1:100){
   SP$switchGenMap(zmet2_map, centromere = zmet2_centromere)
   zmet2var1[i,] <- genicVarA(burn_in_pop)
   
-  pop_good1 <- self(burn_in_pop, keepParents=FALSE, nProgeny=20, simParam = SP)
+  pop_good1 <-randCross(burn_in_pop, nCrosses=10, nProgeny=10, simParam = SP)
+  #pop_good1 <- self(burn_in_pop, keepParents=FALSE, nProgeny=20, simParam = SP)
   pop_good1 <- setPheno(pop_good1, h2 = 0.8, simParam = SP)
   zmet2var2[i,] <- genicVarA(pop_good1)
   
@@ -638,7 +648,8 @@ for(i in 1:100){
   SP$switchGenMap(recq4_map, centromere = recq4_centromere)
   recq4var1[i,] <- genicVarA(burn_in_pop)
   
-  pop_good1 <- self(burn_in_pop, keepParents=FALSE, nProgeny=20, simParam = SP)
+  pop_good1 <-randCross(burn_in_pop, nCrosses=10, nProgeny=10, simParam = SP)
+  #pop_good1 <- self(burn_in_pop, keepParents=FALSE, nProgeny=20, simParam = SP)
   pop_good1 <- setPheno(pop_good1, h2 = 0.8, simParam = SP)
   recq4var2[i,] <- genicVarA(pop_good1)
   
@@ -770,7 +781,8 @@ for(i in 1:100){
   SP$switchGenMap(fancm_map, centromere = fancm_centromere)
   fancmvar1[i,] <- genicVarA(burn_in_pop)
   
-  pop_good1 <- self(burn_in_pop, keepParents=FALSE, nProgeny=20, simParam = SP)
+  pop_good1 <-randCross(burn_in_pop, nCrosses=10, nProgeny=10, simParam = SP)
+  #pop_good1 <- self(burn_in_pop, keepParents=FALSE, nProgeny=20, simParam = SP)
   pop_good1 <- setPheno(pop_good1, h2 = 0.8, simParam = SP)
   fancmvar2[i,] <- genicVarA(pop_good1)
   
@@ -903,7 +915,8 @@ for(i in 1:100){
   SP$switchGenMap(ideal1_map, centromere = ideal1_centromere)
   ideal1var1[i,] <- genicVarA(burn_in_pop)
   
-  pop_good1 <- self(burn_in_pop, keepParents=FALSE, nProgeny=20, simParam = SP)
+  pop_good1 <-randCross(burn_in_pop, nCrosses=10, nProgeny=10, simParam = SP)
+  #pop_good1 <- self(burn_in_pop, keepParents=FALSE, nProgeny=20, simParam = SP)
   pop_good1 <- setPheno(pop_good1, h2 = 0.8, simParam = SP)
   ideal1var2[i,] <- genicVarA(pop_good1)
   
@@ -1035,7 +1048,8 @@ for(i in 1:100){
   SP$switchGenMap(ideal2_map, centromere = ideal2_centromere)
   ideal2var1[i,] <- genicVarA(burn_in_pop)
   
-  pop_good1 <- self(burn_in_pop, keepParents=FALSE, nProgeny=20, simParam = SP)
+  pop_good1 <-randCross(burn_in_pop, nCrosses=10, nProgeny=10, simParam = SP)
+  #pop_good1 <- self(burn_in_pop, keepParents=FALSE, nProgeny=20, simParam = SP)
   pop_good1 <- setPheno(pop_good1, h2 = 0.8, simParam = SP)
   ideal2var2[i,] <- genicVarA(pop_good1)
   
@@ -1210,13 +1224,15 @@ lastgen <- gain_inter2[which(gain_inter2$generation == c(1,3,5,7,9,11,13,14)),]
 firstgen <- gain_inter2[which(gain_inter2$generation == 1),]
 
 #colorblind friendly palette with black
+library(ggplot2)
 cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 group.colors = c("ddm1" = "#E69F00", "recq4" = "#56B4E9", "wt" = "#009E73", "zmet2" = "#F0E442",
                  "fancm" = "#0072B2", "ideal1" = "#D55E00", "ideal2" = "#CC79A7")
 ggplot(lastgen, aes(x=as.factor(generation), y=gv, fill=gen_map)) + 
   geom_boxplot() + theme_bw() + xlab("Generations since generation 1") + ylab("Genetic gain since generation 1") +
-  scale_fill_manual(values=group.colors, name = "Genetic Map Used", labels = c("ddm1", "recq4", "WT", "zmet2",
-                                                                               "fancm", "10X", "ddm1/zmet2")) +
+  scale_fill_manual(values=group.colors, name = "Genetic Map Used", labels = c("ddm1", "fancm", "10X", "ddm1/zmet2",
+                                                                               "recq4", "WT", "zmet2")
+                    ) +
   theme(axis.text=element_text(size=12),
         axis.title=element_text(size=12), legend.title = element_text(size=12), #change legend title font size
         legend.text = element_text(size=12), plot.title = element_text(size=14), legend.position = c(0.15,0.8), legend.key.size = unit(0.5, "lines")) +
@@ -1267,12 +1283,14 @@ allvar2 <- as.data.frame(matrix(data = NA, nrow = 11900))
 allvar2$var <- c(allvar$wtvarall, allvar$ddm1varall, allvar$zmet2varall, allvar$recq4varall, allvar$fancmvarall, allvar$ideal1varall, allvar$ideal2varall)
 allvar2$gen <- rep(1:17, size = 7, each = 100)
 allvar2$gen_map <- rep(c("wt","ddm1", "zmet2", "recq4", "fancm", "ideal1", "ideal2"), size = 7, each = 1700)
-lastgen <- allvar2[which(allvar2$gen == c(1,3,5,7,9,11,13,15,16)),]
+#lastgen <- allvar2[which(allvar2$gen == c(1,3,5,7,9,11,13,15,16)),]
+lastgen <- allvar2[which(allvar2$gen == c(1,2,3,4,5)),]
 
 ggplot(lastgen, aes(x=as.factor(gen), y=var, fill=gen_map)) + 
   geom_boxplot() + theme_bw() + xlab("Generation") + ylab("Additive Genetic Variance") + 
-  scale_fill_manual(values=group.colors, name = "Genetic Map Used", labels = c("ddm1", "recq4", "WT", "zmet2",
-                                                                                 "fancm", "10X", "ddm1/zmet2")) + ggtitle("Additive Genetic Variance after 15 Generations") +
+  scale_fill_manual(values=group.colors, name = "Genetic Map Used", labels = c("ddm1", "fancm", "10X", "ddm1/zmet2",
+                                                                                 "recq4", "WT", "zmet2")
+                    ) + ggtitle("Additive Genetic Variance after 5 Generations") +
   theme(axis.text=element_text(size=12),
         axis.title=element_text(size=12), legend.title = element_text(size=12), #change legend title font size
         legend.text = element_text(size=12), plot.title = element_text(size=14), legend.position = c(0.8,0.75), legend.key.size = unit(0.5, "lines"))
