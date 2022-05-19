@@ -6,121 +6,162 @@ setwd("C:/Users/16192/Documents/PNAS_Simulations")
 set.seed(420)
 
 ##reading in SNPs from B73xMo17 based on v4 B73 ref
-final_snps <- read.table("SNP_V4.bed", header = FALSE)
-colnames(final_snps) <- c("Chr#", "SNP Start", "SNP End")
-#2000 SNPs genome-wide
-final_snps <- sample_n(final_snps, 2000)
-final_snps <- final_snps[order(final_snps$`Chr#`,final_snps$`SNP Start`),]
+ind_snps <- read.table("indica_SNPs.bed", header =FALSE)
+colnames(ind_snps) <- c("Chr#", "SNP Start", "SNP End")
+#sample SNPs?
+ind_snps <- sample_n(ind_snps, 4000)
+ind_snps <- ind_snps[order(ind_snps$`Chr#`,ind_snps$`SNP Start`),]
 write.csv(final_snps, "C:/Users/16192/Documents/PNAS_Simulations/final_snps.csv", row.names = FALSE)
 
-chr1_snp <- final_snps[ which(final_snps$`Chr#` == "chr1"),]
-hist(chr1_snp$`SNP Start`, breaks = 100)
-chr1_snp$rate <- NA
-#making SNPs start at 0
-chr1_snp$`SNP End` <- chr1_snp$`SNP End` - min(chr1_snp$`SNP Start`)
-chr1_snp$`SNP Start` <- chr1_snp$`SNP Start`- min(chr1_snp$`SNP Start`)
+ind_chr1_snp <- ind_snps[ which(ind_snps$`Chr#` == "Chr1"),]
+ind_chr1_snp$rate <- NA
+ind_chr1_snp$`SNP End` <- ind_chr1_snp$`SNP End` - min(ind_chr1_snp$`SNP Start`)
+ind_chr1_snp$`SNP Start` <- ind_chr1_snp$`SNP Start`- min(ind_chr1_snp$`SNP Start`)
 
-chr2_snp <- final_snps[ which(final_snps$`Chr#` == "chr2"),]
-hist(chr2_snp$`SNP Start`, breaks = 100)
-chr2_snp$rate <- NA
-chr2_snp$`SNP End` <- chr2_snp$`SNP End` - min(chr2_snp$`SNP Start`)
-chr2_snp$`SNP Start` <- chr2_snp$`SNP Start`- min(chr2_snp$`SNP Start`)
+ind_chr2_snp <- ind_snps[ which(ind_snps$`Chr#` == "Chr2"),]
+ind_chr2_snp$rate <- NA
+ind_chr2_snp$`SNP End` <- ind_chr2_snp$`SNP End` - min(ind_chr2_snp$`SNP Start`)
+ind_chr2_snp$`SNP Start` <- ind_chr2_snp$`SNP Start`- min(ind_chr2_snp$`SNP Start`)
 
-chr3_snp <- final_snps[ which(final_snps$`Chr#` == "chr3"),]
-hist(chr3_snp$`SNP Start`, breaks = 100)
-chr3_snp$rate <- NA
-chr3_snp$`SNP End` <- chr3_snp$`SNP End` - min(chr3_snp$`SNP Start`)
-chr3_snp$`SNP Start` <- chr3_snp$`SNP Start`- min(chr3_snp$`SNP Start`)
+ind_chr3_snp <- ind_snps[ which(ind_snps$`Chr#` == "Chr3"),]
+ind_chr3_snp$rate <- NA
+ind_chr3_snp$`SNP End` <- ind_chr3_snp$`SNP End` - min(ind_chr3_snp$`SNP Start`)
+ind_chr3_snp$`SNP Start` <- ind_chr3_snp$`SNP Start`- min(ind_chr3_snp$`SNP Start`)
 
-chr4_snp <- final_snps[ which(final_snps$`Chr#` == "chr4"),]
-hist(chr4_snp$`SNP Start`, breaks = 100)
-chr4_snp$rate <- NA
-chr4_snp$`SNP End` <- chr4_snp$`SNP End` - min(chr4_snp$`SNP Start`)
-chr4_snp$`SNP Start` <- chr4_snp$`SNP Start`- min(chr4_snp$`SNP Start`)
+ind_chr4_snp <- ind_snps[ which(ind_snps$`Chr#` == "Chr4"),]
+ind_chr4_snp$rate <- NA
+ind_chr4_snp$`SNP End` <- ind_chr4_snp$`SNP End` - min(ind_chr4_snp$`SNP Start`)
+ind_chr4_snp$`SNP Start` <- ind_chr4_snp$`SNP Start`- min(ind_chr4_snp$`SNP Start`)
 
-chr5_snp <- final_snps[ which(final_snps$`Chr#` == "chr5"),]
-hist(chr5_snp$`SNP Start`, breaks = 100)
-chr5_snp$rate <- NA
-chr5_snp$`SNP End` <- chr5_snp$`SNP End` - min(chr5_snp$`SNP Start`)
-chr5_snp$`SNP Start` <- chr5_snp$`SNP Start`- min(chr5_snp$`SNP Start`)
+ind_chr5_snp <- ind_snps[ which(ind_snps$`Chr#` == "Chr5"),]
+ind_chr5_snp$rate <- NA
+ind_chr5_snp$`SNP End` <- ind_chr5_snp$`SNP End` - min(ind_chr5_snp$`SNP Start`)
+ind_chr5_snp$`SNP Start` <- ind_chr5_snp$`SNP Start`- min(ind_chr5_snp$`SNP Start`)
 
-chr6_snp <- final_snps[ which(final_snps$`Chr#` == "chr6"),]
-hist(chr6_snp$`SNP Start`, breaks = 100)
-chr6_snp$rate <- NA
-chr6_snp$`SNP End` <- chr6_snp$`SNP End` - min(chr6_snp$`SNP Start`)
-chr6_snp$`SNP Start` <- chr6_snp$`SNP Start`- min(chr6_snp$`SNP Start`)
+ind_chr6_snp <- ind_snps[ which(ind_snps$`Chr#` == "Chr6"),]
+ind_chr6_snp$rate <- NA
+ind_chr6_snp$`SNP End` <- ind_chr6_snp$`SNP End` - min(ind_chr6_snp$`SNP Start`)
+ind_chr6_snp$`SNP Start` <- ind_chr6_snp$`SNP Start`- min(ind_chr6_snp$`SNP Start`)
 
-chr7_snp <- final_snps[ which(final_snps$`Chr#` == "chr7"),]
-hist(chr7_snp$`SNP Start`, breaks = 100)
-chr7_snp$rate <- NA
-chr7_snp$`SNP End` <- chr7_snp$`SNP End` - min(chr7_snp$`SNP Start`)
-chr7_snp$`SNP Start` <- chr7_snp$`SNP Start`- min(chr7_snp$`SNP Start`)
+ind_chr7_snp <- ind_snps[ which(ind_snps$`Chr#` == "Chr7"),]
+ind_chr7_snp$rate <- NA
+ind_chr7_snp$`SNP End` <- ind_chr7_snp$`SNP End` - min(ind_chr7_snp$`SNP Start`)
+ind_chr7_snp$`SNP Start` <- ind_chr7_snp$`SNP Start`- min(ind_chr7_snp$`SNP Start`)
 
-chr8_snp <- final_snps[ which(final_snps$`Chr#` == "chr8"),]
-hist(chr8_snp$`SNP Start`, breaks = 100)
-chr8_snp$rate <- NA
-chr8_snp$`SNP End` <- chr8_snp$`SNP End` - min(chr8_snp$`SNP Start`)
-chr8_snp$`SNP Start` <- chr8_snp$`SNP Start`- min(chr8_snp$`SNP Start`)
+ind_chr8_snp <- ind_snps[ which(ind_snps$`Chr#` == "Chr8"),]
+ind_chr8_snp$rate <- NA
+ind_chr8_snp$`SNP End` <- ind_chr8_snp$`SNP End` - min(ind_chr8_snp$`SNP Start`)
+ind_chr8_snp$`SNP Start` <- ind_chr8_snp$`SNP Start`- min(ind_chr8_snp$`SNP Start`)
 
-chr9_snp <- final_snps[ which(final_snps$`Chr#` == "chr9"),]
-hist(chr9_snp$`SNP Start`, breaks = 100)
-chr9_snp$rate <- NA
-chr9_snp$`SNP End` <- chr9_snp$`SNP End` - min(chr9_snp$`SNP Start`)
-chr9_snp$`SNP Start` <- chr9_snp$`SNP Start`- min(chr9_snp$`SNP Start`)
+ind_chr9_snp <- ind_snps[ which(ind_snps$`Chr#` == "Chr9"),]
+ind_chr9_snp$rate <- NA
+ind_chr9_snp$`SNP End` <- ind_chr9_snp$`SNP End` - min(ind_chr9_snp$`SNP Start`)
+ind_chr9_snp$`SNP Start` <- ind_chr9_snp$`SNP Start`- min(ind_chr9_snp$`SNP Start`)
 
-chr10_snp <- final_snps[ which(final_snps$`Chr#` == "chr10"),]
-hist(chr10_snp$`SNP Start`, breaks = 100)
-chr10_snp$rate <- NA
-chr10_snp$`SNP End` <- chr10_snp$`SNP End` - min(chr10_snp$`SNP Start`)
-chr10_snp$`SNP Start` <- chr10_snp$`SNP Start`- min(chr10_snp$`SNP Start`)
+ind_chr10_snp <- ind_snps[ which(ind_snps$`Chr#` == "Chr10"),]
+ind_chr10_snp$rate <- NA
+ind_chr10_snp$`SNP End` <- ind_chr10_snp$`SNP End` - min(ind_chr10_snp$`SNP Start`)
+ind_chr10_snp$`SNP Start` <- ind_chr10_snp$`SNP Start`- min(ind_chr10_snp$`SNP Start`)
 
-##Reading in CO intervals from US NAM population
-NAM <- read.table("NAM_US_COs.txt", header = FALSE)
-NAM <- NAM[,-c(2:4)]
-colnames(NAM) <- c("Chr", "CO Start", "CO End")
-NAM <- NAM[order(NAM$Chr,NAM$`CO Start`),]
-#pop_size <- read.table("pop_size_nam.txt", header = TRUE)
-#US_pop_size <- pop_size[1:4713,]
+ind_chr11_snp <- ind_snps[ which(ind_snps$`Chr#` == "Chr11"),]
+ind_chr11_snp$rate <- NA
+ind_chr11_snp$`SNP End` <- ind_chr11_snp$`SNP End` - min(ind_chr11_snp$`SNP Start`)
+ind_chr11_snp$`SNP Start` <- ind_chr11_snp$`SNP Start`- min(ind_chr11_snp$`SNP Start`)
 
-chr1_CO <- NAM[ which(NAM$Chr == 1),]
-chr1_CO$midpoint <- (chr1_CO$`CO Start`+ chr1_CO$`CO End`)/2
-hist(chr1_CO$`CO Start`, breaks = 300)
+ind_chr12_snp <- ind_snps[ which(ind_snps$`Chr#` == "Chr12"),]
+ind_chr12_snp$rate <- NA
+ind_chr12_snp$`SNP End` <- ind_chr12_snp$`SNP End` - min(ind_chr12_snp$`SNP Start`)
+ind_chr12_snp$`SNP Start` <- ind_chr12_snp$`SNP Start`- min(ind_chr12_snp$`SNP Start`)
 
-chr2_CO <- NAM[ which(NAM$Chr == 2),]
-hist(chr2_CO$`CO Start`, breaks = 300)
-chr2_CO$midpoint <- (chr2_CO$`CO Start`+ chr2_CO$`CO End`)/2
 
-chr3_CO <- NAM[ which(NAM$Chr == 3),]
-hist(chr3_CO$`CO Start`, breaks = 300)
-chr3_CO$midpoint <- (chr3_CO$`CO Start`+ chr3_CO$`CO End`)/2
+##Reading in recombination rates
+ind_CO <- read.table("indica_rec_rates.bed", header = FALSE)
+colnames(ind_CO) <- c("Chr", "CO Start", "CO End", "rate")
+ind_CO <- ind_CO[order(ind_CO$Chr,ind_CO$`CO Start`),]
 
-chr4_CO <- NAM[ which(NAM$Chr == 4),]
-hist(chr4_CO$`CO Start`, breaks = 300)
-chr4_CO$midpoint <- (chr4_CO$`CO Start`+ chr4_CO$`CO End`)/2
+ind_chr1_CO <- ind_CO[ which(ind_CO$Chr == "chr01"),]
+ind_chr1_CO$midpoint <- (ind_chr1_CO$`CO Start`+ ind_chr1_CO$`CO End`)/2
+ind_chr1_CO <- ind_chr1_CO[order(ind_chr1_CO$`CO Start`),]
 
-chr5_CO <- NAM[ which(NAM$Chr == 5),]
-hist(chr5_CO$`CO Start`, breaks = 300)
-chr5_CO$midpoint <- (chr5_CO$`CO Start`+ chr5_CO$`CO End`)/2
+ind_chr2_CO <- ind_CO[ which(ind_CO$Chr == "chr02"),]
+ind_chr2_CO$midpoint <- (ind_chr2_CO$`CO Start`+ ind_chr2_CO$`CO End`)/2
+ind_chr2_CO <- ind_chr2_CO[order(ind_chr2_CO$`CO Start`),]
 
-chr6_CO <- NAM[ which(NAM$Chr == 6),]
-hist(chr6_CO$`CO Start`, breaks = 300)
-chr6_CO$midpoint <- (chr6_CO$`CO Start`+ chr6_CO$`CO End`)/2
+ind_chr3_CO <- ind_CO[ which(ind_CO$Chr == "chr03"),]
+ind_chr3_CO$midpoint <- (ind_chr3_CO$`CO Start`+ ind_chr3_CO$`CO End`)/2
+ind_chr3_CO <- ind_chr3_CO[order(ind_chr3_CO$`CO Start`),]
 
-chr7_CO <- NAM[ which(NAM$Chr == 7),]
-hist(chr7_CO$`CO Start`, breaks = 300)
-chr7_CO$midpoint <- (chr7_CO$`CO Start`+ chr7_CO$`CO End`)/2
+ind_chr4_CO <- ind_CO[ which(ind_CO$Chr == "chr04"),]
+ind_chr4_CO$midpoint <- (ind_chr4_CO$`CO Start`+ ind_chr4_CO$`CO End`)/2
+ind_chr4_CO <- ind_chr4_CO[order(ind_chr4_CO$`CO Start`),]
 
-chr8_CO <- NAM[ which(NAM$Chr == 8),]
-hist(chr8_CO$`CO Start`, breaks = 300)
-chr8_CO$midpoint <- (chr8_CO$`CO Start`+ chr8_CO$`CO End`)/2
+ind_chr5_CO <- ind_CO[ which(ind_CO$Chr == "chr05"),]
+ind_chr5_CO$midpoint <- (ind_chr5_CO$`CO Start`+ ind_chr5_CO$`CO End`)/2
+ind_chr5_CO <- ind_chr5_CO[order(ind_chr5_CO$`CO Start`),]
 
-chr9_CO <- NAM[ which(NAM$Chr == 9),]
-hist(chr9_CO$`CO Start`, breaks = 300)
-chr9_CO$midpoint <- (chr9_CO$`CO Start`+ chr9_CO$`CO End`)/2
+ind_chr6_CO <- ind_CO[ which(ind_CO$Chr == "chr06"),]
+ind_chr6_CO$midpoint <- (ind_chr6_CO$`CO Start`+ ind_chr6_CO$`CO End`)/2
+ind_chr6_CO <- ind_chr6_CO[order(ind_chr6_CO$`CO Start`),]
 
-chr10_CO <- NAM[ which(NAM$Chr == 10),]
-hist(chr10_CO$`CO Start`, breaks = 300)
-chr10_CO$midpoint <- (chr10_CO$`CO Start`+ chr10_CO$`CO End`)/2
+ind_chr7_CO <- ind_CO[ which(ind_CO$Chr == "chr07"),]
+ind_chr7_CO$midpoint <- (ind_chr7_CO$`CO Start`+ ind_chr7_CO$`CO End`)/2
+ind_chr7_CO <- ind_chr7_CO[order(ind_chr7_CO$`CO Start`),]
+
+ind_chr8_CO <- ind_CO[ which(ind_CO$Chr == "chr08"),]
+ind_chr8_CO$midpoint <- (ind_chr8_CO$`CO Start`+ ind_chr8_CO$`CO End`)/2
+ind_chr8_CO <- ind_chr8_CO[order(ind_chr8_CO$`CO Start`),]
+
+ind_chr9_CO <- ind_CO[ which(ind_CO$Chr == "chr09"),]
+ind_chr9_CO$midpoint <- (ind_chr9_CO$`CO Start`+ ind_chr9_CO$`CO End`)/2
+ind_chr9_CO <- ind_chr9_CO[order(ind_chr9_CO$`CO Start`),]
+
+ind_chr10_CO <- ind_CO[ which(ind_CO$Chr == "chr10"),]
+ind_chr10_CO$midpoint <- (ind_chr10_CO$`CO Start`+ ind_chr10_CO$`CO End`)/2
+ind_chr10_CO <- ind_chr10_CO[order(ind_chr10_CO$`CO Start`),]
+
+ind_chr11_CO <- ind_CO[ which(ind_CO$Chr == "chr11"),]
+ind_chr11_CO$midpoint <- (ind_chr11_CO$`CO Start`+ ind_chr11_CO$`CO End`)/2
+ind_chr11_CO <- ind_chr11_CO[order(ind_chr11_CO$`CO Start`),]
+
+ind_chr12_CO <- ind_CO[ which(ind_CO$Chr == "chr12"),]
+ind_chr12_CO$midpoint <- (ind_chr12_CO$`CO Start`+ ind_chr12_CO$`CO End`)/2
+ind_chr12_CO <- ind_chr12_CO[order(ind_chr12_CO$`CO Start`),]
+
+ind_chr1_CO$`CO End` <- ind_chr1_CO$`CO End` - min(ind_chr1_CO$`CO Start`)
+ind_chr1_CO$`CO Start` <- ind_chr1_CO$`CO Start` - min(ind_chr1_CO$`CO Start`)
+
+ind_chr2_CO$`CO End` <- ind_chr2_CO$`CO End` - min(ind_chr2_CO$`CO Start`)
+ind_chr2_CO$`CO Start` <- ind_chr2_CO$`CO Start` - min(ind_chr2_CO$`CO Start`)
+
+ind_chr3_CO$`CO End` <- ind_chr3_CO$`CO End` - min(ind_chr3_CO$`CO Start`)
+ind_chr3_CO$`CO Start` <- ind_chr3_CO$`CO Start` - min(ind_chr3_CO$`CO Start`)
+
+ind_chr4_CO$`CO End` <- ind_chr4_CO$`CO End` - min(ind_chr4_CO$`CO Start`)
+ind_chr4_CO$`CO Start` <- ind_chr4_CO$`CO Start` - min(ind_chr4_CO$`CO Start`)
+
+ind_chr5_CO$`CO End` <- ind_chr5_CO$`CO End` - min(ind_chr5_CO$`CO Start`)
+ind_chr5_CO$`CO Start` <- ind_chr5_CO$`CO Start` - min(ind_chr5_CO$`CO Start`)
+
+ind_chr6_CO$`CO End` <- ind_chr6_CO$`CO End` - min(ind_chr6_CO$`CO Start`)
+ind_chr6_CO$`CO Start` <- ind_chr6_CO$`CO Start` - min(ind_chr6_CO$`CO Start`)
+
+ind_chr7_CO$`CO End` <- ind_chr7_CO$`CO End` - min(ind_chr7_CO$`CO Start`)
+ind_chr7_CO$`CO Start` <- ind_chr7_CO$`CO Start` - min(ind_chr7_CO$`CO Start`)
+
+ind_chr8_CO$`CO End` <- ind_chr8_CO$`CO End` - min(ind_chr8_CO$`CO Start`)
+ind_chr8_CO$`CO Start` <- ind_chr8_CO$`CO Start` - min(ind_chr8_CO$`CO Start`)
+
+ind_chr9_CO$`CO End` <- ind_chr9_CO$`CO End` - min(ind_chr9_CO$`CO Start`)
+ind_chr9_CO$`CO Start` <- ind_chr9_CO$`CO Start` - min(ind_chr9_CO$`CO Start`)
+
+ind_chr10_CO$`CO End` <- ind_chr10_CO$`CO End` - min(ind_chr10_CO$`CO Start`)
+ind_chr10_CO$`CO Start` <- ind_chr10_CO$`CO Start` - min(ind_chr10_CO$`CO Start`)
+
+ind_chr11_CO$`CO End` <- ind_chr11_CO$`CO End` - min(ind_chr11_CO$`CO Start`)
+ind_chr11_CO$`CO Start` <- ind_chr11_CO$`CO Start` - min(ind_chr11_CO$`CO Start`)
+
+ind_chr12_CO$`CO End` <- ind_chr12_CO$`CO End` - min(ind_chr12_CO$`CO Start`)
+ind_chr12_CO$`CO Start` <- ind_chr12_CO$`CO Start` - min(ind_chr12_CO$`CO Start`)
 
 ###using CO rate to infer genetic map distances
 
@@ -134,151 +175,91 @@ library(OneR)
 #recombination frequency calc used:
 # recomb. freq. = (# of COs/ size of population *100%)/ length of bin in Mb
 
-#bin crossovers into 200 uneven bins
-chr1_CO <- chr1_CO[order(chr1_CO$`CO Start`),]
-chr1_bin <- binning(chr1_CO$midpoint, nbins = max(ref_genes1$X307041717)/200000, type = "kmeans")
-chr1_bin <- as.data.frame(summary(chr1_bin))
-#transforming data; making bin interval into 2 columns
-chr1_bin <- within(chr1_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr1_bin$levels), ',', fixed=TRUE))))
-chr1_bin <- do.call(data.frame, chr1_bin)
-chr1_bin <- chr1_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
-chr1_bin <- chr1_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr1_bin[1,4] <- 502954
-#making intervals start at 0
-#chr1_bin$foo.X1 <- chr1_bin$foo.X1 - 502954
-#chr1_bin$foo.X2 <- chr1_bin$foo.X2 - 502954
-#expanding last bin to include last SNP site to avoid NAs in future
-chr1_bin[max(ref_genes1$X307041717)/200000,5] <- max(ref_genes1$X307041717)
-#adding length of bin as column and making in Mb
-chr1_bin$length <- (chr1_bin$foo.X2-chr1_bin$foo.X1)/200000
-chr1_bin$rate <- ((chr1_bin$freq/4713)*100)/chr1_bin$length
+#bin rates into ~1 Mb regions and average each region
+fill_start<- function(chr_CO){
+  l<-0
+  for(k in 1:nrow(chr_CO)){
+    if(isFALSE(is.na(chr_CO$rates[k]))){
+      temp<-chr_CO$`CO Start`[k]
+      chr_CO$`CO Start`[k] <-l
+      l<-temp
+    }
+  }
+  print(chr_CO)
+}
 
-chr2_CO <- chr2_CO[order(chr2_CO$`CO Start`),]
-chr2_bin <- binning(chr2_CO$midpoint, nbins = max(ref_genes2$X307041717)/200000, type = "kmeans")
-chr2_bin <- as.data.frame(summary(chr2_bin))
-chr2_bin <- within(chr2_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr2_bin$levels), ',', fixed=TRUE))))
-chr2_bin <- do.call(data.frame, chr2_bin)
-chr2_bin <- chr2_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
-chr2_bin <- chr2_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr2_bin[1,4] <- 440104
-#chr2_bin$foo.X1 <- chr2_bin$foo.X1 - 440104
-#chr2_bin$foo.X2 <- chr2_bin$foo.X2 - 440104
-chr2_bin[max(ref_genes2$X307041717)/200000,5] <- max(ref_genes2$X307041717)
-chr2_bin$length <- (chr2_bin$foo.X2-chr2_bin$foo.X1)/200000
-chr2_bin$rate <- ((chr2_bin$freq/4713)*100)/chr2_bin$length
+library(zoo)
+ind_chr1_CO_2 <- ind_chr1_CO
+bins<-as.integer(nrow(ind_chr1_CO)/440)
+ind_chr1_CO_2$rates<- rollapply(ind_chr1_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr1_CO_2<-fill_start(ind_chr1_CO_2)
+ind_chr1_CO_2<- ind_chr1_CO_2 %>% drop_na(rates)
 
-chr3_CO <- chr3_CO[order(chr3_CO$`CO Start`),]
-chr3_bin <- binning(chr3_CO$midpoint, nbins = max(ref_genes3$X307041717)/200000, type = "kmeans")
-chr3_bin <- as.data.frame(summary(chr3_bin))
-chr3_bin <- within(chr3_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr3_bin$levels), ',', fixed=TRUE))))
-chr3_bin <- do.call(data.frame, chr3_bin)
-chr3_bin <- chr3_bin %>% mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
-chr3_bin <- chr3_bin %>% mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr3_bin[1,4] <- 865390
-#chr3_bin$foo.X1 <- chr3_bin$foo.X1 - 865390
-#chr3_bin$foo.X2 <- chr3_bin$foo.X2 - 865390
-chr3_bin[max(ref_genes3$X307041717)/200000,5] <- max(ref_genes3$X307041717)
-chr3_bin$length <- (chr3_bin$foo.X2-chr3_bin$foo.X1)/200000
-chr3_bin$rate <- ((chr3_bin$freq/4713)*100)/chr3_bin$length
+ind_chr2_CO_2 <- ind_chr2_CO
+bins<-as.integer(nrow(ind_chr2_CO)/400)
+ind_chr2_CO_2$rates<- rollapply(ind_chr2_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr2_CO_2<-fill_start(ind_chr2_CO_2)
+ind_chr2_CO_2<- ind_chr2_CO_2 %>% drop_na(rates)
 
-chr4_CO <- chr4_CO[order(chr4_CO$`CO Start`),]
-chr4_bin <- binning(chr4_CO$midpoint, nbins = max(ref_genes4$X307041717)/200000, type = "kmeans")
-chr4_bin <- as.data.frame(summary(chr4_bin))
-chr4_bin <- within(chr4_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr4_bin$levels), ',', fixed=TRUE))))
-chr4_bin <- do.call(data.frame, chr4_bin)
-chr4_bin <- chr4_bin %>% mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
-chr4_bin <- chr4_bin %>% mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr4_bin[1,4] <- 272401
-#chr4_bin$foo.X1 <- chr4_bin$foo.X1 - 272401
-#chr4_bin$foo.X2 <- chr4_bin$foo.X2 - 272401
-chr4_bin[max(ref_genes4$X307041717)/200000,5] <- max(ref_genes4$X307041717)
-chr4_bin$length <- (chr4_bin$foo.X2-chr4_bin$foo.X1)/200000
-chr4_bin$rate <- ((chr4_bin$freq/4713)*100)/chr4_bin$length
+ind_chr3_CO_2 <- ind_chr3_CO
+bins<-as.integer(nrow(ind_chr3_CO)/410)
+ind_chr3_CO_2$rates<- rollapply(ind_chr3_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr3_CO_2<-fill_start(ind_chr3_CO_2)
+ind_chr3_CO_2<- ind_chr3_CO_2 %>% drop_na(rates)
 
-chr5_CO <- chr5_CO[order(chr5_CO$`CO Start`),]
-chr5_bin <- binning(chr5_CO$midpoint, nbins = max(ref_genes5$X307041717)/200000, type = "kmeans")
-chr5_bin <- as.data.frame(summary(chr5_bin))
-chr5_bin <- within(chr5_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr5_bin$levels), ',', fixed=TRUE))))
-chr5_bin <- do.call(data.frame, chr5_bin)
-chr5_bin <- chr5_bin %>% mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
-chr5_bin <- chr5_bin %>% mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr5_bin[1,4] <- 267335.5
-#chr5_bin$foo.X1 <- chr5_bin$foo.X1 - 267335.5
-#chr5_bin$foo.X2 <- chr5_bin$foo.X2 - 267335.5
-chr5_bin[max(ref_genes5$X307041717)/200000,5] <- max(ref_genes5$X307041717)
-chr5_bin$length <- (chr5_bin$foo.X2-chr5_bin$foo.X1)/200000
-chr5_bin$rate <- ((chr5_bin$freq/4713)*100)/chr5_bin$length
+ind_chr4_CO_2 <- ind_chr4_CO
+bins<-as.integer(nrow(ind_chr4_CO)/390)
+ind_chr4_CO_2$rates<- rollapply(ind_chr4_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr4_CO_2<-fill_start(ind_chr4_CO_2)
+ind_chr4_CO_2<- ind_chr4_CO_2 %>% drop_na(rates)
 
-chr6_CO <- chr6_CO[order(chr6_CO$`CO Start`),]
-chr6_bin <- binning(chr6_CO$midpoint, nbins = max(ref_genes6$X307041717)/200000, type = "kmeans")
-chr6_bin <- as.data.frame(summary(chr6_bin))
-chr6_bin <- within(chr6_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr6_bin$levels), ',', fixed=TRUE))))
-chr6_bin <- do.call(data.frame, chr6_bin)
-chr6_bin <- chr6_bin %>% mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
-chr6_bin <- chr6_bin %>% mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr6_bin[1,4] <- 197266.5
-#chr6_bin$foo.X1 <- chr6_bin$foo.X1 - 197266.5
-#chr6_bin$foo.X2 <- chr6_bin$foo.X2 - 197266.5
-chr6_bin[max(ref_genes6$X307041717)/200000,5] <- max(ref_genes6$X307041717)
-chr6_bin$length <- (chr6_bin$foo.X2-chr6_bin$foo.X1)/200000
-chr6_bin$rate <- ((chr6_bin$freq/4713)*100)/chr6_bin$length
+ind_chr5_CO_2 <- ind_chr5_CO
+bins<-as.integer(nrow(ind_chr5_CO)/330)
+ind_chr5_CO_2$rates<- rollapply(ind_chr5_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr5_CO_2<-fill_start(ind_chr5_CO_2)
+ind_chr5_CO_2<- ind_chr5_CO_2 %>% drop_na(rates)
 
-chr7_CO <- chr7_CO[order(chr7_CO$`CO Start`),]
-chr7_bin <- binning(chr7_CO$midpoint, nbins = max(ref_genes7$X307041717)/200000, type = "kmeans")
-chr7_bin <- as.data.frame(summary(chr7_bin))
-chr7_bin <- within(chr7_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr7_bin$levels), ',', fixed=TRUE))))
-chr7_bin <- do.call(data.frame, chr7_bin)
-chr7_bin <- chr7_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
-chr7_bin <- chr7_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr7_bin[1,4] <- 375904
-#chr7_bin$foo.X1 <- chr7_bin$foo.X1 - 375904
-#chr7_bin$foo.X2 <- chr7_bin$foo.X2 - 375904
-chr7_bin[max(ref_genes7$X307041717)/200000,5] <- max(ref_genes7$X307041717)
-chr7_bin$length <- (chr7_bin$foo.X2-chr7_bin$foo.X1)/200000
-chr7_bin$rate <- ((chr7_bin$freq/4713)*100)/chr7_bin$length
+ind_chr6_CO_2 <- ind_chr6_CO
+bins<-as.integer(nrow(ind_chr6_CO)/320)
+ind_chr6_CO_2$rates<- rollapply(ind_chr6_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr6_CO_2<-fill_start(ind_chr6_CO_2)
+ind_chr6_CO_2<- ind_chr6_CO_2 %>% drop_na(rates)
 
-chr8_CO <- chr8_CO[order(chr8_CO$`CO Start`),]
-chr8_bin <- binning(chr8_CO$midpoint, nbins = max(ref_genes8$X307041717)/200000, type = "kmeans")
-chr8_bin <- as.data.frame(summary(chr8_bin))
-chr8_bin <- within(chr8_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr8_bin$levels), ',', fixed=TRUE))))
-chr8_bin <- do.call(data.frame, chr8_bin)
-chr8_bin <- chr8_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
-chr8_bin <- chr8_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr8_bin[1,4] <- 132181
-#chr8_bin$foo.X1 <- chr8_bin$foo.X1 - 132181
-#chr8_bin$foo.X2 <- chr8_bin$foo.X2 - 132181
-chr8_bin[max(ref_genes8$X307041717)/200000,5] <- max(ref_genes8$X307041717)
-chr8_bin$length <- (chr8_bin$foo.X2-chr8_bin$foo.X1)/200000
-chr8_bin$rate <- ((chr8_bin$freq/4713)*100)/chr8_bin$length
+ind_chr7_CO_2 <- ind_chr7_CO
+bins<-as.integer(nrow(ind_chr7_CO)/350)
+ind_chr7_CO_2$rates<- rollapply(ind_chr7_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr7_CO_2<-fill_start(ind_chr7_CO_2)
+ind_chr7_CO_2<- ind_chr7_CO_2 %>% drop_na(rates)
 
-chr9_CO <- chr9_CO[order(chr9_CO$`CO Start`),]
-chr9_bin <- binning(chr9_CO$midpoint, nbins = max(ref_genes9$X307041717)/200000, type = "kmeans")
-chr9_bin <- as.data.frame(summary(chr9_bin))
-chr9_bin <- within(chr9_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr9_bin$levels), ',', fixed=TRUE))))
-chr9_bin <- do.call(data.frame, chr9_bin)
-chr9_bin <- chr9_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
-chr9_bin <- chr9_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr9_bin[1,4] <- 317217.5
-#chr9_bin$foo.X1 <- chr9_bin$foo.X1 - 317217.5
-#chr9_bin$foo.X2 <- chr9_bin$foo.X2 - 317217.5
-chr9_bin[max(ref_genes9$X307041717)/200000,5] <- max(ref_genes9$X307041717)
-chr9_bin$length <- (chr9_bin$foo.X2-chr9_bin$foo.X1)/200000
-chr9_bin$rate <- ((chr9_bin$freq/4713)*100)/chr9_bin$length
+ind_chr8_CO_2 <- ind_chr8_CO
+bins<-as.integer(nrow(ind_chr8_CO)/280)
+ind_chr8_CO_2$rates<- rollapply(ind_chr8_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr8_CO_2<-fill_start(ind_chr8_CO_2)
+ind_chr8_CO_2<- ind_chr8_CO_2 %>% drop_na(rates)
 
-chr10_CO <- chr10_CO[order(chr10_CO$`CO Start`),]
-chr10_bin <- binning(chr10_CO$midpoint, nbins = max(ref_genes10$X307041717)/200000, type = "kmeans")
-chr10_bin <- as.data.frame(summary(chr10_bin))
-chr10_bin <- within(chr10_bin, foo<-data.frame(do.call('rbind', strsplit(as.character(chr10_bin$levels), ',', fixed=TRUE))))
-chr10_bin <- do.call(data.frame, chr10_bin)
-chr10_bin <- chr10_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
-chr10_bin <- chr10_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr10_bin[1,4] <- 698530
-#chr10_bin$foo.X1 <- chr10_bin$foo.X1 - 698530
-#chr10_bin$foo.X2 <- chr10_bin$foo.X2 - 698530
-chr10_bin[max(ref_genes10$X307041717)/200000,5] <- max(ref_genes10$X307041717)
-chr10_bin$length <- (chr10_bin$foo.X2-chr10_bin$foo.X1)/200000
-chr10_bin$rate <- ((chr10_bin$freq/4713)*100)/chr10_bin$length
-#use plot to look at distribution of k-means
+ind_chr9_CO_2 <- ind_chr9_CO
+bins<-as.integer(nrow(ind_chr9_CO)/220)
+ind_chr9_CO_2$rates<- rollapply(ind_chr9_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr9_CO_2<-fill_start(ind_chr9_CO_2)
+ind_chr9_CO_2<- ind_chr9_CO_2 %>% drop_na(rates)
+
+ind_chr10_CO_2 <- ind_chr10_CO
+bins<-as.integer(nrow(ind_chr10_CO)/270)
+ind_chr10_CO_2$rates<- rollapply(ind_chr10_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr10_CO_2<-fill_start(ind_chr10_CO_2)
+ind_chr10_CO_2<- ind_chr10_CO_2 %>% drop_na(rates)
+
+ind_chr11_CO_2 <- ind_chr11_CO
+bins<-as.integer(nrow(ind_chr11_CO)/300)
+ind_chr11_CO_2$rates<- rollapply(ind_chr11_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr11_CO_2<-fill_start(ind_chr11_CO_2)
+ind_chr11_CO_2<- ind_chr11_CO_2 %>% drop_na(rates)
+
+ind_chr12_CO_2 <- ind_chr12_CO
+bins<-as.integer(nrow(ind_chr12_CO)/310)
+ind_chr12_CO_2$rates<- rollapply(ind_chr12_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+ind_chr12_CO_2<-fill_start(ind_chr12_CO_2)
+ind_chr12_CO_2<- ind_chr12_CO_2 %>% drop_na(rates)
 
 ##assigning frequency to SNPs based on frequency in each bin
 snp_rate <- function(chr_bin, chr_snp){
