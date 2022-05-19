@@ -104,7 +104,7 @@ chr1_snp2ideal2$pos2 <- graph_recomb(chr1_snp2ideal2)
 #graph to look at Mb vs. cM along chromosome
 plot(chr1_snp2$`SNP Start`, chr1_snp2$pos, type = "l", col = "blue", 
      main = "Chr1. Genetic Maps", xlab = "Physical Positions (Mb)", ylab = "Recombination rate (cM/Mb)")
-chr1_finalpos <- chr1_snp2[order(chr1_snp2$pos),]
+chr1_finalpos <- chr1_snp2ideal2[order(chr1_snp2ideal2$pos),]
 #want False to input into AlphaSimR
 is.unsorted(chr1_finalpos$pos)
 
@@ -173,60 +173,40 @@ is.unsorted(chr10_finalpos$pos)
 
 #putting genetic map together with cM 
 chr1 <- chr1_finalpos$pos/100
-chr1len <- length(chr1)
-dim(chr1) <- c(chr1len,1)
-chr1 <- list(chr1)
 
 chr2 <- chr2_finalpos$pos/100
-chr2len <- length(chr2)
-dim(chr2) <- c(chr2len,1)
-chr2 <- list(chr2)
 
 chr3 <- chr3_finalpos$pos/100
-chr3len <- length(chr3)
-dim(chr3) <- c(chr3len,1)
-chr3 <- list(chr3)
 
 chr4 <- chr4_finalpos$pos/100
-chr4len <- length(chr4)
-dim(chr4) <- c(chr4len,1)
-chr4 <- list(chr4)
 
 chr10 <- chr10_finalpos$pos/100
-chr10len <- length(chr10)
-dim(chr10) <- c(chr10len,1)
-chr10 <- list(chr10)
 
 chr5 <- chr5_finalpos$pos/100
-chr5len <- length(chr5)
-dim(chr5) <- c(chr5len,1)
-chr5 <- list(chr5)
 
 chr6 <- chr6_finalpos$pos/100
-chr6len <- length(chr6)
-dim(chr6) <- c(chr6len,1)
-chr6 <- list(chr6)
 
 chr7 <- chr7_finalpos$pos/100
-chr7len <- length(chr7)
-dim(chr7) <- c(chr7len,1)
-chr7 <- list(chr7)
 
 chr8 <- chr8_finalpos$pos/100
-chr8len <- length(chr8)
-dim(chr8) <- c(chr8len,1)
-chr8 <- list(chr8)
 
 chr9 <- chr9_finalpos$pos/100
-chr9len <- length(chr9)
-dim(chr9) <- c(chr9len,1)
-chr9 <- list(chr9)
 
-ideal2_map <- list(chr1[[1]], chr2[[1]], 
-                   chr3[[1]], chr4[[1]], chr5[[1]], 
-                   chr6[[1]], chr7[[1]], chr8[[1]], 
-                   chr9[[1]], chr10[[1]])
-
+ideal2_map = vector("list",10)
+ideal2_map[[1]] = chr1
+ideal2_map[[2]] = chr2
+ideal2_map[[3]] = chr3
+ideal2_map[[4]] = chr4
+ideal2_map[[5]] = chr5
+ideal2_map[[6]] = chr6
+ideal2_map[[7]] = chr7
+ideal2_map[[8]] = chr8
+ideal2_map[[9]] = chr9
+ideal2_map[[10]] = chr10
+for(i in 1:10){
+  names(ideal2_map[[i]]) = paste(i, 1:segSites[i], sep="_")
+}
+saveRDS(ideal2_map, file = "ideal2_map.RData")
 #Creating vector of centromere positions
 ideal2_centromere <- c(414.7823, 342.8922, 211.6182, 206.9404, 112,
                        63.02667, 257.1550, 244.20528, 216.75260, 220.07058)

@@ -96,7 +96,7 @@ chr1_snp2fancm$pos <- gen_pos(chr1_snp2fancm)
 chr1_snp2fancm$pos2 <- graph_recomb(chr1_snp2fancm)
 plot(chr1_snp2$`SNP Start`, chr1_snp2$pos, type = "l")
 #graph to look at Mb vs. cM/Mb to see recombination rate along chromosome
-chr1_finalpos <- chr1_snp2[order(chr1_snp2$pos),]
+chr1_finalpos <- chr1_snp2fancm[order(chr1_snp2fancm$pos),]
 #want False to input into AlphaSimR
 is.unsorted(chr1_finalpos$pos)
 
@@ -164,64 +164,43 @@ chr10_finalpos <- chr10_snp2[order(chr10_snp2$pos),]
 is.unsorted(chr10_finalpos$pos)
 
 chr1 <- chr1_finalpos$pos/100
-chr1len <- length(chr1)
-dim(chr1) <- c(chr1len,1)
-chr1 <- list(chr1)
 
 chr2 <- chr2_finalpos$pos/100
-chr2len <- length(chr2)
-dim(chr2) <- c(chr2len,1)
-chr2 <- list(chr2)
 
 chr3 <- chr3_finalpos$pos/100
-chr3len <- length(chr3)
-dim(chr3) <- c(chr3len,1)
-chr3 <- list(chr3)
 
 chr4 <- chr4_finalpos$pos/100
-chr4len <- length(chr4)
-dim(chr4) <- c(chr4len,1)
-chr4 <- list(chr4)
 
 chr10 <- chr10_finalpos$pos/100
-chr10len <- length(chr10)
-dim(chr10) <- c(chr10len,1)
-chr10 <- list(chr10)
 
 chr5 <- chr5_finalpos$pos/100
-chr5len <- length(chr5)
-dim(chr5) <- c(chr5len,1)
-chr5 <- list(chr5)
 
 chr6 <- chr6_finalpos$pos/100
-chr6len <- length(chr6)
-dim(chr6) <- c(chr6len,1)
-chr6 <- list(chr6)
 
 chr7 <- chr7_finalpos$pos/100
-chr7len <- length(chr7)
-dim(chr7) <- c(chr7len,1)
-chr7 <- list(chr7)
 
 chr8 <- chr8_finalpos$pos/100
-chr8len <- length(chr8)
-dim(chr8) <- c(chr8len,1)
-chr8 <- list(chr8)
 
 chr9 <- chr9_finalpos$pos/100
-chr9len <- length(chr9)
-dim(chr9) <- c(chr9len,1)
-chr9 <- list(chr9)
 
-fancm_map <- list(chr1[[1]], chr2[[1]], 
-                   chr3[[1]], chr4[[1]], chr5[[1]], 
-                   chr6[[1]], chr7[[1]], chr8[[1]], 
-                   chr9[[1]], chr10[[1]])
+fancm_map = vector("list",10)
+fancm_map[[1]] = chr1
+fancm_map[[2]] = chr2
+fancm_map[[3]] = chr3
+fancm_map[[4]] = chr4
+fancm_map[[5]] = chr5
+fancm_map[[6]] = chr6
+fancm_map[[7]] = chr7
+fancm_map[[8]] = chr8
+fancm_map[[9]] = chr9
+fancm_map[[10]] = chr10
+for(i in 1:10){
+  names(fancm_map[[i]]) = paste(i, 1:segSites[i], sep="_")
+}
 
-#saveRDS(fancm_map, file="fancm_map.RData")
+saveRDS(fancm_map, file="fancm_map.RData")
 
 #Creating vector of centromere positions
-#change this
 fancm_centromere <- c(312.2040, 248.9850, 147.2845, 142.3752, 210,
                       45.38585, 174.29785, 165.53841, 150.52966, 148.83764)
 fancm_centromere <- (fancm_centromere/100)
