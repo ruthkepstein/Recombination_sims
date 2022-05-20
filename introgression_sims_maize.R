@@ -1,4 +1,5 @@
 library(AlphaSimR)
+setwd("/home/rke27/Documents")
 
 #generating mix of repulsion & coupling linkages between QTL
 addEff_mix <- runif(300, min = -0.1, max = 0.1)
@@ -187,14 +188,16 @@ badpop = mergePops(pop_bad_sel10)
 #selecting best individual from "good pop" and individual with resistance QTLs in "bad pop"
 best_good <- which(goodpop@gv == max(goodpop@gv), arr.ind = FALSE)
 #this changes every time depending on which row has highest GVs
-best_bad <- 473
+best_bad <- 465
 
 good_trait1_geno <- pullQtlGeno(goodpop[best_good,], trait = 1)
+#elite parent has 0, 0, 0 at all resistance loci bc absent
 good_trait2_geno <- pullQtlGeno(goodpop[best_good,], trait = 2)
 bad_trait1_geno <- pullQtlGeno(badpop[best_bad,], trait = 1)
+#wild parent has 2, 2, 2 at all resistance loci 
 bad_trait2_geno <- pullQtlGeno(badpop[best_bad,], trait = 2)
 
-#function for elucidating % of recurrent parent of progeny from genotypes
+#function for elucidating % of elite parent of progeny from genotype data
 percent_recurrent <- function(elite, progeny, recurrent_count){
   for(i in 1:(length(progeny)/2)){
       if(isTRUE((progeny[i,1] == elite[i,1]) && (progeny[i,2] == elite[i,2]))){
@@ -210,20 +213,22 @@ percent_recurrent <- function(elite, progeny, recurrent_count){
   return(recurrent_count)
 }
 
+#iterating over all chromosomes & individuals
 recurrent_all <- function(elite, progeny){
   recurrent_count = 0
   for(j in 1:10){
-    for(k in 1:100){
+    for(k in 1:5){
       recurrent_count = percent_recurrent(elite[[j]][,,1], progeny[[j]][,,k], recurrent_count)
     }
   }
   return(recurrent_count)
 }
 
-#function to decide which loci to track based on if biallelic between elite and wild
+#function to decide which loci to track based on if biallelic between elite and wild parents
 donor_sites <- matrix(data = NA, nrow = length(final_map[[1]]), ncol = 2)
 recur_sites <- matrix(data = NA, nrow = length(final_map[[1]]), ncol = 2)
 
+#find which wild parent alleles are present
 find_donor <- function(good_trait2_geno, bad_trait1_geno){
   for(i in 1:length(good_trait1_geno)){
     if(isTRUE(good_trait1_geno[i] != bad_trait1_geno[i])){
@@ -233,7 +238,7 @@ find_donor <- function(good_trait2_geno, bad_trait1_geno){
   }
   return(donor_sites)
 }
-
+#find which elite parent alleles are present 
 find_recurrent <- function(good_trait2_geno, bad_trait1_geno){
   for(i in 1:length(good_trait1_geno)){
     if(isTRUE(good_trait1_geno[i] != bad_trait1_geno[i])){
@@ -248,35 +253,38 @@ donorsites <- find_donor(good_trait1_geno, bad_trait1_geno)
 sites_to_track <- find_biallelic(good_trait1_geno, bad_trait1_geno, tracked_sites)
 sites_to_track <- sort(na.omit(sites_to_track))
 
-#function to look at loci around resistance loci
-progeny_loci <- pullQtlGeno(pop1_sel1_cross, trait = 1)[1:20]
+#function to look at loci around resistance loci to find if elite or wild parents are present
+#to assess linkage drag
+
+progeny_loci <- pullQtlGeno(pop1_sel5_2, trait = 1)[,1:40]
+elite_loci <- pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40]
+wild_loci <- pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40]
+
+drag <- c()
 range_around <- function(progeny_loci, good, bad){
   bad_ratio = 0
   good_ratio = 0
-  for(i in 1:20){
-    if(good[i] != bad[i]){
-      if(progeny_loci[i] == bad[i]){
-        bad_ratio = bad_ratio + 1
+  for(k in 1:5){
+    for(i in 1:40){
+      if(good[i] != bad[i]){
+        if(progeny_loci[k,i] == bad[i]){
+          bad_ratio = bad_ratio + 1
+        }
+        if(progeny_loci[k,i] == good[i]){
+          good_ratio = good_ratio + 1
+        }
       }
-      if(progeny_loci[i] == good[i]){
-        good_ratio = good_ratio + 1
+      if(progeny_loci[k,i] == 1){
+        good_ratio = good_ratio + .5
+        bad_ratio = bad_ratio + .5
       }
     }
-    if(progeny_loci[i] == 1){
-      good_ratio = good_ratio + .5
-      bad_ratio = bad_ratio + .5
-    }
+    drag[k] <- bad_ratio/(good_ratio + bad_ratio)
   }
-  return(good_ratio/20)
+  return(mean(drag))
 }
 
-ratio_all_progeny <- function(){
-  for(i in 1:length()){
-    #IDK!
-  }
-}
-
-range_around(progeny_loci, good_trait1_geno[1:20], bad_trait1_geno[1:20])
+range_around(progeny_loci, elite_loci, wild_loci)
 
 #wild-type first
 wtvar1 <- matrix(data = NA, ncol = 2, nrow = 100)
@@ -285,7 +293,6 @@ wtvar3 <- matrix(data = NA, ncol = 2, nrow = 100)
 wtvar4 <- matrix(data = NA, ncol = 2, nrow = 100)
 wtvar5 <- matrix(data = NA, ncol = 2, nrow = 100)
 wtvar6 <- matrix(data = NA, ncol = 2, nrow = 100)
-wtvar7 <- matrix(data = NA, ncol = 2, nrow = 100)
 F1_elite_perc <- c()
 F1_wild_perc <- c()
 S1_elite_perc <- c()
@@ -298,81 +305,79 @@ S4_elite_perc <- c()
 S4_wild_perc <- c()
 S5_elite_perc <- c()
 S5_wild_perc <- c()
+F1drag <- c()
+S1drag <- c()
+S2drag <- c()
+S3drag <- c()
+S4drag <- c()
+S5drag <- c()
 for(i in 1:100){
   SP$switchGenMap(final_map, centromere = real_centromere)
-  pop <- randCross2(badpop[best_bad,], goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
+  pop <- randCross2(goodpop[best_good,], badpop[best_bad,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop <- setPheno(pop = pop, h2 = 0.8, simParam = SP)
-  wtvar1[i] <- genicVarA(pop)
+  wtvar1[i,] <- genicVarA(pop)
   
-  F1_elite_perc[i] <- recurrent_all(goodpop[best_good,]@geno, pop@geno)/((recurrent_all(goodpop[best_good,]@geno, pop@geno)) + recurrent_all(badpop[best_bad,]@geno, pop@geno))
-  F1_wild_perc[i] <- recurrent_all(badpop[best_bad,]@geno, pop@geno)/((recurrent_all(goodpop[best_good,]@geno, pop@geno)) + recurrent_all(badpop[best_bad,]@geno, pop@geno))
-  F1_geno1[i] <- pullQtlGeno(pop, trait = 1)
   pop1_sel <- selectInd(pop, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel1_2 <- selectInd(pop1_sel, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  F1_elite_perc[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)) + recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno))
+  F1_wild_perc[i] <- recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)) + recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno))
+  F1drag[i] <- range_around(pullQtlGeno(pop1_sel1_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel1_cross <- randCross2(pop1_sel1_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel1_cross <- setPheno(pop1_sel1_cross, h2 = 0.8, simParam = SP)
-  wtvar2[i] <- genicVarA(pop1_sel1_2)
+  wtvar2[i,] <- genicVarA(pop1_sel1_2)
   
-  S1_elite_perc[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno))
-  S1_wild_perc[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno))
-  S1_geno1[i] <- pullQtlGeno(pop1_sel1_cross, trait = 1)
-  S1_geno2[i] <- pullQtlGeno(pop1_sel1_cross, trait = 2)
   pop1_sel2 <- selectInd(pop1_sel1_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel2_2 <- selectInd(pop1_sel2, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S1_elite_perc[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno))
+  S1_wild_perc[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno))
+  S1drag[i] <- range_around(pullQtlGeno(pop1_sel2_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel2_cross <- randCross2(pop1_sel2_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel2_cross <- setPheno(pop1_sel2_cross, h2 = 0.8, simParam = SP)
-  wtvar3[i] <- genicVarA(pop1_sel2_2)
+  wtvar3[i,] <- genicVarA(pop1_sel2_2)
   
-  S2_elite_perc[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno))
-  S2_wild_perc[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno))
-  S2_geno1[i] <- pullQtlGeno(pop1_sel2_cross, trait = 1)
-  S2_geno2[i] <- pullQtlGeno(pop1_sel2_cross, trait = 2)
   pop1_sel3 <- selectInd(pop1_sel2_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel3_2 <- selectInd(pop1_sel3, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S2_elite_perc[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno))
+  S2_wild_perc[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno))
+  S2drag[i] <- range_around(pullQtlGeno(pop1_sel3_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel3_cross <- randCross2(pop1_sel3_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel3_cross <- setPheno(pop1_sel3_cross, h2 = 0.8, simParam = SP)
-  wtvar4[i] <- genicVarA(pop1_sel3_2)
+  wtvar4[i,] <- genicVarA(pop1_sel3_2)
   
-  S3_elite_perc[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno))
-  S3_wild_perc[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno))
-  S3_geno1[i] <- pullQtlGeno(pop1_sel3_cross, trait = 1)
-  S3_geno2[i] <- pullQtlGeno(pop1_sel3_cross, trait = 2)
   pop1_sel4 <- selectInd(pop1_sel3_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel4_2 <- selectInd(pop1_sel4, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S3_elite_perc[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno))
+  S3_wild_perc[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno))
+  S3drag[i] <- range_around(pullQtlGeno(pop1_sel4_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel4_cross <- randCross2(pop1_sel4_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel4_cross <- setPheno(pop1_sel4_cross, h2 = 0.8, simParam = SP)
-  wtvar5[i] <- genicVarA(pop1_sel4_2)
+  wtvar5[i,] <- genicVarA(pop1_sel4_2)
   
-  S4_elite_perc[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  S4_wild_perc[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  S4_geno1[i] <- pullQtlGeno(pop1_sel4_cross, trait = 1)
-  S4_geno2[i] <- pullQtlGeno(pop1_sel4_cross, trait = 2)
   pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel5_2 <- selectInd(pop1_sel5, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S4_elite_perc[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4_wild_perc[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4drag[i] <- range_around(pullQtlGeno(pop1_sel5_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel5_cross <- randCross2(pop1_sel5_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel5_cross <- setPheno(pop1_sel5_cross, h2 = 0.8, simParam = SP)
-  wtvar6[i] <- genicVarA(pop1_sel5_2)
+  wtvar6[i,] <- genicVarA(pop1_sel5_2)
   
-  S5_geno1[i] <- pullQtlGeno(pop1_sel5_cross, trait = 1)
-  S5_geno2[i] <- pullQtlGeno(pop1_sel5_cross, trait = 2)
-  S5_elite_perc[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno))
-  S5_wild_perc[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno))
+  pop1_sel6 <- selectInd(pop1_sel5_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel6_2 <- selectInd(pop1_sel6, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S5_elite_perc[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno))
+  S5_wild_perc[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno))
+  S5drag[i] <- range_around(pullQtlGeno(pop1_sel6_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
 }
 
+
 #ddm1
-ddm1_sel2_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ddm1_sel3_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ddm1_sel4_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ddm1_sel5_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ddm1_sel6_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ddm1_sel7_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ddm1var1 <- matrix(data = NA, ncol = 1, nrow = 100)
-ddm1var2 <- matrix(data = NA, ncol = 1, nrow = 100)
-ddm1var3 <- matrix(data = NA, ncol = 1, nrow = 100)
-ddm1var4 <- matrix(data = NA, ncol = 1, nrow = 100)
-ddm1var5 <- matrix(data = NA, ncol = 1, nrow = 100)
-ddm1var6 <- matrix(data = NA, ncol = 1, nrow = 100)
-ddm1var7 <- matrix(data = NA, ncol = 1, nrow = 100)
+ddm1var1 <- matrix(data = NA, ncol = 2, nrow = 100)
+ddm1var2 <- matrix(data = NA, ncol = 2, nrow = 100)
+ddm1var3 <- matrix(data = NA, ncol = 2, nrow = 100)
+ddm1var4 <- matrix(data = NA, ncol = 2, nrow = 100)
+ddm1var5 <- matrix(data = NA, ncol = 2, nrow = 100)
+ddm1var6 <- matrix(data = NA, ncol = 2, nrow = 100)
+ddm1var7 <- matrix(data = NA, ncol = 2, nrow = 100)
 F1_elite_percddm1 <- c()
 F1_wild_percddm1 <- c()
 S1_elite_percddm1 <- c()
@@ -385,75 +390,78 @@ S4_elite_percddm1 <- c()
 S4_wild_percddm1 <- c()
 S5_elite_percddm1 <- c()
 S5_wild_percddm1 <- c()
+F1dragddm1 <- c()
+S1dragddm1 <- c()
+S2dragddm1 <- c()
+S3dragddm1 <- c()
+S4dragddm1 <- c()
+S5dragddm1 <- c()
 for(i in 1:100){
   SP$switchGenMap(ddm1_map, centromere = ddm1_centromere)
   pop <- randCross2(goodpop[best_good,], badpop[best_bad,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop <- setPheno(pop = pop, h2 = 0.8, simParam = SP)
-  ddm1var1[i] <- genicVarA(pop)
+  ddm1var1[i,] <- genicVarA(pop)
   
-  F1_elite_percddm1[i] <- recurrent_all(goodpop[best_good,]@geno, pop@geno)/((recurrent_all(goodpop[best_good,]@geno, pop@geno)) + recurrent_all(badpop[best_bad,]@geno, pop@geno))
-  F1_wild_percddm1[i] <- recurrent_all(badpop[best_bad,]@geno, pop@geno)/((recurrent_all(goodpop[best_good,]@geno, pop@geno)) + recurrent_all(badpop[best_bad,]@geno, pop@geno))
   pop1_sel <- selectInd(pop, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel1_2 <- selectInd(pop1_sel, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  F1_elite_percddm1[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)) + recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno))
+  F1_wild_percddm1[i] <- recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)) + recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno))
+  F1dragddm1[i] <- range_around(pullQtlGeno(pop1_sel1_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel1_cross <- randCross2(pop1_sel1_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel1_cross <- setPheno(pop1_sel1_cross, h2 = 0.8, simParam = SP)
-  ddm1var2[i] <- genicVarA(pop1_sel1_2)
+  ddm1var2[i,] <- genicVarA(pop1_sel1_2)
   
-  S1_elite_percddm1[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno))
-  S1_wild_percddm1[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno))
-  ddm1_sel2_gv[i,] <- gv(pop1_sel1_2)
   pop1_sel2 <- selectInd(pop1_sel1_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel2_2 <- selectInd(pop1_sel2, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S1_elite_percddm1[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno))
+  S1_wild_percddm1[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno))
+  S1dragddm1[i] <- range_around(pullQtlGeno(pop1_sel2_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel2_cross <- randCross2(pop1_sel2_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel2_cross <- setPheno(pop1_sel2_cross, h2 = 0.8, simParam = SP)
-  ddm1var3[i] <- genicVarA(pop1_sel2_2)
+  ddm1var3[i,] <- genicVarA(pop1_sel2_2)
   
-  S2_elite_percddm1[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno))
-  S2_wild_percddm1[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno))
-  ddm1_sel3_gv[i,] <- gv(pop1_sel2_2)
   pop1_sel3 <- selectInd(pop1_sel2_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel3_2 <- selectInd(pop1_sel3, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S2_elite_percddm1[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno))
+  S2_wild_percddm1[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno))
+  S2dragddm1[i] <- range_around(pullQtlGeno(pop1_sel3_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel3_cross <- randCross2(pop1_sel3_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel3_cross <- setPheno(pop1_sel3_cross, h2 = 0.8, simParam = SP)
-  ddm1var4[i] <- genicVarA(pop1_sel3_2)
+  ddm1var4[i,] <- genicVarA(pop1_sel3_2)
   
-  S3_elite_percddm1[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno))
-  S3_wild_percddm1[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno))
-  ddm1_sel4_gv[i,] <- gv(pop1_sel3_2)
   pop1_sel4 <- selectInd(pop1_sel3_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel4_2 <- selectInd(pop1_sel4, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S3_elite_percddm1[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno))
+  S3_wild_percddm1[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno))
+  S3dragddm1[i] <- range_around(pullQtlGeno(pop1_sel4_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel4_cross <- randCross2(pop1_sel4_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel4_cross <- setPheno(pop1_sel4_cross, h2 = 0.8, simParam = SP)
-  ddm1var5[i] <- genicVarA(pop1_sel4_2)
+  ddm1var5[i,] <- genicVarA(pop1_sel4_2)
   
-  S4_elite_percddm1[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  S4_wild_percddm1[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  ddm1_sel5_gv[i,] <- gv(pop1_sel4_2)
   pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel5_2 <- selectInd(pop1_sel5, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S4_elite_percddm1[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4_wild_percddm1[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4dragddm1[i] <- range_around(pullQtlGeno(pop1_sel5_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel5_cross <- randCross2(pop1_sel5_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel5_cross <- setPheno(pop1_sel5_cross, h2 = 0.8, simParam = SP)
-  ddm1var6[i] <- genicVarA(pop1_sel5_2)
+  ddm1var6[i,] <- genicVarA(pop1_sel5_2)
   
-  S5_elite_percddm1[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno))
-  S5_wild_percddm1[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno))
-  ddm1_sel6_gv[i,] <- gv(pop1_sel5_2)
+  pop1_sel6 <- selectInd(pop1_sel5_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel6_2 <- selectInd(pop1_sel6, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S5_elite_percddm1[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno))
+  S5_wild_percddm1[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno))
+  S5dragddm1[i] <- range_around(pullQtlGeno(pop1_sel6_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
 }
 
 #zmet2
-zmet2_sel2_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-zmet2_sel3_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-zmet2_sel4_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-zmet2_sel5_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-zmet2_sel6_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-zmet2_sel7_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-zmet2var1 <- matrix(data = NA, ncol = 1, nrow = 100)
-zmet2var2 <- matrix(data = NA, ncol = 1, nrow = 100)
-zmet2var3 <- matrix(data = NA, ncol = 1, nrow = 100)
-zmet2var4 <- matrix(data = NA, ncol = 1, nrow = 100)
-zmet2var5 <- matrix(data = NA, ncol = 1, nrow = 100)
-zmet2var6 <- matrix(data = NA, ncol = 1, nrow = 100)
-zmet2var7 <- matrix(data = NA, ncol = 1, nrow = 100)
+zmet2var1 <- matrix(data = NA, ncol = 2, nrow = 100)
+zmet2var2 <- matrix(data = NA, ncol = 2, nrow = 100)
+zmet2var3 <- matrix(data = NA, ncol = 2, nrow = 100)
+zmet2var4 <- matrix(data = NA, ncol = 2, nrow = 100)
+zmet2var5 <- matrix(data = NA, ncol = 2, nrow = 100)
+zmet2var6 <- matrix(data = NA, ncol = 2, nrow = 100)
+zmet2var7 <- matrix(data = NA, ncol = 2, nrow = 100)
 F1_elite_perczmet2 <- c()
 F1_wild_perczmet2 <- c()
 S1_elite_perczmet2 <- c()
@@ -466,75 +474,78 @@ S4_elite_perczmet2 <- c()
 S4_wild_perczmet2 <- c()
 S5_elite_perczmet2 <- c()
 S5_wild_perczmet2 <- c()
+F1dragzmet2 <- c()
+S1dragzmet2 <- c()
+S2dragzmet2 <- c()
+S3dragzmet2 <- c()
+S4dragzmet2 <- c()
+S5dragzmet2 <- c()
 for(i in 1:100){
   SP$switchGenMap(zmet2_map, centromere = zmet2_centromere)
   pop <- randCross2(goodpop[best_good,], badpop[best_bad,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop <- setPheno(pop = pop, h2 = 0.8, simParam = SP)
-  zmet2var1[i] <- genicVarA(pop)
+  zmet2var1[i,] <- genicVarA(pop)
   
-  F1_elite_perczmet2[i] <- recurrent_all(goodpop[best_good,]@geno, pop@geno)/((recurrent_all(goodpop[best_good,]@geno, pop@geno)) + recurrent_all(badpop[best_bad,]@geno, pop@geno))
-  F1_wild_perczmet2[i] <- recurrent_all(badpop[best_bad,]@geno, pop@geno)/((recurrent_all(goodpop[best_good,]@geno, pop@geno)) + recurrent_all(badpop[best_bad,]@geno, pop@geno))
   pop1_sel <- selectInd(pop, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel1_2 <- selectInd(pop1_sel, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  F1_elite_perczmet2[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)) + recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno))
+  F1_wild_perczmet2[i] <- recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)) + recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno))
+  F1dragzmet2[i] <- range_around(pullQtlGeno(pop1_sel1_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel1_cross <- randCross2(pop1_sel1_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel1_cross <- setPheno(pop1_sel1_cross, h2 = 0.8, simParam = SP)
-  zmet2var2[i] <- genicVarA(pop1_sel1_2)
+  zmet2var2[i,] <- genicVarA(pop1_sel1_2)
   
-  S1_elite_perczmet2[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno))
-  S1_wild_perczmet2[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno))
-  zmet2_sel2_gv[i,] <- gv(pop1_sel1_2)
   pop1_sel2 <- selectInd(pop1_sel1_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel2_2 <- selectInd(pop1_sel2, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S1_elite_perczmet2[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno))
+  S1_wild_perczmet2[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno))
+  S1dragzmet2[i] <- range_around(pullQtlGeno(pop1_sel2_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel2_cross <- randCross2(pop1_sel2_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel2_cross <- setPheno(pop1_sel2_cross, h2 = 0.8, simParam = SP)
-  zmet2var3[i] <- genicVarA(pop1_sel2_2)
+  zmet2var3[i,] <- genicVarA(pop1_sel2_2)
   
-  S2_elite_perczmet2[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno))
-  S2_wild_perczmet2[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno))
-  zmet2_sel3_gv[i,] <- gv(pop1_sel2_2)
   pop1_sel3 <- selectInd(pop1_sel2_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel3_2 <- selectInd(pop1_sel3, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S2_elite_perczmet2[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno))
+  S2_wild_perczmet2[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno))
+  S2dragzmet2[i] <- range_around(pullQtlGeno(pop1_sel3_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel3_cross <- randCross2(pop1_sel3_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel3_cross <- setPheno(pop1_sel3_cross, h2 = 0.8, simParam = SP)
-  zmet2var4[i] <- genicVarA(pop1_sel3_2)
+  zmet2var4[i,] <- genicVarA(pop1_sel3_2)
   
-  S3_elite_perc[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno))
-  S3_wild_perc[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno))
-  zmet2_sel4_gv[i,] <- gv(pop1_sel3_2)
   pop1_sel4 <- selectInd(pop1_sel3_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel4_2 <- selectInd(pop1_sel4, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S3_elite_perczmet2[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno))
+  S3_wild_perczmet2[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno))
+  S3dragzmet2[i] <- range_around(pullQtlGeno(pop1_sel4_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel4_cross <- randCross2(pop1_sel4_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel4_cross <- setPheno(pop1_sel4_cross, h2 = 0.8, simParam = SP)
-  zmet2var5[i] <- genicVarA(pop1_sel4_2)
+  zmet2var5[i,] <- genicVarA(pop1_sel4_2)
   
-  S4_elite_perc[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  S4_wild_perc[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  zmet2_sel5_gv[i,] <- gv(pop1_sel4_2)
   pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel5_2 <- selectInd(pop1_sel5, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S4_elite_perczmet2[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4_wild_perczmet2[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4dragzmet2[i] <- range_around(pullQtlGeno(pop1_sel5_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel5_cross <- randCross2(pop1_sel5_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel5_cross <- setPheno(pop1_sel5_cross, h2 = 0.8, simParam = SP)
-  zmet2var6[i] <- genicVarA(pop1_sel5_2)
+  zmet2var6[i,] <- genicVarA(pop1_sel5_2)
   
-  S5_elite_perczmet2[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno))
-  S5_wild_perczmet2[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno))
-  zmet2_sel6_gv[i,] <- gv(pop1_sel5_2)
+  pop1_sel6 <- selectInd(pop1_sel5_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel6_2 <- selectInd(pop1_sel6, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S5_elite_perczmet2[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno))
+  S5_wild_perczmet2[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno))
+  S5dragzmet2[i] <- range_around(pullQtlGeno(pop1_sel6_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
 }
 
 #recq4
-recq4_sel2_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-recq4_sel3_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-recq4_sel4_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-recq4_sel5_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-recq4_sel6_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-recq4_sel7_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-recq4var1 <- matrix(data = NA, ncol = 1, nrow = 100)
-recq4var2 <- matrix(data = NA, ncol = 1, nrow = 100)
-recq4var3 <- matrix(data = NA, ncol = 1, nrow = 100)
-recq4var4 <- matrix(data = NA, ncol = 1, nrow = 100)
-recq4var5 <- matrix(data = NA, ncol = 1, nrow = 100)
-recq4var6 <- matrix(data = NA, ncol = 1, nrow = 100)
-recq4var7 <- matrix(data = NA, ncol = 1, nrow = 100)
+recq4var1 <- matrix(data = NA, ncol = 2, nrow = 100)
+recq4var2 <- matrix(data = NA, ncol = 2, nrow = 100)
+recq4var3 <- matrix(data = NA, ncol = 2, nrow = 100)
+recq4var4 <- matrix(data = NA, ncol = 2, nrow = 100)
+recq4var5 <- matrix(data = NA, ncol = 2, nrow = 100)
+recq4var6 <- matrix(data = NA, ncol = 2, nrow = 100)
+recq4var7 <- matrix(data = NA, ncol = 2, nrow = 100)
 F1_elite_percrecq4 <- c()
 F1_wild_percrecq4 <- c()
 S1_elite_percrecq4 <- c()
@@ -547,75 +558,78 @@ S4_elite_percrecq4 <- c()
 S4_wild_percrecq4 <- c()
 S5_elite_percrecq4 <- c()
 S5_wild_percrecq4 <- c()
+F1dragrecq4 <- c()
+S1dragrecq4 <- c()
+S2dragrecq4 <- c()
+S3dragrecq4 <- c()
+S4dragrecq4 <- c()
+S5dragrecq4 <- c()
 for(i in 1:100){
   SP$switchGenMap(recq4_map, centromere = recq4_centromere)
   pop <- randCross2(goodpop[best_good,], badpop[best_bad,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop <- setPheno(pop = pop, h2 = 0.8, simParam = SP)
-  recq4var1[i] <- genicVarA(pop)
+  recq4var1[i,] <- genicVarA(pop)
   
-  F1_elite_percrecq4[i] <- recurrent_all(goodpop[best_good,]@geno, pop@geno)/((recurrent_all(goodpop[best_good,]@geno, pop@geno)) + recurrent_all(badpop[best_bad,]@geno, pop@geno))
-  F1_wild_percrecq4[i] <- recurrent_all(badpop[best_bad,]@geno, pop@geno)/((recurrent_all(goodpop[best_good,]@geno, pop@geno)) + recurrent_all(badpop[best_bad,]@geno, pop@geno))
   pop1_sel <- selectInd(pop, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel1_2 <- selectInd(pop1_sel, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  F1_elite_percrecq4[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)) + recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno))
+  F1_wild_percrecq4[i] <- recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)) + recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno))
+  F1dragrecq4[i] <- range_around(pullQtlGeno(pop1_sel1_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel1_cross <- randCross2(pop1_sel1_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel1_cross <- setPheno(pop1_sel1_cross, h2 = 0.8, simParam = SP)
-  recq4var2[i] <- genicVarA(pop1_sel1_2)
+  recq4var2[i,] <- genicVarA(pop1_sel1_2)
   
-  S1_elite_percrecq4[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno))
-  S1_wild_percrecq4[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno))
-  recq4_sel2_gv[i,] <- gv(pop1_sel1_2)
   pop1_sel2 <- selectInd(pop1_sel1_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel2_2 <- selectInd(pop1_sel2, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S1_elite_percrecq4[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno))
+  S1_wild_percrecq4[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno))
+  S1dragrecq4[i] <- range_around(pullQtlGeno(pop1_sel2_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel2_cross <- randCross2(pop1_sel2_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel2_cross <- setPheno(pop1_sel2_cross, h2 = 0.8, simParam = SP)
-  recq4var3[i] <- genicVarA(pop1_sel2_2)
+  recq4var3[i,] <- genicVarA(pop1_sel2_2)
   
-  S2_elite_percrecq4[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno))
-  S2_wild_percrecq4[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno))
-  recq4_sel3_gv[i,] <- gv(pop1_sel2_2)
   pop1_sel3 <- selectInd(pop1_sel2_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel3_2 <- selectInd(pop1_sel3, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S2_elite_percrecq4[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno))
+  S2_wild_percrecq4[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno))
+  S2dragrecq4[i] <- range_around(pullQtlGeno(pop1_sel3_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel3_cross <- randCross2(pop1_sel3_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel3_cross <- setPheno(pop1_sel3_cross, h2 = 0.8, simParam = SP)
-  recq4var4[i] <- genicVarA(pop1_sel3_2)
+  recq4var4[i,] <- genicVarA(pop1_sel3_2)
   
-  S3_elite_percrecq4[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno))
-  S3_wild_percrecq4[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno))
-  recq4_sel4_gv[i,] <- gv(pop1_sel3_2)
   pop1_sel4 <- selectInd(pop1_sel3_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel4_2 <- selectInd(pop1_sel4, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S3_elite_percrecq4[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno))
+  S3_wild_percrecq4[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno))
+  S3dragrecq4[i] <- range_around(pullQtlGeno(pop1_sel4_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel4_cross <- randCross2(pop1_sel4_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel4_cross <- setPheno(pop1_sel4_cross, h2 = 0.8, simParam = SP)
-  recq4var5[i] <- genicVarA(pop1_sel4_2)
+  recq4var5[i,] <- genicVarA(pop1_sel4_2)
   
-  S4_elite_percrecq4[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  S4_wild_percrecq4[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  recq4_sel5_gv[i,] <- gv(pop1_sel4_2)
   pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel5_2 <- selectInd(pop1_sel5, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S4_elite_percrecq4[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4_wild_percrecq4[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4dragrecq4[i] <- range_around(pullQtlGeno(pop1_sel5_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel5_cross <- randCross2(pop1_sel5_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel5_cross <- setPheno(pop1_sel5_cross, h2 = 0.8, simParam = SP)
-  recq4var6[i] <- genicVarA(pop1_sel5_2)
+  recq4var6[i,] <- genicVarA(pop1_sel5_2)
   
-  S5_elite_percrecq4[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno))
-  S5_wild_percrecq4[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno))
-  recq4_sel6_gv[i,] <- gv(pop1_sel5_2)
+  pop1_sel6 <- selectInd(pop1_sel5_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel6_2 <- selectInd(pop1_sel6, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S5_elite_percrecq4[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno))
+  S5_wild_percrecq4[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno))
+  S5dragrecq4[i] <- range_around(pullQtlGeno(pop1_sel6_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
 }
 
 #fancm
-fancm_sel2_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-fancm_sel3_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-fancm_sel4_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-fancm_sel5_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-fancm_sel6_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-fancm_sel7_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-fancmvar1 <- matrix(data = NA, ncol = 1, nrow = 100)
-fancmvar2 <- matrix(data = NA, ncol = 1, nrow = 100)
-fancmvar3 <- matrix(data = NA, ncol = 1, nrow = 100)
-fancmvar4 <- matrix(data = NA, ncol = 1, nrow = 100)
-fancmvar5 <- matrix(data = NA, ncol = 1, nrow = 100)
-fancmvar6 <- matrix(data = NA, ncol = 1, nrow = 100)
-fancmvar7 <- matrix(data = NA, ncol = 1, nrow = 100)
+fancmvar1 <- matrix(data = NA, ncol = 2, nrow = 100)
+fancmvar2 <- matrix(data = NA, ncol = 2, nrow = 100)
+fancmvar3 <- matrix(data = NA, ncol = 2, nrow = 100)
+fancmvar4 <- matrix(data = NA, ncol = 2, nrow = 100)
+fancmvar5 <- matrix(data = NA, ncol = 2, nrow = 100)
+fancmvar6 <- matrix(data = NA, ncol = 2, nrow = 100)
+fancmvar7 <- matrix(data = NA, ncol = 2, nrow = 100)
 F1_elite_percfancm <- c()
 F1_wild_percfancm <- c()
 S1_elite_percfancm <- c()
@@ -628,75 +642,78 @@ S4_elite_percfancm <- c()
 S4_wild_percfancm <- c()
 S5_elite_percfancm <- c()
 S5_wild_percfancm <- c()
+F1dragfancm <- c()
+S1dragfancm <- c()
+S2dragfancm <- c()
+S3dragfancm <- c()
+S4dragfancm <- c()
+S5dragfancm <- c()
 for(i in 1:100){
   SP$switchGenMap(fancm_map, centromere = fancm_centromere)
   pop <- randCross2(goodpop[best_good,], badpop[best_bad,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop <- setPheno(pop = pop, h2 = 0.8, simParam = SP)
-  fancmvar1[i] <- genicVarA(pop)
+  fancmvar1[i,] <- genicVarA(pop)
   
-  F1_elite_percfancm[i] <- recurrent_all(goodpop[best_good,]@geno, pop@geno)/((recurrent_all(goodpop[best_good,]@geno, pop@geno)) + recurrent_all(badpop[best_bad,]@geno, pop@geno))
-  F1_wild_percfancm[i] <- recurrent_all(badpop[best_bad,]@geno, pop@geno)/((recurrent_all(goodpop[best_good,]@geno, pop@geno)) + recurrent_all(badpop[best_bad,]@geno, pop@geno))
   pop1_sel <- selectInd(pop, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel1_2 <- selectInd(pop1_sel, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  F1_elite_percfancm[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)) + recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno))
+  F1_wild_percfancm[i] <- recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)) + recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno))
+  F1dragfancm[i] <- range_around(pullQtlGeno(pop1_sel1_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel1_cross <- randCross2(pop1_sel1_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel1_cross <- setPheno(pop1_sel1_cross, h2 = 0.8, simParam = SP)
-  fancmvar2[i] <- genicVarA(pop1_sel1_2)
+  fancmvar2[i,] <- genicVarA(pop1_sel1_2)
   
-  S1_elite_percfancm[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno))
-  S1_wild_percfancm[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno))
-  fancm_sel2_gv[i,] <- gv(pop1_sel1_2)
   pop1_sel2 <- selectInd(pop1_sel1_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel2_2 <- selectInd(pop1_sel2, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  pop1_sel2_cross <- randCross2(pop1_sel2_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
+  S1_elite_percfancm[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno))
+  S1_wild_percfancm[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno))
+  S1dragfancm[i] <- range_around(pullQtlGeno(pop1_sel2_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
+  op1_sel2_cross <- randCross2(pop1_sel2_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel2_cross <- setPheno(pop1_sel2_cross, h2 = 0.8, simParam = SP)
-  fancmvar3[i] <- genicVarA(pop1_sel2_2)
+  fancmvar3[i,] <- genicVarA(pop1_sel2_2)
   
-  S2_elite_percfancm[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno))
-  S2_wild_percfancm[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno))
-  fancm_sel3_gv[i,] <- gv(pop1_sel2_2)
   pop1_sel3 <- selectInd(pop1_sel2_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel3_2 <- selectInd(pop1_sel3, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S2_elite_percfancm[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno))
+  S2_wild_percfancm[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno))
+  S2dragfancm[i] <- range_around(pullQtlGeno(pop1_sel3_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel3_cross <- randCross2(pop1_sel3_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel3_cross <- setPheno(pop1_sel3_cross, h2 = 0.8, simParam = SP)
-  fancmvar4[i] <- genicVarA(pop1_sel3_2)
+  fancmvar4[i,] <- genicVarA(pop1_sel3_2)
   
-  S3_elite_percfancm[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno))
-  S3_wild_percfancm[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno))
-  fancm_sel4_gv[i,] <- gv(pop1_sel3_2)
   pop1_sel4 <- selectInd(pop1_sel3_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel4_2 <- selectInd(pop1_sel4, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S3_elite_percfancm[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno))
+  S3_wild_percfancm[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno))
+  S3dragfancm[i] <- range_around(pullQtlGeno(pop1_sel4_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel4_cross <- randCross2(pop1_sel4_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel4_cross <- setPheno(pop1_sel4_cross, h2 = 0.8, simParam = SP)
-  fancmvar5[i] <- genicVarA(pop1_sel4_2)
+  fancmvar5[i,] <- genicVarA(pop1_sel4_2)
   
-  S4_elite_percfancm[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  S4_wild_percfancm[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  fancm_sel5_gv[i,] <- gv(pop1_sel4_2)
   pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel5_2 <- selectInd(pop1_sel5, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S4_elite_percfancm[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4_wild_percfancm[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4dragfancm[i] <- range_around(pullQtlGeno(pop1_sel5_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel5_cross <- randCross2(pop1_sel5_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel5_cross <- setPheno(pop1_sel5_cross, h2 = 0.8, simParam = SP)
-  fancmvar6[i] <- genicVarA(pop1_sel5_2)
+  fancmvar6[i,] <- genicVarA(pop1_sel5_2)
   
-  S5_elite_percfancm[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno))
-  S5_wild_percfancm[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno))
-  fancm_sel6_gv[i,] <- gv(pop1_sel5_2)
+  pop1_sel6 <- selectInd(pop1_sel5_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel6_2 <- selectInd(pop1_sel6, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S5_elite_percfancm[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno))
+  S5_wild_percfancm[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno))
+  S5dragfancm[i] <- range_around(pullQtlGeno(pop1_sel6_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
 }
 
 #ideal1 = 10X global increase
-ideal1_sel2_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ideal1_sel3_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ideal1_sel4_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ideal1_sel5_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ideal1_sel6_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ideal1_sel7_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ideal1var1 <- matrix(data = NA, ncol = 1, nrow = 100)
-ideal1var2 <- matrix(data = NA, ncol = 1, nrow = 100)
-ideal1var3 <- matrix(data = NA, ncol = 1, nrow = 100)
-ideal1var4 <- matrix(data = NA, ncol = 1, nrow = 100)
-ideal1var5 <- matrix(data = NA, ncol = 1, nrow = 100)
-ideal1var6 <- matrix(data = NA, ncol = 1, nrow = 100)
-ideal1var7 <- matrix(data = NA, ncol = 1, nrow = 100)
+ideal1var1 <- matrix(data = NA, ncol = 2, nrow = 100)
+ideal1var2 <- matrix(data = NA, ncol = 2, nrow = 100)
+ideal1var3 <- matrix(data = NA, ncol = 2, nrow = 100)
+ideal1var4 <- matrix(data = NA, ncol = 2, nrow = 100)
+ideal1var5 <- matrix(data = NA, ncol = 2, nrow = 100)
+ideal1var6 <- matrix(data = NA, ncol = 2, nrow = 100)
+ideal1var7 <- matrix(data = NA, ncol = 2, nrow = 100)
 F1_elite_perc10X <- c()
 F1_wild_perc10X <- c()
 S1_elite_perc10X <- c()
@@ -709,75 +726,78 @@ S4_elite_perc10X <- c()
 S4_wild_perc10X <- c()
 S5_elite_perc10X <- c()
 S5_wild_perc10X <- c()
+F1drag10X <- c()
+S1drag10X <- c()
+S2drag10X <- c()
+S3drag10X <- c()
+S4drag10X <- c()
+S5drag10X <- c()
 for(i in 1:100){
   SP$switchGenMap(ideal1_map, centromere = ideal1_centromere)
   pop <- randCross2(goodpop[best_good,], badpop[best_bad,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop <- setPheno(pop = pop, h2 = 0.8, simParam = SP)
-  ideal1var1[i] <- genicVarA(pop)
+  ideal1var1[i,] <- genicVarA(pop)
   
-  F1_elite_perc10X[i] <- recurrent_all(goodpop[best_good,]@geno, pop@geno)/((recurrent_all(goodpop[best_good,]@geno, pop@geno)) + recurrent_all(badpop[best_bad,]@geno, pop@geno))
-  F1_wild_perc10X[i] <- recurrent_all(badpop[best_bad,]@geno, pop@geno)/((recurrent_all(goodpop[best_good,]@geno, pop@geno)) + recurrent_all(badpop[best_bad,]@geno, pop@geno))
   pop1_sel <- selectInd(pop, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel1_2 <- selectInd(pop1_sel, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  F1_elite_perc10X[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)) + recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno))
+  F1_wild_perc10X[i] <- recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)) + recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno))
+  F1drag10X[i] <- range_around(pullQtlGeno(pop1_sel1_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel1_cross <- randCross2(pop1_sel1_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel1_cross <- setPheno(pop1_sel1_cross, h2 = 0.8, simParam = SP)
-  ideal1var2[i] <- genicVarA(pop1_sel1_2)
+  ideal1var2[i,] <- genicVarA(pop1_sel1_2)
   
-  S1_elite_perc10X[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno))
-  S1_wild_perc10X[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno))
-  ideal1_sel2_gv[i,] <- gv(pop1_sel1_2)
   pop1_sel2 <- selectInd(pop1_sel1_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel2_2 <- selectInd(pop1_sel2, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S1_elite_perc10X[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno))
+  S1_wild_perc10X[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno))
+  S1drag10X[i] <- range_around(pullQtlGeno(pop1_sel2_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel2_cross <- randCross2(pop1_sel2_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel2_cross <- setPheno(pop1_sel2_cross, h2 = 0.8, simParam = SP)
-  ideal1var3[i] <- genicVarA(pop1_sel2_2)
+  ideal1var3[i,] <- genicVarA(pop1_sel2_2)
   
-  S2_elite_perc10X[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno))
-  S2_wild_perc10X[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno))
-  ideal1_sel3_gv[i,] <- gv(pop1_sel2_2)
   pop1_sel3 <- selectInd(pop1_sel2_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel3_2 <- selectInd(pop1_sel3, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S2_elite_perc10X[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno))
+  S2_wild_perc10X[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno))
+  S2drag10X[i] <- range_around(pullQtlGeno(pop1_sel3_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel3_cross <- randCross2(pop1_sel3_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel3_cross <- setPheno(pop1_sel3_cross, h2 = 0.8, simParam = SP)
-  ideal1var4[i] <- genicVarA(pop1_sel3_2)
+  ideal1var4[i,] <- genicVarA(pop1_sel3_2)
   
-  S3_elite_perc10X[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno))
-  S3_wild_perc10X[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno))
-  ideal1_sel4_gv[i,] <- gv(pop1_sel3_2)
   pop1_sel4 <- selectInd(pop1_sel3_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel4_2 <- selectInd(pop1_sel4, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S3_elite_perc10X[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno))
+  S3_wild_perc10X[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno))
+  S3drag10X[i] <- range_around(pullQtlGeno(pop1_sel4_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel4_cross <- randCross2(pop1_sel4_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel4_cross <- setPheno(pop1_sel4_cross, h2 = 0.8, simParam = SP)
-  ideal1var5[i] <- genicVarA(pop1_sel4_2)
+  ideal1var5[i,] <- genicVarA(pop1_sel4_2)
   
-  S4_elite_perc10X[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  S4_wild_perc10X[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  ideal1_sel5_gv[i,] <- gv(pop1_sel4_2)
   pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel5_2 <- selectInd(pop1_sel5, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S4_elite_perc10X[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4_wild_perc10X[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4drag10X[i] <- range_around(pullQtlGeno(pop1_sel5_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel5_cross <- randCross2(pop1_sel5_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel5_cross <- setPheno(pop1_sel5_cross, h2 = 0.8, simParam = SP)
-  ideal1var6[i] <- genicVarA(pop1_sel5_2)
+  ideal1var6[i,] <- genicVarA(pop1_sel5_2)
   
-  S5_elite_perc10X[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno))
-  S5_wild_perc10X[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno))
-  ideal1_sel6_gv[i,] <- gv(pop1_sel5_2)
+  pop1_sel6 <- selectInd(pop1_sel5_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel6_2 <- selectInd(pop1_sel6, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S5_elite_perc10X[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno))
+  S5_wild_perc10X[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno))
+  S5drag10X[i] <- range_around(pullQtlGeno(pop1_sel6_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
 }
 
 #ideal2 = ddm1/zmet2 double mutant
-ideal2_sel2_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ideal2_sel3_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ideal2_sel4_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ideal2_sel5_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ideal2_sel6_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ideal2_sel7_gv <- matrix(data = NA, nrow = 100, ncol = 10)
-ideal2var1 <- matrix(data = NA, ncol = 2, nrow = 200)
-ideal2var2 <- matrix(data = NA, ncol = 2, nrow = 200)
-ideal2var3 <- matrix(data = NA, ncol = 2, nrow = 200)
-ideal2var4 <- matrix(data = NA, ncol = 2, nrow = 200)
-ideal2var5 <- matrix(data = NA, ncol = 2, nrow = 200)
-ideal2var6 <- matrix(data = NA, ncol = 2, nrow = 200)
-ideal2var7 <- matrix(data = NA, ncol = 2, nrow = 200)
+ideal2var1 <- matrix(data = NA, ncol = 2, nrow = 100)
+ideal2var2 <- matrix(data = NA, ncol = 2, nrow = 100)
+ideal2var3 <- matrix(data = NA, ncol = 2, nrow = 100)
+ideal2var4 <- matrix(data = NA, ncol = 2, nrow = 100)
+ideal2var5 <- matrix(data = NA, ncol = 2, nrow = 100)
+ideal2var6 <- matrix(data = NA, ncol = 2, nrow = 100)
+ideal2var7 <- matrix(data = NA, ncol = 2, nrow = 100)
 F1_elite_percdz <- c()
 F1_wild_percdz <- c()
 S1_elite_percdz <- c()
@@ -790,84 +810,71 @@ S4_elite_percdz <- c()
 S4_wild_percdz <- c()
 S5_elite_percdz <- c()
 S5_wild_percdz <- c()
+F1dragdz <- c()
+S1dragdz <- c()
+S2dragdz <- c()
+S3dragdz <- c()
+S4dragdz <- c()
+S5dragdz <- c()
 for(i in 1:100){
   SP$switchGenMap(ideal2_map, centromere = ideal2_centromere)
   pop <- randCross2(goodpop[best_good,], badpop[best_bad,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop <- setPheno(pop = pop, h2 = 0.8, simParam = SP)
-  ideal2var1[i] <- genicVarA(pop)
+  ideal2var1[i,] <- genicVarA(pop)
   
-  F1_elite_percdz[i] <- recurrent_all(goodpop[best_good,]@geno, pop@geno)/((recurrent_all(goodpop[best_good,]@geno, pop@geno)) + recurrent_all(badpop[best_bad,]@geno, pop@geno))
-  F1_wild_percdz[i] <- recurrent_all(badpop[best_bad,]@geno, pop@geno)/((recurrent_all(goodpop[best_good,]@geno, pop@geno)) + recurrent_all(badpop[best_bad,]@geno, pop@geno))
   pop1_sel <- selectInd(pop, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel1_2 <- selectInd(pop1_sel, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  F1_elite_percdz[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)) + recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno))
+  F1_wild_percdz[i] <- recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_2@geno)) + recurrent_all(badpop[best_bad,]@geno, pop1_sel1_2@geno))
+  F1dragdz[i] <- range_around(pullQtlGeno(pop1_sel1_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel1_cross <- randCross2(pop1_sel1_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel1_cross <- setPheno(pop1_sel1_cross, h2 = 0.8, simParam = SP)
-  ideal2var2[i] <- genicVarA(pop1_sel1_2)
+  ideal2var2[i,] <- genicVarA(pop1_sel1_2)
   
-  S1_elite_percdz[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno))
-  S1_wild_percdz[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel1_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel1_cross@geno))
-  ideal2_sel2_gv[i,] <- gv(pop1_sel1_2)
   pop1_sel2 <- selectInd(pop1_sel1_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel2_2 <- selectInd(pop1_sel2, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S1_elite_percdz[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno))
+  S1_wild_percdz[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_2@geno))
+  S1dragdz[i] <- range_around(pullQtlGeno(pop1_sel2_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel2_cross <- randCross2(pop1_sel2_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel2_cross <- setPheno(pop1_sel2_cross, h2 = 0.8, simParam = SP)
-  ideal2var3[i] <- genicVarA(pop1_sel2_2)
+  ideal2var3[i,] <- genicVarA(pop1_sel2_2)
   
-  S2_elite_percdz[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno))
-  S2_wild_percdz[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel2_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel2_cross@geno))
-  ideal2_sel3_gv[i,] <- gv(pop1_sel2_2)
   pop1_sel3 <- selectInd(pop1_sel2_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel3_2 <- selectInd(pop1_sel3, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S2_elite_percdz[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno))
+  S2_wild_percdz[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_2@geno))
+  S2dragdz[i] <- range_around(pullQtlGeno(pop1_sel3_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel3_cross <- randCross2(pop1_sel3_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel3_cross <- setPheno(pop1_sel3_cross, h2 = 0.8, simParam = SP)
-  ideal2var4[i] <- genicVarA(pop1_sel3_2)
+  ideal2var4[i,] <- genicVarA(pop1_sel3_2)
   
-  S3_elite_percdz[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno))
-  S3_wild_percdz[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel3_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel3_cross@geno))
-  ideal2_sel4_gv[i,] <- gv(pop1_sel3_2)
   pop1_sel4 <- selectInd(pop1_sel3_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel4_2 <- selectInd(pop1_sel4, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S3_elite_percdz[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno))
+  S3_wild_percdz[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_2@geno))
+  S3dragdz[i] <- range_around(pullQtlGeno(pop1_sel4_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel4_cross <- randCross2(pop1_sel4_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel4_cross <- setPheno(pop1_sel4_cross, h2 = 0.8, simParam = SP)
-  ideal2var5[i] <- genicVarA(pop1_sel4_2)
+  ideal2var5[i,] <- genicVarA(pop1_sel4_2)
   
-  S4_elite_percdz[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  S4_wild_percdz[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  ideal2_sel5_gv[i,] <- gv(pop1_sel4_2)
   pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel5_2 <- selectInd(pop1_sel5, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S4_elite_percdz[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4_wild_percdz[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4dragdz[i] <- range_around(pullQtlGeno(pop1_sel5_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel5_cross <- randCross2(pop1_sel5_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel5_cross <- setPheno(pop1_sel5_cross, h2 = 0.8, simParam = SP)
-  ideal2var6[i] <- genicVarA(pop1_sel5_2)
+  ideal2var6[i,] <- genicVarA(pop1_sel5_2)
   
-  S4_elite_percdz[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno))
-  S4_wild_percdz[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_cross@geno))
-  ideal2_sel6_gv[i,] <- gv(pop1_sel5_2)
+  pop1_sel6 <- selectInd(pop1_sel5_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  pop1_sel6_2 <- selectInd(pop1_sel6, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
+  S5_elite_percdz[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno))
+  S5_wild_percdz[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel6_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel6_2@geno))
+  S5dragdz[i] <- range_around(pullQtlGeno(pop1_sel1_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
 }
 
 #introgression scheme analysis
-
-#putting all genetic values from all generations into one data frame
-wt <- c(pop1_sel2_gv[,1:5], pop1_sel3_gv[,1:5], pop1_sel4_gv[,1:5], pop1_sel5_gv[,1:5], pop1_sel6_gv[,1:5])
-wt_gain <- c(pop1_sel3_gv[,1:5]-pop1_sel2_gv[,1:5], pop1_sel4_gv[,1:5]-pop1_sel2_gv[,1:5], pop1_sel5_gv[,1:5]-pop1_sel2_gv[,1:5], pop1_sel6_gv[,1:5]-pop1_sel2_gv[,1:5])
-
-ddm1 <- c(ddm1_sel2_gv[,1:5], ddm1_sel3_gv[,1:5], ddm1_sel4_gv[,1:5], ddm1_sel5_gv[,1:5], ddm1_sel6_gv[,1:5])
-ddm1_gain <- c(ddm1_sel3_gv[,1:5] - ddm1_sel2_gv[,1:5], ddm1_sel4_gv[,1:5]- ddm1_sel2_gv[,1:5], ddm1_sel5_gv[,1:5] - ddm1_sel2_gv[,1:5], ddm1_sel6_gv[,1:5]-ddm1_sel2_gv[,1:5])
-
-zmet2 <- c(zmet2_sel2_gv[,1:5], zmet2_sel3_gv[,1:5], zmet2_sel4_gv[,1:5], zmet2_sel5_gv[,1:5], zmet2_sel6_gv[,1:5])
-zmet2_gain <- c(zmet2_sel3_gv[,1:5]-zmet2_sel2_gv[,1:5], zmet2_sel4_gv[,1:5]-zmet2_sel2_gv[,1:5], zmet2_sel5_gv[,1:5]-zmet2_sel2_gv[,1:5], zmet2_sel6_gv[,1:5]-zmet2_sel2_gv[,1:5])
-
-ideal1 <- c(ideal1_sel2_gv[,1:5], ideal1_sel3_gv[,1:5], ideal1_sel4_gv[,1:5], ideal1_sel5_gv[,1:5], ideal1_sel6_gv[,1:5])
-ideal1_gain <- c(ideal1_sel3_gv[,1:5]-ideal1_sel2_gv[,1:5], ideal1_sel4_gv[,1:5]-ideal1_sel2_gv[,1:5], ideal1_sel5_gv[,1:5]-ideal1_sel2_gv[,1:5], ideal1_sel6_gv[,1:5]-ideal1_sel2_gv[,1:5])
-
-ideal2 <- c(ideal2_sel2_gv[,1:5], ideal2_sel3_gv[,1:5], ideal2_sel4_gv[,1:5], ideal2_sel5_gv[,1:5], ideal2_sel6_gv[,1:5])
-ideal2_gain <- c(ideal2_sel3_gv[,1:5]-ideal2_sel2_gv[,1:5], ideal2_sel4_gv[,1:5]-ideal2_sel2_gv[,1:5], ideal2_sel5_gv[,1:5]-ideal2_sel2_gv[,1:5], ideal2_sel6_gv[,1:5]-ideal2_sel2_gv[,1:5])
-
-fancm <- c(fancm_sel2_gv[,1:5], fancm_sel3_gv[,1:5], fancm_sel4_gv[,1:5], fancm_sel5_gv[,1:5], fancm_sel6_gv[,1:5])
-fancm_gain <- c(fancm_sel3_gv[,1:5]-fancm_sel2_gv[,1:5], fancm_sel4_gv[,1:5]-fancm_sel2_gv[,1:5], fancm_sel5_gv[,1:5]-fancm_sel2_gv[,1:5], fancm_sel6_gv[,1:5]-fancm_sel2_gv[,1:5])
-
-recq4_gain <- c(recq4_sel3_gv[,1:5]-recq4_sel2_gv[,1:5], recq4_sel4_gv[,1:5]-recq4_sel2_gv[,1:5], recq4_sel5_gv[,1:5]-recq4_sel2_gv[,1:5], recq4_sel6_gv[,1:5]-recq4_sel2_gv[,1:5])
-recq4 <- c(recq4_sel2_gv[,1:5], recq4_sel3_gv[,1:5], recq4_sel4_gv[,1:5], recq4_sel5_gv[,1:5], recq4_sel6_gv[,1:5])
 
 #looking at recurrent parent % in progeny at each generation
 F1 <- c(mean(F1_elite_perc), mean(F1_elite_percddm1), mean(F1_elite_perczmet2), mean(F1_elite_percfancm), mean(F1_elite_percrecq4), mean(F1_elite_perc10X), mean(F1_elite_percdz))
@@ -880,31 +887,48 @@ BC3 <- c(mean(S3_elite_perc), mean(S3_elite_percddm1), mean(S3_elite_perczmet2),
 
 BC4 <- c(mean(S4_elite_perc), mean(S4_elite_percddm1), mean(S4_elite_perczmet2), mean(S4_elite_percfancm), mean(S4_elite_percrecq4), mean(S4_elite_perc10X), mean(S4_elite_percdz))
 
-BC5 <- c(mean(S5_elite_perc), mean(S5_elite_percddm1), mean(S5_elite_perczmet2), mean(S5_elite_percfancm), mean(S5_elite_percrecq4), mean(S5_elite_perc10X), mean(S5_elite_percdz))
+#looking at donor parent
+F1_d <- c(mean(F1_wild_perc), mean(F1_wild_percddm1), mean(F1_wild_perczmet2), mean(F1_wild_percfancm), mean(F1_wild_percrecq4), mean(F1_wild_perc10X), mean(F1_wild_percdz))
 
-#for resistance loci
-wt2 <- c(mean(pop1_sel2_gv[,6:10]), mean(pop1_sel3_gv[,6:10]), mean(pop1_sel4_gv[,6:10]), mean(pop1_sel5_gv[,6:10]), mean(pop1_sel6_gv[,6:10]))
-ddm12 <- c(mean(ddm1_sel2_gv[,6:10]), mean(ddm1_sel3_gv[,6:10]), mean(ddm1_sel4_gv[,6:10]), mean(ddm1_sel5_gv[,6:10]), mean(ddm1_sel6_gv[,6:10]))
-zmet22 <- c(mean(zmet2_sel2_gv[,6:10]), mean(zmet2_sel3_gv[,6:10]), mean(zmet2_sel4_gv[,6:10]), mean(zmet2_sel5_gv[,6:10]), mean(zmet2_sel6_gv[,6:10]))
-recq42 <- c(mean(recq4_sel2_gv[,6:10]), mean(recq4_sel3_gv[,6:10]), mean(recq4_sel4_gv[,6:10]), mean(recq4_sel5_gv[,6:10]), mean(recq4_sel6_gv[,6:10]))
-ideal12 <- c(mean(ideal1_sel2_gv[,6:10]), mean(ideal1_sel3_gv[,6:10]), mean(ideal1_sel4_gv[,6:10]), mean(ideal1_sel5_gv[,6:10]), mean(ideal1_sel6_gv[,6:10]))
-ideal22 <- c(mean(ideal2_sel2_gv[,6:10]), mean(ideal2_sel3_gv[,6:10]), mean(ideal2_sel4_gv[,6:10]), mean(ideal2_sel5_gv[,6:10]), mean(ideal2_sel6_gv[,6:10]))
-fancm2 <- c(mean(fancm_sel2_gv[,6:10]), mean(fancm_sel3_gv[,6:10]), mean(fancm_sel4_gv[,6:10]), mean(fancm_sel5_gv[,6:10]), mean(fancm_sel6_gv[,6:10]))
+BC1_d <- c(mean(S1_wild_perc), mean(S1_wild_percddm1), mean(S1_wild_perczmet2), mean(S1_wild_percfancm), mean(S1_wild_percrecq4), mean(S1_wild_perc10X), mean(S1_wild_percdz))
 
-#combining all data together
-all <- cbind(wt, ddm1, zmet2, recq4, fancm, ideal1, ideal2)
-all <- as.data.frame(all)
-all2 <- as.data.frame(matrix(data = NA, nrow = 17500))
-all2$gv <- c(all$wt, all$ddm1, all$zmet2, all$recq4, all$fancm, all$ideal1, all$ideal2)
-all2$generation <- rep(1:5, size = 7, each = 500)
-all2$gen_map <- rep(c("wt","ddm1", "zmet2", "recq4", "fancm", "ideal1", "ideal2"), size = 7, each = 2500)
+BC2_d <- c(mean(S2_wild_perc), mean(S2_wild_percddm1), mean(S2_wild_perczmet2), mean(S2_wild_percfancm), mean(S2_wild_percrecq4), mean(S2_wild_perc10X), mean(S2_wild_percdz))
 
-recur_percent <- cbind(F1, BC1, BC2, BC3, BC4, BC5)
+BC3_d <- c(mean(S3_wild_perc), mean(S3_wild_percddm1), mean(S3_wild_perczmet2), mean(S3_wild_percfancm), mean(S3_wild_percrecq4), mean(S3_wild_perc10X), mean(S3_wild_percdz))
+
+BC4_d <- c(mean(S4_wild_perc), mean(S4_wild_percddm1), mean(S4_wild_perczmet2), mean(S4_wild_percfancm), mean(S4_wild_percrecq4), mean(S4_wild_perc10X), mean(S4_wild_percdz))
+
+#looking at linkage drag
+F1_drag <- c(mean(F1drag), mean(F1dragddm1), mean(F1dragzmet2), mean(F1dragfancm), mean(F1dragrecq4), mean(F1drag10X), mean(F1dragdz))
+
+BC1_drag <- c(mean(S1drag), mean(S1dragddm1), mean(S1dragzmet2), mean(S1dragfancm), mean(S1dragrecq4), mean(S1drag10X), mean(S1dragdz))
+
+BC2_drag <- c(mean(S2drag), mean(S2dragddm1), mean(S2dragzmet2), mean(S2dragfancm), mean(S2dragrecq4), mean(S2drag10X), mean(S2dragdz))
+
+BC3_drag <- c(mean(S3drag), mean(S3dragddm1), mean(S3dragzmet2), mean(S3dragfancm), mean(S3dragrecq4), mean(S3drag10X), mean(S3dragdz))
+
+BC4_drag <- c(mean(S4drag), mean(S4dragddm1), mean(S4dragzmet2), mean(S4dragfancm), mean(S4dragrecq4), mean(S4drag10X), mean(S4dragdz))
+
+recur_percent <- cbind(F1, BC1, BC2, BC3, BC4)
 all <- as.data.frame(recur_percent)
-all2 <- as.data.frame(matrix(data = NA, nrow = 42))
-all2$gv <- c(recur_percent$F1, recur_percent$BC1, recur_percent$BC2, recur_percent$BC3, recur_percent$BC4, recur_percent$BC5)
-all2$generation <- rep(1:6, size = 6, each = 1)
-all2$gen_map <- rep(c("wt","ddm1", "zmet2", "recq4", "fancm", "ideal1", "ideal2"), size = 7, each = 2500)
+all2 <- as.data.frame(matrix(data = NA, nrow = 35))
+all2$mean <- c(all$F1, all$BC1, all$BC2, all$BC3, all$BC4)
+all2$generation <- rep(1:5, size = 5, each = 7)
+all2$gen_map <- rep(c("wt","ddm1", "zmet2", "recq4", "fancm", "10X", "ddm1/zmet2"), size = 7, each = 1)
+
+donor_percent <- cbind(F1_d, BC1_d, BC2_d, BC3_d, BC4_d)
+donor <- as.data.frame(donor_percent)
+donor2 <- as.data.frame(matrix(data = NA, nrow = 35))
+donor2$mean <- c(donor$F1_d, donor$BC1_d, donor$BC2_d, donor$BC3_d, donor$BC4_d)
+donor2$generation <- rep(1:5, size = 5, each = 7)
+donor2$gen_map <- rep(c("wt","ddm1", "zmet2", "recq4", "fancm", "10X", "ddm1/zmet2"), size = 7, each = 1)
+
+drag <- cbind(F1_drag, BC1_drag, BC2_drag, BC3_drag, BC4_drag)
+drag <- as.data.frame(drag)
+drag2 <- as.data.frame(matrix(data = NA, nrow = 35))
+drag2$mean <- c(drag$F1_drag, drag$BC1_drag, drag$BC2_drag, drag$BC3_drag, drag$BC4_drag)
+drag2$generation <- rep(1:5, size = 5, each = 7)
+drag2$gen_map <- rep(c("wt","ddm1", "zmet2", "recq4", "fancm", "10X", "ddm1/zmet2"), size = 7, each = 1)
 
 #looking at introgression of resistance loci
 trait2 <- cbind(wt2, ddm12)
@@ -915,67 +939,76 @@ trait22$generation <- rep(1:5, size = 7, each = 1)
 trait22$gen_map <- rep(c("wt","ddm1", "zmet2", "recq4", "ideal1", "ideal2", "fancm"), size = 7, each = 1)
 
 group.colors = c("ddm1" = "#E69F00", "recq4" = "#56B4E9", "wt" = "#009E73", "zmet2" = "#F0E442",
-                 "fancm" = "#0072B2", "ideal1" = "#D55E00", "ideal2" = "#CC79A7")
+                 "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")
 
-#ggplot code to look at polygenic trait
-ggplot(all2, aes(x=as.factor(generation), y= gv, fill=gen_map)) + 
-  geom_boxplot() + theme_bw() + xlab("Generations") + ylab("Genetic Values") + ggtitle("Genetic Values after 5 gens of backcrossing: 3 unlinked QTLs") +
-  scale_fill_manual(values=group.colors, name = "Genetic Map Used", labels = c("ddm1", "recq4", "wt", "zmet2",
-                                                                               "fancm", "10X", "ddm1/zmet2")) +
-  theme(axis.text=element_text(size=12),
-        axis.title=element_text(size=12), legend.title = element_text(size=12), #change legend title font size
-        legend.text = element_text(size=12), plot.title = element_text(size=14), legend.position = c(0.8,0.2), legend.key.size = unit(0.5, "lines")) +
-  geom_hline(yintercept=7.511954, linetype="dashed", color = "blue") + annotate('text', x = 1.5, y = 7.6, label = 'Recurrent Parent Level', color='blue', size = 4) 
+#ggplot code to look at mean % of recurrent parent in progeny
+recur <- ggplot(all2, aes(x=as.factor(generation), y= mean, group=gen_map)) + 
+  geom_line(aes(color = gen_map)) + geom_point(size = 1) + theme_bw() + xlab("Generations") + ylab("Mean % of Recurrent Parent") + ggtitle("% of Recurrent Parent after 4 gens of backcrossing") +
+  scale_color_manual(values=group.colors, name = "Genetic Map", labels = c("10X", "ddm1", "ddm1/zmet2", "fancm",
+                                                                           "recq4", "WT", "zmet2")) +
+  theme(axis.text=element_text(size=11),
+        axis.title=element_text(size=11), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(0.8,0.4), legend.key.size = unit(0.3, "lines")) 
 
+#ggplot code to look at mean % of donor parent in progeny
+donor <- ggplot(donor2, aes(x=as.factor(generation), y= mean, group=gen_map)) + 
+  geom_line(aes(color = gen_map)) + geom_point(size = 1) + theme_bw() + xlab("Generations") + ylab("Mean % of Donor Parent") + ggtitle("% of Donor Parent after 4 gens of backcrossing") +
+  scale_color_manual(values=group.colors, name = "Genetic Map", labels = c("10X", "ddm1", "ddm1/zmet2", "fancm",
+                                                                           "recq4", "WT", "zmet2")) +
+  theme(axis.text=element_text(size=11),
+        axis.title=element_text(size=11), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(0.8,0.5), legend.key.size = unit(0.3, "lines")) 
 
-#ggplot code for resistance loci
-ggplot(trait22, aes(x=as.factor(generation), y= gv, color=gen_map)) + 
-  geom_point() + theme_bw() + xlab("Generation") + ylab("Mean Genetic Values") + ggtitle("Genetic Values of Unlinked QTLs in arms over 5 gens of backcrossing") + 
-  scale_color_manual(values=group.colors, name = "Genetic Map Used", labels = c("ddm1", "recq4", "wt", "zmet2",
-                                                                               "fancm", "10X", "ddm1/zmet2")) +
-  geom_jitter(width = 0.2, height = 0.01) +
-  theme(axis.text=element_text(size=12),
-        axis.title=element_text(size=12), legend.title = element_text(size=12), #change legend title font size
-        legend.text = element_text(size=12), plot.title = element_text(size=14), legend.position = c(0.8,0.2), legend.key.size = unit(0.5, "lines")) +
-  geom_hline(yintercept=0.7, linetype="dashed", color = "blue") + annotate('text', x = 1.5, y = 0.71, label = 'Recurrent Parent Level', color='blue', size = 4) + ylim(0.5,0.8)
+#gpplot to look at % linkage drag after each generation
+drag <- ggplot(drag2, aes(x=as.factor(generation), y= mean, group=gen_map)) + 
+  geom_line(aes(color = gen_map)) + geom_point(size = 1) + theme_bw() + xlab("Generations") + ylab("Mean % of Linkage Drag from Donor Parent") + ggtitle("% of Linkage Drag over 4 generations of backcrossing") +
+  scale_color_manual(values=group.colors, name = "Genetic Map", labels = c("10X", "ddm1", "ddm1/zmet2", "fancm",
+                                                                           "recq4", "WT", "zmet2")) +
+  theme(axis.text=element_text(size=11),
+        axis.title=element_text(size=11), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(0.8,0.7), legend.key.size = unit(0.3, "lines")) 
 
 #binding all the variance matrices together
-wtvarall <- c(wtvar1, wtvar2, wtvar3, wtvar4, wtvar5,
-              wtvar6)
+wtvarall <- c(wtvar1[,1], wtvar2[,1], wtvar3[,1], wtvar4[,1], wtvar5[,1],
+              wtvar6[,1])
 
-ddm1varall <- c(ddm1var1, ddm1var2, ddm1var3, ddm1var4, ddm1var5,
-                ddm1var6)
+ddm1varall <- c(ddm1var1[,1], ddm1var2[,1], ddm1var3[,1], ddm1var4[,1], ddm1var5[,1],
+                ddm1var6[,1])
 
-zmet2varall <- c(zmet2var1, zmet2var2, zmet2var3, zmet2var4, zmet2var5,
-                 zmet2var6)
+zmet2varall <- c(zmet2var1[,1], zmet2var2[,1], zmet2var3[,1], zmet2var4[,1], zmet2var5[,1],
+                 zmet2var6[,1])
 
-recq4varall <- c(recq4var1, recq4var2, recq4var3, recq4var4, recq4var5,
-                 recq4var6)
+recq4varall <- c(recq4var1[,1], recq4var2[,1], recq4var3[,1], recq4var4[,1], recq4var5[,1],
+                 recq4var6[,1])
 
-ideal1varall <- c(ideal1var1, ideal1var2, ideal1var3, ideal1var4, ideal1var5,
-                  ideal1var6)
+ideal1varall <- c(ideal1var1[,1], ideal1var2[,1], ideal1var3[,1], ideal1var4[,1], ideal1var5[,1],
+                  ideal1var6[,1])
 
-ideal2varall <- c(ideal2var1, ideal2var2, ideal2var3, ideal2var4, ideal2var5,
-                  ideal2var6)
+ddm1_zmet2varall <- c(ideal2var1[,1], ideal2var2[,1], ideal2var3[,1], ideal2var4[,1], ideal2var5[,1],
+                      ideal2var6[,1])
 
-ddm1_zmet2varall <- c(ideal2var1, ideal2var2, ideal2var3, ideal2var4, ideal2var5,
-                      ideal2var6)
-
-fancmvarall <- c(fancmvar1, fancmvar2, fancmvar3, fancmvar4, fancmvar5,
-                 fancmvar6)
+fancmvarall <- c(fancmvar1[,1], fancmvar2[,1], fancmvar3[,1], fancmvar4[,1], fancmvar5[,1],
+                 fancmvar6[,1])
 
 #putting all variance data into one data frame
-allvar <- cbind(wtvarall, ddm1varall, zmet2varall, recq4varall, ideal1varall, ideal2varall, ddm1_zmet2varall, fancmvarall)
+allvar <- cbind(wtvarall, ddm1varall, zmet2varall, recq4varall, ideal1varall, ddm1_zmet2varall, fancmvarall)
 allvar <- as.data.frame(allvar)
-allvar2 <- as.data.frame(matrix(data = NA, nrow = 16800))
-allvar2$var <- c(allvar$wtvarall, allvar$ddm1varall, allvar$zmet2varall, allvar$recq4varall, allvar$ideal1varall, allvar$ideal2varall, allvar$fancmvarall)
-allvar2$gen <- rep(1:5, size = 7, each = 480)
-allvar2$gen_map <- rep(c("wt","ddm1", "zmet2", "recq4", "ideal1", "ideal2", "fancm"), size = 7, each = 2400)
+allvar2 <- as.data.frame(matrix(data = NA, nrow = 4200))
+allvar2$var <- c(allvar$wtvarall, allvar$ddm1varall, allvar$zmet2varall, allvar$recq4varall, allvar$ideal1varall, allvar$ddm1_zmet2varall, allvar$fancmvarall)
+allvar2$gen <- rep(1:6, size = 7, each = 100)
+allvar2$gen_map <- rep(c("wt","ddm1", "zmet2", "recq4", "10X", "ddm1/zmet2", "fancm"), size = 7, each = 600)
 
 #ggplot code to plot the variance
-ggplot(allvar2, aes(x=as.factor(gen), y=var, fill=gen_map)) +  ggtitle("Additive genetic variance over 5 gens of backcrossing: 3 centromere QTLs") +
-  geom_boxplot() + theme_bw() + xlab("Generation") + ylab("Additive Genetic Variances") + scale_fill_manual(values=group.colors, name = "Genetic Map Used", labels = c("ddm1", "recq4", "wt", "zmet2",
-                                                                                                                                                                       "fancm", "10X", "ddm1/zmet2")) + ggtitle("Additive Genetic Variance after 5 gens of backcrossing") +
-  theme(axis.text=element_text(size=12),
-        axis.title=element_text(size=12), legend.title = element_text(size=12), #change legend title font size
-        legend.text = element_text(size=12), plot.title = element_text(size=14), legend.position = c(0.8,0.8), legend.key.size = unit(0.5, "lines"))
+var <- ggplot(allvar2, aes(x=as.factor(gen), y=var, fill=gen_map)) +  ggtitle("Additive genetic variance over 4 gens of backcrossing") +
+  geom_boxplot() + theme_bw() + xlab("Generations") + ylab("Additive Genetic Variances") + scale_fill_manual(values=group.colors, name = "Genetic Map", labels = c("10X", "ddm1", "ddm1/zmet2", "fancm",
+                                                                                                                                                                       "recq4", "WT", "zmet2")) +
+  theme(axis.text=element_text(size=11),
+        axis.title=element_text(size=11), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(0.8,0.65), legend.key.size = unit(0.3, "lines"))
+
+library(ggpubr)
+
+figure <- ggarrange(recur, donor, drag, var,
+                    labels = c("A", "B", "C", "D"),
+                    ncol = 2, nrow = 2)
+figure
