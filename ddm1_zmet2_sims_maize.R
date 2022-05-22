@@ -34,9 +34,9 @@ chr4_ideal2[1:8,9] <- 2.346557
 chr4_ideal2[13:35,9] <- 1
 chr4_ideal2[40:48,9] <- 2.346557
 
-chr5_ideal2[1:7,10] <- 2.346557
+chr5_ideal2[1:7,9] <- 2.346557
 chr5_ideal2[12:31,9] <- 1
-chr5_ideal2[36:43,10] <- 2.346557
+chr5_ideal2[36:43,9] <- 2.346557
 
 chr6_ideal2[1:5,9] <- 2.346557
 chr6_ideal2[9:24,9] <- 1
@@ -108,67 +108,67 @@ chr1_finalpos <- chr1_snp2ideal2[order(chr1_snp2ideal2$pos),]
 #want False to input into AlphaSimR
 is.unsorted(chr1_finalpos$pos)
 
-chr2_snp2 <- snp_rate_ideal2(chr2_w_ideal2, chr2_snp)
-chr2_snp2$`SNP Start` <- chr2_snp2$`SNP Start`/1000000
-chr2_snp2$pos <- gen_pos(chr2_snp2)
-plot(chr2_snp2$`SNP Start`, chr2_snp2$pos)
-chr2_finalpos <- chr2_snp2[order(chr2_snp2$pos),]
+chr2_snp2ideal2 <- snp_rate_ideal2(chr2_w_ideal2, chr2_snp)
+chr2_snp2ideal2$`SNP Start` <- chr2_snp2ideal2$`SNP Start`/1000000
+chr2_snp2ideal2$pos <- gen_pos(chr2_snp2ideal2)
+plot(chr2_snp2ideal2$`SNP Start`, chr2_snp2ideal2$pos)
+chr2_finalpos <- chr2_snp2ideal2[order(chr2_snp2ideal2$pos),]
 is.unsorted(chr2_finalpos$pos)
 
-chr3_snp2 <- snp_rate_ideal2(chr3_w_ideal2, chr3_snp)
-chr3_snp2$`SNP Start` <- chr3_snp2$`SNP Start`/1000000
-chr3_snp2$pos <- gen_pos(chr3_snp2)
-plot(chr3_snp2$`SNP Start`, chr3_snp2$pos)
-chr3_finalpos <- chr3_snp2[order(chr3_snp2$pos),]
+chr3_snp2ideal2 <- snp_rate_ideal2(chr3_w_ideal2, chr3_snp)
+chr3_snp2ideal2$`SNP Start` <- chr3_snp2ideal2$`SNP Start`/1000000
+chr3_snp2ideal2$pos <- gen_pos(chr3_snp2ideal2)
+plot(chr3_snp2ideal2$`SNP Start`, chr3_snp2ideal2$pos)
+chr3_finalpos <- chr3_snp2ideal2[order(chr3_snp2ideal2$pos),]
 is.unsorted(chr3_finalpos$pos)
 
-chr4_snp2 <- snp_rate_ideal2(chr4_w_ideal2, chr4_snp)
-chr4_snp2$`SNP Start` <- chr4_snp2$`SNP Start`/1000000
-chr4_snp2$pos <- gen_pos(chr4_snp2)
-plot(chr4_snp2$`SNP Start`, chr4_snp2$pos)
-chr4_finalpos <- chr4_snp2[order(chr4_snp2$pos),]
+chr4_snp2ideal2 <- snp_rate_ideal2(chr4_w_ideal2, chr4_snp)
+chr4_snp2ideal2$`SNP Start` <- chr4_snp2ideal2$`SNP Start`/1000000
+chr4_snp2ideal2$pos <- gen_pos(chr4_snp2ideal2)
+plot(chr4_snp2ideal2$`SNP Start`, chr4_snp2ideal2$pos)
+chr4_finalpos <- chr4_snp2ideal2[order(chr4_snp2ideal2$pos),]
 is.unsorted(chr4_finalpos$pos)
 
-chr5_snp2 <- snp_rate_ideal2(chr5_w_ideal2, chr5_snp)
-chr5_snp2$`SNP Start` <- chr5_snp2$`SNP Start`/1000000
-chr5_snp2$pos <- gen_pos(chr5_snp2)
-plot(chr5_snp2$`SNP Start`, chr5_snp2$pos)
-chr5_finalpos <- chr5_snp2[order(chr5_snp2$pos),]
+chr5_snp2ideal2 <- snp_rate_ideal2(chr5_w_ideal2, chr5_snp)
+chr5_snp2ideal2$`SNP Start` <- chr5_snp2ideal2$`SNP Start`/1000000
+chr5_snp2ideal2$pos <- gen_pos(chr5_snp2ideal2)
+plot(chr5_snp2ideal2$`SNP Start`, chr5_snp2ideal2$pos)
+chr5_finalpos <- chr5_snp2ideal2[order(chr5_snp2ideal2$pos),]
 is.unsorted(chr5_finalpos$pos)
 
-chr6_snp2 <- snp_rate_ideal2(chr6_w_ideal2, chr6_snp)
-chr6_snp2$`SNP Start` <- chr6_snp2$`SNP Start`/1000000
-chr6_snp2$pos <- gen_pos(chr6_snp2)
-plot(chr6_snp2$`SNP Start`, chr6_snp2$pos, type = "l")
-chr6_finalpos <- chr6_snp2[order(chr6_snp2$pos),]
+chr6_snp2ideal2 <- snp_rate_ideal2(chr6_w_ideal2, chr6_snp)
+chr6_snp2ideal2$`SNP Start` <- chr6_snp2ideal2$`SNP Start`/1000000
+chr6_snp2ideal2$pos <- gen_pos(chr6_snp2ideal2)
+plot(chr6_snp2ideal2$`SNP Start`, chr6_snp2ideal2$pos, type = "l")
+chr6_finalpos <- chr6_snp2ideal2[order(chr6_snp2ideal2$pos),]
 is.unsorted(chr6_finalpos$pos)
 
-chr7_snp2 <- snp_rate_ideal2(chr7_w_ideal2, chr7_snp)
-chr7_snp2$`SNP Start` <- chr7_snp2$`SNP Start`/1000000
-chr7_snp2$pos <- gen_pos(chr7_snp2)
-plot(chr7_snp2$`SNP Start`, chr7_snp2$pos)
-chr7_finalpos <- chr7_snp2[order(chr7_snp2$pos),]
+chr7_snp2ideal2 <- snp_rate_ideal2(chr7_w_ideal2, chr7_snp)
+chr7_snp2ideal2$`SNP Start` <- chr7_snp2ideal2$`SNP Start`/1000000
+chr7_snp2ideal2$pos <- gen_pos(chr7_snp2ideal2)
+plot(chr7_snp2ideal2$`SNP Start`, chr7_snp2ideal2$pos)
+chr7_finalpos <- chr7_snp2ideal2[order(chr7_snp2ideal2$pos),]
 is.unsorted(chr7_finalpos$pos)
 
-chr8_snp2 <- snp_rate_ideal2(chr8_w_ideal2, chr8_snp)
-chr8_snp2$`SNP Start` <- chr8_snp2$`SNP Start`/1000000
-chr8_snp2$pos <- gen_pos(chr8_snp2)
-plot(chr8_snp2$`SNP Start`, chr8_snp2$pos)
-chr8_finalpos <- chr8_snp2[order(chr8_snp2$pos),]
+chr8_snp2ideal2 <- snp_rate_ideal2(chr8_w_ideal2, chr8_snp)
+chr8_snp2ideal2$`SNP Start` <- chr8_snp2ideal2$`SNP Start`/1000000
+chr8_snp2ideal2$pos <- gen_pos(chr8_snp2ideal2)
+plot(chr8_snp2ideal2$`SNP Start`, chr8_snp2ideal2$pos)
+chr8_finalpos <- chr8_snp2ideal2[order(chr8_snp2ideal2$pos),]
 is.unsorted(chr8_finalpos$pos)
 
-chr9_snp2 <- snp_rate_ideal2(chr9_w_ideal2, chr9_snp)
-chr9_snp2$`SNP Start` <- chr9_snp2$`SNP Start`/1000000
-chr9_snp2$pos <- gen_pos(chr9_snp2)
-plot(chr9_snp2$`SNP Start`, chr9_snp2$pos)
-chr9_finalpos <- chr9_snp2[order(chr9_snp2$pos),]
+chr9_snp2ideal2 <- snp_rate_ideal2(chr9_w_ideal2, chr9_snp)
+chr9_snp2ideal2$`SNP Start` <- chr9_snp2ideal2$`SNP Start`/1000000
+chr9_snp2ideal2$pos <- gen_pos(chr9_snp2ideal2)
+plot(chr9_snp2ideal2$`SNP Start`, chr9_snp2ideal2$pos)
+chr9_finalpos <- chr9_snp2ideal2[order(chr9_snp2ideal2$pos),]
 is.unsorted(chr9_finalpos$pos)
 
-chr10_snp2 <- snp_rate_ideal2(chr10_w_ideal2, chr10_snp)
-chr10_snp2$`SNP Start` <- chr10_snp2$`SNP Start`/1000000
-chr10_snp2$pos <- gen_pos(chr10_snp2)
-plot(chr10_snp2$`SNP Start`, chr10_snp2$pos)
-chr10_finalpos <- chr10_snp2[order(chr10_snp2$pos),]
+chr10_snp2ideal2 <- snp_rate_ideal2(chr10_w_ideal2, chr10_snp)
+chr10_snp2ideal2$`SNP Start` <- chr10_snp2ideal2$`SNP Start`/1000000
+chr10_snp2ideal2$pos <- gen_pos(chr10_snp2ideal2)
+plot(chr10_snp2ideal2$`SNP Start`, chr10_snp2ideal2$pos)
+chr10_finalpos <- chr10_snp2ideal2[order(chr10_snp2ideal2$pos),]
 is.unsorted(chr10_finalpos$pos)
 
 #putting genetic map together with cM 
