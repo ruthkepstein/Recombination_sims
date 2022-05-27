@@ -1203,6 +1203,18 @@ ideal2_gain <- c(ideal2gv2[,1:5]-ideal2gv1[,1:5], ideal2gv3[,1:5]-ideal2gv1[,1:5
                  ideal2gv10[,1:5]-ideal2gv1[,1:5], ideal2gv11[,1:5]-ideal2gv1[,1:5], ideal2gv12[,1:5]-ideal2gv1[,1:5], ideal2gv13[,1:5]-ideal2gv1[,1:5],
                  ideal2gv14[,1:5]-ideal2gv1[,1:5], ideal2gv15[,1:5]-ideal2gv1[,1:5])
 
+tab<- data.frame(matrix(ncol = 8, nrow = 7))
+rownames(tab) <- c('wt','ddm1','zmet2','fancm','recq4','ideal1','ideal2')
+colnames(tab) <- c('mean gv1','sd gv5','mean gv5','sd gv5','mean gv15','sd gv15','gain gen15','gain gen5')
+tab[,1]<- c(mean(wtgv1[,1:5]),mean(ddm1gv1[,1:5]),mean(zmet2gv1[,1:5]),mean(fancmgv1[,1:5]),mean(recq4gv1[,1:5]),mean(ideal1gv1[,1:5]),mean(ideal2gv1[,1:5]))
+tab[,2]<- c(sd(wtgv1[,1:5]),sd(ddm1gv1[,1:5]),sd(zmet2gv1[,1:5]),sd(fancmgv1[,1:5]),sd(recq4gv1[,1:5]),sd(ideal1gv1[,1:5]),sd(ideal2gv1[,1:5]))
+tab[,3]<- c(mean(wtgv5[,1:5]),mean(ddm1gv5[,1:5]),mean(zmet2gv5[,1:5]),mean(fancmgv5[,1:5]),mean(recq4gv5[,1:5]),mean(ideal1gv5[,1:5]),mean(ideal2gv5[,1:5]))
+tab[,4]<- c(sd(wtgv5[,1:5]),sd(ddm1gv5[,1:5]),sd(zmet2gv5[,1:5]),sd(fancmgv5[,1:5]),sd(recq4gv5[,1:5]),sd(ideal1gv5[,1:5]),sd(ideal2gv5[,1:5]))
+tab[,5]<- c(mean(wtgv15[,1:5]),mean(ddm1gv15[,1:5]),mean(zmet2gv15[,1:5]),mean(fancmgv15[,1:5]),mean(recq4gv15[,1:5]),mean(ideal1gv15[,1:5]),mean(ideal2gv15[,1:5]))
+tab[,6]<- c(sd(wtgv15[,1:5]),sd(ddm1gv15[,1:5]),sd(zmet2gv15[,1:5]),sd(fancmgv15[,1:5]),sd(recq4gv15[,1:5]),sd(ideal1gv15[,1:5]),sd(ideal2gv15[,1:5]))
+tab[,7]<- c(mean(wtgv15[,1:5])-mean(wtgv1[,1:5]),mean(ddm1gv15[,1:5])-mean(ddm1gv1[,1:5]),mean(zmet2gv15[,1:5])-mean(zmet2gv1[,1:5]),mean(fancmgv15[,1:5])-mean(fancmgv1[,1:5]),mean(recq4gv15[,1:5])-mean(recq4gv1[,1:5]),mean(ideal1gv15[,1:5])-mean(ideal1gv1[,1:5]),mean(ideal2gv15[,1:5])-mean(ideal2gv1[,1:5]))
+tab[,8]<- c(mean(wtgv5[,1:5])-mean(wtgv1[,1:5]),mean(ddm1gv5[,1:5])-mean(ddm1gv1[,1:5]),mean(zmet2gv5[,1:5])-mean(zmet2gv1[,1:5]),mean(fancmgv5[,1:5])-mean(fancmgv1[,1:5]),mean(recq4gv5[,1:5])-mean(recq4gv1[,1:5]),mean(ideal1gv5[,1:5])-mean(ideal1gv1[,1:5]),mean(ideal2gv5[,1:5])-mean(ideal2gv1[,1:5]))
+
 #combining all genetic value data for wt & all mutants
 all <- cbind(wt, zmet2, ddm1, recq4, fancm, ideal1, ideal2)
 all <- as.data.frame(all)
@@ -1228,14 +1240,14 @@ library(ggplot2)
 cbbPalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 group.colors = c("ddm1" = "#E69F00", "recq4" = "#56B4E9", "wt" = "#009E73", "zmet2" = "#F0E442",
                  "fancm" = "#0072B2", "ideal1" = "#D55E00", "ideal2" = "#CC79A7")
-ggplot(lastgen, aes(x=as.factor(generation), y=gv, fill=gen_map)) + 
-  geom_boxplot() + theme_bw() + xlab("Generations since generation 1") + ylab("Genetic gain since generation 1") +
-  scale_fill_manual(values=group.colors, name = "Genetic Map Used", labels = c("ddm1", "fancm", "10X", "ddm1/zmet2",
+gv <- ggplot(lastgen, aes(x=as.factor(generation), y=gv, fill=gen_map)) + 
+  geom_boxplot() + theme_bw() + xlab("Generations since generation 1") + ylab("Genetic gain") +
+  scale_fill_manual(values=group.colors, name = "Genetic Map", labels = c("ddm1", "fancm", "10X", "ddm1/zmet2",
                                                                                "recq4", "WT", "zmet2")
                     ) +
-  theme(axis.text=element_text(size=12),
-        axis.title=element_text(size=12), legend.title = element_text(size=12), #change legend title font size
-        legend.text = element_text(size=12), plot.title = element_text(size=14), legend.position = c(0.15,0.8), legend.key.size = unit(0.5, "lines")) +
+  theme(axis.text=element_text(size=15),
+        axis.title=element_text(size=15), legend.title = element_text(size=12), #change legend title font size
+        legend.text = element_text(size=13), plot.title = element_text(size=14), legend.position = c(0.1,.8), legend.key.size = unit(0.3, "lines")) +
   guides(color = guide_legend(override.aes = list(size = 2)))
 
 
@@ -1244,6 +1256,7 @@ ggplot(gain_inter2, aes(x=generation,y=gv, colour=gen_map)) + geom_line() +
   stat_smooth(method="loess", span=0.01, se=TRUE, aes(fill=gen_map), alpha=0.1) +
   theme_bw()
 
+#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"
 #E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7"
 wtvarall <- c(wtvar1, wtvar2, wtvar3, wtvar4, wtvar5,
               wtvar6,  wtvar7,  wtvar8,  wtvar9,  wtvar10, wtvar11,
@@ -1270,8 +1283,8 @@ ideal2varall <- c(ideal2var1, ideal2var2, ideal2var3, ideal2var4, ideal2var5,
                   ideal2var11, ideal2var12, ideal2var13, ideal2var14, ideal2var15, ideal2var16, ideal2var17)
 
 ddm1_zmet2varall <- c(ideal2var1, ideal2var2, ideal2var3, ideal2var4, ideal2var5,
-                  ideal2var6,  ideal2var7,  ideal2var8,  ideal2var9,  ideal2var10,
-                  ideal2var11, ideal2var12, ideal2var13, ideal2var14, ideal2var15, ideal2var16, ideal2var17)
+                      ideal2var6,  ideal2var7,  ideal2var8,  ideal2var9,  ideal2var10,
+                      ideal2var11, ideal2var12, ideal2var13, ideal2var14, ideal2var15, ideal2var16, ideal2var17)
 
 fancmvarall <- c(fancmvar1, fancmvar2, fancmvar3, fancmvar4, fancmvar5,
                  fancmvar6,  fancmvar7,  fancmvar8,  fancmvar9,  fancmvar10,
@@ -1288,9 +1301,16 @@ lastgen <- allvar2[which(allvar2$gen == c(1,2,3,4,5)),]
 
 ggplot(lastgen, aes(x=as.factor(gen), y=var, fill=gen_map)) + 
   geom_boxplot() + theme_bw() + xlab("Generation") + ylab("Additive Genetic Variance") + 
-  scale_fill_manual(values=group.colors, name = "Genetic Map Used", labels = c("ddm1", "fancm", "10X", "ddm1/zmet2",
-                                                                                 "recq4", "WT", "zmet2")
-                    ) + ggtitle("Additive Genetic Variance after 5 Generations") +
+  scale_fill_manual(values=group.colors, name = "Genetic Map Used", #labels = c("ddm1", "fancm", "10X", "ddm1/zmet2",
+                                                                               #"recq4", "WT", "zmet2")
+  ) + ggtitle("Additive Genetic Variance after 5 Generations") +
   theme(axis.text=element_text(size=12),
         axis.title=element_text(size=12), legend.title = element_text(size=12), #change legend title font size
         legend.text = element_text(size=12), plot.title = element_text(size=14), legend.position = c(0.8,0.75), legend.key.size = unit(0.5, "lines"))
+
+library(ggpubr)
+
+figure <- ggarrange(recur, donor, drag, var,
+                    labels = c("A", "B"),
+                    ncol = 1, nrow = 2)
+figure
