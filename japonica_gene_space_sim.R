@@ -2,179 +2,107 @@ library(AlphaSimR)
 library(Rcpp)
 library(ggplot2)
 library(dplyr)
-#setwd("C:/Users/16192/Documents/PNAS_Simulations")
+#Set seed to ensure sampling is the same each time
 set.seed(420)
 
-##reading in SNPs from B73xMo17 based on v4 B73 ref
-jap_snps <- read.table("japonica_SNPs.bed", header =FALSE)
-colnames(jap_snps) <- c("Chr#", "SNP Start", "SNP End")
-#sample SNPs?
-jap_snps <- sample_n(jap_snps, 2000)
-jap_snps <- jap_snps[order(jap_snps$`Chr#`,jap_snps$`SNP Start`),]
+##Read in wildtype recombination rate data and create separate dataframe for each chromosome
+japonica_CO <- read.table("japonica_rec_rate.bed", header = FALSE)
+colnames(japonica_CO) <- c("Chr", "CO Start", "CO End", "rate")
+japonica_CO <- japonica_CO[order(japonica_CO$Chr,japonica_CO$`CO Start`),]
 
-#Japonica
-jap_chr1_snp <- jap_snps[ which(jap_snps$`Chr#` == "Chr1"),]
-jap_chr1_snp$rate <- NA
-jap_chr1_snp$`SNP End` <- jap_chr1_snp$`SNP End` - min(jap_chr1_snp$`SNP Start`)
-jap_chr1_snp$`SNP Start` <- jap_chr1_snp$`SNP Start`- min(jap_chr1_snp$`SNP Start`)
+japonica_chr1_CO <- japonica_CO[ which(japonica_CO$Chr == "chr01"),]
+japonica_chr1_CO$midpoint <- (japonica_chr1_CO$`CO Start`+ japonica_chr1_CO$`CO End`)/2
+japonica_chr1_CO <- japonica_chr1_CO[order(japonica_chr1_CO$`CO Start`),]
 
-jap_chr2_snp <- jap_snps[ which(jap_snps$`Chr#` == "Chr2"),]
-jap_chr2_snp$rate <- NA
-jap_chr2_snp$`SNP End` <- jap_chr2_snp$`SNP End` - min(jap_chr2_snp$`SNP Start`)
-jap_chr2_snp$`SNP Start` <- jap_chr2_snp$`SNP Start`- min(jap_chr2_snp$`SNP Start`)
+japonica_chr2_CO <- japonica_CO[ which(japonica_CO$Chr == "chr02"),]
+japonica_chr2_CO$midpoint <- (japonica_chr2_CO$`CO Start`+ japonica_chr2_CO$`CO End`)/2
+japonica_chr2_CO <- japonica_chr2_CO[order(japonica_chr2_CO$`CO Start`),]
 
-jap_chr3_snp <- jap_snps[ which(jap_snps$`Chr#` == "Chr3"),]
-jap_chr3_snp$rate <- NA
-jap_chr3_snp$`SNP End` <- jap_chr3_snp$`SNP End` - min(jap_chr3_snp$`SNP Start`)
-jap_chr3_snp$`SNP Start` <- jap_chr3_snp$`SNP Start`- min(jap_chr3_snp$`SNP Start`)
+japonica_chr3_CO <- japonica_CO[ which(japonica_CO$Chr == "chr03"),]
+japonica_chr3_CO$midpoint <- (japonica_chr3_CO$`CO Start`+ japonica_chr3_CO$`CO End`)/2
+japonica_chr3_CO <- japonica_chr3_CO[order(japonica_chr3_CO$`CO Start`),]
 
-jap_chr4_snp <- jap_snps[ which(jap_snps$`Chr#` == "Chr4"),]
-jap_chr4_snp$rate <- NA
-jap_chr4_snp$`SNP End` <- jap_chr4_snp$`SNP End` - min(jap_chr4_snp$`SNP Start`)
-jap_chr4_snp$`SNP Start` <- jap_chr4_snp$`SNP Start`- min(jap_chr4_snp$`SNP Start`)
+japonica_chr4_CO <- japonica_CO[ which(japonica_CO$Chr == "chr04"),]
+japonica_chr4_CO$midpoint <- (japonica_chr4_CO$`CO Start`+ japonica_chr4_CO$`CO End`)/2
+japonica_chr4_CO <- japonica_chr4_CO[order(japonica_chr4_CO$`CO Start`),]
 
-jap_chr5_snp <- jap_snps[ which(jap_snps$`Chr#` == "Chr5"),]
-jap_chr5_snp$rate <- NA
-jap_chr5_snp$`SNP End` <- jap_chr5_snp$`SNP End` - min(jap_chr5_snp$`SNP Start`)
-jap_chr5_snp$`SNP Start` <- jap_chr5_snp$`SNP Start`- min(jap_chr5_snp$`SNP Start`)
+japonica_chr5_CO <- japonica_CO[ which(japonica_CO$Chr == "chr05"),]
+japonica_chr5_CO$midpoint <- (japonica_chr5_CO$`CO Start`+ japonica_chr5_CO$`CO End`)/2
+japonica_chr5_CO <- japonica_chr5_CO[order(japonica_chr5_CO$`CO Start`),]
 
-jap_chr6_snp <- jap_snps[ which(jap_snps$`Chr#` == "Chr6"),]
-jap_chr6_snp$rate <- NA
-jap_chr6_snp$`SNP End` <- jap_chr6_snp$`SNP End` - min(jap_chr6_snp$`SNP Start`)
-jap_chr6_snp$`SNP Start` <- jap_chr6_snp$`SNP Start`- min(jap_chr6_snp$`SNP Start`)
+japonica_chr6_CO <- japonica_CO[ which(japonica_CO$Chr == "chr06"),]
+japonica_chr6_CO$midpoint <- (japonica_chr6_CO$`CO Start`+ japonica_chr6_CO$`CO End`)/2
+japonica_chr6_CO <- japonica_chr6_CO[order(japonica_chr6_CO$`CO Start`),]
 
-jap_chr7_snp <- jap_snps[ which(jap_snps$`Chr#` == "Chr7"),]
-jap_chr7_snp$rate <- NA
-jap_chr7_snp$`SNP End` <- jap_chr7_snp$`SNP End` - min(jap_chr7_snp$`SNP Start`)
-jap_chr7_snp$`SNP Start` <- jap_chr7_snp$`SNP Start`- min(jap_chr7_snp$`SNP Start`)
+japonica_chr7_CO <- japonica_CO[ which(japonica_CO$Chr == "chr07"),]
+japonica_chr7_CO$midpoint <- (japonica_chr7_CO$`CO Start`+ japonica_chr7_CO$`CO End`)/2
+japonica_chr7_CO <- japonica_chr7_CO[order(japonica_chr7_CO$`CO Start`),]
 
-jap_chr8_snp <- jap_snps[ which(jap_snps$`Chr#` == "Chr8"),]
-jap_chr8_snp$rate <- NA
-jap_chr8_snp$`SNP End` <- jap_chr8_snp$`SNP End` - min(jap_chr8_snp$`SNP Start`)
-jap_chr8_snp$`SNP Start` <- jap_chr8_snp$`SNP Start`- min(jap_chr8_snp$`SNP Start`)
+japonica_chr8_CO <- japonica_CO[ which(japonica_CO$Chr == "chr08"),]
+japonica_chr8_CO$midpoint <- (japonica_chr8_CO$`CO Start`+ japonica_chr8_CO$`CO End`)/2
+japonica_chr8_CO <- japonica_chr8_CO[order(japonica_chr8_CO$`CO Start`),]
 
-jap_chr9_snp <- jap_snps[ which(jap_snps$`Chr#` == "Chr9"),]
-jap_chr9_snp$rate <- NA
-jap_chr9_snp$`SNP End` <- jap_chr9_snp$`SNP End` - min(jap_chr9_snp$`SNP Start`)
-jap_chr9_snp$`SNP Start` <- jap_chr9_snp$`SNP Start`- min(jap_chr9_snp$`SNP Start`)
+japonica_chr9_CO <- japonica_CO[ which(japonica_CO$Chr == "chr09"),]
+japonica_chr9_CO$midpoint <- (japonica_chr9_CO$`CO Start`+ japonica_chr9_CO$`CO End`)/2
+japonica_chr9_CO <- japonica_chr9_CO[order(japonica_chr9_CO$`CO Start`),]
 
-jap_chr10_snp <- jap_snps[ which(jap_snps$`Chr#` == "Chr10"),]
-jap_chr10_snp$rate <- NA
-jap_chr10_snp$`SNP End` <- jap_chr10_snp$`SNP End` - min(jap_chr10_snp$`SNP Start`)
-jap_chr10_snp$`SNP Start` <- jap_chr10_snp$`SNP Start`- min(jap_chr10_snp$`SNP Start`)
+japonica_chr10_CO <- japonica_CO[ which(japonica_CO$Chr == "chr10"),]
+japonica_chr10_CO$midpoint <- (japonica_chr10_CO$`CO Start`+ japonica_chr10_CO$`CO End`)/2
+japonica_chr10_CO <- japonica_chr10_CO[order(japonica_chr10_CO$`CO Start`),]
 
-jap_chr11_snp <- jap_snps[ which(jap_snps$`Chr#` == "Chr11"),]
-jap_chr11_snp$rate <- NA
-jap_chr11_snp$`SNP End` <- jap_chr11_snp$`SNP End` - min(jap_chr11_snp$`SNP Start`)
-jap_chr11_snp$`SNP Start` <- jap_chr11_snp$`SNP Start`- min(jap_chr11_snp$`SNP Start`)
+japonica_chr11_CO <- japonica_CO[ which(japonica_CO$Chr == "chr11"),]
+japonica_chr11_CO$midpoint <- (japonica_chr11_CO$`CO Start`+ japonica_chr11_CO$`CO End`)/2
+japonica_chr11_CO <- japonica_chr11_CO[order(japonica_chr11_CO$`CO Start`),]
 
-jap_chr12_snp <- jap_snps[ which(jap_snps$`Chr#` == "Chr12"),]
-jap_chr12_snp$rate <- NA
-jap_chr12_snp$`SNP End` <- jap_chr12_snp$`SNP End` - min(jap_chr12_snp$`SNP Start`)
-jap_chr12_snp$`SNP Start` <- jap_chr12_snp$`SNP Start`- min(jap_chr12_snp$`SNP Start`)
+japonica_chr12_CO <- japonica_CO[ which(japonica_CO$Chr == "chr12"),]
+japonica_chr12_CO$midpoint <- (japonica_chr12_CO$`CO Start`+ japonica_chr12_CO$`CO End`)/2
+japonica_chr12_CO <- japonica_chr12_CO[order(japonica_chr12_CO$`CO Start`),]
 
+#Making each recombination rate intervals start at zero
+japonica_chr1_CO$`CO End` <- japonica_chr1_CO$`CO End` - min(japonica_chr1_CO$`CO Start`)
+japonica_chr1_CO$`CO Start` <- japonica_chr1_CO$`CO Start` - min(japonica_chr1_CO$`CO Start`)
 
-##Reading in recombination rates
-jap_CO <- read.table("japonica_rec_rate.bed", header = FALSE)
-colnames(jap_CO) <- c("Chr", "CO Start", "CO End", "rate")
-jap_CO <- jap_CO[order(jap_CO$Chr,jap_CO$`CO Start`),]
+japonica_chr2_CO$`CO End` <- japonica_chr2_CO$`CO End` - min(japonica_chr2_CO$`CO Start`)
+japonica_chr2_CO$`CO Start` <- japonica_chr2_CO$`CO Start` - min(japonica_chr2_CO$`CO Start`)
 
-jap_chr1_CO <- jap_CO[ which(jap_CO$Chr == "chr01"),]
-jap_chr1_CO$midpoint <- (jap_chr1_CO$`CO Start`+ jap_chr1_CO$`CO End`)/2
-jap_chr1_CO <- jap_chr1_CO[order(jap_chr1_CO$`CO Start`),]
+japonica_chr3_CO$`CO End` <- japonica_chr3_CO$`CO End` - min(japonica_chr3_CO$`CO Start`)
+japonica_chr3_CO$`CO Start` <- japonica_chr3_CO$`CO Start` - min(japonica_chr3_CO$`CO Start`)
 
-jap_chr2_CO <- jap_CO[ which(jap_CO$Chr == "chr02"),]
-jap_chr2_CO$midpoint <- (jap_chr2_CO$`CO Start`+ jap_chr2_CO$`CO End`)/2
-jap_chr2_CO <- jap_chr2_CO[order(jap_chr2_CO$`CO Start`),]
+japonica_chr4_CO$`CO End` <- japonica_chr4_CO$`CO End` - min(japonica_chr4_CO$`CO Start`)
+japonica_chr4_CO$`CO Start` <- japonica_chr4_CO$`CO Start` - min(japonica_chr4_CO$`CO Start`)
 
-jap_chr3_CO <- jap_CO[ which(jap_CO$Chr == "chr03"),]
-jap_chr3_CO$midpoint <- (jap_chr3_CO$`CO Start`+ jap_chr3_CO$`CO End`)/2
-jap_chr3_CO <- jap_chr3_CO[order(jap_chr3_CO$`CO Start`),]
+japonica_chr5_CO$`CO End` <- japonica_chr5_CO$`CO End` - min(japonica_chr5_CO$`CO Start`)
+japonica_chr5_CO$`CO Start` <- japonica_chr5_CO$`CO Start` - min(japonica_chr5_CO$`CO Start`)
 
-jap_chr4_CO <- jap_CO[ which(jap_CO$Chr == "chr04"),]
-jap_chr4_CO$midpoint <- (jap_chr4_CO$`CO Start`+ jap_chr4_CO$`CO End`)/2
-jap_chr4_CO <- jap_chr4_CO[order(jap_chr4_CO$`CO Start`),]
+japonica_chr6_CO$`CO End` <- japonica_chr6_CO$`CO End` - min(japonica_chr6_CO$`CO Start`)
+japonica_chr6_CO$`CO Start` <- japonica_chr6_CO$`CO Start` - min(japonica_chr6_CO$`CO Start`)
 
-jap_chr5_CO <- jap_CO[ which(jap_CO$Chr == "chr05"),]
-jap_chr5_CO$midpoint <- (jap_chr5_CO$`CO Start`+ jap_chr5_CO$`CO End`)/2
-jap_chr5_CO <- jap_chr5_CO[order(jap_chr5_CO$`CO Start`),]
+japonica_chr7_CO$`CO End` <- japonica_chr7_CO$`CO End` - min(japonica_chr7_CO$`CO Start`)
+japonica_chr7_CO$`CO Start` <- japonica_chr7_CO$`CO Start` - min(japonica_chr7_CO$`CO Start`)
 
-jap_chr6_CO <- jap_CO[ which(jap_CO$Chr == "chr06"),]
-jap_chr6_CO$midpoint <- (jap_chr6_CO$`CO Start`+ jap_chr6_CO$`CO End`)/2
-jap_chr6_CO <- jap_chr6_CO[order(jap_chr6_CO$`CO Start`),]
+japonica_chr8_CO$`CO End` <- japonica_chr8_CO$`CO End` - min(japonica_chr8_CO$`CO Start`)
+japonica_chr8_CO$`CO Start` <- japonica_chr8_CO$`CO Start` - min(japonica_chr8_CO$`CO Start`)
 
-jap_chr7_CO <- jap_CO[ which(jap_CO$Chr == "chr07"),]
-jap_chr7_CO$midpoint <- (jap_chr7_CO$`CO Start`+ jap_chr7_CO$`CO End`)/2
-jap_chr7_CO <- jap_chr7_CO[order(jap_chr7_CO$`CO Start`),]
+japonica_chr9_CO$`CO End` <- japonica_chr9_CO$`CO End` - min(japonica_chr9_CO$`CO Start`)
+japonica_chr9_CO$`CO Start` <- japonica_chr9_CO$`CO Start` - min(japonica_chr9_CO$`CO Start`)
 
-jap_chr8_CO <- jap_CO[ which(jap_CO$Chr == "chr08"),]
-jap_chr8_CO$midpoint <- (jap_chr8_CO$`CO Start`+ jap_chr8_CO$`CO End`)/2
-jap_chr8_CO <- jap_chr8_CO[order(jap_chr8_CO$`CO Start`),]
+japonica_chr10_CO$`CO End` <- japonica_chr10_CO$`CO End` - min(japonica_chr10_CO$`CO Start`)
+japonica_chr10_CO$`CO Start` <- japonica_chr10_CO$`CO Start` - min(japonica_chr10_CO$`CO Start`)
 
-jap_chr9_CO <- jap_CO[ which(jap_CO$Chr == "chr09"),]
-jap_chr9_CO$midpoint <- (jap_chr9_CO$`CO Start`+ jap_chr9_CO$`CO End`)/2
-jap_chr9_CO <- jap_chr9_CO[order(jap_chr9_CO$`CO Start`),]
+japonica_chr11_CO$`CO End` <- japonica_chr11_CO$`CO End` - min(japonica_chr11_CO$`CO Start`)
+japonica_chr11_CO$`CO Start` <- japonica_chr11_CO$`CO Start` - min(japonica_chr11_CO$`CO Start`)
 
-jap_chr10_CO <- jap_CO[ which(jap_CO$Chr == "chr10"),]
-jap_chr10_CO$midpoint <- (jap_chr10_CO$`CO Start`+ jap_chr10_CO$`CO End`)/2
-jap_chr10_CO <- jap_chr10_CO[order(jap_chr10_CO$`CO Start`),]
+japonica_chr12_CO$`CO End` <- japonica_chr12_CO$`CO End` - min(japonica_chr12_CO$`CO Start`)
+japonica_chr12_CO$`CO Start` <- japonica_chr12_CO$`CO Start` - min(japonica_chr12_CO$`CO Start`)
 
-jap_chr11_CO <- jap_CO[ which(jap_CO$Chr == "chr11"),]
-jap_chr11_CO$midpoint <- (jap_chr11_CO$`CO Start`+ jap_chr11_CO$`CO End`)/2
-jap_chr11_CO <- jap_chr11_CO[order(jap_chr11_CO$`CO Start`),]
-
-jap_chr12_CO <- jap_CO[ which(jap_CO$Chr == "chr12"),]
-jap_chr12_CO$midpoint <- (jap_chr12_CO$`CO Start`+ jap_chr12_CO$`CO End`)/2
-jap_chr12_CO <- jap_chr12_CO[order(jap_chr12_CO$`CO Start`),]
-jap_chr1_CO$`CO End` <- jap_chr1_CO$`CO End` - min(jap_chr1_CO$`CO Start`)
-jap_chr1_CO$`CO Start` <- jap_chr1_CO$`CO Start` - min(jap_chr1_CO$`CO Start`)
-
-jap_chr2_CO$`CO End` <- jap_chr2_CO$`CO End` - min(jap_chr2_CO$`CO Start`)
-jap_chr2_CO$`CO Start` <- jap_chr2_CO$`CO Start` - min(jap_chr2_CO$`CO Start`)
-
-jap_chr3_CO$`CO End` <- jap_chr3_CO$`CO End` - min(jap_chr3_CO$`CO Start`)
-jap_chr3_CO$`CO Start` <- jap_chr3_CO$`CO Start` - min(jap_chr3_CO$`CO Start`)
-
-jap_chr4_CO$`CO End` <- jap_chr4_CO$`CO End` - min(jap_chr4_CO$`CO Start`)
-jap_chr4_CO$`CO Start` <- jap_chr4_CO$`CO Start` - min(jap_chr4_CO$`CO Start`)
-
-jap_chr5_CO$`CO End` <- jap_chr5_CO$`CO End` - min(jap_chr5_CO$`CO Start`)
-jap_chr5_CO$`CO Start` <- jap_chr5_CO$`CO Start` - min(jap_chr5_CO$`CO Start`)
-
-jap_chr6_CO$`CO End` <- jap_chr6_CO$`CO End` - min(jap_chr6_CO$`CO Start`)
-jap_chr6_CO$`CO Start` <- jap_chr6_CO$`CO Start` - min(jap_chr6_CO$`CO Start`)
-
-jap_chr7_CO$`CO End` <- jap_chr7_CO$`CO End` - min(jap_chr7_CO$`CO Start`)
-jap_chr7_CO$`CO Start` <- jap_chr7_CO$`CO Start` - min(jap_chr7_CO$`CO Start`)
-
-jap_chr8_CO$`CO End` <- jap_chr8_CO$`CO End` - min(jap_chr8_CO$`CO Start`)
-jap_chr8_CO$`CO Start` <- jap_chr8_CO$`CO Start` - min(jap_chr8_CO$`CO Start`)
-
-jap_chr9_CO$`CO End` <- jap_chr9_CO$`CO End` - min(jap_chr9_CO$`CO Start`)
-jap_chr9_CO$`CO Start` <- jap_chr9_CO$`CO Start` - min(jap_chr9_CO$`CO Start`)
-
-jap_chr10_CO$`CO End` <- jap_chr10_CO$`CO End` - min(jap_chr10_CO$`CO Start`)
-jap_chr10_CO$`CO Start` <- jap_chr10_CO$`CO Start` - min(jap_chr10_CO$`CO Start`)
-
-jap_chr11_CO$`CO End` <- jap_chr11_CO$`CO End` - min(jap_chr11_CO$`CO Start`)
-jap_chr11_CO$`CO Start` <- jap_chr11_CO$`CO Start` - min(jap_chr11_CO$`CO Start`)
-
-jap_chr12_CO$`CO End` <- jap_chr12_CO$`CO End` - min(jap_chr12_CO$`CO Start`)
-jap_chr12_CO$`CO Start` <- jap_chr12_CO$`CO Start` - min(jap_chr12_CO$`CO Start`)
-
-###using CO rate to infer genetic map distances
-
-##calculating recombination rate per bin of CO data
 library(dlookr)
 library(dplyr)
 library(tidyverse)
 library(ggplot2)
 library(OneR)
 
-#recombination frequency calc used:
-# recomb. freq. = (# of COs/ size of population *100%)/ length of bin in Mb
-
-#bin rates into ~1 Mb regions and average each region
+##Bin the recombination rate data into 40 equally sized bins on each chromosome
+#Function to label the start SNP positions of each bin
 fill_start<- function(chr_CO){
   l<-0
   for(k in 1:nrow(chr_CO)){
@@ -186,94 +114,85 @@ fill_start<- function(chr_CO){
   }
   print(chr_CO)
 }
-
+#Bin size (variable: bins) calculated by dividing the total size of dataframe by 40
+#Rollapply function "rolls" by interval of bin size and calculates a moving average recombination rate for each bin
+#Use drop_NA function to condense table so it only contains the avg recombination rate
 library(zoo)
-jap_chr1_CO_2 <- jap_chr1_CO
-bins<-as.integer(nrow(jap_chr1_CO)/40)
-jap_chr1_CO_2$rates<- rollapply(jap_chr1_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
-jap_chr1_CO_2<-fill_start(jap_chr1_CO_2)
-jap_chr1_CO_2<- jap_chr1_CO_2 %>% drop_na(rates)
+library(tidyr)
+japonica_chr1_CO_2 <- japonica_chr1_CO
+bins<-as.integer(nrow(japonica_chr1_CO)/40)
+japonica_chr1_CO_2$rates<- rollapply(japonica_chr1_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+japonica_chr1_CO_2<-fill_start(japonica_chr1_CO_2)
+japonica_chr1_CO_2<- japonica_chr1_CO_2 %>% drop_na(rates)
 
-jap_chr2_CO_2 <- jap_chr2_CO
-bins<-as.integer(nrow(jap_chr2_CO)/40)
-jap_chr2_CO_2$rates<- rollapply(jap_chr2_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
-jap_chr2_CO_2<-fill_start(jap_chr2_CO_2)
-jap_chr2_CO_2<- jap_chr2_CO_2 %>% drop_na(rates)
+japonica_chr2_CO_2 <- japonica_chr2_CO
+bins<-as.integer(nrow(japonica_chr2_CO)/40)
+japonica_chr2_CO_2$rates<- rollapply(japonica_chr2_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+japonica_chr2_CO_2<-fill_start(japonica_chr2_CO_2)
+japonica_chr2_CO_2<- japonica_chr2_CO_2 %>% drop_na(rates)
 
-jap_chr3_CO_2 <- jap_chr3_CO
-bins<-as.integer(nrow(jap_chr3_CO)/40)
-jap_chr3_CO_2$rates<- rollapply(jap_chr3_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
-jap_chr3_CO_2<-fill_start(jap_chr3_CO_2)
-jap_chr3_CO_2<- jap_chr3_CO_2 %>% drop_na(rates)
+japonica_chr3_CO_2 <- japonica_chr3_CO
+bins<-as.integer(nrow(japonica_chr3_CO)/40)
+japonica_chr3_CO_2$rates<- rollapply(japonica_chr3_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+japonica_chr3_CO_2<-fill_start(japonica_chr3_CO_2)
+japonica_chr3_CO_2<- japonica_chr3_CO_2 %>% drop_na(rates)
 
-jap_chr4_CO_2 <- jap_chr4_CO
-bins<-as.integer(nrow(jap_chr4_CO)/40)
-jap_chr4_CO_2$rates<- rollapply(jap_chr4_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
-jap_chr4_CO_2<-fill_start(jap_chr4_CO_2)
-jap_chr4_CO_2<- jap_chr4_CO_2 %>% drop_na(rates)
+japonica_chr4_CO_2 <- japonica_chr4_CO
+bins<-as.integer(nrow(japonica_chr4_CO)/40)
+japonica_chr4_CO_2$rates<- rollapply(japonica_chr4_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+japonica_chr4_CO_2<-fill_start(japonica_chr4_CO_2)
+japonica_chr4_CO_2<- japonica_chr4_CO_2 %>% drop_na(rates)
 
-jap_chr5_CO_2 <- jap_chr5_CO
-bins<-as.integer(nrow(jap_chr5_CO)/40)
-jap_chr5_CO_2$rates<- rollapply(jap_chr5_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
-jap_chr5_CO_2<-fill_start(jap_chr5_CO_2)
-jap_chr5_CO_2<- jap_chr5_CO_2 %>% drop_na(rates)
+japonica_chr5_CO_2 <- japonica_chr5_CO
+bins<-as.integer(nrow(japonica_chr5_CO)/40)
+japonica_chr5_CO_2$rates<- rollapply(japonica_chr5_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+japonica_chr5_CO_2<-fill_start(japonica_chr5_CO_2)
+japonica_chr5_CO_2<- japonica_chr5_CO_2 %>% drop_na(rates)
 
-jap_chr6_CO_2 <- jap_chr6_CO
-bins<-as.integer(nrow(jap_chr6_CO)/40)
-jap_chr6_CO_2$rates<- rollapply(jap_chr6_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
-jap_chr6_CO_2<-fill_start(jap_chr6_CO_2)
-jap_chr6_CO_2<- jap_chr6_CO_2 %>% drop_na(rates)
+japonica_chr6_CO_2 <- japonica_chr6_CO
+bins<-as.integer(nrow(japonica_chr6_CO)/40)
+japonica_chr6_CO_2$rates<- rollapply(japonica_chr6_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+japonica_chr6_CO_2<-fill_start(japonica_chr6_CO_2)
+japonica_chr6_CO_2<- japonica_chr6_CO_2 %>% drop_na(rates)
 
-jap_chr7_CO_2 <- jap_chr7_CO
-bins<-as.integer(nrow(jap_chr7_CO)/40)
-jap_chr7_CO_2$rates<- rollapply(jap_chr7_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
-jap_chr7_CO_2<-fill_start(jap_chr7_CO_2)
-jap_chr7_CO_2<- jap_chr7_CO_2 %>% drop_na(rates)
+japonica_chr7_CO_2 <- japonica_chr7_CO
+bins<-as.integer(nrow(japonica_chr7_CO)/40)
+japonica_chr7_CO_2$rates<- rollapply(japonica_chr7_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+japonica_chr7_CO_2<-fill_start(japonica_chr7_CO_2)
+japonica_chr7_CO_2<- japonica_chr7_CO_2 %>% drop_na(rates)
 
-jap_chr8_CO_2 <- jap_chr8_CO
-bins<-as.integer(nrow(jap_chr8_CO)/40)
-jap_chr8_CO_2$rates<- rollapply(jap_chr8_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
-jap_chr8_CO_2<-fill_start(jap_chr8_CO_2)
-jap_chr8_CO_2<- jap_chr8_CO_2 %>% drop_na(rates)
+japonica_chr8_CO_2 <- japonica_chr8_CO
+bins<-as.integer(nrow(japonica_chr8_CO)/40)
+japonica_chr8_CO_2$rates<- rollapply(japonica_chr8_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+japonica_chr8_CO_2<-fill_start(japonica_chr8_CO_2)
+japonica_chr8_CO_2<- japonica_chr8_CO_2 %>% drop_na(rates)
 
-jap_chr9_CO_2 <- jap_chr9_CO
-bins<-as.integer(nrow(jap_chr9_CO)/40)
-jap_chr9_CO_2$rates<- rollapply(jap_chr9_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
-jap_chr9_CO_2<-fill_start(jap_chr9_CO_2)
-jap_chr9_CO_2<- jap_chr9_CO_2 %>% drop_na(rates)
+japonica_chr9_CO_2 <- japonica_chr9_CO
+bins<-as.integer(nrow(japonica_chr9_CO)/40)
+japonica_chr9_CO_2$rates<- rollapply(japonica_chr9_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+japonica_chr9_CO_2<-fill_start(japonica_chr9_CO_2)
+japonica_chr9_CO_2<- japonica_chr9_CO_2 %>% drop_na(rates)
 
-jap_chr10_CO_2 <- jap_chr10_CO
-bins<-as.integer(nrow(jap_chr10_CO)/40)
-jap_chr10_CO_2$rates<- rollapply(jap_chr10_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
-jap_chr10_CO_2<-fill_start(jap_chr10_CO_2)
-jap_chr10_CO_2<- jap_chr10_CO_2 %>% drop_na(rates)
+japonica_chr10_CO_2 <- japonica_chr10_CO
+bins<-as.integer(nrow(japonica_chr10_CO)/40)
+japonica_chr10_CO_2$rates<- rollapply(japonica_chr10_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+japonica_chr10_CO_2<-fill_start(japonica_chr10_CO_2)
+japonica_chr10_CO_2<- japonica_chr10_CO_2 %>% drop_na(rates)
 
-jap_chr11_CO_2 <- jap_chr11_CO
-bins<-as.integer(nrow(jap_chr11_CO)/40)
-jap_chr11_CO_2$rates<- rollapply(jap_chr11_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
-jap_chr11_CO_2<-fill_start(jap_chr11_CO_2)
-jap_chr11_CO_2<- jap_chr11_CO_2 %>% drop_na(rates)
+japonica_chr11_CO_2 <- japonica_chr11_CO
+bins<-as.integer(nrow(japonica_chr11_CO)/40)
+japonica_chr11_CO_2$rates<- rollapply(japonica_chr11_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+japonica_chr11_CO_2<-fill_start(japonica_chr11_CO_2)
+japonica_chr11_CO_2<- japonica_chr11_CO_2 %>% drop_na(rates)
 
-jap_chr12_CO_2 <- jap_chr12_CO
-bins<-as.integer(nrow(jap_chr12_CO)/40)
-jap_chr12_CO_2$rates<- rollapply(jap_chr12_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
-jap_chr12_CO_2<-fill_start(jap_chr12_CO_2)
-jap_chr12_CO_2<- jap_chr12_CO_2 %>% drop_na(rates)
+japonica_chr12_CO_2 <- japonica_chr12_CO
+bins<-as.integer(nrow(japonica_chr12_CO)/40)
+japonica_chr12_CO_2$rates<- rollapply(japonica_chr12_CO$rate, width=bins, FUN=mean, by = bins, by.column = TRUE, fill = NA)
+japonica_chr12_CO_2<-fill_start(japonica_chr12_CO_2)
+japonica_chr12_CO_2<- japonica_chr12_CO_2 %>% drop_na(rates)
 
-##assigning frequency to SNPs based on frequency in each bin
-snp_rate <- function(chr_bin, chr_snp){
-  for(i in 1:nrow(chr_snp)){
-    for(k in 1:nrow(chr_bin)){
-      if(isTRUE((chr_snp$`SNP Start`[i] >= chr_bin$foo.X1[k]) && (chr_snp$`SNP Start`[i] <= chr_bin$foo.X2[k]))){
-        chr_snp$rate[i] <- chr_bin$rate[k]
-      }
-    }
-  }
-  print(chr_snp)
-}
-##Looking at gene density along chromosomes, binned based on gene density
-#ref <- read.table("Zm-B73-REFERENCE-GRAMENE-4.0_Zm00001d.1.gff3", header = TRUE)
-#genome annnotation file from Nipponbare (https://rapdb.dna.affrc.go.jp/download/irgsp1.html)
+##Read in genes on each chromosomes, calculate gene density by binning
+#Genome annnotation file from Nipponbare (https://rapdb.dna.affrc.go.jp/download/irgsp1.html)
 ref_genes <- read.table("locus.csv", header = TRUE, sep =",")
 ref_genes1 <- ref_genes[which(ref_genes$Ref == 'chr01'),]
 ref_genes2 <- ref_genes[which(ref_genes$Ref == 'chr02'),]
@@ -288,6 +207,8 @@ ref_genes10 <- ref_genes[which(ref_genes$Ref == 'chr10'),]
 ref_genes11 <- ref_genes[which(ref_genes$Ref == 'chr11'),]
 ref_genes12 <- ref_genes[which(ref_genes$Ref == 'chr12'),]
 
+#Bin genes on each chromosome into equal (~1 kb) intervals, create dataframe with bin info (position, freq, rate, gene density)  
+#Variables foo.X1 and foo.X2 represent interval start and end positions, respectively
 genes_bin1 <- as.data.frame(summary(binning(ref_genes1$X1, nbins = round(max(ref_genes1$X307041717)/100000), type = "kmeans")))
 genes_bin1 <- within(genes_bin1, foo<-data.frame(do.call('rbind', strsplit(as.character(genes_bin1$levels), ',', fixed=TRUE))))
 genes_bin1 <- do.call(data.frame, genes_bin1)
@@ -448,7 +369,8 @@ saveRDS(genes_bin12$foo.X1/1000000,file="chr12_locipos")
 saveRDS(genes_bin12$density,file="chr12_geneProb")
 
 
-##Spearmen correlation test to find correlation between gene density & recombination rate
+##Conduct Spearman's rank correlation test to calculate correlation between gene density & recombination rate
+#Create dataframes with gene bins and associated gene density
 chr1_corr <- genes_bin1$density
 chr1_corr <- as.data.frame(chr1_corr)
 colnames(chr1_corr) <- "density"
@@ -533,66 +455,69 @@ chr12_corr$start <- genes_bin12$foo.X1
 chr12_corr$end <- genes_bin12$foo.X2
 chr12_corr$rate <- NA
 
+#Function to fill in the recombination rates associated with the gene bin
 assign_rate <- function(chr_bin, chr_corr){
   for(i in 1:nrow(chr_bin)){
     for(k in 1:nrow(chr_corr)){
-      if(isTRUE((chr_bin$`CO Start`[i] <= chr_corr$end[k]) && (chr_bin$`CO End`[i] >= chr_corr$end[k]))){
+      if(isTRUE((chr_bin$`CO Start`[i] <= chr_corr$start[k]) && (chr_bin$`CO End`[i] >= chr_corr$end[k]))){
         chr_corr$rate[k] <- chr_bin$rate[i]
       }
     }
   }
   return(chr_corr)
 }
-#200kb correlation
-chr1_corr_rate <- assign_rate(jap_chr1_CO_2, chr1_corr)
+#Correlation test between binned recombination rates and gene density
+chr1_corr_rate <- assign_rate(japonica_chr1_CO_2, chr1_corr)
 chr1_corr_rate <- na.omit(chr1_corr_rate)
 cor.test(chr1_corr_rate$rate, chr1_corr_rate$density,  method = "spearman", alternative = "greater")
 
-chr2_corr_rate <- assign_rate(jap_chr2_CO_2, chr2_corr)
+chr2_corr_rate <- assign_rate(japonica_chr2_CO_2, chr2_corr)
 chr2_corr_rate <-  na.omit(chr2_corr_rate)
 cor.test(chr2_corr_rate$rate, chr2_corr_rate$density,  method = "spearman", alternative = "greater")
 
-chr3_corr_rate <- assign_rate(jap_chr3_CO_2, chr3_corr)
+chr3_corr_rate <- assign_rate(japonica_chr3_CO_2, chr3_corr)
 chr3_corr_rate <- na.omit(chr3_corr_rate)
 cor.test(chr3_corr_rate$rate, chr3_corr_rate$density,  method = "spearman", alternative = "greater")
 
-chr4_corr_rate <- assign_rate(jap_chr4_CO_2, chr4_corr)
+chr4_corr_rate <- assign_rate(japonica_chr4_CO_2, chr4_corr)
 chr4_corr_rate <- na.omit(chr4_corr_rate)
 cor.test(chr4_corr_rate$rate, chr4_corr_rate$density,  method = "spearman", alternative = "greater")
 
-chr5_corr_rate <- assign_rate(jap_chr5_CO_2, chr5_corr)
+chr5_corr_rate <- assign_rate(japonica_chr5_CO_2, chr5_corr)
 chr5_corr_rate <- na.omit(chr5_corr_rate)
 cor.test(chr5_corr_rate$rate, chr5_corr_rate$density,  method = "spearman", alternative = "greater")
 
-chr6_corr_rate <- assign_rate(jap_chr6_CO_2, chr6_corr)
+chr6_corr_rate <- assign_rate(japonica_chr6_CO_2, chr6_corr)
 chr6_corr_rate <- na.omit(chr6_corr_rate)
 cor.test(chr6_corr_rate$rate, chr6_corr_rate$density,  method = "spearman", alternative = "greater")
 
-chr7_corr_rate <- assign_rate(jap_chr7_CO_2, chr7_corr)
+chr7_corr_rate <- assign_rate(japonica_chr7_CO_2, chr7_corr)
 chr7_corr_rate <-na.omit(chr7_corr_rate)
 cor.test(chr7_corr_rate$rate, chr7_corr_rate$density,  method = "spearman", alternative = "greater")
 
-chr8_corr_rate <- assign_rate(jap_chr8_CO_2, chr8_corr)
+chr8_corr_rate <- assign_rate(japonica_chr8_CO_2, chr8_corr)
 chr8_corr_rate <- na.omit(chr8_corr_rate)
 cor.test(chr8_corr_rate$rate, chr8_corr_rate$density,  method = "spearman", alternative = "greater")
 
-chr9_corr_rate <- assign_rate(jap_chr9_CO_2, chr9_corr)
+chr9_corr_rate <- assign_rate(japonica_chr9_CO_2, chr9_corr)
 chr9_corr_rate <- na.omit(chr9_corr_rate)
 cor.test(chr9_corr_rate$rate, chr9_corr_rate$density,  method = "spearman", alternative = "greater")
 
-chr10_corr_rate <- assign_rate(jap_chr10_CO_2, chr10_corr)
+chr10_corr_rate <- assign_rate(japonica_chr10_CO_2, chr10_corr)
 chr10_corr_rate <- na.omit(chr10_corr_rate)
 cor.test(chr10_corr_rate$rate, chr10_corr_rate$density,  method = "spearman", alternative = "greater")
 
-chr11_corr_rate <- assign_rate(jap_chr11_CO_2, chr11_corr)
+chr11_corr_rate <- assign_rate(japonica_chr11_CO_2, chr11_corr)
 chr11_corr_rate <- na.omit(chr11_corr_rate)
 cor.test(chr11_corr_rate$rate, chr11_corr_rate$density,  method = "spearman", alternative = "greater")
 
-chr12_corr_rate <- assign_rate(jap_chr12_CO_2, chr12_corr)
+chr12_corr_rate <- assign_rate(japonica_chr12_CO_2, chr12_corr)
 chr12_corr_rate <- na.omit(chr12_corr_rate)
 cor.test(chr12_corr_rate$rate, chr12_corr_rate$density,  method = "spearman", alternative = "greater")
 
+#Create dataframe of all chromosomes with gene bins and gene density, and associated average recombination rate 
 genomewide <- rbind(chr1_corr_rate, chr2_corr_rate, chr3_corr_rate, chr4_corr_rate, chr5_corr_rate,
-                    chr6_corr_rate, chr7_corr_rate, chr8_corr_rate, chr9_corr_rate, chr10_corr_rate)
+                    chr6_corr_rate, chr7_corr_rate, chr8_corr_rate, chr9_corr_rate, chr10_corr_rate, chr11_corr_rate, chr12_corr_rate)
 
+#Assess the genome wide correlation between gene density and recombination rate
 cor.test(genomewide$rate, genomewide$density,  method = "spearman", alternative = "greater")
