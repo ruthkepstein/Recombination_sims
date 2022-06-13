@@ -143,9 +143,9 @@ chr1<- ggplot(chr1_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
   geom_line(data = chr1_snp2ideal1, aes(x = `SNP Start`, y = pos, color = "10X"), size = 2) +
   geom_line(data = chr1_snp2ideal2, aes(x = `SNP Start`, y = pos, color = "ddm1/zmet2"), size = 2) +
   scale_color_manual(values=c("ddm1" = "#E69F00", "recq4" = "#56B4E9", "wt" = "#009E73", "zmet2" = "#F0E442",
-                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",color = "Genetic Map") +
-  theme(axis.text=element_text(size=16), axis.title=element_text(size=16), legend.title = element_text(size=11), #change legend title font size
-        legend.text = element_text(size=11), plot.title = element_text(size=15, face="bold"), legend.position = c(.15,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 16, xmax = 17, ymin = 2.5, ymax = 200, fill='blue', alpha = .2) + 
+                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",title="Chromosome 1",color = "Genetic Map") +
+  theme(axis.text=element_text(size=12), axis.title=element_text(size=12), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(.15,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 16, xmax = 17, ymin = 2.5, ymax = 200, fill='blue', alpha = .2) + 
   annotate('text', x = 16.7, y = 200, label = 'Centromere', color='blue', size = 4) + scale_y_continuous(trans = squish_trans(60,215,8), breaks = c(50, 100, 150, ceiling(max(chr1_snp2ideal1$pos))))
 
 chr2<-ggplot(chr2_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
@@ -157,9 +157,9 @@ chr2<-ggplot(chr2_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
   geom_line(data = chr2_snp2ideal1, aes(x = `SNP Start`, y = pos, color = "10X"), size = 2) +
   geom_line(data = chr2_snp2ideal2, aes(x = `SNP Start`, y = pos, color = "ddm1/zmet2"), size = 2) +
   scale_color_manual(values=c("ddm1" = "#E69F00", "recq4" = "#56B4E9", "wt" = "#009E73", "zmet2" = "#F0E442",
-                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",color = "Genetic Map") +
-  theme(axis.text=element_text(size=16), axis.title=element_text(size=16), legend.title = element_text(size=11), #change legend title font size
-        legend.text = element_text(size=11), plot.title = element_text(size=15, face="bold"), legend.position = c(.11,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 13, xmax = 14, ymin = 2.5, ymax = 195, fill='blue', alpha = .2) + 
+                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",title="Chromosome 2",color = "Genetic Map") +
+  theme(axis.text=element_text(size=12), axis.title=element_text(size=12), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(.11,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 13, xmax = 14, ymin = 2.5, ymax = 195, fill='blue', alpha = .2) + 
   annotate('text', x = 13.6, y = 198, label = 'Centromere', color='blue', size = 4) + scale_y_continuous(trans = squish_trans(60,194,8), breaks = c(50, 100, ceiling(max(chr2_snp2ideal1$pos))))
 
 chr3<-ggplot(chr3_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
@@ -171,9 +171,9 @@ chr3<-ggplot(chr3_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
   geom_line(data = chr3_snp2ideal1, aes(x = `SNP Start`, y = pos, color = "10X"), size = 2) +
   geom_line(data = chr3_snp2ideal2, aes(x = `SNP Start`, y = pos, color = "ddm1/zmet2"), size = 2) +
   scale_color_manual(values=c("ddm1" = "#E69F00", "recq4" = "#56B4E9", "wt" = "#009E73", "zmet2" = "#F0E442",
-                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",color = "Genetic Map") +
-  theme(axis.text=element_text(size=16), axis.title=element_text(size=16), legend.title = element_text(size=11), #change legend title font size
-        legend.text = element_text(size=11), plot.title = element_text(size=15, face="bold"), legend.position = c(.15,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 19, xmax = 20, ymin = 2.5, ymax =115, fill='blue', alpha = .2) + 
+                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",title="Chromosome 3",color = "Genetic Map") +
+  theme(axis.text=element_text(size=12), axis.title=element_text(size=12), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(.15,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 19, xmax = 20, ymin = 2.5, ymax =115, fill='blue', alpha = .2) + 
   annotate('text', x = 19.4, y = 130, label = 'Centromere', color='blue', size = 4) + scale_y_continuous(trans = squish_trans(50,164,8), breaks = c(50, 100, ceiling(max(chr3_snp2ideal1$pos))))
 
 chr4<-ggplot(chr4_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
@@ -185,9 +185,9 @@ chr4<-ggplot(chr4_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
   geom_line(data = chr4_snp2ideal1, aes(x = `SNP Start`, y = pos, color = "10X"), size = 2) +
   geom_line(data = chr4_snp2ideal2, aes(x = `SNP Start`, y = pos, color = "ddm1/zmet2"), size = 2) +
   scale_color_manual(values=c("ddm1" = "#E69F00", "recq4" = "#56B4E9", "wt" = "#009E73", "zmet2" = "#F0E442",
-                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",color = "Genetic Map") +
-  theme(axis.text=element_text(size=16), axis.title=element_text(size=16), legend.title = element_text(size=11), #change legend title font size
-        legend.text = element_text(size=11), plot.title = element_text(size=15, face="bold"), legend.position = c(.1,.82), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 9, xmax = 10, ymin = 2.5, ymax = 185, fill='blue', alpha = .2) + 
+                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",title="Chromosome 4",color = "Genetic Map") +
+  theme(axis.text=element_text(size=12), axis.title=element_text(size=12), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(.1,.82), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 9, xmax = 10, ymin = 2.5, ymax = 185, fill='blue', alpha = .2) + 
   annotate('text', x = 9.7, y = 200, label = 'Centromere', color='blue', size = 4) + scale_y_continuous(trans = squish_trans(60,215,8), breaks = c(50, 100, 150, ceiling(max(chr4_snp2ideal1$pos))))
 
 chr5<-ggplot(chr5_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
@@ -199,9 +199,9 @@ chr5<-ggplot(chr5_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
   geom_line(data = chr5_snp2ideal1, aes(x = `SNP Start`, y = pos, color = "10X"), size = 2) +
   geom_line(data = chr5_snp2ideal2, aes(x = `SNP Start`, y = pos, color = "ddm1/zmet2"), size = 2) +
   scale_color_manual(values=c("ddm1" = "#E69F00", "recq4" = "#56B4E9", "wt" = "#009E73", "zmet2" = "#F0E442",
-                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",color = "Genetic Map") +
-  theme(axis.text=element_text(size=16), axis.title=element_text(size=16), legend.title = element_text(size=11), #change legend title font size
-        legend.text = element_text(size=11), plot.title = element_text(size=15, face="bold"), legend.position = c(.15,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 12, xmax = 13, ymin = 2.5, ymax = 130, fill='blue', alpha = .2) + 
+                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",title="Chromosome 5",color = "Genetic Map") +
+  theme(axis.text=element_text(size=12), axis.title=element_text(size=12), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(.15,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 12, xmax = 13, ymin = 2.5, ymax = 130, fill='blue', alpha = .2) + 
   annotate('text', x = 12.4, y = 145, label = 'Centromere', color='blue', size = 4) + scale_y_continuous(trans = squish_trans(50,144,8), breaks = c(50, 100,  ceiling(max(chr5_snp2ideal1$pos))))
 
 chr6<-ggplot(chr6_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
@@ -213,9 +213,9 @@ chr6<-ggplot(chr6_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
   geom_line(data = chr6_snp2ideal1, aes(x = `SNP Start`, y = pos, color = "10X"), size = 2) +
   geom_line(data = chr6_snp2ideal2, aes(x = `SNP Start`, y = pos, color = "ddm1/zmet2"), size = 2) +
   scale_color_manual(values=c("ddm1" = "#E69F00", "recq4" = "#56B4E9", "wt" = "#009E73", "zmet2" = "#F0E442",
-                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",color = "Genetic Map") +
-  theme(axis.text=element_text(size=16), axis.title=element_text(size=16), legend.title = element_text(size=11), #change legend title font size
-        legend.text = element_text(size=11), plot.title = element_text(size=15, face="bold"), legend.position = c(.1,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 15, xmax = 16, ymin = 2.5, ymax = 165, fill='blue', alpha = .2) + 
+                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",title="Chromosome 6",color = "Genetic Map") +
+  theme(axis.text=element_text(size=12), axis.title=element_text(size=12), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(.1,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 15, xmax = 16, ymin = 2.5, ymax = 165, fill='blue', alpha = .2) + 
   annotate('text', x = 15.3, y = 175, label = 'Centromere', color='blue', size = 4) + scale_y_continuous(trans = squish_trans(50,177,8), breaks = c(50, 100, ceiling(max(chr6_snp2ideal1$pos))))
 
 chr7<-ggplot(chr7_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
@@ -227,9 +227,9 @@ chr7<-ggplot(chr7_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
   geom_line(data = chr7_snp2ideal1, aes(x = `SNP Start`, y = pos, color = "10X"), size = 2) +
   geom_line(data = chr7_snp2ideal2, aes(x = `SNP Start`, y = pos, color = "ddm1/zmet2"), size = 2) +
   scale_color_manual(values=c("ddm1" = "#E69F00", "recq4" = "#56B4E9", "wt" = "#009E73", "zmet2" = "#F0E442",
-                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",color = "Genetic Map") +
-  theme(axis.text=element_text(size=16), axis.title=element_text(size=16), legend.title = element_text(size=11), #change legend title font size
-        legend.text = element_text(size=11), plot.title = element_text(size=15, face="bold"), legend.position = c(.1,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 12, xmax = 13, ymin = 2.5, ymax = 170, fill='blue', alpha = .2) + 
+                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",title="Chromosome 7",color = "Genetic Map") +
+  theme(axis.text=element_text(size=12), axis.title=element_text(size=12), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(.1,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 12, xmax = 13, ymin = 2.5, ymax = 170, fill='blue', alpha = .2) + 
   annotate('text', x = 12.1, y = 178, label = 'Centromere', color='blue', size = 4) + scale_y_continuous(trans = squish_trans(50,175,8), breaks = c(50, 100, ceiling(max(chr7_snp2ideal1$pos))))
 
 chr8<-ggplot(chr8_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
@@ -241,9 +241,9 @@ chr8<-ggplot(chr8_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
   geom_line(data = chr8_snp2ideal1, aes(x = `SNP Start`, y = pos, color = "10X"), size = 2) +
   geom_line(data = chr8_snp2ideal2, aes(x = `SNP Start`, y = pos, color = "ddm1/zmet2"), size = 2) +
   scale_color_manual(values=c("ddm1" = "#E69F00", "recq4" = "#56B4E9", "wt" = "#009E73", "zmet2" = "#F0E442",
-                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",color = "Genetic Map") +
-  theme(axis.text=element_text(size=16), axis.title=element_text(size=16), legend.title = element_text(size=11), #change legend title font size
-        legend.text = element_text(size=11), plot.title = element_text(size=15, face="bold"), legend.position = c(.1,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 12, xmax = 13, ymin = 2.5, ymax = 140, fill='blue', alpha = .2) + 
+                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",title="Chromosome 8",color = "Genetic Map") +
+  theme(axis.text=element_text(size=12), axis.title=element_text(size=12), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(.1,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 12, xmax = 13, ymin = 2.5, ymax = 140, fill='blue', alpha = .2) + 
   annotate('text', x = 12.9, y = 150, label = 'Centromere', color='blue', size = 4) + scale_y_continuous(trans = squish_trans(50,150,8), breaks = c(50, 100, ceiling(max(chr8_snp2ideal1$pos))))
 
 chr9<-ggplot(chr9_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
@@ -255,9 +255,9 @@ chr9<-ggplot(chr9_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
   geom_line(data = chr9_snp2ideal1, aes(x = `SNP Start`, y = pos, color = "10X"), size = 2) +
   geom_line(data = chr9_snp2ideal2, aes(x = `SNP Start`, y = pos, color = "ddm1/zmet2"), size = 2) +
   scale_color_manual(values=c("ddm1" = "#E69F00", "recq4" = "#56B4E9", "wt" = "#009E73", "zmet2" = "#F0E442",
-                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",color = "Genetic Map") +
-  theme(axis.text=element_text(size=16), axis.title=element_text(size=16), legend.title = element_text(size=11), #change legend title font size
-        legend.text = element_text(size=11), plot.title = element_text(size=15, face="bold"), legend.position = c(.8,.7), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 2, xmax = 3, ymin = 2.5, ymax = 140, fill='blue', alpha = .2) + 
+                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",title="Chromosome 9",color = "Genetic Map") +
+  theme(axis.text=element_text(size=12), axis.title=element_text(size=12), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(.8,.7), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 2, xmax = 3, ymin = 2.5, ymax = 140, fill='blue', alpha = .2) + 
   annotate('text', x = 2.8, y = 150, label = 'Centromere', color='blue', size = 4) + scale_y_continuous(trans = squish_trans(50,151,8), breaks = c(50, 100, ceiling(max(chr9_snp2ideal1$pos))))
 
 chr10<-ggplot(chr10_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
@@ -269,9 +269,9 @@ chr10<-ggplot(chr10_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
   geom_line(data = chr10_snp2ideal1, aes(x = `SNP Start`, y = pos, color = "10X"), size = 2) +
   geom_line(data = chr10_snp2ideal2, aes(x = `SNP Start`, y = pos, color = "ddm1/zmet2"), size = 2) +
   scale_color_manual(values=c("ddm1" = "#E69F00", "recq4" = "#56B4E9", "wt" = "#009E73", "zmet2" = "#F0E442",
-                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",color = "Genetic Map") +
-  theme(axis.text=element_text(size=16), axis.title=element_text(size=16), legend.title = element_text(size=11), #change legend title font size
-        legend.text = element_text(size=11), plot.title = element_text(size=15, face="bold"), legend.position = c(.1,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin =8, xmax = 9, ymin = 2.5, ymax = 115, fill='blue', alpha = .2) + 
+                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",title="Chromosome 10",color = "Genetic Map") +
+  theme(axis.text=element_text(size=12), axis.title=element_text(size=12), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(.1,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin =8, xmax = 9, ymin = 2.5, ymax = 115, fill='blue', alpha = .2) + 
   annotate('text', x = 8.2, y = 128, label = 'Centromere', color='blue', size = 4) + scale_y_continuous(trans = squish_trans(40,128,8), breaks = c(25, 50, ceiling(max(chr10_snp2ideal1$pos))))
 
 chr11<-ggplot(chr11_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
@@ -283,9 +283,9 @@ chr11<-ggplot(chr11_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
   geom_line(data = chr11_snp2ideal1, aes(x = `SNP Start`, y = pos, color = "10X"), size = 2) +
   geom_line(data = chr11_snp2ideal2, aes(x = `SNP Start`, y = pos, color = "ddm1/zmet2"), size = 2) +
   scale_color_manual(values=c("ddm1" = "#E69F00", "recq4" = "#56B4E9", "wt" = "#009E73", "zmet2" = "#F0E442",
-                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",color = "Genetic Map") +
-  theme(axis.text=element_text(size=16), axis.title=element_text(size=16), legend.title = element_text(size=11), #change legend title font size
-        legend.text = element_text(size=11), plot.title = element_text(size=15, face="bold"), legend.position = c(.1,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 11.5, xmax = 12.5, ymin = 2.5, ymax = 175, fill='blue', alpha = .2) + 
+                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",title="Chromosome 11",color = "Genetic Map") +
+  theme(axis.text=element_text(size=12), axis.title=element_text(size=12), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(.1,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 11.5, xmax = 12.5, ymin = 2.5, ymax = 175, fill='blue', alpha = .2) + 
   annotate('text', x = 12, y = 187, label = 'Centromere', color='blue', size = 4) + scale_y_continuous(trans = squish_trans(55,187,8), breaks = c(50, 100, ceiling(max(chr11_snp2ideal1$pos))))
 
 chr12<-ggplot(chr12_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
@@ -297,22 +297,16 @@ chr12<-ggplot(chr12_snp2, aes(x = `SNP Start`, y = pos)) + theme_bw() +
   geom_line(data = chr12_snp2ideal1, aes(x = `SNP Start`, y = pos, color = "10X"), size = 2) +
   geom_line(data = chr12_snp2ideal2, aes(x = `SNP Start`, y = pos, color = "ddm1/zmet2"), size = 2) +
   scale_color_manual(values=c("ddm1" = "#E69F00", "recq4" = "#56B4E9", "wt" = "#009E73", "zmet2" = "#F0E442",
-                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",color = "Genetic Map") +
-  theme(axis.text=element_text(size=16), axis.title=element_text(size=16), legend.title = element_text(size=11), #change legend title font size
-        legend.text = element_text(size=11), plot.title = element_text(size=15, face="bold"), legend.position = c(.1,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 11, xmax = 12, ymin = 2.5, ymax = 165, fill='blue', alpha = .2) + 
+                              "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")) + labs(y = "Accumulative Genetic Pos (cM)",x = "Physical Pos (Mb)",title="Chromosome 12",color = "Genetic Map") +
+  theme(axis.text=element_text(size=12), axis.title=element_text(size=12), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(.1,.8), legend.key.size = unit(0.3, "lines")) + annotate("rect", xmin = 11, xmax = 12, ymin = 2.5, ymax = 165, fill='blue', alpha = .2) + 
   annotate('text', x = 11.9, y = 174, label = 'Centromere', color='blue', size = 4) + scale_y_continuous(trans = squish_trans(50,174,8), breaks = c(50, 100, ceiling(max(chr12_snp2ideal1$pos))))
-figure <- ggarrange(chr1,chr2,chr3,chr4,
-                    labels = c("A", "B","C", "D"),
-                    ncol = 2, nrow = 2)
+figure <- ggarrange(chr2,chr3,chr4,chr5,chr6,chr7,chr8,chr9,chr10,chr11,chr12,
+                    common.legend=TRUE,
+                    labels = c("A", "B","C", "D","E","F","G","H","I","J","K"),
+                    ncol = 3, nrow = 4)
 figure
-figure2<- ggarrange(chr5,chr6,chr7,chr8,
-                    labels = c("A", "B","C", "D"),
-                    ncol = 2, nrow = 2)
-figure2
-figure3 <- ggarrange(chr9,chr10,chr11,chr12,
-                    labels = c("A", "B","C", "D"),
-                    ncol = 2, nrow = 2)
-figure3
+
 
 
 ##This plot makes recombination rate graph
@@ -324,7 +318,7 @@ ggplot(chr1_snp2, aes(x = `SNP Start`, y = pos2/`SNP Start`, color = "wt")) + ge
   geom_line(data = chr1_snp2ideal1, aes(x = `SNP Start`, y = pos2/`SNP Start`, color = "10X"), size = 2) +
   geom_line(data = chr1_snp2ideal2, aes(x = `SNP Start`, y = pos2/`SNP Start`, color = "ddm1/zmet2"), size = 2) +
   scale_fill_manual(values=group.colors) + labs(y = "Recombination Rate (cM/Mb)",x = "Physical Pos (Mb)",color = "Genetic Map") +
-  theme(axis.text=element_text(size=16),
+  theme(axis.text=element_text(size=12),
         axis.title=element_text(size=14), legend.title = element_text(size=14), #change legend title font size
         legend.text = element_text(size=14), plot.title = element_text(size=20), legend.position = c(0.2,0.8)) + annotate("rect", xmin = 121, xmax = 133, ymin = 0, ymax = 15, fill='blue', alpha = .2) +
   scale_y_continuous(trans = squish_trans(40,140,100), breaks = c(10,40)) + annotate('text', x = 126, y = 15, 
