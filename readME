@@ -1,0 +1,5 @@
+All data in this file relates to simulations conducted in maize & rice. Each mutant (ie ddm1, zmet2, fancm recq4, 10X, ddm1/zmet2) has its own .R file with the construction of genetic maps.
+Code for simulations ran (both recurrent selection & introgression) are in intermating & introgression marked files.
+Code related to correlating gene density & recombination rate is in gene density .R file. 
+
+If you have questions email rke27@cornell.edu.
