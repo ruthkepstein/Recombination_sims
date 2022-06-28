@@ -1,8 +1,9 @@
 library(AlphaSimR)
+set.seed(420)
 setwd("/home/rke27/Documents")
 
 #generating mix of repulsion & coupling linkages between QTL
-addEff_mix <- runif(300, min = -0.1, max = 0.1)
+addEff_mix <- rnorm(300, mean = 0, sd = 0.1)
 sum(addEff_mix)
 
 #Reading in QTLs from accurate gene space
@@ -57,7 +58,7 @@ ddm1_centromere <- c(398.6166, 340.9768, 209.0365, 204.1758, 291,
 ddm1_centromere <- (ddm1_centromere/100)
 
 
-#Setting up founder population
+#Setting up founder population for maize
 founderPop <- quickHaplo(nInd = 200, nChr = 10, inbred = TRUE, ploidy = 2L, segSites = segSites)
 founderPop@genMap <- final_map
 founderPop@centromere <- real_centromere
@@ -69,6 +70,19 @@ trait_yield <- new("TraitA", nLoci = 300L, lociPerChr= c(40L, 35L, 35L, 35L, 35L
                    lociLoc = as.integer(c(chr1_QTL, chr2_QTL, chr3_QTL, chr4_QTL, chr5_QTL,
                                           chr6_QTL, chr7_QTL, chr8_QTL, chr9_QTL, chr10_QTL)), addEff = addEff_mix, intercept = 0.1)
 SP$resetPed()
+SP$manAddTrait(trait_yield)
+
+#for rice
+founderPop <- quickHaplo(nInd = 200, nChr = 12, inbred = TRUE, ploidy = 2L, segSites = segSites)
+founderPop@genMap <- final_map
+founderPop@centromere <- real_centromere
+SP = SimParam$new(founderPop)
+SP$setTrackRec(TRUE)
+SP$p = 0.15
+#polygenic trait with QTLs in accurate gene space
+trait_yield <- new("TraitA", nLoci=300L,lociPerChr= c(40L,35L,35L,35L,25L,25L,25L,15L,15L,15L,15L,20L),
+                   lociLoc = c(chr1_lociPositions2,chr2_lociPositions2,chr3_lociPositions2,chr4_lociPositions2,chr5_lociPositions2,chr6_lociPositions2,chr7_lociPositions2,chr8_lociPositions2,chr9_lociPositions2,chr10_lociPositions2,chr11_lociPositions2,chr12_lociPositions2),
+                   addEff = addEff_mix, intercept = 0.1)
 SP$manAddTrait(trait_yield)
 
 #Diverging founder population into 2 populations; "good pop" & "bad pop"
@@ -129,8 +143,15 @@ for(i in 1:100){
   pop_good_sel10[[i]] <- selectInd(pop_good10, nInd = 5, use = "gv", trait = 1, selectop = TRUE, returnPop = TRUE, simParam = SP)
 }
 
-trait <- new("TraitAD", nLoci = 3L, lociPerChr = c(3L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L),
-             lociLoc = c(260L, 272L, 288L), addEff = c(0.2, 0.2, 0.2), domEff = c(0.2, 0.2, 0.2), intercept = 0.1)
+#in chromosome 1 arm
+trait <- new("TraitAD", nLoci = 3L, lociPerChr = c(3L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L),
+             lociLoc = c(189L, 201L, 212L), addEff = c(0.2, 0.2, 0.2), domEff = c(0.2, 0.2, 0.2), intercept = 0.1)
+SP$resetPed()
+SP$manAddTrait(trait)
+
+#in centromere of chromosome 1
+trait <- new("TraitAD", nLoci = 3L, lociPerChr = c(3L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L),
+             lociLoc = c(110L, 168L, 182L), addEff = c(0.2, 0.2, 0.2), domEff = c(0.2, 0.2, 0.2), intercept = 0.1)
 SP$resetPed()
 SP$manAddTrait(trait)
 #Bad pop = not selecting for polygenic trait even though its present; "resistance" QTLs present & selected FOR
@@ -184,11 +205,13 @@ for(i in 1:100){
 goodpop = mergePops(pop_good_sel10)
 badpop = mergePops(pop_bad_sel10)
 
+
 ##Backcrossing scheme
 #selecting best individual from "good pop" and individual with resistance QTLs in "bad pop"
-best_good <- which(goodpop@gv == max(goodpop@gv), arr.ind = FALSE)
+best_good <- which(goodpop@gv == find_best(goodpop), arr.ind = FALSE)
+best_good <- 22
 #this changes every time depending on which row has highest GVs
-best_bad <- 465
+best_bad <- 458
 
 good_trait1_geno <- pullQtlGeno(goodpop[best_good,], trait = 1)
 #elite parent has 0, 0, 0 at all resistance loci bc absent
@@ -224,42 +247,8 @@ recurrent_all <- function(elite, progeny){
   return(recurrent_count)
 }
 
-#function to decide which loci to track based on if biallelic between elite and wild parents
-donor_sites <- matrix(data = NA, nrow = length(final_map[[1]]), ncol = 2)
-recur_sites <- matrix(data = NA, nrow = length(final_map[[1]]), ncol = 2)
-
-#find which wild parent alleles are present
-find_donor <- function(good_trait2_geno, bad_trait1_geno){
-  for(i in 1:length(good_trait1_geno)){
-    if(isTRUE(good_trait1_geno[i] != bad_trait1_geno[i])){
-      donor_sites[i,1] <- colnames(bad_trait1_geno)[i]
-      donor_sites[i,2] <- bad_trait1_geno[i]
-    }
-  }
-  return(donor_sites)
-}
-#find which elite parent alleles are present 
-find_recurrent <- function(good_trait2_geno, bad_trait1_geno){
-  for(i in 1:length(good_trait1_geno)){
-    if(isTRUE(good_trait1_geno[i] != bad_trait1_geno[i])){
-      recur_sites[i,1] <- colnames(good_trait1_geno)[i]
-      recur_sites[i,2] <- good_trait1_geno[i]
-    }
-  }
-  return(recur_sites)
-}
-recurrentsites <- find_recurrent(good_trait1_geno, bad_trait1_geno)
-donorsites <- find_donor(good_trait1_geno, bad_trait1_geno)
-sites_to_track <- find_biallelic(good_trait1_geno, bad_trait1_geno, tracked_sites)
-sites_to_track <- sort(na.omit(sites_to_track))
-
 #function to look at loci around resistance loci to find if elite or wild parents are present
 #to assess linkage drag
-
-progeny_loci <- pullQtlGeno(pop1_sel5_2, trait = 1)[,1:40]
-elite_loci <- pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40]
-wild_loci <- pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40]
-
 drag <- c()
 range_around <- function(progeny_loci, good, bad){
   bad_ratio = 0
@@ -283,8 +272,6 @@ range_around <- function(progeny_loci, good, bad){
   }
   return(mean(drag))
 }
-
-range_around(progeny_loci, elite_loci, wild_loci)
 
 #wild-type first
 wtvar1 <- matrix(data = NA, ncol = 2, nrow = 100)
@@ -355,8 +342,8 @@ for(i in 1:100){
   
   pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel5_2 <- selectInd(pop1_sel5, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  S4_elite_perc[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  S4_wild_perc[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4_elite_perc[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno))
+  S4_wild_perc[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno))
   S4drag[i] <- range_around(pullQtlGeno(pop1_sel5_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel5_cross <- randCross2(pop1_sel5_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel5_cross <- setPheno(pop1_sel5_cross, h2 = 0.8, simParam = SP)
@@ -440,8 +427,8 @@ for(i in 1:100){
   
   pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel5_2 <- selectInd(pop1_sel5, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  S4_elite_percddm1[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  S4_wild_percddm1[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4_elite_percddm1[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno))
+  S4_wild_percddm1[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno))
   S4dragddm1[i] <- range_around(pullQtlGeno(pop1_sel5_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel5_cross <- randCross2(pop1_sel5_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel5_cross <- setPheno(pop1_sel5_cross, h2 = 0.8, simParam = SP)
@@ -524,8 +511,8 @@ for(i in 1:100){
   
   pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel5_2 <- selectInd(pop1_sel5, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  S4_elite_perczmet2[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  S4_wild_perczmet2[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4_elite_perczmet2[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno))
+  S4_wild_perczmet2[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno))
   S4dragzmet2[i] <- range_around(pullQtlGeno(pop1_sel5_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel5_cross <- randCross2(pop1_sel5_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel5_cross <- setPheno(pop1_sel5_cross, h2 = 0.8, simParam = SP)
@@ -608,8 +595,8 @@ for(i in 1:100){
   
   pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel5_2 <- selectInd(pop1_sel5, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  S4_elite_percrecq4[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  S4_wild_percrecq4[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4_elite_percrecq4[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno))
+  S4_wild_percrecq4[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno))
   S4dragrecq4[i] <- range_around(pullQtlGeno(pop1_sel5_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel5_cross <- randCross2(pop1_sel5_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel5_cross <- setPheno(pop1_sel5_cross, h2 = 0.8, simParam = SP)
@@ -692,8 +679,8 @@ for(i in 1:100){
   
   pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel5_2 <- selectInd(pop1_sel5, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  S4_elite_percfancm[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  S4_wild_percfancm[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4_elite_percfancm[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno))
+  S4_wild_percfancm[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno))
   S4dragfancm[i] <- range_around(pullQtlGeno(pop1_sel5_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel5_cross <- randCross2(pop1_sel5_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel5_cross <- setPheno(pop1_sel5_cross, h2 = 0.8, simParam = SP)
@@ -776,8 +763,8 @@ for(i in 1:100){
   
   pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel5_2 <- selectInd(pop1_sel5, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  S4_elite_perc10X[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  S4_wild_perc10X[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4_elite_perc10X[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno))
+  S4_wild_perc10X[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno))
   S4drag10X[i] <- range_around(pullQtlGeno(pop1_sel5_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel5_cross <- randCross2(pop1_sel5_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel5_cross <- setPheno(pop1_sel5_cross, h2 = 0.8, simParam = SP)
@@ -860,8 +847,8 @@ for(i in 1:100){
   
   pop1_sel5 <- selectInd(pop1_sel4_cross, nInd = 10, use = "gv", trait = 2, selectTop = TRUE, returnPop = TRUE, simParam = SP)
   pop1_sel5_2 <- selectInd(pop1_sel5, nInd = 5, use = "gv", trait = 1, selectTop = TRUE, returnPop = TRUE, simParam = SP)
-  S4_elite_percdz[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
-  S4_wild_percdz[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel4_cross@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel4_cross@geno))
+  S4_elite_percdz[i] <- recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno))
+  S4_wild_percdz[i] <- recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno)/((recurrent_all(goodpop[best_good,]@geno, pop1_sel5_2@geno)) + recurrent_all(badpop[best_bad,]@geno,  pop1_sel5_2@geno))
   S4dragdz[i] <- range_around(pullQtlGeno(pop1_sel5_2, trait = 1)[,1:40], pullQtlGeno(goodpop[best_good,], trait = 1)[,1:40], pullQtlGeno(badpop[best_bad,], trait = 1)[,1:40])
   pop1_sel5_cross <- randCross2(pop1_sel5_2, goodpop[best_good,], nCrosses = 10, nProgeny = 10, simParam = SP)
   pop1_sel5_cross <- setPheno(pop1_sel5_cross, h2 = 0.8, simParam = SP)
@@ -930,81 +917,74 @@ drag2$mean <- c(drag$F1_drag, drag$BC1_drag, drag$BC2_drag, drag$BC3_drag, drag$
 drag2$generation <- rep(1:5, size = 5, each = 7)
 drag2$gen_map <- rep(c("wt","ddm1", "zmet2", "recq4", "fancm", "10X", "ddm1/zmet2"), size = 7, each = 1)
 
-#looking at introgression of resistance loci
-trait2 <- cbind(wt2, ddm12)
-trait2 <- as.data.frame(trait2)
-trait22 <- as.data.frame(matrix(data = NA, nrow = 35))
-trait22$gv <- c(trait2$wt2, trait2$ddm12, trait2$zmet22, trait2$recq42, trait2$ideal12, trait2$ideal22, trait2$fancm2)
-trait22$generation <- rep(1:5, size = 7, each = 1)
-trait22$gen_map <- rep(c("wt","ddm1", "zmet2", "recq4", "ideal1", "ideal2", "fancm"), size = 7, each = 1)
-
 group.colors = c("ddm1" = "#E69F00", "recq4" = "#56B4E9", "wt" = "#009E73", "zmet2" = "#F0E442",
                  "fancm" = "#0072B2", "10X" = "#D55E00", "ddm1/zmet2" = "#CC79A7")
+library(ggplot2)
 
 #ggplot code to look at mean % of recurrent parent in progeny
 recur <- ggplot(all2, aes(x=as.factor(generation), y= mean, group=gen_map)) + 
-  geom_line(aes(color = gen_map)) + geom_point(size = 1) + theme_bw() + xlab("Generations") + ylab("Mean % of Recurrent Parent") + ggtitle("% of Recurrent Parent after 4 gens of backcrossing") +
+  geom_line(aes(color = gen_map)) + geom_point(size = 1) + theme_bw() + xlab("Generation") + ylab("Mean Proportion of Recurrent Parent") + ggtitle("Proportion of Recurrent Parent over 4 generations of backcrossing") +
   scale_color_manual(values=group.colors, name = "Genetic Map", labels = c("10X", "ddm1", "ddm1/zmet2", "fancm",
                                                                            "recq4", "WT", "zmet2")) +
-  theme(axis.text=element_text(size=11),
-        axis.title=element_text(size=11), legend.title = element_text(size=11), #change legend title font size
-        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(0.8,0.4), legend.key.size = unit(0.3, "lines")) 
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=12), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=12), plot.title = element_text(size=12), legend.position = c(0.8,0.4), legend.key.size = unit(0.3, "lines")) 
 
 #ggplot code to look at mean % of donor parent in progeny
 donor <- ggplot(donor2, aes(x=as.factor(generation), y= mean, group=gen_map)) + 
-  geom_line(aes(color = gen_map)) + geom_point(size = 1) + theme_bw() + xlab("Generations") + ylab("Mean % of Donor Parent") + ggtitle("% of Donor Parent after 4 gens of backcrossing") +
+  geom_line(aes(color = gen_map)) + geom_point(size = 1) + theme_bw() + xlab("Generation") + ylab("Mean Proportion of Donor Parent") + ggtitle("Proportion of Donor Parent over 4 generations of backcrossing") +
   scale_color_manual(values=group.colors, name = "Genetic Map", labels = c("10X", "ddm1", "ddm1/zmet2", "fancm",
                                                                            "recq4", "WT", "zmet2")) +
-  theme(axis.text=element_text(size=11),
-        axis.title=element_text(size=11), legend.title = element_text(size=11), #change legend title font size
-        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(0.8,0.5), legend.key.size = unit(0.3, "lines")) 
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=12), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=12), plot.title = element_text(size=12), legend.position = c(0.8,0.5), legend.key.size = unit(0.3, "lines")) 
 
 #gpplot to look at % linkage drag after each generation
 drag <- ggplot(drag2, aes(x=as.factor(generation), y= mean, group=gen_map)) + 
-  geom_line(aes(color = gen_map)) + geom_point(size = 1) + theme_bw() + xlab("Generations") + ylab("Mean % of Linkage Drag from Donor Parent") + ggtitle("% of Linkage Drag over 4 generations of backcrossing") +
+  geom_line(aes(color = gen_map)) + geom_point(size = 1) + theme_bw() + xlab("Generation") + ylab("Mean Proportion of Linkage Drag from Donor Parent") + ggtitle("Proportion of Linkage Drag over 4 generations of backcrossing") +
   scale_color_manual(values=group.colors, name = "Genetic Map", labels = c("10X", "ddm1", "ddm1/zmet2", "fancm",
                                                                            "recq4", "WT", "zmet2")) +
   theme(axis.text=element_text(size=11),
         axis.title=element_text(size=11), legend.title = element_text(size=11), #change legend title font size
-        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(0.8,0.7), legend.key.size = unit(0.3, "lines")) 
+        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(0.2,0.2), legend.key.size = unit(0.3, "lines")) 
 
 #binding all the variance matrices together
-wtvarall <- c(wtvar1[,1], wtvar2[,1], wtvar3[,1], wtvar4[,1], wtvar5[,1],
+wtvarall <- c(wtvar2[,1], wtvar3[,1], wtvar4[,1], wtvar5[,1],
               wtvar6[,1])
 
-ddm1varall <- c(ddm1var1[,1], ddm1var2[,1], ddm1var3[,1], ddm1var4[,1], ddm1var5[,1],
+ddm1varall <- c(ddm1var2[,1], ddm1var3[,1], ddm1var4[,1], ddm1var5[,1],
                 ddm1var6[,1])
 
-zmet2varall <- c(zmet2var1[,1], zmet2var2[,1], zmet2var3[,1], zmet2var4[,1], zmet2var5[,1],
+zmet2varall <- c(zmet2var2[,1], zmet2var3[,1], zmet2var4[,1], zmet2var5[,1],
                  zmet2var6[,1])
 
-recq4varall <- c(recq4var1[,1], recq4var2[,1], recq4var3[,1], recq4var4[,1], recq4var5[,1],
+recq4varall <- c(recq4var2[,1], recq4var3[,1], recq4var4[,1], recq4var5[,1],
                  recq4var6[,1])
 
-ideal1varall <- c(ideal1var1[,1], ideal1var2[,1], ideal1var3[,1], ideal1var4[,1], ideal1var5[,1],
+ideal1varall <- c(ideal1var2[,1], ideal1var3[,1], ideal1var4[,1], ideal1var5[,1],
                   ideal1var6[,1])
 
-ddm1_zmet2varall <- c(ideal2var1[,1], ideal2var2[,1], ideal2var3[,1], ideal2var4[,1], ideal2var5[,1],
+ddm1_zmet2varall <- c(ideal2var2[,1], ideal2var3[,1], ideal2var4[,1], ideal2var5[,1],
                       ideal2var6[,1])
 
-fancmvarall <- c(fancmvar1[,1], fancmvar2[,1], fancmvar3[,1], fancmvar4[,1], fancmvar5[,1],
+fancmvarall <- c(fancmvar2[,1], fancmvar3[,1], fancmvar4[,1], fancmvar5[,1],
                  fancmvar6[,1])
 
 #putting all variance data into one data frame
 allvar <- cbind(wtvarall, ddm1varall, zmet2varall, recq4varall, ideal1varall, ddm1_zmet2varall, fancmvarall)
 allvar <- as.data.frame(allvar)
-allvar2 <- as.data.frame(matrix(data = NA, nrow = 4200))
+allvar2 <- as.data.frame(matrix(data = NA, nrow = 3500))
 allvar2$var <- c(allvar$wtvarall, allvar$ddm1varall, allvar$zmet2varall, allvar$recq4varall, allvar$ideal1varall, allvar$ddm1_zmet2varall, allvar$fancmvarall)
-allvar2$gen <- rep(1:6, size = 7, each = 100)
-allvar2$gen_map <- rep(c("wt","ddm1", "zmet2", "recq4", "10X", "ddm1/zmet2", "fancm"), size = 7, each = 600)
+allvar2$gen <- rep(1:5, size = 7, each = 100)
+allvar2$gen_map <- rep(c("wt","ddm1", "zmet2", "recq4", "10X", "ddm1/zmet2", "fancm"), size = 7, each = 500)
 
 #ggplot code to plot the variance
-var <- ggplot(allvar2, aes(x=as.factor(gen), y=var, fill=gen_map)) +  ggtitle("Additive genetic variance over 4 gens of backcrossing") +
-  geom_boxplot() + theme_bw() + xlab("Generations") + ylab("Additive Genetic Variances") + scale_fill_manual(values=group.colors, name = "Genetic Map", labels = c("10X", "ddm1", "ddm1/zmet2", "fancm",
+var <- ggplot(allvar2, aes(x=as.factor(gen), y=var, fill=gen_map)) +  ggtitle("Additive Genetic Variance over 4 generations of backcrossing") +
+  geom_boxplot() + theme_bw() + xlab("Generation") + ylab("Additive Genetic Variance") + scale_fill_manual(values=group.colors, name = "Genetic Map", labels = c("10X", "ddm1", "ddm1/zmet2", "fancm",
                                                                                                                                                                        "recq4", "WT", "zmet2")) +
-  theme(axis.text=element_text(size=11),
-        axis.title=element_text(size=11), legend.title = element_text(size=11), #change legend title font size
-        legend.text = element_text(size=11), plot.title = element_text(size=12), legend.position = c(0.8,0.65), legend.key.size = unit(0.3, "lines"))
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=12), legend.title = element_text(size=11), #change legend title font size
+        legend.text = element_text(size=12), plot.title = element_text(size=12), legend.position = c(0.8,0.65), legend.key.size = unit(0.3, "lines"))
 
 library(ggpubr)
 
