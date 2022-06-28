@@ -1,6 +1,11 @@
-All data in this file relates to simulations conducted in maize & rice. Each mutant (ie ddm1, zmet2, fancm recq4, 10X, ddm1/zmet2) has its own .R file with the construction of genetic maps.
-Code for simulations ran (both recurrent selection & introgression) are in intermating & introgression marked files.
-Loci positions used for the polygenic trait for both maize and rice are in .RData files since they were randomly sampled. Genetic maps used are also avaliable in .RData files but not the recombination data used to generate them.
-Code related to correlating gene density & recombination rate is in gene density .R file. 
+All data in this repository relates to simulations conducted in maize & rice. Each mutant (ie ddm1, zmet2, fancm recq4, 10X, ddm1/zmet2) has its own .R file with the construction of genetic maps.
+"Ideal1" is 10x increase in recombination and "Ideal2" is hypothetical ddm1/zmet2 mutant.
 
-If you have questions email rke27@cornell.edu.
+Code for simulations ran (both recurrent selection & introgression) are in intermating & introgression marked files. Plots for results can be found at bottoms of those .R files.
+General plots like for genetic maps can be found in Plots.R.
+If file does not have a species in its name, assume maize. All rice-related files has "rice" in the name.
+
+To reproduce our data, set seed at 420. If you want original genetic maps or recombination data used for ddm1, zmet2, recq4, or fancm, email rke27@cornell.edu. Wildtype recombination data for maize is avaliable in NAM R file.
+Gene density was found from .gff in maize and rice. Correlations between recombination rate and gene density can be found in gene space R files.
+
+If you have questions or want data, email rke27@cornell.edu for maize and ns623@cornell.edu for rice data.
