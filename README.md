@@ -10,6 +10,6 @@ Gene density was found from .gff in maize and rice. Correlations between recombi
 
 Simulations related to selection intensities can be found in selection intensities R file. This was only done in maize.
 
-Targeted recombinatino simulations can be found in targeted sims and were only done in maize.
+Targeted recombination simulations can be found in targeted sims and were only done in maize.
 
 If you have questions or want data, email rke27@cornell.edu for maize and ns623@cornell.edu for rice data.
