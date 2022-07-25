@@ -7,6 +7,6 @@ of each of these mutants, go to the name of mutant's file. The simulations, the 
 
 Graphs used in the manuscript are in "Plots" for maize and "Plots_rice" for rice.
 
-Analysis of the correlation between the gene space & recombination rate was done in "gene space sims.R" for both maize & rice. Simulations on different selection intensities are locted in "selection intensities". This was only done in maize.
+Analysis of the correlation between the gene space & recombination rate was done in "gene space sims.R" for both maize & rice. Simulations on different selection intensities are locted in "selection intensities". This was only done in maize. Simulations on the targeted recombination are in "targeted sims" and was also only done in maize.
 
-If there are any questions, please email rke27@cornell.edu or ns623@cornell.edu.
+If there are any questions, please email Ruth at rke27@cornell.edu or Nikita at ns623@cornell.edu.
