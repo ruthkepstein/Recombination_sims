@@ -77,52 +77,52 @@ chr10_snp$`SNP End` <- chr10_snp$`SNP End` - min(chr10_snp$`SNP Start`)
 chr10_snp$`SNP Start` <- chr10_snp$`SNP Start`- min(chr10_snp$`SNP Start`)
 
 ##Reading in CO intervals from US NAM population
-NAM <- read.table("NAM_US_COs.txt", header = FALSE)
-NAM <- NAM[,-c(2:4)]
-colnames(NAM) <- c("Chr", "CO Start", "CO End")
-NAM <- NAM[order(NAM$Chr,NAM$`CO Start`),]
+NAM <- read.table("NAM_US_COs_v4.txt", header = TRUE)
+#NAM <- NAM[,-c(2:4)]
+#colnames(NAM) <- c("Chr", "CO Start", "CO End")
+NAM <- NAM[order(NAM$Chr,NAM$Start),]
 #pop_size <- read.table("pop_size_nam.txt", header = TRUE)
 #US_pop_size <- pop_size[1:4713,]
 
-chr1_CO <- NAM[ which(NAM$Chr == 1),]
-chr1_CO$midpoint <- (chr1_CO$`CO Start`+ chr1_CO$`CO End`)/2
+chr1_CO <- NAM[ which(NAM$Chr == 'chr1'),]
+chr1_CO$midpoint <- (chr1_CO$Start + chr1_CO$End)/2
 #hist(chr1_CO$`CO Start`, breaks = 300, xlab = "Physical Pos (bp)", main = "WT Chr.1 CO Density", col = "black")
 
-chr2_CO <- NAM[ which(NAM$Chr == 2),]
+chr2_CO <- NAM[ which(NAM$Chr == 'chr2'),]
 #hist(chr2_CO$`CO Start`, breaks = 300)
-chr2_CO$midpoint <- (chr2_CO$`CO Start`+ chr2_CO$`CO End`)/2
+chr2_CO$midpoint <- (chr2_CO$Start + chr2_CO$End)/2
 
-chr3_CO <- NAM[ which(NAM$Chr == 3),]
+chr3_CO <- NAM[ which(NAM$Chr == 'chr3'),]
 #hist(chr3_CO$`CO Start`, breaks = 300)
-chr3_CO$midpoint <- (chr3_CO$`CO Start`+ chr3_CO$`CO End`)/2
+chr3_CO$midpoint <- (chr3_CO$Start + chr3_CO$End)/2
 
-chr4_CO <- NAM[ which(NAM$Chr == 4),]
+chr4_CO <- NAM[ which(NAM$Chr == 'chr4'),]
 #hist(chr4_CO$`CO Start`, breaks = 300)
-chr4_CO$midpoint <- (chr4_CO$`CO Start`+ chr4_CO$`CO End`)/2
+chr4_CO$midpoint <- (chr4_CO$Start + chr4_CO$End)/2
 
-chr5_CO <- NAM[ which(NAM$Chr == 5),]
+chr5_CO <- NAM[ which(NAM$Chr == 'chr5'),]
 #hist(chr5_CO$`CO Start`, breaks = 300)
-chr5_CO$midpoint <- (chr5_CO$`CO Start`+ chr5_CO$`CO End`)/2
+chr5_CO$midpoint <- (chr5_CO$Start + chr5_CO$End)/2
 
-chr6_CO <- NAM[ which(NAM$Chr == 6),]
+chr6_CO <- NAM[ which(NAM$Chr == 'chr6'),]
 #hist(chr6_CO$`CO Start`, breaks = 300)
-chr6_CO$midpoint <- (chr6_CO$`CO Start`+ chr6_CO$`CO End`)/2
+chr6_CO$midpoint <- (chr6_CO$Start + chr6_CO$End)/2
 
-chr7_CO <- NAM[ which(NAM$Chr == 7),]
+chr7_CO <- NAM[ which(NAM$Chr == 'chr7'),]
 #hist(chr7_CO$`CO Start`, breaks = 300)
-chr7_CO$midpoint <- (chr7_CO$`CO Start`+ chr7_CO$`CO End`)/2
+chr7_CO$midpoint <- (chr7_CO$Start + chr7_CO$End)/2
 
-chr8_CO <- NAM[ which(NAM$Chr == 8),]
+chr8_CO <- NAM[ which(NAM$Chr == 'chr8'),]
 #hist(chr8_CO$`CO Start`, breaks = 300)
-chr8_CO$midpoint <- (chr8_CO$`CO Start`+ chr8_CO$`CO End`)/2
+chr8_CO$midpoint <- (chr8_CO$Start + chr8_CO$End)/2
 
-chr9_CO <- NAM[ which(NAM$Chr == 9),]
+chr9_CO <- NAM[ which(NAM$Chr == 'chr9'),]
 #hist(chr9_CO$`CO Start`, breaks = 300)
-chr9_CO$midpoint <- (chr9_CO$`CO Start`+ chr9_CO$`CO End`)/2
+chr9_CO$midpoint <- (chr9_CO$Start + chr9_CO$End)/2
 
-chr10_CO <- NAM[ which(NAM$Chr == 10),]
+chr10_CO <- NAM[ which(NAM$Chr == 'chr10'),]
 #hist(chr10_CO$`CO Start`, breaks = 300)
-chr10_CO$midpoint <- (chr10_CO$`CO Start`+ chr10_CO$`CO End`)/2
+chr10_CO$midpoint <- (chr10_CO$Start + chr10_CO$End)/2
 
 ###using CO rate to infer genetic map distances
 
@@ -137,7 +137,7 @@ library(OneR)
 # recomb. freq. = (# of COs/ size of population *100%)/ length of bin in Mb
 
 #bin crossovers into ~1Mb uneven bins
-chr1_CO <- chr1_CO[order(chr1_CO$`CO Start`),]
+chr1_CO <- chr1_CO[order(chr1_CO$Start),]
 chr1_bin <- binning(chr1_CO$midpoint, nbins = max(chr1_snp$`SNP End`)/1000000, type = "kmeans")
 chr1_bin <- as.data.frame(summary(chr1_bin))
 #transforming data; making bin interval into 2 columns
@@ -145,17 +145,17 @@ chr1_bin <- within(chr1_bin, foo<-data.frame(do.call('rbind', strsplit(as.charac
 chr1_bin <- do.call(data.frame, chr1_bin)
 chr1_bin <- chr1_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr1_bin <- chr1_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr1_bin[1,4] <- 502954
+chr1_bin[1,4] <- 547913.5
 #making intervals start at 0
-chr1_bin$foo.X1 <- chr1_bin$foo.X1 - 502954
-chr1_bin$foo.X2 <- chr1_bin$foo.X2 - 502954
+chr1_bin$foo.X1 <- chr1_bin$foo.X1 - 547913.5
+chr1_bin$foo.X2 <- chr1_bin$foo.X2 - 547913.5
 #expanding last bin to include last SNP site to avoid NAs in future
 chr1_bin[max(chr1_snp$`SNP End`)/1000000,5] <- max(chr1_snp$`SNP End`)
 #adding length of bin as column and making in Mb
 chr1_bin$length <- (chr1_bin$foo.X2-chr1_bin$foo.X1)/1000000
 chr1_bin$rate <- ((chr1_bin$freq/4713)*100)/chr1_bin$length
 
-chr2_CO <- chr2_CO[order(chr2_CO$`CO Start`),]
+chr2_CO <- chr2_CO[order(chr2_CO$Start),]
 chr2_bin <- binning(chr2_CO$midpoint, nbins = round(max(chr2_snp$`SNP End`)/1000000), type = "kmeans")
 chr2_bin <- as.data.frame(summary(chr2_bin))
 #chr2_bin$freq <- chr2_bin$freq*2/4713
@@ -163,15 +163,15 @@ chr2_bin <- within(chr2_bin, foo<-data.frame(do.call('rbind', strsplit(as.charac
 chr2_bin <- do.call(data.frame, chr2_bin)
 chr2_bin <- chr2_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr2_bin <- chr2_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr2_bin[1,4] <- 440104
-chr2_bin$foo.X1 <- chr2_bin$foo.X1 - 440104
-chr2_bin$foo.X2 <- chr2_bin$foo.X2 - 440104
+chr2_bin[1,4] <- 448683.5
+chr2_bin$foo.X1 <- chr2_bin$foo.X1 - 448683.5
+chr2_bin$foo.X2 <- chr2_bin$foo.X2 - 448683.5
 chr2_bin[round(max(chr2_snp$`SNP End`)/1000000),5] <- max(chr2_snp$`SNP End`)
 chr2_bin$length <- (chr2_bin$foo.X2-chr2_bin$foo.X1)/1000000
 chr2_bin$rate <- ((chr2_bin$freq/4713)*100)/chr2_bin$length
 
 #have not converted rest of chromosomes to what I did in 1 & 2
-chr3_CO <- chr3_CO[order(chr3_CO$`CO Start`),]
+chr3_CO <- chr3_CO[order(chr3_CO$Start),]
 chr3_bin <- binning(chr3_CO$midpoint, nbins = max(chr3_snp$`SNP End`)/1000000, type = "kmeans")
 chr3_bin <- as.data.frame(summary(chr3_bin))
 #chr3_bin$freq <- chr3_bin$freq*2/4713
@@ -179,14 +179,14 @@ chr3_bin <- within(chr3_bin, foo<-data.frame(do.call('rbind', strsplit(as.charac
 chr3_bin <- do.call(data.frame, chr3_bin)
 chr3_bin <- chr3_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr3_bin <- chr3_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr3_bin[1,4] <- 865390
-chr3_bin$foo.X1 <- chr3_bin$foo.X1 - 865390
-chr3_bin$foo.X2 <- chr3_bin$foo.X2 - 865390
+chr3_bin[1,4] <- 144065.5
+chr3_bin$foo.X1 <- chr3_bin$foo.X1 - 144065.5
+chr3_bin$foo.X2 <- chr3_bin$foo.X2 - 144065.5
 chr3_bin[max(chr3_snp$`SNP End`)/1000000,5] <- max(chr3_snp$`SNP End`)
 chr3_bin$length <- (chr3_bin$foo.X2-chr3_bin$foo.X1)/1000000
 chr3_bin$rate <- ((chr3_bin$freq/4713)*100)/chr3_bin$length
 
-chr4_CO <- chr4_CO[order(chr4_CO$`CO Start`),]
+chr4_CO <- chr4_CO[order(chr4_CO$Start),]
 chr4_bin <- binning(chr4_CO$midpoint, nbins = max(chr4_snp$`SNP End`)/1000000, type = "kmeans")
 chr4_bin <- as.data.frame(summary(chr4_bin))
 #chr4_bin$freq <- chr4_bin$freq*2/4713
@@ -194,15 +194,15 @@ chr4_bin <- within(chr4_bin, foo<-data.frame(do.call('rbind', strsplit(as.charac
 chr4_bin <- do.call(data.frame, chr4_bin)
 chr4_bin <- chr4_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr4_bin <- chr4_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr4_bin[1,4] <- 272401
-chr4_bin$foo.X1 <- chr4_bin$foo.X1 - 272401
-chr4_bin$foo.X2 <- chr4_bin$foo.X2 - 272401
+chr4_bin[1,4] <- 545527.2
+chr4_bin$foo.X1 <- chr4_bin$foo.X1 - 545527.2
+chr4_bin$foo.X2 <- chr4_bin$foo.X2 - 545527.2
 chr4_bin[max(chr2_snp$`SNP End`)/1000000,5] <- max(chr4_snp$`SNP End`)
 chr4_bin$length <- (chr4_bin$foo.X2-chr4_bin$foo.X1)/1000000
 chr4_bin$rate <- ((chr4_bin$freq/4713)*100)/chr4_bin$length
 #chr4_bin <- chr4_bin[-242,]
 
-chr5_CO <- chr5_CO[order(chr5_CO$`CO Start`),]
+chr5_CO <- chr5_CO[order(chr5_CO$Start),]
 chr5_bin <- binning(chr5_CO$midpoint, nbins = max(chr5_snp$`SNP End`)/1000000, type = "kmeans")
 chr5_bin <- as.data.frame(summary(chr5_bin))
 #chr5_bin$freq <- chr5_bin$freq*2/4713
@@ -210,14 +210,14 @@ chr5_bin <- within(chr5_bin, foo<-data.frame(do.call('rbind', strsplit(as.charac
 chr5_bin <- do.call(data.frame, chr5_bin)
 chr5_bin <- chr5_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr5_bin <- chr5_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr5_bin[1,4] <- 267335.5
-chr5_bin$foo.X1 <- chr5_bin$foo.X1 - 267335.5
-chr5_bin$foo.X2 <- chr5_bin$foo.X2 - 267335.5
+chr5_bin[1,4] <- 268345.8
+chr5_bin$foo.X1 <- chr5_bin$foo.X1 - 268345.8
+chr5_bin$foo.X2 <- chr5_bin$foo.X2 - 268345.8
 chr5_bin[max(chr2_snp$`SNP End`)/1000000,5] <- max(chr5_snp$`SNP End`)
 chr5_bin$length <- (chr5_bin$foo.X2-chr5_bin$foo.X1)/1000000
 chr5_bin$rate <- ((chr5_bin$freq/4713)*100)/chr5_bin$length
 
-chr6_CO <- chr6_CO[order(chr6_CO$`CO Start`),]
+chr6_CO <- chr6_CO[order(chr6_CO$Start),]
 chr6_bin <- binning(chr6_CO$midpoint, nbins = max(chr6_snp$`SNP End`)/1000000, type = "kmeans")
 chr6_bin <- as.data.frame(summary(chr6_bin))
 #chr6_bin$freq <- chr6_bin$freq*2/4713
@@ -225,14 +225,14 @@ chr6_bin <- within(chr6_bin, foo<-data.frame(do.call('rbind', strsplit(as.charac
 chr6_bin <- do.call(data.frame, chr6_bin)
 chr6_bin <- chr6_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr6_bin <- chr6_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr6_bin[1,4] <- 197266.5
-chr6_bin$foo.X1 <- chr6_bin$foo.X1 - 197266.5
-chr6_bin$foo.X2 <- chr6_bin$foo.X2 - 197266.5
+chr6_bin[1,4] <- 215965.5
+chr6_bin$foo.X1 <- chr6_bin$foo.X1 - 215965.5
+chr6_bin$foo.X2 <- chr6_bin$foo.X2 - 215965.5
 chr6_bin[max(chr6_snp$`SNP End`)/1000000,5] <- max(chr6_snp$`SNP End`)
 chr6_bin$length <- (chr6_bin$foo.X2-chr6_bin$foo.X1)/1000000
 chr6_bin$rate <- ((chr6_bin$freq/4713)*100)/chr6_bin$length
 
-chr7_CO <- chr7_CO[order(chr7_CO$`CO Start`),]
+chr7_CO <- chr7_CO[order(chr7_CO$Start),]
 chr7_bin <- binning(chr7_CO$midpoint, nbins = max(chr7_snp$`SNP End`)/1000000, type = "kmeans")
 chr7_bin <- as.data.frame(summary(chr7_bin))
 #chr7_bin$freq <- chr7_bin$freq*2/4713
@@ -240,9 +240,9 @@ chr7_bin <- within(chr7_bin, foo<-data.frame(do.call('rbind', strsplit(as.charac
 chr7_bin <- do.call(data.frame, chr7_bin)
 chr7_bin <- chr7_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr7_bin <- chr7_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr7_bin[1,4] <- 375904
-chr7_bin$foo.X1 <- chr7_bin$foo.X1 - 375904
-chr7_bin$foo.X2 <- chr7_bin$foo.X2 - 375904
+chr7_bin[1,4] <- 60293.5
+chr7_bin$foo.X1 <- chr7_bin$foo.X1 - 60293.5
+chr7_bin$foo.X2 <- chr7_bin$foo.X2 - 60293.5
 chr7_bin[max(chr7_snp$`SNP End`)/1000000,5] <- max(chr7_snp$`SNP End`)
 chr7_bin$length <- (chr7_bin$foo.X2-chr7_bin$foo.X1)/1000000
 chr7_bin$rate <- ((chr7_bin$freq/4713)*100)/chr7_bin$length
@@ -255,14 +255,14 @@ chr8_bin <- within(chr8_bin, foo<-data.frame(do.call('rbind', strsplit(as.charac
 chr8_bin <- do.call(data.frame, chr8_bin)
 chr8_bin <- chr8_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr8_bin <- chr8_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr8_bin[1,4] <- 132181
-chr8_bin$foo.X1 <- chr8_bin$foo.X1 - 132181
-chr8_bin$foo.X2 <- chr8_bin$foo.X2 - 132181
+chr8_bin[1,4] <- 292875.5
+chr8_bin$foo.X1 <- chr8_bin$foo.X1 - 292875.5
+chr8_bin$foo.X2 <- chr8_bin$foo.X2 - 292875.5
 chr8_bin[max(chr8_snp$`SNP End`)/1000000,5] <- max(chr8_snp$`SNP End`)
 chr8_bin$length <- (chr8_bin$foo.X2-chr8_bin$foo.X1)/1000000
 chr8_bin$rate <- ((chr8_bin$freq/4713)*100)/chr8_bin$length
 
-chr9_CO <- chr9_CO[order(chr9_CO$`CO Start`),]
+chr9_CO <- chr9_CO[order(chr9_CO$Start),]
 chr9_bin <- binning(chr9_CO$midpoint, nbins = max(chr9_snp$`SNP End`)/1000000, type = "kmeans")
 chr9_bin <- as.data.frame(summary(chr9_bin))
 #chr9_bin$freq <- chr9_bin$freq*2/4713
@@ -270,14 +270,14 @@ chr9_bin <- within(chr9_bin, foo<-data.frame(do.call('rbind', strsplit(as.charac
 chr9_bin <- do.call(data.frame, chr9_bin)
 chr9_bin <- chr9_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr9_bin <- chr9_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr9_bin[1,4] <- 317217.5
-chr9_bin$foo.X1 <- chr9_bin$foo.X1 - 317217.5
-chr9_bin$foo.X2 <- chr9_bin$foo.X2 - 317217.5
+chr9_bin[1,4] <- 65379.5
+chr9_bin$foo.X1 <- chr9_bin$foo.X1 - 65379.5
+chr9_bin$foo.X2 <- chr9_bin$foo.X2 - 65379.5
 chr9_bin[max(chr9_snp$`SNP End`)/1000000,5] <- max(chr9_snp$`SNP End`)
 chr9_bin$length <- (chr9_bin$foo.X2-chr9_bin$foo.X1)/1000000
 chr9_bin$rate <- ((chr9_bin$freq/4713)*100)/chr9_bin$length
 
-chr10_CO <- chr10_CO[order(chr10_CO$`CO Start`),]
+chr10_CO <- chr10_CO[order(chr10_CO$Start),]
 chr10_bin <- binning(chr10_CO$midpoint, nbins = max(chr10_snp$`SNP End`)/1000000, type = "kmeans")
 chr10_bin <- as.data.frame(summary(chr10_bin))
 #chr10_bin$freq <- chr10_bin$freq*2/4713
@@ -285,9 +285,9 @@ chr10_bin <- within(chr10_bin, foo<-data.frame(do.call('rbind', strsplit(as.char
 chr10_bin <- do.call(data.frame, chr10_bin)
 chr10_bin <- chr10_bin %>% dplyr::mutate(foo.X1 = as.numeric(gsub("\\(", "", foo.X1)))
 chr10_bin <- chr10_bin %>% dplyr::mutate(foo.X2 = as.numeric(gsub("]", "", foo.X2)))
-chr10_bin[1,4] <- 698530
-chr10_bin$foo.X1 <- chr10_bin$foo.X1 - 698530
-chr10_bin$foo.X2 <- chr10_bin$foo.X2 - 698530
+chr10_bin[1,4] <- 199814.5
+chr10_bin$foo.X1 <- chr10_bin$foo.X1 - 199814.5
+chr10_bin$foo.X2 <- chr10_bin$foo.X2 - 199814.5
 chr10_bin[max(chr10_snp$`SNP End`)/1000000,5] <- max(chr10_snp$`SNP End`)
 chr10_bin$length <- (chr10_bin$foo.X2-chr10_bin$foo.X1)/1000000
 chr10_bin$rate <- ((chr10_bin$freq/4713)*100)/chr10_bin$length
@@ -467,6 +467,7 @@ chr8 <- chr8_finalpos$pos/100
 
 chr9 <- chr9_finalpos$pos/100
 
+final_map = vector("list",10)
 final_map[[1]] = chr1
 final_map[[2]] = chr2
 final_map[[3]] = chr3
